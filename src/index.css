@@ -1,0 +1,195 @@
+/* src/index.css */
+
+/* Reset et styles de base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0a0a0a;
+  color: #f5f5f7;
+  overflow-x: auto;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* Styles pour les conteneurs principaux */
+.app-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #0a0a0a;
+}
+
+.app-content {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #0a0a0a;
+}
+
+/* Header */
+.header {
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 0.5px solid rgba(255,255,255,0.1);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  height: 56px;
+  display: flex;
+  align-items: center;
+}
+.header-content {
+  max-width: 1214px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 21px; font-weight: 600; }
+
+/* Buttons */
+.auth-buttons { display: flex; gap: 12px; }
+.btn-ghost {
+  background: rgba(255,255,255,0.12);
+  color: #f5f5f7;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.18); }
+
+.btn-primary {
+  background: #ffcc00;
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  box-shadow: 0 6px 14px rgba(255, 204, 0, .35);
+}
+.btn-primary:hover { background: #fbbf24; }
+
+.btn-primary.block { width: 100%; padding: 12px 16px; }
+
+/* Hero */
+.hero {
+  padding: 96px 24px 56px;
+  max-width: 1214px;
+  margin: 0 auto;
+  text-align: center;
+}
+.hero h1 {
+  font-size: 56px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 16px;
+}
+.hero p {
+  font-size: 20px;
+  color: #86868b;
+  max-width: 720px;
+  margin: 0 auto 32px auto;
+}
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  color: #c3c3c7;
+  font-size: 15px;
+}
+
+/* Search */
+.search-section { padding: 0 24px 64px; max-width: 1214px; margin: 0 auto; }
+.search-container { background: rgba(255,255,255,0.06); border-radius: 10px; padding: 20px; }
+.search-form { display: flex; gap: 16px; align-items: center; }
+.search-input, .filter-select {
+  background: rgba(255,255,255,0.12);
+  border: none;
+  color: #f5f5f7;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+.search-input::placeholder { color: #bdbdc2; }
+
+/* Talents */
+.talents-section { padding: 0 24px 120px; max-width: 1214px; margin: 0 auto; }
+.talents-header { display: flex; justify-content: space-between; align-items: flex-start; margin: 32px 0; }
+.talents-title { font-size: 32px; font-weight: 700; }
+.info-limit { color: #9c9ca1; }
+.talents-grid { display: flex; flex-direction: column; gap: 16px; }
+
+.talent-card {
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: .2s transform, .2s background;
+  cursor: pointer;
+}
+.talent-card:hover { transform: translateY(-2px); background: rgba(255,255,255,0.1); }
+
+.talent-header { display: flex; }
+.talent-avatar {
+  width: 140px; aspect-ratio: 1; background: #ffcc00; color: #000;
+  display: grid; place-items: center; font-weight: 700; font-size: 30px;
+}
+.talent-info { flex: 1; padding: 20px; }
+.talent-details-row { display: flex; justify-content: space-between; gap: 16px; }
+.talent-name-section h3 { font-size: 22px; margin-bottom: 4px; }
+.talent-title { color: #ffcc00; font-size: 14px; }
+.talent-location { color: #9c9ca1; font-size: 14px; margin-top: 10px; }
+
+.talent-skills { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.skill-tag { background: rgba(255,255,255,0.14); padding: 6px 12px; border-radius: 999px; font-size: 13px; }
+.talent-right-section { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.talent-availability { background: rgba(97,191,172,0.12); color: #61bfac; padding: 6px 10px; border-radius: 6px; font-weight: 600; }
+.talent-cta { background: rgba(255,204,0,0.12); color: #ffcc00; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+
+/* Modal */
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5);
+  display: grid; place-items: center; z-index: 50;
+}
+.modal {
+  width: 100%; max-width: 440px; background: #111; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 18px; box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.modal-header h3 { font-size: 18px; font-weight: 700; }
+.close { background: transparent; color: #aaa; border: none; font-size: 24px; cursor: pointer; }
+
+.modal-body { display: grid; gap: 12px; }
+.input {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: #f5f5f7;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+.label { color: #c9c9cf; font-size: 14px; }
+.role-row { display: flex; gap: 16px; color: #ddd; font-size: 14px; align-items: center; }
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .app-content {
+    padding: 0 16px;
+  }
+}
