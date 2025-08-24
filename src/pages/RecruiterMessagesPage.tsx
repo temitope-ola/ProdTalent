@@ -6,15 +6,14 @@ import { useNotifications } from '../components/NotificationManager';
 
 interface Message {
   id: string;
-  senderId: string;
-  senderName: string;
-  senderEmail: string;
-  senderRole: 'talent' | 'recruteur' | 'coach';
-  receiverId: string;
-  receiverName: string;
-  receiverEmail: string;
-  receiverRole: 'talent' | 'recruteur' | 'coach';
-  content: string;
+  from: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+  };
+  subject: string;
+  message: string;
   timestamp: Date;
   read: boolean;
 }
@@ -43,7 +42,6 @@ const RecruiterMessagesPage: React.FC = () => {
     try {
       setLoading(true);
       const messagesData = await FirestoreService.getUserMessages(user.id);
-      console.log(messagesData);
       setMessages(messagesData);
     } catch (error) {
       console.error('Erreur lors du chargement des messages:', error);
@@ -255,7 +253,7 @@ const RecruiterMessagesPage: React.FC = () => {
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <strong style={{ color: message.read ? '#f5f5f7' : '#ffcc00' }}>
-                        {message.senderName}
+                        {message.from.name}
                       </strong>
                       {!message.read && (
                         <div style={{
@@ -274,7 +272,7 @@ const RecruiterMessagesPage: React.FC = () => {
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap'
                     }}>
-                      {message.content}
+                      {message.message}
                     </p>
                     <small style={{ color: '#666', fontSize: '12px' }}>
                       {formatDate(message.timestamp)}
@@ -397,7 +395,7 @@ const RecruiterMessagesPage: React.FC = () => {
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ marginBottom: '16px' }}>
                   <h3 style={{ color: '#ffcc00', marginTop: 0, marginBottom: '8px' }}>
-                    {selectedMessage.senderName}
+                    {selectedMessage.from.name}
                   </h3>
                   <p style={{ color: '#999', margin: 0 }}>
                     {formatDate(selectedMessage.timestamp)}
@@ -411,7 +409,7 @@ const RecruiterMessagesPage: React.FC = () => {
                   borderRadius: '4px',
                   marginBottom: '16px'
                 }}>
-                  <p style={{ margin: 0, lineHeight: '1.6' }}>{selectedMessage.content}</p>
+                  <p style={{ margin: 0, lineHeight: '1.6' }}>{selectedMessage.message}</p>
                 </div>
 
                 <button
