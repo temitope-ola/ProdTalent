@@ -7,8 +7,8 @@ import NotificationProvider from './components/NotificationManager';
 
 
 // ⚠️ Adapte ces chemins si tes fichiers ne sont pas dans src/pages
-import HomePage from './pages/HomePage';
-import RegisterPage from './pages/RegisterPage';
+import HomePage from './pages/HomePage.tsx';
+import RegisterPage from './pages/RegisterPage.tsx';
 import TalentDashboard from './pages/TalentDashboard';
 import RecruiterDashboard from './pages/RecruiterDashboard';
 // CoachDashboard supprimé - fonctionnalité non implémentée
