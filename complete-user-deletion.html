@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Suppression complète utilisateur - ProdTalent</title>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, query, where, getDocs, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getAuth, signInWithEmailAndPassword, deleteUser } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiUUZ8T_gTAp7LdqPNnuFl9U7Gl7Ecfik",
+            authDomain: "talents-tech-senegal.firebaseapp.com",
+            projectId: "talents-tech-senegal",
+            storageBucket: "talents-tech-senegal.firebasestorage.app",
+            messagingSenderId: "759306069327",
+            appId: "1:759306069327:web:f711a2b907537e9dead13a",
+            measurementId: "G-0KNNCCGGEJ"
+        };
+        
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        
+        function updateStatus(message) {
+            document.getElementById('status').innerHTML = message;
+            console.log(message);
+        }
+        
+        async function deleteUserCompletely() {
+            const email = 'coach@prodtalent.com';
+            
+            updateStatus('🔍 Démarrage de la suppression complète...');
+            
+            try {
+                // Étape 1: Supprimer de toutes les collections Firestore
+                await deleteFromAllCollections(email);
+                
+                // Étape 2: Supprimer des données liées (messages, réservations, etc.)
+                await deleteRelatedData(email);
+                
+                updateStatus('✅ Suppression complète terminée avec succès !');
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                updateStatus(`❌ Erreur: ${error.message}`);
+            }
+        }
+        
+        async function deleteFromAllCollections(email) {
+            const collections = ['Talent', 'Coach', 'Recruteur'];
+            let totalDeleted = 0;
+            
+            for (const collectionName of collections) {
+                updateStatus(`🔍 Recherche dans ${collectionName}...`);
+                
+                const q = query(collection(db, collectionName), where('email', '==', email));
+                const querySnapshot = await getDocs(q);
+                
+                for (const docSnapshot of querySnapshot.docs) {
+                    updateStatus(`🗑️ Suppression de ${collectionName}/${docSnapshot.id}...`);
+                    await deleteDoc(doc(db, collectionName, docSnapshot.id));
+                    totalDeleted++;
+                }
+            }
+            
+            updateStatus(`✅ ${totalDeleted} document(s) utilisateur supprimé(s)`);
+        }
+        
+        async function deleteRelatedData(email) {
+            let totalDeleted = 0;
+            
+            // Supprimer les messages
+            updateStatus('🔍 Suppression des messages...');
+            const messagesQuery = query(collection(db, 'Messages'), 
+                where('from.email', '==', email));
+            const messagesSnapshot = await getDocs(messagesQuery);
+            
+            for (const docSnapshot of messagesSnapshot.docs) {
+                await deleteDoc(doc(db, 'Messages', docSnapshot.id));
+                totalDeleted++;
+            }
+            
+            // Supprimer les messages reçus
+            const receivedMessagesQuery = query(collection(db, 'Messages'), 
+                where('to.email', '==', email));
+            const receivedSnapshot = await getDocs(receivedMessagesQuery);
+            
+            for (const docSnapshot of receivedSnapshot.docs) {
+                await deleteDoc(doc(db, 'Messages', docSnapshot.id));
+                totalDeleted++;
+            }
+            
+            // Supprimer les réservations
+            updateStatus('🔍 Suppression des réservations...');
+            const bookingsQuery = query(collection(db, 'Bookings'), 
+                where('talentEmail', '==', email));
+            const bookingsSnapshot = await getDocs(bookingsQuery);
+            
+            for (const docSnapshot of bookingsSnapshot.docs) {
+                await deleteDoc(doc(db, 'Bookings', docSnapshot.id));
+                totalDeleted++;
+            }
+            
+            // Supprimer les candidatures
+            updateStatus('🔍 Suppression des candidatures...');
+            const applicationsQuery = query(collection(db, 'Applications'), 
+                where('talentEmail', '==', email));
+            const applicationsSnapshot = await getDocs(applicationsQuery);
+            
+            for (const docSnapshot of applicationsSnapshot.docs) {
+                await deleteDoc(doc(db, 'Applications', docSnapshot.id));
+                totalDeleted++;
+            }
+            
+            // Supprimer les recommandations
+            updateStatus('🔍 Suppression des recommandations...');
+            const recommendationsQuery = query(collection(db, 'Recommendations'), 
+                where('talentEmail', '==', email));
+            const recommendationsSnapshot = await getDocs(recommendationsQuery);
+            
+            for (const docSnapshot of recommendationsSnapshot.docs) {
+                await deleteDoc(doc(db, 'Recommendations', docSnapshot.id));
+                totalDeleted++;
+            }
+            
+            updateStatus(`✅ ${totalDeleted} données liées supprimées`);
+        }
+        
+        // Fonction pour nettoyer complètement un utilisateur
+        async function cleanupUserData() {
+            const email = 'coach@prodtalent.com';
+            
+            updateStatus('🧹 Nettoyage complet des données...');
+            
+            try {
+                // Rechercher dans toutes les collections possibles
+                const allCollections = [
+                    'Talent', 'Coach', 'Recruteur', 
+                    'Messages', 'Bookings', 'Applications', 
+                    'Recommendations', 'Jobs'
+                ];
+                
+                for (const collectionName of allCollections) {
+                    updateStatus(`🔍 Nettoyage de ${collectionName}...`);
+                    
+                    try {
+                        // Chercher par email
+                        const emailQuery = query(collection(db, collectionName), 
+                            where('email', '==', email));
+                        const emailSnapshot = await getDocs(emailQuery);
+                        
+                        for (const docSnapshot of emailSnapshot.docs) {
+                            await deleteDoc(doc(db, collectionName, docSnapshot.id));
+                            updateStatus(`🗑️ Supprimé: ${collectionName}/${docSnapshot.id}`);
+                        }
+                        
+                        // Chercher par talentEmail (pour les données liées)
+                        if (collectionName !== 'Talent' && collectionName !== 'Coach' && collectionName !== 'Recruteur') {
+                            const talentEmailQuery = query(collection(db, collectionName), 
+                                where('talentEmail', '==', email));
+                            const talentSnapshot = await getDocs(talentEmailQuery);
+                            
+                            for (const docSnapshot of talentSnapshot.docs) {
+                                await deleteDoc(doc(db, collectionName, docSnapshot.id));
+                                updateStatus(`🗑️ Supprimé: ${collectionName}/${docSnapshot.id}`);
+                            }
+                        }
+                        
+                        // Chercher par from.email (pour les messages)
+                        if (collectionName === 'Messages') {
+                            const fromQuery = query(collection(db, collectionName), 
+                                where('from.email', '==', email));
+                            const fromSnapshot = await getDocs(fromQuery);
+                            
+                            for (const docSnapshot of fromSnapshot.docs) {
+                                await deleteDoc(doc(db, collectionName, docSnapshot.id));
+                                updateStatus(`🗑️ Supprimé: ${collectionName}/${docSnapshot.id}`);
+                            }
+                            
+                            const toQuery = query(collection(db, collectionName), 
+                                where('to.email', '==', email));
+                            const toSnapshot = await getDocs(toQuery);
+                            
+                            for (const docSnapshot of toSnapshot.docs) {
+                                await deleteDoc(doc(db, collectionName, docSnapshot.id));
+                                updateStatus(`🗑️ Supprimé: ${collectionName}/${docSnapshot.id}`);
+                            }
+                        }
+                        
+                    } catch (error) {
+                        // Ignorer les erreurs de champs qui n'existent pas
+                        console.log(`Collection ${collectionName} - champ non trouvé ou vide`);
+                    }
+                }
+                
+                updateStatus('✅ Nettoyage complet terminé !');
+                
+            } catch (error) {
+                updateStatus(`❌ Erreur lors du nettoyage: ${error.message}`);
+            }
+        }
+        
+        // Rendre les fonctions accessibles globalement
+        window.deleteUserCompletely = deleteUserCompletely;
+        window.cleanupUserData = cleanupUserData;
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #f5f5f7;
+        }
+        .container {
+            background: #1a1a1a;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        h1 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .actions {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #ff5252;
+        }
+        .cleanup-btn {
+            background: #ff9800;
+        }
+        .cleanup-btn:hover {
+            background: #f57c00;
+        }
+        #status {
+            margin-top: 20px;
+            padding: 20px;
+            background: #2a2a2a;
+            border-radius: 5px;
+            min-height: 40px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .warning {
+            background: rgba(255, 107, 107, 0.1);
+            color: #ff6b6b;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .info {
+            background: rgba(255, 204, 0, 0.1);
+            color: #ffcc00;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ Suppression complète utilisateur</h1>
+        
+        <div class="warning">
+            <strong>⚠️ ATTENTION - ACTION IRRÉVERSIBLE !</strong><br><br>
+            Cette action va supprimer définitivement TOUTES les données liées à l'email <strong>coach@prodtalent.com</strong> :
+            <br>• Compte utilisateur dans toutes les collections
+            <br>• Messages envoyés et reçus
+            <br>• Réservations et rendez-vous  
+            <br>• Candidatures à des offres
+            <br>• Recommandations
+            <br>• Toute autre donnée associée
+        </div>
+        
+        <div class="info">
+            <strong>📧 Email cible :</strong> coach@prodtalent.com<br>
+            <strong>🎯 Collections à nettoyer :</strong> Talent, Coach, Recruteur, Messages, Bookings, Applications, Recommendations
+        </div>
+        
+        <div class="actions">
+            <button onclick="deleteUserCompletely()">
+                🗑️ Suppression standard
+            </button>
+            
+            <button class="cleanup-btn" onclick="cleanupUserData()">
+                🧹 Nettoyage complet
+            </button>
+        </div>
+        
+        <div id="status">Cliquez sur un bouton pour commencer...</div>
+    </div>
+</body>
+</html>

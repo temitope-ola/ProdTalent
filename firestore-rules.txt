@@ -1,0 +1,53 @@
+# Règles Firestore complètes pour ProdTalent
+# Copiez ces règles dans votre console Firebase > Firestore Database > Règles
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Collection Talent (Profils des talents)
+    match /Talent/{talentId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Collection Recruteur (Profils des recruteurs)
+    match /Recruteur/{recruiterId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Collection Coach (Profils des coaches)
+    match /Coach/{coachId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Collection Jobs (Offres d'emploi)
+    match /Jobs/{jobId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Collection Applications (Candidatures)
+    match /Applications/{applicationId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Collection Messages (Messages entre utilisateurs)
+    match /Messages/{messageId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Collection CoachAvailabilities (Disponibilités des coaches)
+    match /CoachAvailabilities/{availabilityId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Collection Appointments (Rendez-vous coaching)
+    match /Appointments/{appointmentId} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Règle générale pour toutes les autres collections
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
