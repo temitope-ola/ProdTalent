@@ -55,7 +55,6 @@ export interface EmailNotificationData {
   recruiter_name?: string;
   job_title?: string;
   profile_url?: string;
-  coach_name?: string;
   recommendation_message?: string;
   company_name?: string;
   job_description?: string;

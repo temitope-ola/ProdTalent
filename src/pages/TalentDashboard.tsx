@@ -827,7 +827,7 @@ export default function TalentDashboard() {
                     
                     {job.skills && (
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                        {(Array.isArray(job.skills) ? job.skills : job.skills.split(',')).slice(0, 3).map((skill, skillIndex) => (
+                        {(Array.isArray(job.skills) ? job.skills : job.skills.split(',')).slice(0, 3).map((skill: any, skillIndex: number) => (
                           <span
                             key={skillIndex}
                             style={{

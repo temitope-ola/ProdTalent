@@ -483,7 +483,6 @@ export default function AdminDashboard() {
       {/* EmailJS Config Modal */}
       {isEmailJSConfigOpen && (
         <EmailJSConfig 
-          isOpen={isEmailJSConfigOpen} 
           onClose={() => setIsEmailJSConfigOpen(false)}
           onConfigSave={() => {
             // Refresh the configuration status
