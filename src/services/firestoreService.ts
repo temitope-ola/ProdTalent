@@ -345,16 +345,34 @@ export class FirestoreService {
             // Utiliser Firebase Functions si Gmail échoue
             if (!gmailSent) {
               const { BackendEmailService } = await import('./backendEmailService');
+              const senderName = fromUserProfile.displayName || fromUserProfile.email?.split('@')[0] || 'Utilisateur';
+              const recipientName = toUserProfile.displayName || toUserProfile.email.split('@')[0];
+              const senderRole = fromUserProfile.role === 'talent' ? 'Talent' : fromUserProfile.role === 'recruteur' ? 'Recruteur' : 'Coach';
+              const recipientRole = toUserProfile.role === 'talent' ? 'Talent' : toUserProfile.role === 'recruteur' ? 'Recruteur' : 'Coach';
+
+              // Envoyer notification au destinataire
               await BackendEmailService.sendMessageNotification({
                 recipientEmail: toUserProfile.email,
-                recipientName: toUserProfile.displayName || toUserProfile.email.split('@')[0],
-                senderName: fromUserProfile.displayName || fromUserProfile.email?.split('@')[0] || 'Utilisateur',
-                senderRole: fromUserProfile.role === 'talent' ? 'Talent' : fromUserProfile.role === 'recruteur' ? 'Recruteur' : 'Coach',
+                recipientName: recipientName,
+                senderName: senderName,
+                senderRole: senderRole,
                 messagePreview: message.substring(0, 100) + (message.length > 100 ? '...' : '')
               });
+
+              // Envoyer confirmation à l'expéditeur
+              if (fromUserProfile.email) {
+                await BackendEmailService.sendMessageConfirmationToSender({
+                  senderEmail: fromUserProfile.email,
+                  senderName: senderName,
+                  recipientName: recipientName,
+                  recipientRole: recipientRole,
+                  messagePreview: message,
+                  subject: 'Message via ProdTalent' // Pas de sujet défini dans ce service
+                });
+              }
             }
             
-            console.log('✅ Notification message envoyée via Firebase Functions');
+            console.log('✅ Notification envoyée au destinataire et confirmation à l\'expéditeur');
           } catch (emailError) {
             console.log('⚠️ Échec envoi notification email:', emailError);
           }

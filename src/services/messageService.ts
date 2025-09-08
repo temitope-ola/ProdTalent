@@ -192,15 +192,31 @@ class MessageService {
           console.log('📧 Envoi notification via Firebase Functions...');
           const { BackendEmailService } = await import('./backendEmailService');
           
+          const senderRole = fromUserProfile.role === 'recruteur' ? 'Recruteur' : fromUserProfile.role === 'coach' ? 'Coach' : 'Talent';
+          const recipientRole = 'Utilisateur'; // On n'a pas toujours le rôle du destinataire ici
+
+          // Envoyer notification au destinataire
           const emailSent = await BackendEmailService.sendMessageNotification({
             recipientEmail: recipientInfo.email,
             recipientName: recipientInfo.name,
             senderName: fromUserProfile.name,
-            senderRole: fromUserProfile.role === 'recruteur' ? 'Recruteur' : fromUserProfile.role === 'coach' ? 'Coach' : 'Talent',
+            senderRole: senderRole,
             messagePreview: messageContent.substring(0, 100) + (messageContent.length > 100 ? '...' : '')
           });
+
+          // Envoyer confirmation à l'expéditeur
+          if (fromUserProfile.email) {
+            await BackendEmailService.sendMessageConfirmationToSender({
+              senderEmail: fromUserProfile.email,
+              senderName: fromUserProfile.name,
+              recipientName: recipientInfo.name,
+              recipientRole: recipientRole,
+              messagePreview: messageContent,
+              subject: subject
+            });
+          }
           
-          console.log(emailSent ? '✅ Notification envoyée via Firebase Functions' : '❌ Échec notification message');
+          console.log(emailSent ? '✅ Notification envoyée au destinataire et confirmation à l\'expéditeur' : '❌ Échec notification message');
         } catch (emailError) {
           console.error('❌ Erreur notification email:', emailError);
         }

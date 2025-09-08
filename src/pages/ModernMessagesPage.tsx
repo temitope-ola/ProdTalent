@@ -199,15 +199,34 @@ export default function ModernMessagesPage() {
         try {
           const { BackendEmailService } = await import('../services/backendEmailService');
           
+          const recipientName = finalRecipient.displayName || finalRecipient.firstName || 'Utilisateur';
+          const senderName = currentProfile.displayName || currentProfile.firstName || user.email.split('@')[0];
+          const senderRole = currentProfile.role === 'talent' ? 'Talent' : currentProfile.role === 'recruteur' ? 'Recruteur' : 'Coach';
+          const recipientRole = finalRecipient.role === 'talent' ? 'Talent' : finalRecipient.role === 'recruteur' ? 'Recruteur' : 'Coach';
+          const messagePreview = newMessage.trim().substring(0, 100) + (newMessage.trim().length > 100 ? '...' : '');
+
+          // Envoyer notification au destinataire
           const emailSent = await BackendEmailService.sendMessageNotification({
             recipientEmail: finalRecipient.email,
-            recipientName: finalRecipient.displayName || finalRecipient.firstName || 'Utilisateur',
-            senderName: currentProfile.displayName || currentProfile.firstName || user.email.split('@')[0],
-            senderRole: currentProfile.role === 'talent' ? 'Talent' : currentProfile.role === 'recruteur' ? 'Recruteur' : 'Coach',
-            messagePreview: newMessage.trim().substring(0, 100) + (newMessage.trim().length > 100 ? '...' : '')
+            recipientName: recipientName,
+            senderName: senderName,
+            senderRole: senderRole,
+            messagePreview: messagePreview
           });
+
+          // Envoyer confirmation à l'expéditeur
+          if (user.email) {
+            await BackendEmailService.sendMessageConfirmationToSender({
+              senderEmail: user.email,
+              senderName: senderName,
+              recipientName: recipientName,
+              recipientRole: recipientRole,
+              messagePreview: newMessage.trim(),
+              subject: messageSubject
+            });
+          }
           
-          console.log(emailSent ? '✅ Notification message envoyée via Firebase Functions' : '❌ Échec notification message');
+          console.log(emailSent ? '✅ Notification envoyée au destinataire et confirmation à l\'expéditeur' : '❌ Échec notification message');
         } catch (emailError) {
           console.error('❌ Erreur envoi notification message:', emailError);
         }
