@@ -20,6 +20,7 @@ export default function ApplyJobPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     if (!user || user.role !== 'talent') {
@@ -31,6 +32,16 @@ export default function ApplyJobPage() {
       loadJob();
     }
   }, [user, jobId, navigate]);
+
+  // Gérer le redimensionnement de la fenêtre pour mobile
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const loadJob = async () => {
     try {
@@ -190,13 +201,15 @@ export default function ApplyJobPage() {
       backgroundColor: '#0a0a0a',
       color: '#f5f5f7'
     }}>
-      <div style={{ width: '1214px', maxWidth: '100%', padding: '24px', margin: '0 auto' }}>
+      <div style={{ width: '1214px', maxWidth: '100%', padding: isMobile ? '16px' : '24px', margin: '0 auto' }}>
         <header style={{ 
           display: 'flex', 
           alignItems: 'center',
-          marginBottom: 32,
+          marginBottom: isMobile ? 24 : 32,
           paddingBottom: 16,
-          borderBottom: '1px solid #333'
+          borderBottom: '1px solid #333',
+          flexWrap: 'wrap',
+          gap: isMobile ? '12px' : '0'
         }}>
           <button
             onClick={() => navigate('/jobs')}
@@ -207,12 +220,17 @@ export default function ApplyJobPage() {
               border: '1px solid #ffcc00',
               borderRadius: '4px',
               cursor: 'pointer',
-              marginRight: 16
+              marginRight: isMobile ? 0 : 16,
+              fontSize: isMobile ? '14px' : '16px'
             }}
           >
             ← Retour
           </button>
-          <h1 style={{ margin: 0, color: '#ffcc00' }}>Postuler à l'offre</h1>
+          <h1 style={{ 
+            margin: 0, 
+            color: '#ffcc00',
+            fontSize: isMobile ? '24px' : '32px'
+          }}>Postuler à l'offre</h1>
         </header>
 
         {error && (
@@ -241,29 +259,58 @@ export default function ApplyJobPage() {
           </div>
         )}
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 32 }}>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', 
+          gap: isMobile ? 24 : 32 
+        }}>
           {/* Détails de l'annonce */}
           <div>
-            <h2 style={{ color: '#ffcc00', marginTop: 0 }}>Détails de l'offre</h2>
+            <h2 style={{ 
+              color: '#ffcc00', 
+              marginTop: 0,
+              fontSize: isMobile ? '20px' : '24px'
+            }}>Détails de l'offre</h2>
             
             <div style={{
               backgroundColor: '#111',
-              padding: 20,
+              padding: isMobile ? 16 : 20,
               borderRadius: 4,
               marginBottom: 24
             }}>
-              <h3 style={{ color: '#ffcc00', marginTop: 0 }}>{job.title}</h3>
-              <p style={{ color: '#f5f5f7', margin: '8px 0' }}>
+              <h3 style={{ 
+                color: '#ffcc00', 
+                marginTop: 0,
+                fontSize: isMobile ? '18px' : '20px'
+              }}>{job.title}</h3>
+              <p style={{ 
+                color: '#f5f5f7', 
+                margin: '8px 0',
+                fontSize: isMobile ? '14px' : '16px'
+              }}>
                 <strong>Entreprise:</strong> {job.company}
               </p>
-              <p style={{ color: '#f5f5f7', margin: '8px 0' }}>
+              <p style={{ 
+                color: '#f5f5f7', 
+                margin: '8px 0',
+                fontSize: isMobile ? '14px' : '16px'
+              }}>
                 <strong>Localisation:</strong> {job.location}
               </p>
-              <p style={{ color: '#f5f5f7', margin: '8px 0' }}>
+              <p style={{ 
+                color: '#f5f5f7', 
+                margin: '8px 0',
+                fontSize: isMobile ? '14px' : '16px'
+              }}>
                 <strong>Type:</strong> {getTypeText(job.type)} {job.remote && '(Télétravail possible)'}
               </p>
               {job.salary?.min && job.salary?.max && (
-                <p style={{ color: '#ffcc00', margin: '8px 0', fontWeight: 'bold' }}>
+                <p style={{ 
+                  color: '#ffcc00', 
+                  margin: '8px 0', 
+                  fontWeight: 'bold',
+                  fontSize: isMobile ? '14px' : '16px'
+                }}>
                   <strong>Salaire:</strong> {job.salary.min} - {job.salary.max} {formatCurrency(job.salary.currency)}
                 </p>
               )}
@@ -271,12 +318,20 @@ export default function ApplyJobPage() {
 
             <div style={{
               backgroundColor: '#111',
-              padding: 20,
+              padding: isMobile ? 16 : 20,
               borderRadius: 4,
               marginBottom: 24
             }}>
-              <h4 style={{ color: '#ffcc00', marginTop: 0 }}>Description</h4>
-              <p style={{ color: '#f5f5f7', lineHeight: 1.6 }}>
+              <h4 style={{ 
+                color: '#ffcc00', 
+                marginTop: 0,
+                fontSize: isMobile ? '16px' : '18px'
+              }}>Description</h4>
+              <p style={{ 
+                color: '#f5f5f7', 
+                lineHeight: 1.6,
+                fontSize: isMobile ? '14px' : '16px'
+              }}>
                 {job.description}
               </p>
             </div>
@@ -284,12 +339,20 @@ export default function ApplyJobPage() {
             {job.requirements && (
               <div style={{
                 backgroundColor: '#111',
-                padding: 20,
+                padding: isMobile ? 16 : 20,
                 borderRadius: 4,
                 marginBottom: 24
               }}>
-                <h4 style={{ color: '#ffcc00', marginTop: 0 }}>Exigences</h4>
-                <p style={{ color: '#f5f5f7', lineHeight: 1.6 }}>
+                <h4 style={{ 
+                  color: '#ffcc00', 
+                  marginTop: 0,
+                  fontSize: isMobile ? '16px' : '18px'
+                }}>Exigences</h4>
+                <p style={{ 
+                  color: '#f5f5f7', 
+                  lineHeight: 1.6,
+                  fontSize: isMobile ? '14px' : '16px'
+                }}>
                   {job.requirements}
                 </p>
               </div>
@@ -298,11 +361,19 @@ export default function ApplyJobPage() {
             {job.benefits && (
               <div style={{
                 backgroundColor: '#111',
-                padding: 20,
+                padding: isMobile ? 16 : 20,
                 borderRadius: 4
               }}>
-                <h4 style={{ color: '#ffcc00', marginTop: 0 }}>Avantages</h4>
-                <p style={{ color: '#f5f5f7', lineHeight: 1.6 }}>
+                <h4 style={{ 
+                  color: '#ffcc00', 
+                  marginTop: 0,
+                  fontSize: isMobile ? '16px' : '18px'
+                }}>Avantages</h4>
+                <p style={{ 
+                  color: '#f5f5f7', 
+                  lineHeight: 1.6,
+                  fontSize: isMobile ? '14px' : '16px'
+                }}>
                   {job.benefits}
                 </p>
               </div>
@@ -311,52 +382,72 @@ export default function ApplyJobPage() {
 
           {/* Formulaire de candidature */}
           <div>
-            <h2 style={{ color: '#ffcc00', marginTop: 0 }}>Votre candidature</h2>
+            <h2 style={{ 
+              color: '#ffcc00', 
+              marginTop: 0,
+              fontSize: isMobile ? '20px' : '24px'
+            }}>Votre candidature</h2>
             
             <form onSubmit={handleSubmit} style={{
               backgroundColor: '#111',
-              padding: 20,
+              padding: isMobile ? 16 : 20,
               borderRadius: 4
             }}>
               <div style={{ marginBottom: 24 }}>
-                <label style={{ display: 'block', marginBottom: 8, color: '#ffcc00' }}>
+                <label style={{ 
+                  display: 'block', 
+                  marginBottom: 8, 
+                  color: '#ffcc00',
+                  fontSize: isMobile ? '14px' : '16px'
+                }}>
                   Lettre de motivation *
                 </label>
                 <textarea
                   value={formData.coverLetter}
                   onChange={(e) => setFormData(prev => ({ ...prev, coverLetter: e.target.value }))}
-                  rows={12}
+                  rows={isMobile ? 8 : 12}
                   placeholder="Présentez-vous, expliquez pourquoi vous êtes intéressé par ce poste et pourquoi vous seriez un bon candidat..."
                   style={{
                     width: '100%',
-                    padding: 12,
+                    padding: isMobile ? 10 : 12,
                     backgroundColor: '#333',
                     color: '#f5f5f7',
                     border: '1px solid #555',
                     borderRadius: 4,
-                    fontSize: 14,
+                    fontSize: isMobile ? 14 : 16,
                     resize: 'vertical',
-                    lineHeight: 1.5
+                    lineHeight: 1.5,
+                    boxSizing: 'border-box'
                   }}
                   required
                 />
-                <p style={{ color: '#888', fontSize: 12, marginTop: 8 }}>
+                <p style={{ 
+                  color: '#888', 
+                  fontSize: isMobile ? 11 : 12, 
+                  marginTop: 8 
+                }}>
                   Minimum 100 caractères recommandé
                 </p>
               </div>
 
-              <div style={{ display: 'flex', gap: 16, justifyContent: 'flex-end' }}>
+              <div style={{ 
+                display: 'flex', 
+                gap: isMobile ? 12 : 16, 
+                justifyContent: isMobile ? 'stretch' : 'flex-end',
+                flexDirection: isMobile ? 'column-reverse' : 'row'
+              }}>
                 <button
                   type="button"
                   onClick={() => navigate('/jobs')}
                   style={{
-                    padding: '12px 24px',
+                    padding: isMobile ? '14px 20px' : '12px 24px',
                     backgroundColor: 'transparent',
                     color: '#f5f5f7',
                     border: '1px solid #555',
                     borderRadius: 4,
                     cursor: 'pointer',
-                    fontSize: 14
+                    fontSize: isMobile ? 16 : 14,
+                    flex: isMobile ? '1' : 'none'
                   }}
                 >
                   Annuler
@@ -365,14 +456,15 @@ export default function ApplyJobPage() {
                   type="submit"
                   disabled={isSubmitting}
                   style={{
-                    padding: '12px 24px',
+                    padding: isMobile ? '14px 20px' : '12px 24px',
                     backgroundColor: isSubmitting ? '#555' : '#ffcc00',
                     color: isSubmitting ? '#888' : '#000',
                     border: '1px solid #ffcc00',
                     borderRadius: 4,
                     cursor: isSubmitting ? 'not-allowed' : 'pointer',
-                    fontSize: 14,
-                    fontWeight: 'bold'
+                    fontSize: isMobile ? 16 : 14,
+                    fontWeight: 'bold',
+                    flex: isMobile ? '1' : 'none'
                   }}
                 >
                   {isSubmitting ? 'Envoi...' : 'Envoyer ma candidature'}
@@ -382,12 +474,23 @@ export default function ApplyJobPage() {
 
             <div style={{
               backgroundColor: '#222',
-              padding: 16,
+              padding: isMobile ? 14 : 16,
               borderRadius: 4,
               marginTop: 16
             }}>
-              <h4 style={{ color: '#ffcc00', marginTop: 0, marginBottom: 8 }}>Conseils</h4>
-              <ul style={{ color: '#f5f5f7', fontSize: 14, lineHeight: 1.5, margin: 0, paddingLeft: 20 }}>
+              <h4 style={{ 
+                color: '#ffcc00', 
+                marginTop: 0, 
+                marginBottom: 8,
+                fontSize: isMobile ? '16px' : '18px'
+              }}>Conseils</h4>
+              <ul style={{ 
+                color: '#f5f5f7', 
+                fontSize: isMobile ? 13 : 14, 
+                lineHeight: 1.5, 
+                margin: 0, 
+                paddingLeft: isMobile ? 16 : 20 
+              }}>
                 <li>Personnalisez votre lettre pour cette entreprise</li>
                 <li>Mettez en avant vos compétences pertinentes</li>
                 <li>Expliquez votre motivation pour ce poste</li>
