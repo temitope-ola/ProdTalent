@@ -326,6 +326,73 @@ export class BackendEmailService {
   }
 
   /**
+   * Envoi notification nouveau message
+   */
+  static async sendMessageNotification(data: {
+    recipientEmail: string;
+    recipientName: string;
+    senderName: string;
+    senderRole: string;
+    messagePreview: string;
+  }): Promise<boolean> {
+    const subject = `Nouveau message de ${data.senderName} - ProdTalent`;
+    
+    const htmlContent = `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f5f5f7;">
+        <!-- Header ProdTalent -->
+        <div style="background: #61bfac; padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+          <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: bold;">ProdTalent</h1>
+          <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px;">Nouveau message reçu</p>
+        </div>
+        
+        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+          <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
+          
+          <div style="background: #f5f5f7; padding: 20px; border-radius: 8px; border-left: 4px solid #61bfac; margin: 20px 0;">
+            <p style="margin: 0; color: #1a1a1a; font-size: 16px;">
+              <strong style="color: #0a0a0a;">${data.senderName}</strong> <span style="color: #61bfac;">(${data.senderRole})</span> vous a envoyé un message :
+            </p>
+            <div style="background: #ffffff; padding: 15px; border-radius: 6px; margin: 15px 0; border: 1px solid #f0f0f0;">
+              <p style="margin: 0; color: #555; font-style: italic; line-height: 1.6;">"${data.messagePreview}"</p>
+            </div>
+          </div>
+          
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="https://prodtalent.com/messages" 
+               style="background: #61bfac; 
+                      color: #ffffff; 
+                      padding: 15px 30px; 
+                      text-decoration: none; 
+                      border-radius: 25px; 
+                      font-weight: bold; 
+                      display: inline-block;
+                      transition: transform 0.2s;
+                      box-shadow: 0 2px 4px rgba(97, 191, 172, 0.3);">
+              Répondre au message
+            </a>
+          </div>
+          
+          <hr style="border: none; border-top: 1px solid #f5f5f7; margin: 30px 0;">
+          
+          <p style="color: #888; font-size: 12px; text-align: center; margin: 0;">
+            ProdTalent - Connecter les talents et opportunités<br>
+            <a href="https://prodtalent.com" style="color: #61bfac; text-decoration: none;">prodtalent.com</a>
+          </p>
+        </div>
+      </div>
+    `;
+
+    const result = await this.sendEmail({
+      to: data.recipientEmail,
+      toName: data.recipientName,
+      subject,
+      htmlContent
+    });
+
+    return result.success;
+  }
+
+  /**
    * Envoi notification nouvelle offre d'emploi
    */
   static async sendJobNotification(data: {

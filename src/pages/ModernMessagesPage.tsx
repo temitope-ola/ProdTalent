@@ -195,31 +195,19 @@ export default function ModernMessagesPage() {
       const finalRecipient = recipientProfile || recipientProfileRecruiter || recipientProfileCoach;
 
       if (finalRecipient && finalRecipient.email) {
-        // Envoyer notification Gmail API (avec fallback SendGrid)
+        // Envoyer notification via Firebase Functions (votre email admin)
         try {
-          const { googleIntegratedService } = await import('../services/googleIntegratedService');
+          const { BackendEmailService } = await import('../services/backendEmailService');
           
-          const gmailSent = await googleIntegratedService.sendMessageNotification({
+          const emailSent = await BackendEmailService.sendMessageNotification({
             recipientEmail: finalRecipient.email,
             recipientName: finalRecipient.displayName || finalRecipient.firstName || 'Utilisateur',
             senderName: currentProfile.displayName || currentProfile.firstName || user.email.split('@')[0],
             senderRole: currentProfile.role === 'talent' ? 'Talent' : currentProfile.role === 'recruteur' ? 'Recruteur' : 'Coach',
             messagePreview: newMessage.trim().substring(0, 100) + (newMessage.trim().length > 100 ? '...' : '')
           });
-
-          if (!gmailSent) {
-            // Fallback SendGrid si Gmail échoue
-            const { default: sendGridTemplateService } = await import('../services/sendGridTemplateService');
-            await sendGridTemplateService.sendMessageNotification({
-              recipientEmail: finalRecipient.email,
-              recipientName: finalRecipient.displayName || finalRecipient.firstName || 'Utilisateur',
-              senderName: currentProfile.displayName || currentProfile.firstName || user.email.split('@')[0],
-              senderRole: currentProfile.role === 'talent' ? 'Talent' : currentProfile.role === 'recruteur' ? 'Recruteur' : 'Coach',
-              messagePreview: newMessage.trim().substring(0, 100) + (newMessage.trim().length > 100 ? '...' : '')
-            });
-          }
           
-          console.log('📧 Notification message envoyée (Gmail API ou SendGrid fallback)');
+          console.log(emailSent ? '✅ Notification message envoyée via Firebase Functions' : '❌ Échec notification message');
         } catch (emailError) {
           console.error('❌ Erreur envoi notification message:', emailError);
         }
