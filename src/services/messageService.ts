@@ -189,10 +189,10 @@ class MessageService {
       // Envoyer notification Gmail API avec fallback SendGrid si on a les infos du destinataire
       if (recipientInfo) {
         try {
-          console.log('📧 Envoi notification Gmail API...');
-          const { googleIntegratedService } = await import('./googleIntegratedService');
+          console.log('📧 Envoi notification via Firebase Functions...');
+          const { BackendEmailService } = await import('./backendEmailService');
           
-          const gmailSent = await googleIntegratedService.sendMessageNotification({
+          const emailSent = await BackendEmailService.sendMessageNotification({
             recipientEmail: recipientInfo.email,
             recipientName: recipientInfo.name,
             senderName: fromUserProfile.name,
@@ -200,20 +200,7 @@ class MessageService {
             messagePreview: messageContent.substring(0, 100) + (messageContent.length > 100 ? '...' : '')
           });
           
-          if (!gmailSent) {
-            // Fallback SendGrid si Gmail échoue
-            console.log('📧 Fallback SendGrid template...');
-            const { default: sendGridTemplateService } = await import('./sendGridTemplateService');
-            await sendGridTemplateService.sendMessageNotification({
-              recipientEmail: recipientInfo.email,
-              recipientName: recipientInfo.name,
-              senderName: fromUserProfile.name,
-              senderRole: fromUserProfile.role === 'recruteur' ? 'Recruteur' : fromUserProfile.role === 'coach' ? 'Coach' : 'Talent',
-              messagePreview: messageContent.substring(0, 100) + (messageContent.length > 100 ? '...' : '')
-            });
-          }
-          
-          console.log('✅ Notification envoyée (Gmail API ou SendGrid fallback)');
+          console.log(emailSent ? '✅ Notification envoyée via Firebase Functions' : '❌ Échec notification message');
         } catch (emailError) {
           console.error('❌ Erreur notification email:', emailError);
         }

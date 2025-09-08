@@ -342,10 +342,10 @@ export class FirestoreService {
               messagePreview: message.substring(0, 100) + (message.length > 100 ? '...' : '')
             });
             
+            // Utiliser Firebase Functions si Gmail échoue
             if (!gmailSent) {
-              // Fallback SendGrid si Gmail échoue
-              const { default: sendGridTemplateService } = await import('./sendGridTemplateService');
-              await sendGridTemplateService.sendMessageNotification({
+              const { BackendEmailService } = await import('./backendEmailService');
+              await BackendEmailService.sendMessageNotification({
                 recipientEmail: toUserProfile.email,
                 recipientName: toUserProfile.displayName || toUserProfile.email.split('@')[0],
                 senderName: fromUserProfile.displayName || fromUserProfile.email?.split('@')[0] || 'Utilisateur',
@@ -354,7 +354,7 @@ export class FirestoreService {
               });
             }
             
-            console.log('✅ Notification message envoyée (Gmail API ou SendGrid fallback)');
+            console.log('✅ Notification message envoyée via Firebase Functions');
           } catch (emailError) {
             console.log('⚠️ Échec envoi notification email:', emailError);
           }
