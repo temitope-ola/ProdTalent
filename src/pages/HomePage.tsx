@@ -133,24 +133,14 @@ export default function HomePage() {
           width: '1214px',
           maxWidth: '100%'
         }}>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-            <h1 style={{ 
-              margin: 0, 
-              color: '#ffcc00',
-              fontSize: '28px',
-              fontWeight: '700'
-            }}>
-              ProdTalent
-            </h1>
-            <span style={{ 
-              color: '#61bfac', 
-              fontSize: '12px', 
-              marginTop: '2px',
-              fontWeight: '500'
-            }}>
-              Un produit d'Edacy
-            </span>
-          </div>
+          <img 
+            src="/prodtalent-logo.png"
+            alt="ProdTalent"
+            style={{
+              height: isMobile ? '30px' : '50px',
+              width: 'auto'
+            }}
+          />
           
           {/* Desktop Navigation */}
           <div style={{ 
@@ -1024,9 +1014,9 @@ Nous simplifions vos recrutementspour vous permettre de vous concentrer sur l'es
                 fontWeight: '800',
                 color: '#303030',
                 display: 'flex',
-                alignItems: 'left',
+                alignItems: 'center',
                 justifyContent: 'left',
-                paddingLeft: '3px',
+                paddingLeft: '1px',
                 marginBottom: '32px',
                 fontSize: '22px'
               }}>
@@ -1059,14 +1049,16 @@ et transforme chaque étape en une opportunité de grandir. </p>
             <div style={{ 
               background: 'rgba(255, 204, 0, 0.1)',
               padding: '32px',
-              borderRadius: '12px',
+              borderRadius: '4px',
               marginBottom: '40px'
             }}>
               <p style={{ 
                 color: '#ffcc00', 
-                fontWeight: '600',
+                fontWeight: '400',
+                lineHeight: '1.3',
                 margin: '0',
                 fontSize: '1.1rem',
+                textAlign: 'left',
               
               }}>
                Avec elle, vos compétences ne sont pas seulement renforcées, elles prennent vie.

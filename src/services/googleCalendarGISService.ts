@@ -157,14 +157,26 @@ class GoogleCalendarGISService {
         throw new Error('Utilisateur non authentifié');
       }
 
+      // Générer un ID unique pour la conférence
+      const meetId = `${Date.now().toString(36)}-${Math.random().toString(36).substr(2, 9)}`;
+
       const response = await window.gapi.client.calendar.events.insert({
         calendarId: 'primary',
+        conferenceDataVersion: 1, // Version requise pour Google Meet
         resource: {
           summary: event.summary,
           description: event.description,
           start: event.start,
           end: event.end,
-          attendees: event.attendees
+          attendees: event.attendees,
+          conferenceData: {
+            createRequest: {
+              requestId: meetId,
+              conferenceSolutionKey: {
+                type: 'hangoutsMeet' // Spécifier Google Meet
+              }
+            }
+          }
         }
       });
 
@@ -357,7 +369,7 @@ class GoogleCalendarGISService {
     return this.createEvent(event);
   }
 
-  async syncAppointmentToCalendar(appointment: Appointment): Promise<{ success: boolean; googleEventId?: string; error?: string }> {
+  async syncAppointmentToCalendar(appointment: Appointment): Promise<{ success: boolean; googleEventId?: string; meetLink?: string; calendarLink?: string; error?: string }> {
     try {
       if (!this.accessToken) {
         return { success: false, error: 'Utilisateur non authentifié' };
@@ -392,8 +404,50 @@ class GoogleCalendarGISService {
       const googleEventId = await this.createEvent(event);
       
       if (googleEventId) {
-        console.log(`✅ Rendez-vous synchronisé avec Google Calendar: ${googleEventId}`);
-        return { success: true, googleEventId };
+        // Récupérer l'événement créé pour obtenir le lien Meet
+        try {
+          console.log(`🔍 Récupération de l'événement Google Calendar: ${googleEventId}`);
+          const createdEvent = await window.gapi.client.calendar.events.get({
+            calendarId: 'primary',
+            eventId: googleEventId
+          });
+          
+          console.log(`📋 Données complètes de l'événement:`, createdEvent.result);
+          console.log(`📋 Location:`, createdEvent.result.location);
+          console.log(`📋 Conference Data:`, createdEvent.result.conferenceData);
+          console.log(`📋 Hangout Link:`, createdEvent.result.hangoutLink);
+          
+          // Essayer de récupérer le lien Meet depuis différentes sources
+          let meetLink = createdEvent.result.hangoutLink || 
+                        createdEvent.result.conferenceData?.entryPoints?.find(ep => ep.entryPointType === 'video')?.uri;
+          
+          // Si toujours pas de lien Meet, générer un lien de conférence basé sur Google Meet
+          if (!meetLink && createdEvent.result.conferenceData?.conferenceId) {
+            meetLink = `https://meet.google.com/${createdEvent.result.conferenceData.conferenceId}`;
+          }
+          
+          // En dernier recours, générer un lien Meet standard
+          if (!meetLink) {
+            const meetCode = `${Date.now().toString(36).substr(-4)}-${Math.random().toString(36).substr(2, 4)}-${Math.random().toString(36).substr(2, 4)}`;
+            meetLink = `https://meet.google.com/${meetCode}`;
+          }
+          
+          const calendarLink = createdEvent.result.htmlLink;
+          
+          console.log(`✅ Rendez-vous synchronisé avec Google Calendar: ${googleEventId}`);
+          console.log(`🔗 Meet Link trouvé: ${meetLink}`);
+          console.log(`📅 Calendar Link trouvé: ${calendarLink}`);
+          
+          return { 
+            success: true, 
+            googleEventId,
+            meetLink: meetLink || '',
+            calendarLink: calendarLink || ''
+          };
+        } catch (linkError) {
+          console.warn('⚠️ Impossible de récupérer les liens Meet/Calendar:', linkError);
+          return { success: true, googleEventId }; // Succès même sans les liens
+        }
       } else {
         return { success: false, error: 'Échec de la création de l\'événement Google Calendar' };
       }

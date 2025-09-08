@@ -5,6 +5,8 @@ import useAuth from './contexts/AuthContext';
 import { useEffect } from 'react';
 import NotificationProvider from './components/NotificationManager';
 
+// 🚀 Services modernes : SendGrid + Google Calendar intégrés
+
 
 // ⚠️ Adapte ces chemins si tes fichiers ne sont pas dans src/pages
 import HomePage from './pages/HomePage.tsx';
@@ -16,9 +18,7 @@ import ProfilePage from './pages/ProfilePage';
 import TalentsListPage from './pages/TalentsListPage';
 import CoachTalentsPage from './pages/CoachTalentsPage';
 import CoachRecruteursPage from './pages/CoachRecruteursPage';
-import TalentMessagesPage from './pages/TalentMessagesPage';
-import CoachMessagesPage from './pages/CoachMessagesPage';
-import RecruiterMessagesPage from './pages/RecruiterMessagesPage';
+import ModernMessagesPage from './pages/ModernMessagesPage';
 import CreateJobPage from './pages/CreateJobPage';
 import MyJobsPage from './pages/MyJobsPage';
 import JobsListPage from './pages/JobsListPage';
@@ -27,14 +27,24 @@ import JobApplicationsPage from './pages/JobApplicationsPage';
 import ApplyJobPage from './pages/ApplyJobPage';
 import RecruiterApplicationsPage from './pages/RecruiterApplicationsPage';
 import TalentApplicationsPage from './pages/TalentApplicationsPage';
-import RecruiterRecommendationsPage from './pages/RecruiterRecommendationsPage';
-import TalentRecommendationsPage from './pages/TalentRecommendationsPage';
+import JobDetailsPage from './pages/JobDetailsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import FeaturedTalentsManager from './components/FeaturedTalentsManager';
 import CoachLogin from './components/CoachLogin';
 import CoachDashboard from './pages/CoachDashboard';
+import CoachJobDetailsPage from './pages/CoachJobDetailsPage';
+import CoachJobViewPage from './pages/CoachJobViewPage';
 import BookingPage from './pages/BookingPage';
+import TalentRecommendationsPage from './pages/TalentRecommendationsPage';
 import AdminDashboard from './pages/AdminDashboard';
+import GoogleConfigPage from './pages/GoogleConfigPage';
+import SimpleGoogleTest from './pages/SimpleGoogleTest';
+import WorkingGoogleTest from './pages/WorkingGoogleTest';
+import SendGridSetup from './pages/SendGridSetup';
+import SendGridAdminPage from './pages/SendGridAdminPage';
+import CalendarMeetTest from './pages/CalendarMeetTest';
+import ModernCalendarTest from './pages/ModernCalendarTest';
+import SendGridTemplateTestPage from './pages/SendGridTemplateTestPage';
 
 // Composant de login admin simple
 function AdminLogin() {
@@ -216,6 +226,14 @@ export default function App() {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/coach-test"
+        element={
+          <ProtectedRoute>
+            <CoachDashboard />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/profile"
@@ -265,7 +283,7 @@ export default function App() {
         path="/talent/messages"
         element={
           <ProtectedRoute>
-            <TalentMessagesPage />
+            <ModernMessagesPage />
           </ProtectedRoute>
         }
       />
@@ -274,18 +292,16 @@ export default function App() {
         path="/coach/messages"
         element={
           <ProtectedRoute>
-            <CoachMessagesPage />
+            <ModernMessagesPage />
           </ProtectedRoute>
         }
       />
-
-
 
       <Route
         path="/messages"
         element={
           <ProtectedRoute>
-            <RecruiterMessagesPage />
+            <ModernMessagesPage />
           </ProtectedRoute>
         }
       />
@@ -321,7 +337,16 @@ export default function App() {
         path="/jobs/:jobId"
         element={
           <ProtectedRoute>
-            <JobApplicationsPage />
+            <JobDetailsPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/coach/jobs/:jobId"
+        element={
+          <ProtectedRoute>
+            <CoachJobViewPage />
           </ProtectedRoute>
         }
       />
@@ -362,15 +387,8 @@ export default function App() {
         }
       />
 
-      <Route
-        path="/recommendations"
-        element={
-          <ProtectedRoute>
-            <RecruiterRecommendationsPage />
-          </ProtectedRoute>
-        }
-      />
 
+      {/* Route des recommandations talent */}
       <Route
         path="/talent/recommendations"
         element={
@@ -382,6 +400,16 @@ export default function App() {
 
       {/* Route publique pour la réservation de créneaux */}
       <Route path="/book/:coachId" element={<BookingPage />} />
+      
+      {/* Route de configuration Google */}
+      <Route path="/google-config" element={<GoogleConfigPage />} />
+      <Route path="/google-test" element={<SimpleGoogleTest />} />
+      <Route path="/google-working" element={<WorkingGoogleTest />} />
+      <Route path="/sendgrid-setup" element={<SendGridSetup />} />
+      <Route path="/sendgrid-admin" element={<SendGridAdminPage />} />
+      <Route path="/calendar-meet-test" element={<CalendarMeetTest />} />
+      <Route path="/modern-calendar-test" element={<ModernCalendarTest />} />
+      <Route path="/sendgrid-template-test" element={<SendGridTemplateTestPage />} />
 
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

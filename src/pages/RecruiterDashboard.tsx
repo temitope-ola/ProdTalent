@@ -22,6 +22,7 @@ export default function RecruiterDashboard() {
     location: '',
     contractType: ''
   });
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   
   // Métriques simplifiées
   const [jobStats, setJobStats] = useState({
@@ -49,198 +50,22 @@ export default function RecruiterDashboard() {
 
   // Filtrer les talents quand les filtres changent
   useEffect(() => {
-    applyFilters();
+    applyTalentFilters();
   }, [talents, activeFilters]);
 
-  // Fonction pour appliquer les filtres
+  // Gérer le redimensionnement de la fenêtre
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Fonction legacy pour compatibilité 
   const applyFilters = () => {
-    let filtered = talents;
-
-    // Filtre par disponibilité
-    if (activeFilters.availability) {
-      filtered = filtered.filter(talent => 
-        talent.availability === activeFilters.availability
-      );
-    }
-
-    // Filtre par compétences
-    if (activeFilters.skills) {
-      filtered = filtered.filter(talent => {
-        if (!talent.skills) return false;
-        
-        // Convertir les compétences du talent en array
-        let talentSkills: string[] = [];
-        if (Array.isArray(talent.skills)) {
-          talentSkills = talent.skills.map(skill => skill.toLowerCase());
-        } else {
-          talentSkills = talent.skills.toLowerCase().split(/[,\s]+/).filter(skill => skill.trim());
-        }
-        
-        // Définir les groupes de compétences
-        const skillGroups = {
-          'Frontend': ['react', 'vue', 'angular', 'javascript', 'typescript', 'html', 'css', 'sass', 'bootstrap', 'tailwind'],
-          'Backend': ['node', 'python', 'java', 'php', 'c#', 'ruby', 'go', 'rust', 'sql', 'mongodb', 'postgresql'],
-          'Fullstack': ['fullstack', 'full-stack', 'full stack'],
-          'Mobile': ['react native', 'flutter', 'ios', 'android', 'swift', 'kotlin'],
-          'DevOps': ['docker', 'kubernetes', 'aws', 'azure', 'gcp', 'ci/cd', 'jenkins', 'gitlab'],
-          'Data': ['python', 'r', 'sql', 'pandas', 'numpy', 'machine learning', 'data science', 'analytics'],
-          'AI': ['ai', 'artificial intelligence', 'machine learning', 'deep learning', 'neural networks', 'tensorflow', 'pytorch', 'openai', 'chatgpt', 'gpt', 'llm', 'nlp', 'computer vision', 'robotics'],
-          'Product': ['product management', 'product owner', 'scrum', 'agile', 'kanban', 'user research', 'user experience', 'ux', 'product strategy', 'roadmap', 'backlog', 'sprint', 'stakeholder'],
-          'Entrepreneuriat': ['entrepreneur', 'startup', 'business', 'strategy', 'marketing', 'sales', 'growth', 'fundraising', 'pitch', 'business plan', 'market research', 'customer development', 'lean startup'],
-          'Design': ['figma', 'sketch', 'adobe', 'ui/ux', 'design', 'photoshop', 'illustrator', 'invision', 'prototyping']
-        };
-        
-        // Si c'est un groupe, vérifier si le talent a au moins une compétence du groupe
-        if (skillGroups[activeFilters.skills as keyof typeof skillGroups]) {
-          const groupSkills = skillGroups[activeFilters.skills as keyof typeof skillGroups];
-          return groupSkills.some(groupSkill => 
-            talentSkills.some(talentSkill => 
-              talentSkill.includes(groupSkill) || groupSkill.includes(talentSkill)
-            )
-          );
-        }
-        
-        // Sinon, chercher une correspondance directe
-        return talentSkills.some(skill => 
-          skill.includes(activeFilters.skills.toLowerCase()) || 
-          activeFilters.skills.toLowerCase().includes(skill)
-        );
-      });
-    }
-
-    // Filtre par expérience
-    if (activeFilters.experience) {
-      filtered = filtered.filter(talent => 
-        talent.experience === activeFilters.experience
-      );
-    }
-
-    // Filtre par localisation
-    if (activeFilters.location) {
-      filtered = filtered.filter(talent => 
-        talent.location === activeFilters.location
-      );
-    }
-
-    // Filtre par type de contrat
-    if (activeFilters.contractType) {
-      filtered = filtered.filter(talent => 
-        talent.contractType === activeFilters.contractType
-      );
-    }
-
-    setFilteredTalents(filtered);
-  };
-
-  // Fonction pour générer les options de filtres intelligentes
-  const generateFilterOptions = () => {
-    const options = {
-      availability: new Set<string>(),
-      skills: new Set<string>(),
-      experience: new Set<string>(),
-      location: new Set<string>(),
-      contractType: new Set<string>()
-    };
-
-    // Compter les occurrences pour ne garder que les éléments pertinents
-    const skillCounts: { [key: string]: number } = {};
-    const locationCounts: { [key: string]: number } = {};
-
-    talents.forEach(talent => {
-      if (talent.availability) options.availability.add(talent.availability);
-      if (talent.experience) options.experience.add(talent.experience);
-      if (talent.contractType) options.contractType.add(talent.contractType);
-      
-      // Compter les compétences
-      if (talent.skills) {
-        let skillsArray: string[] = [];
-        if (Array.isArray(talent.skills)) {
-          skillsArray = talent.skills;
-        } else {
-          skillsArray = talent.skills.split(/[,\s]+/).filter(skill => skill.trim());
-        }
-        
-        skillsArray.forEach(skill => {
-          const cleanSkill = skill.trim().toLowerCase();
-          skillCounts[cleanSkill] = (skillCounts[cleanSkill] || 0) + 1;
-        });
-      }
-      
-      // Compter les localisations
-      if (talent.location) {
-        const cleanLocation = talent.location.trim().toLowerCase();
-        locationCounts[cleanLocation] = (locationCounts[cleanLocation] || 0) + 1;
-      }
-    });
-
-    // Ne garder que les compétences avec au moins 2 occurrences (pertinentes)
-    const relevantSkills = Object.entries(skillCounts)
-      .filter(([_, count]) => count >= 2)
-      .map(([skill, count]) => ({ skill, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 10) // Limiter à 10 compétences max
-      .map(item => item.skill);
-
-    // Ne garder que les localisations avec au moins 2 occurrences
-    const relevantLocations = Object.entries(locationCounts)
-      .filter(([_, count]) => count >= 2)
-      .map(([location, count]) => ({ location, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5) // Limiter à 5 localisations max
-      .map(item => item.location);
-
-    // Regrouper les compétences similaires
-    const groupedSkills = groupSimilarSkills(relevantSkills);
-
-    return {
-      availability: Array.from(options.availability).sort(),
-      skills: groupedSkills,
-      experience: Array.from(options.experience).sort(),
-      location: relevantLocations,
-      contractType: Array.from(options.contractType).sort()
-    };
-  };
-
-  // Fonction pour regrouper les compétences similaires
-  const groupSimilarSkills = (skills: string[]): string[] => {
-    const skillGroups = {
-      'Frontend': ['react', 'vue', 'angular', 'javascript', 'typescript', 'html', 'css', 'sass', 'bootstrap', 'tailwind'],
-      'Backend': ['node', 'python', 'java', 'php', 'c#', 'ruby', 'go', 'rust', 'sql', 'mongodb', 'postgresql'],
-      'Fullstack': ['fullstack', 'full-stack', 'full stack'],
-      'Mobile': ['react native', 'flutter', 'ios', 'android', 'swift', 'kotlin'],
-      'DevOps': ['docker', 'kubernetes', 'aws', 'azure', 'gcp', 'ci/cd', 'jenkins', 'gitlab'],
-      'Data': ['python', 'r', 'sql', 'pandas', 'numpy', 'machine learning', 'data science', 'analytics'],
-      'AI': ['ai', 'artificial intelligence', 'machine learning', 'deep learning', 'neural networks', 'tensorflow', 'pytorch', 'openai', 'chatgpt', 'gpt', 'llm', 'nlp', 'computer vision', 'robotics'],
-      'Product': ['product management', 'product owner', 'scrum', 'agile', 'kanban', 'user research', 'user experience', 'ux', 'product strategy', 'roadmap', 'backlog', 'sprint', 'stakeholder'],
-      'Entrepreneuriat': ['entrepreneur', 'startup', 'business', 'strategy', 'marketing', 'sales', 'growth', 'fundraising', 'pitch', 'business plan', 'market research', 'customer development', 'lean startup'],
-      'Design': ['figma', 'sketch', 'adobe', 'ui/ux', 'design', 'photoshop', 'illustrator', 'invision', 'prototyping']
-    };
-
-    const grouped: string[] = [];
-    const usedSkills = new Set<string>();
-
-    // D'abord, essayer de regrouper
-    Object.entries(skillGroups).forEach(([groupName, groupSkills]) => {
-      const matchingSkills = skills.filter(skill => 
-        groupSkills.some(groupSkill => 
-          skill.includes(groupSkill) || groupSkill.includes(skill)
-        )
-      );
-      
-      if (matchingSkills.length >= 2) {
-        grouped.push(groupName);
-        matchingSkills.forEach(skill => usedSkills.add(skill));
-      }
-    });
-
-    // Ajouter les compétences non groupées qui sont pertinentes
-    skills.forEach(skill => {
-      if (!usedSkills.has(skill) && skill.length > 2) {
-        grouped.push(skill);
-      }
-    });
-
-    return grouped.slice(0, 8); // Limiter à 8 groupes max
+    applyTalentFilters();
   };
 
   // Fermer le menu profil quand on clique ailleurs
@@ -400,19 +225,47 @@ export default function RecruiterDashboard() {
     return `Il y a ${Math.floor(diffInHours / 24)}j`;
   };
 
-  // Fonction pour gérer les filtres
-  const handleFilterChange = (filterType: string, value: string) => {
-    setActiveFilters(prev => ({
-      ...prev,
-      [filterType]: value
-    }));
-  };
+  // Fonction pour appliquer les filtres
+  const applyTalentFilters = () => {
+    if (!talents || talents.length === 0) {
+      setFilteredTalents([]);
+      return;
+    }
 
-  const clearFilter = (filterType: string) => {
-    setActiveFilters(prev => ({
-      ...prev,
-      [filterType]: ''
-    }));
+    let filtered = [...talents];
+
+    // Filtre par nom/compétences
+    if (activeFilters.skills.trim()) {
+      filtered = filtered.filter(talent => 
+        talent.displayName?.toLowerCase().includes(activeFilters.skills.toLowerCase()) ||
+        talent.skills?.toLowerCase().includes(activeFilters.skills.toLowerCase()) ||
+        talent.firstName?.toLowerCase().includes(activeFilters.skills.toLowerCase()) ||
+        talent.lastName?.toLowerCase().includes(activeFilters.skills.toLowerCase())
+      );
+    }
+
+    // Filtre par localisation
+    if (activeFilters.location.trim()) {
+      filtered = filtered.filter(talent => 
+        talent.location?.toLowerCase().includes(activeFilters.location.toLowerCase())
+      );
+    }
+
+    // Filtre par expérience
+    if (activeFilters.experience.trim()) {
+      filtered = filtered.filter(talent => 
+        talent.experience?.toLowerCase().includes(activeFilters.experience.toLowerCase())
+      );
+    }
+
+    // Filtre par disponibilité
+    if (activeFilters.availability.trim()) {
+      filtered = filtered.filter(talent => 
+        talent.availability?.toLowerCase().includes(activeFilters.availability.toLowerCase())
+      );
+    }
+
+    setFilteredTalents(filtered);
   };
 
   const handleProfileClick = () => {
@@ -443,7 +296,7 @@ export default function RecruiterDashboard() {
       <div style={{
         width: '100%',
         maxWidth: '1200px',
-        padding: '20px'
+        padding: screenWidth <= 480 ? '10px' : screenWidth <= 768 ? '15px' : '20px'
       }}>
         
 
@@ -451,35 +304,50 @@ export default function RecruiterDashboard() {
         {/* Header avec navigation user-friendly */}
         <div style={{
           display: 'flex',
+          flexDirection: screenWidth <= 480 ? 'column' : 'row',
           justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: '20px',
-          padding: '12px 16px',
+          alignItems: screenWidth <= 480 ? 'stretch' : 'center',
+          gap: screenWidth <= 480 ? '12px' : '0',
+          marginBottom: screenWidth <= 480 ? '15px' : '20px',
+          padding: screenWidth <= 480 ? '12px' : '12px 16px',
           backgroundColor: '#1a1a1a',
           borderRadius: '4px'
         }}>
-          <div>
-            <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '600' }}>
+          <div style={{ textAlign: screenWidth <= 480 ? 'center' : 'left' }}>
+            <h1 style={{ 
+              margin: 0, 
+              fontSize: screenWidth <= 480 ? '18px' : '20px', 
+              fontWeight: '600' 
+            }}>
               Dashboard Recruteur
             </h1>
-            <p style={{ margin: 0, color: '#888', fontSize: '12px' }}>
+            <p style={{ 
+              margin: 0, 
+              color: '#888', 
+              fontSize: screenWidth <= 480 ? '11px' : '12px' 
+            }}>
               Gérez vos offres et candidatures
             </p>
           </div>
           
           {/* Menu profil déroulant */}
-          <div style={{ position: 'relative' }} data-profile-menu>
+          <div style={{ 
+            position: 'relative', 
+            alignSelf: screenWidth <= 480 ? 'center' : 'auto' 
+          }} data-profile-menu>
             <div
               onClick={handleProfileClick}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '8px',
-                padding: '6px 10px',
+                gap: screenWidth <= 480 ? '6px' : '8px',
+                padding: screenWidth <= 480 ? '8px 12px' : '6px 10px',
                 backgroundColor: '#333',
                 borderRadius: '4px',
                 cursor: 'pointer',
-                transition: 'background-color 0.2s'
+                transition: 'background-color 0.2s',
+                minWidth: screenWidth <= 480 ? '140px' : 'auto',
+                justifyContent: screenWidth <= 480 ? 'center' : 'flex-start'
               }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
@@ -553,48 +421,98 @@ export default function RecruiterDashboard() {
         {/* Actions principales */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '20px',
-          marginBottom: '30px'
+          gridTemplateColumns: screenWidth <= 480 
+            ? '1fr' 
+            : screenWidth <= 768 
+              ? 'repeat(auto-fit, minmax(250px, 1fr))' 
+              : 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: screenWidth <= 480 ? '12px' : '20px',
+          marginBottom: '30px',
+          padding: screenWidth <= 480 ? '0 10px' : '0'
         }}>
           
           <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
             transition: 'transform 0.2s',
-            border: 'none'
+            border: 'none',
+            minHeight: screenWidth <= 480 ? '80px' : '90px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
           }} onClick={handleOpenApplications}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Candidatures ({jobStats.pendingApplications})</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Consultez et gérez les candidatures reçues
+            <h3 style={{ 
+              margin: '0 0 8px 0', 
+              color: '#ffcc00',
+              fontSize: screenWidth <= 480 ? '14px' : '16px',
+              textAlign: screenWidth <= 480 ? 'center' : 'left'
+            }}>Candidatures ({jobStats.pendingApplications})</h3>
+            <p style={{ 
+              margin: 0, 
+              color: '#888', 
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              textAlign: screenWidth <= 480 ? 'center' : 'left',
+              lineHeight: '1.3'
+            }}>
+              {screenWidth <= 480 ? 'Gérez les candidatures' : 'Consultez et gérez les candidatures reçues'}
             </p>
           </div>
 
           <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
-            transition: 'transform 0.2s'
+            transition: 'transform 0.2s',
+            minHeight: screenWidth <= 480 ? '80px' : '90px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
           }} onClick={handleViewMyJobs}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Mes annonces ({jobStats.activeJobs})</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Gérez vos offres d'emploi et candidatures
+            <h3 style={{ 
+              margin: '0 0 8px 0', 
+              color: '#ffcc00',
+              fontSize: screenWidth <= 480 ? '14px' : '16px',
+              textAlign: screenWidth <= 480 ? 'center' : 'left'
+            }}>Mes annonces ({jobStats.activeJobs})</h3>
+            <p style={{ 
+              margin: 0, 
+              color: '#888', 
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              textAlign: screenWidth <= 480 ? 'center' : 'left',
+              lineHeight: '1.3'
+            }}>
+              {screenWidth <= 480 ? 'Gérez vos offres' : 'Gérez vos offres d\'emploi et candidatures'}
             </p>
           </div>
 
           <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
-            transition: 'transform 0.2s'
+            transition: 'transform 0.2s',
+            minHeight: screenWidth <= 480 ? '80px' : '90px',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
           }} onClick={handleOpenMessages}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Messages ({messagesCount || 0})</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Communiquez avec les talents
+            <h3 style={{ 
+              margin: '0 0 8px 0', 
+              color: '#ffcc00',
+              fontSize: screenWidth <= 480 ? '14px' : '16px',
+              textAlign: screenWidth <= 480 ? 'center' : 'left'
+            }}>Messages ({messagesCount || 0})</h3>
+            <p style={{ 
+              margin: 0, 
+              color: '#888', 
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              textAlign: screenWidth <= 480 ? 'center' : 'left',
+              lineHeight: '1.3'
+            }}>
+              {screenWidth <= 480 ? 'Chat avec talents' : 'Communiquez avec les talents'}
             </p>
           </div>
 
@@ -602,36 +520,45 @@ export default function RecruiterDashboard() {
 
 
 
-                        {/* Section "Tous les talents" avec filtre sidebar */}
+                        {/* Section "Tous les talents" avec filtre */}
         <div style={{
           backgroundColor: '#1a1a1a',
           borderRadius: '4px',
-          padding: '20px',
-          paddingLeft: '0px' // Padding réduit pour mieux aligner
+          padding: screenWidth <= 480 ? '12px' : screenWidth <= 768 ? '16px' : '20px',
+          marginBottom: screenWidth <= 480 ? '15px' : '20px'
         }}>
           
-          {/* Header avec bouton filtre et titre */}
+          {/* Header avec bouton filtre */}
           <div style={{
             display: 'flex',
+            flexDirection: screenWidth <= 480 ? 'column' : 'row',
             justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '10px',
-            paddingLeft: '20px'
+            alignItems: screenWidth <= 480 ? 'stretch' : 'center',
+            gap: screenWidth <= 480 ? '12px' : '0',
+            marginBottom: screenWidth <= 480 ? '15px' : '20px',
+            paddingLeft: screenWidth <= 480 ? '0' : screenWidth <= 768 ? '10px' : '20px'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              {/* Bouton filtre toggle - toujours visible et fixe */}
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: screenWidth <= 480 ? 'column' : 'row',
+              alignItems: screenWidth <= 480 ? 'stretch' : 'center', 
+              gap: screenWidth <= 480 ? '8px' : '16px' 
+            }}>
+              {/* Bouton filtre toggle */}
               <div
                 onClick={() => setShowFilters(!showFilters)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: screenWidth <= 480 ? 'center' : 'flex-start',
                   gap: '8px',
-                  padding: '8px 12px',
-                  paddingLeft: '16px', // Padding encore augmenté pour aligner l'icône
+                  padding: screenWidth <= 480 ? '10px 16px' : '8px 12px',
+                  paddingLeft: screenWidth <= 480 ? '16px' : '16px',
                   backgroundColor: '#333',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  transition: 'background-color 0.2s'
+                  transition: 'background-color 0.2s',
+                  minWidth: screenWidth <= 480 ? '140px' : 'auto'
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
@@ -647,466 +574,300 @@ export default function RecruiterDashboard() {
                   <div style={{ width: '75%', height: '2px', backgroundColor: '#ffcc00' }}></div>
                   <div style={{ width: '50%', height: '2px', backgroundColor: '#ffcc00' }}></div>
                 </div>
-                <span style={{ fontSize: '14px', color: '#ffcc00' }}>
+                <span style={{ 
+                  fontSize: screenWidth <= 480 ? '13px' : '14px', 
+                  color: '#ffcc00' 
+                }}>
                   {showFilters ? 'Fermer' : 'Filtrer'}
                 </span>
               </div>
               
-              {/* Titre "Tous les talents" - seulement visible quand le filtre est fermé */}
-              {!showFilters && (
-                <h2 style={{ margin: 0, color: '#ffcc00' }}>Tous les talents ({talents.length})</h2>
-              )}
+              {/* Titre "Tous les talents" - fixe */}
+              <div style={{ 
+                textAlign: screenWidth <= 480 ? 'center' : 'left'
+              }}>
+                <h2 style={{ 
+                  margin: 0, 
+                  color: '#ffcc00',
+                  fontSize: screenWidth <= 480 ? '16px' : screenWidth <= 768 ? '18px' : '20px'
+                }}>Tous les talents ({talents.length})</h2>
+              </div>
             </div>
             
             {/* Pagination */}
-            <span style={{ fontSize: '14px', color: '#888' }}>Page 1</span>
+            <span style={{ 
+              fontSize: screenWidth <= 480 ? '12px' : '14px', 
+              color: '#888',
+              alignSelf: screenWidth <= 480 ? 'center' : 'auto'
+            }}>Page 1</span>
           </div>
 
-          {/* Contenu principal avec sidebar et cartes */}
-          <div style={{ display: 'flex', gap: '20px' }}>
-            
-            {/* Sidebar filtres - s'ouvre à la hauteur des cartes */}
+          {/* Filtres au-dessus - comme TalentDashboard */}
+          {showFilters && (
             <div style={{
-              width: showFilters ? '250px' : '0px',
-              overflow: 'hidden',
-              transition: 'width 0.3s ease',
+              width: '100%',
               backgroundColor: '#1a1a1a',
               borderRadius: '4px',
-              padding: showFilters ? '25px' : '0px',
-              height: 'fit-content'
+              padding: screenWidth <= 480 ? '15px' : '20px',
+              marginBottom: '20px'
             }}>
-              {showFilters && (
-                <>
-                  {/* Filtres dynamiques générés à partir des données réelles */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* Filtres en grid sur toute la largeur */}
+              <div style={{ 
+                display: 'grid',
+                gridTemplateColumns: screenWidth <= 480 
+                  ? '1fr' 
+                  : screenWidth <= 768 
+                    ? 'repeat(2, 1fr)' 
+                    : 'repeat(4, 1fr)',
+                gap: screenWidth <= 480 ? '12px' : '16px' 
+              }}>
                     
-                    {/* Filtre par compétences (Skills) - Version intelligente */}
-                    {generateFilterOptions().skills.length > 0 && (
-                      <div>
-                        <div style={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'space-between',
-                          marginBottom: '8px'
-                        }}>
-                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                            Compétences ({generateFilterOptions().skills.length})
-                          </span>
-                        </div>
-                        <div style={{ 
-                          display: 'flex', 
-                          flexDirection: 'column',
-                          gap: '6px'
-                        }}>
-                          {generateFilterOptions().skills.map((skill) => (
-                            <div
-                              key={skill}
-                              onClick={() => handleFilterChange('skills', skill)}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'flex-start',
-                                padding: '8px 12px',
-                                backgroundColor: activeFilters.skills === skill ? '#ffcc00' : '#333',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                transition: 'background-color 0.2s',
-                                position: 'relative'
-                              }}
-                              onMouseEnter={(e) => {
-                                if (activeFilters.skills !== skill) {
-                                  e.currentTarget.style.backgroundColor = '#444';
-                                }
-                              }}
-                              onMouseLeave={(e) => {
-                                if (activeFilters.skills !== skill) {
-                                  e.currentTarget.style.backgroundColor = '#333';
-                                }
-                              }}
-                            >
-                              <span style={{ 
-                                fontSize: '12px', 
-                                color: activeFilters.skills === skill ? '#1a1a1a' : '#f5f5f7',
-                                fontWeight: activeFilters.skills === skill ? '600' : '400'
-                              }}>
-                                {skill}
-                              </span>
-                              {activeFilters.skills === skill && (
-                                <span 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    clearFilter('skills');
-                                  }}
-                                  style={{ 
-                                    position: 'absolute',
-                                    top: '-4px',
-                                    right: '-4px',
-                                    fontSize: '10px', 
-                                    color: '#1a1a1a',
-                                    backgroundColor: '#ffcc00',
-                                    borderRadius: '50%',
-                                    width: '16px',
-                                    height: '16px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    fontWeight: 'bold'
-                                  }}
-                                >
-                                  ✕
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
+                    {/* Filtre par nom/compétences */}
+                    <div>
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'space-between',
+                        marginBottom: '8px'
+                      }}>
+                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                          Nom / Compétences
+                        </span>
+                        {activeFilters.skills && (
+                          <button
+                            onClick={() => setActiveFilters(prev => ({ ...prev, skills: '' }))}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: '#888',
+                              cursor: 'pointer',
+                              fontSize: '12px',
+                              padding: '2px'
+                            }}
+                          >
+                            ✕
+                          </button>
+                        )}
                       </div>
-                    )}
+                      <input
+                        type="text"
+                        placeholder="React, JavaScript, John Doe..."
+                        value={activeFilters.skills}
+                        onChange={(e) => setActiveFilters(prev => ({ ...prev, skills: e.target.value }))}
+                        style={{
+                          width: '100%',
+                          padding: '8px 12px',
+                          backgroundColor: '#1a1a1a',
+                          border: '1px solid #333',
+                          borderRadius: '4px',
+                          color: '#f5f5f7',
+                          fontSize: '13px'
+                        }}
+                      />
+                    </div>
+                    
 
-                    {/* Filtre par disponibilité - Version compacte */}
-                    {generateFilterOptions().availability.length > 0 && (
-                      <div>
-                        <div style={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'space-between',
-                          marginBottom: '8px'
-                        }}>
-                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                            Disponibilité ({generateFilterOptions().availability.length})
-                          </span>
-                        </div>
-                        <div style={{ 
-                          display: 'flex', 
-                          flexDirection: 'column',
-                          gap: '6px'
-                        }}>
-                          {generateFilterOptions().availability.map((availability) => (
-                            <div
-                              key={availability}
-                              onClick={() => handleFilterChange('availability', availability)}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'flex-start',
-                                padding: '8px 12px',
-                                backgroundColor: activeFilters.availability === availability ? '#ffcc00' : '#333',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                transition: 'background-color 0.2s',
-                                position: 'relative'
-                              }}
-                              onMouseEnter={(e) => {
-                                if (activeFilters.availability !== availability) {
-                                  e.currentTarget.style.backgroundColor = '#444';
-                                }
-                              }}
-                              onMouseLeave={(e) => {
-                                if (activeFilters.availability !== availability) {
-                                  e.currentTarget.style.backgroundColor = '#333';
-                                }
-                              }}
-                            >
-                              <span style={{ 
-                                fontSize: '12px', 
-                                color: activeFilters.availability === availability ? '#1a1a1a' : '#f5f5f7',
-                                fontWeight: activeFilters.availability === availability ? '600' : '400'
-                              }}>
-                                {availability}
-                              </span>
-                              {activeFilters.availability === availability && (
-                                <span 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    clearFilter('availability');
-                                  }}
-                                  style={{ 
-                                    position: 'absolute',
-                                    top: '-4px',
-                                    right: '-4px',
-                                    fontSize: '10px', 
-                                    color: '#1a1a1a',
-                                    backgroundColor: '#ffcc00',
-                                    borderRadius: '50%',
-                                    width: '16px',
-                                    height: '16px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    cursor: 'pointer',
-                                    fontWeight: 'bold'
-                                  }}
-                                >
-                                  ✕
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
 
-                    {/* Filtre par expérience */}
-                    {generateFilterOptions().experience.length > 0 && (
-                      <div>
-                        <div style={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'space-between',
-                          marginBottom: '8px'
-                        }}>
-                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                            Expérience ({generateFilterOptions().experience.length})
-                          </span>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                          {generateFilterOptions().experience.map((experience) => (
-                            <div
-                              key={experience}
-                              onClick={() => handleFilterChange('experience', experience)}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                padding: '6px 8px',
-                                backgroundColor: activeFilters.experience === experience ? '#ffcc00' : '#333',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                transition: 'background-color 0.2s'
-                              }}
-                              onMouseEnter={(e) => {
-                                if (activeFilters.experience !== experience) {
-                                  e.currentTarget.style.backgroundColor = '#444';
-                                }
-                              }}
-                              onMouseLeave={(e) => {
-                                if (activeFilters.experience !== experience) {
-                                  e.currentTarget.style.backgroundColor = '#333';
-                                }
-                              }}
-                            >
-                              <span style={{ 
-                                fontSize: '12px', 
-                                color: activeFilters.experience === experience ? '#1a1a1a' : '#f5f5f7'
-                              }}>
-                                {experience}
-                              </span>
-                              {activeFilters.experience === experience && (
-                                <span 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    clearFilter('experience');
-                                  }}
-                                  style={{ 
-                                    fontSize: '10px', 
-                                    color: '#1a1a1a',
-                                    cursor: 'pointer',
-                                    marginLeft: 'auto'
-                                  }}
-                                >
-                                  ✕
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
+
+
 
                     {/* Filtre par localisation */}
-                    {generateFilterOptions().location.length > 0 && (
-                      <div>
-                        <div style={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'space-between',
-                          marginBottom: '8px'
-                        }}>
-                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                            Localisation ({generateFilterOptions().location.length})
-                          </span>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                          {generateFilterOptions().location.map((location) => (
-                            <div
-                              key={location}
-                              onClick={() => handleFilterChange('location', location)}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                padding: '6px 8px',
-                                backgroundColor: activeFilters.location === location ? '#ffcc00' : '#333',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                transition: 'background-color 0.2s'
-                              }}
-                              onMouseEnter={(e) => {
-                                if (activeFilters.location !== location) {
-                                  e.currentTarget.style.backgroundColor = '#444';
-                                }
-                              }}
-                              onMouseLeave={(e) => {
-                                if (activeFilters.location !== location) {
-                                  e.currentTarget.style.backgroundColor = '#333';
-                                }
-                              }}
-                            >
-                              <span style={{ 
-                                fontSize: '12px', 
-                                color: activeFilters.location === location ? '#1a1a1a' : '#f5f5f7'
-                              }}>
-                                {location}
-                              </span>
-                              {activeFilters.location === location && (
-                                <span 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    clearFilter('location');
-                                  }}
-                                  style={{ 
-                                    fontSize: '10px', 
-                                    color: '#1a1a1a',
-                                    cursor: 'pointer',
-                                    marginLeft: 'auto'
-                                  }}
-                                >
-                                  ✕
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Filtre par type de contrat */}
-                    {generateFilterOptions().contractType.length > 0 && (
-                      <div>
-                        <div style={{ 
-                          display: 'flex', 
-                          alignItems: 'center', 
-                          justifyContent: 'space-between',
-                          marginBottom: '8px'
-                        }}>
-                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                            Type de contrat ({generateFilterOptions().contractType.length})
-                          </span>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                          {generateFilterOptions().contractType.map((contractType) => (
-                            <div
-                              key={contractType}
-                              onClick={() => handleFilterChange('contractType', contractType)}
-                              style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                padding: '6px 8px',
-                                backgroundColor: activeFilters.contractType === contractType ? '#ffcc00' : '#333',
-                                borderRadius: '4px',
-                                cursor: 'pointer',
-                                transition: 'background-color 0.2s'
-                              }}
-                              onMouseEnter={(e) => {
-                                if (activeFilters.contractType !== contractType) {
-                                  e.currentTarget.style.backgroundColor = '#444';
-                                }
-                              }}
-                              onMouseLeave={(e) => {
-                                if (activeFilters.contractType !== contractType) {
-                                  e.currentTarget.style.backgroundColor = '#333';
-                                }
-                              }}
-                            >
-                              <span style={{ 
-                                fontSize: '12px', 
-                                color: activeFilters.contractType === contractType ? '#1a1a1a' : '#f5f5f7'
-                              }}>
-                                {contractType}
-                              </span>
-                              {activeFilters.contractType === contractType && (
-                                <span 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    clearFilter('contractType');
-                                  }}
-                                  style={{ 
-                                    fontSize: '10px', 
-                                    color: '#1a1a1a',
-                                    cursor: 'pointer',
-                                    marginLeft: 'auto'
-                                  }}
-                                >
-                                  ✕
-                                </span>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Message si aucun filtre disponible */}
-                    {generateFilterOptions().skills.length === 0 && 
-                     generateFilterOptions().availability.length === 0 && 
-                     generateFilterOptions().experience.length === 0 && 
-                     generateFilterOptions().location.length === 0 && 
-                     generateFilterOptions().contractType.length === 0 && (
+                    <div>
                       <div style={{ 
-                        textAlign: 'center', 
-                        color: '#888', 
-                        fontSize: '12px',
-                        padding: '20px'
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'space-between',
+                        marginBottom: '8px'
                       }}>
-                        Aucun filtre disponible pour le moment
+                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                          Localisation
+                        </span>
+                        {activeFilters.location && (
+                          <button
+                            onClick={() => setActiveFilters(prev => ({ ...prev, location: '' }))}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: '#888',
+                              cursor: 'pointer',
+                              fontSize: '12px',
+                              padding: '2px'
+                            }}
+                          >
+                            ✕
+                          </button>
+                        )}
                       </div>
-                    )}
-                  </div>
-                </>
-              )}
-            </div>
+                      <input
+                        type="text"
+                        placeholder="Paris, Lyon, Remote..."
+                        value={activeFilters.location}
+                        onChange={(e) => setActiveFilters(prev => ({ ...prev, location: e.target.value }))}
+                        style={{
+                          width: '100%',
+                          padding: '8px 12px',
+                          backgroundColor: '#1a1a1a',
+                          border: '1px solid #333',
+                          borderRadius: '4px',
+                          color: '#f5f5f7',
+                          fontSize: '13px'
+                        }}
+                      />
+                    </div>
 
-            {/* Contenu principal avec cartes */}
-            <div style={{ flex: 1 }}>
-              {/* Titre "Tous les talents" - seulement visible quand le filtre est ouvert */}
-              {showFilters && (
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'flex-start',
-                  marginBottom: '20px',
-                  marginTop: '-40px' // Aligner vraiment le titre avec le bouton "Fermer"
-                }}>
-                  <h2 style={{ margin: 0, color: '#ffcc00' }}>Tous les talents ({talents.length})</h2>
-                </div>
-              )}
+                    {/* Filtre par expérience */}
+                    <div>
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'space-between',
+                        marginBottom: '8px'
+                      }}>
+                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                          Expérience
+                        </span>
+                        {activeFilters.experience && (
+                          <button
+                            onClick={() => setActiveFilters(prev => ({ ...prev, experience: '' }))}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: '#888',
+                              cursor: 'pointer',
+                              fontSize: '12px',
+                              padding: '2px'
+                            }}
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Junior, Senior, Expert..."
+                        value={activeFilters.experience}
+                        onChange={(e) => setActiveFilters(prev => ({ ...prev, experience: e.target.value }))}
+                        style={{
+                          width: '100%',
+                          padding: '8px 12px',
+                          backgroundColor: '#1a1a1a',
+                          border: '1px solid #333',
+                          borderRadius: '4px',
+                          color: '#f5f5f7',
+                          fontSize: '13px'
+                        }}
+                      />
+                    </div>
+
+                    {/* Filtre par disponibilité */}
+                    <div>
+                      <div style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'space-between',
+                        marginBottom: '8px'
+                      }}>
+                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                          Disponibilité
+                        </span>
+                        {activeFilters.availability && (
+                          <button
+                            onClick={() => setActiveFilters(prev => ({ ...prev, availability: '' }))}
+                            style={{
+                              background: 'none',
+                              border: 'none',
+                              color: '#888',
+                              cursor: 'pointer',
+                              fontSize: '12px',
+                              padding: '2px'
+                            }}
+                          >
+                            ✕
+                          </button>
+                        )}
+                      </div>
+                      <input
+                        type="text"
+                        placeholder="Immédiate, 1 mois, 3 mois..."
+                        value={activeFilters.availability}
+                        onChange={(e) => setActiveFilters(prev => ({ ...prev, availability: e.target.value }))}
+                        style={{
+                          width: '100%',
+                          padding: '8px 12px',
+                          backgroundColor: '#1a1a1a',
+                          border: '1px solid #333',
+                          borderRadius: '4px',
+                          color: '#f5f5f7',
+                          fontSize: '13px'
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                {/* Bouton Reset */}
+                <button
+                  onClick={() => setActiveFilters({ skills: '', location: '', experience: '', availability: '', contractType: '' })}
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    marginTop: '16px',
+                    backgroundColor: '#333',
+                    color: '#f5f5f7',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '13px',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
+                >
+                  Réinitialiser
+                </button>
+            </div>
+            </div>
+          )}
+
+          {/* Contenu principal avec cartes */}
+          <div style={{ 
+            width: '100%',
+            padding: screenWidth <= 480 ? '0 5px' : screenWidth <= 768 ? '0 10px' : '0'
+          }}>
               
               {/* Liste des talents en disposition horizontale */}
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                gap: '16px',
-                marginTop: showFilters ? '30px' : '0px' // Aligner les cartes avec le menu du filtre
+                gridTemplateColumns: screenWidth <= 480 
+                  ? '1fr' 
+                  : screenWidth <= 768 
+                    ? 'repeat(auto-fit, minmax(250px, 1fr))' 
+                    : 'repeat(auto-fill, minmax(280px, 1fr))',
+                gap: screenWidth <= 480 ? '8px' : screenWidth <= 768 ? '12px' : '16px',
+                marginTop: (showFilters && screenWidth > 768) ? '30px' : '0px',
+                padding: screenWidth <= 480 ? '0 5px' : '0'
               }}>
-                {filteredTalents.map((talent) => (
-                  <div key={talent.id}                   style={{
+                {filteredTalents.length > 0 ? filteredTalents.map((talent) => (
+                  <div key={talent.id} style={{
                     display: 'flex',
                     alignItems: 'center',
-                    padding: '10px',
-                    paddingLeft: '16px', // Padding augmenté pour aligner avec l'icône du bouton
+                    padding: screenWidth <= 480 ? '8px' : '10px',
+                    paddingLeft: screenWidth <= 480 ? '12px' : '16px',
                     backgroundColor: '#333',
                     borderRadius: '4px',
                     cursor: 'pointer',
                     transition: 'background-color 0.2s',
-                    height: '65px'
+                    height: screenWidth <= 480 ? '60px' : '65px',
+                    minHeight: screenWidth <= 480 ? '60px' : '65px'
                   }}
                   onClick={() => handleTalentClick(talent.id)}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
                   onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
                   >
                     {/* Avatar */}
-                    <div style={{ marginRight: '12px', flexShrink: 0 }}>
+                    <div style={{ 
+                      marginRight: screenWidth <= 480 ? '8px' : '12px', 
+                      flexShrink: 0 
+                    }}>
                       <Avatar src={talent.avatarUrl} alt={talent.displayName || 'Talent'} size="small" />
                     </div>
                     
@@ -1115,7 +876,7 @@ export default function RecruiterDashboard() {
                       {/* Titre */}
                       <h4 style={{ 
                         margin: '0 0 4px 0', 
-                        fontSize: '14px', 
+                        fontSize: screenWidth <= 480 ? '13px' : '14px', 
                         color: '#f5f5f7',
                         fontWeight: 'bold',
                         whiteSpace: 'nowrap',
@@ -1126,34 +887,51 @@ export default function RecruiterDashboard() {
                       </h4>
                       
                       {/* Métadonnées compactes */}
-                      <div style={{ fontSize: '11px', color: '#888', lineHeight: '1.3' }}>
-                        <div>{getTimeAgo(talent.createdAt)} • 0 candidatures</div>
+                      <div style={{ 
+                        fontSize: screenWidth <= 480 ? '10px' : '11px', 
+                        color: '#888', 
+                        lineHeight: '1.3' 
+                      }}>
+                        <div>
+                          {screenWidth <= 480 
+                            ? `${getTimeAgo(talent.createdAt)}` 
+                            : `${getTimeAgo(talent.createdAt)} • 0 candidatures`}
+                        </div>
                       </div>
                     </div>
 
                     {/* Disponibilité sur le côté droit */}
                     <div style={{ 
-                      marginLeft: '12px',
+                      marginLeft: screenWidth <= 480 ? '6px' : '12px',
                       display: 'flex',
                       alignItems: 'center'
                     }}>
                       <span style={{
-                        padding: '2px 8px',
+                        padding: screenWidth <= 480 ? '2px 6px' : '2px 8px',
                         backgroundColor: '#ffcc00',
                         color: '#1a1a1a',
                         borderRadius: '12px',
-                        fontSize: '10px',
+                        fontSize: screenWidth <= 480 ? '9px' : '10px',
                         fontWeight: 'bold',
                         whiteSpace: 'nowrap'
                       }}>
-                        Disponible
+                        {screenWidth <= 480 ? 'Dispo' : 'Disponible'}
                       </span>
                     </div>
                   </div>
-                ))}
+                )) : (
+                  <div style={{
+                    gridColumn: '1 / -1',
+                    textAlign: 'center',
+                    padding: screenWidth <= 480 ? '20px' : '40px',
+                    color: '#888',
+                    fontSize: screenWidth <= 480 ? '14px' : '16px'
+                  }}>
+                    {talents.length === 0 ? 'Aucun talent trouvé' : 'Aucun talent ne correspond aux filtres'}
+                  </div>
+                )}
               </div>
             </div>
-          </div>
         </div>
       </div>
     </div>

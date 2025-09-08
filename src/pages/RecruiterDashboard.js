@@ -14,6 +14,7 @@ export default function RecruiterDashboard() {
     const [loading, setLoading] = useState(false);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [filteredTalents, setFilteredTalents] = useState([]);
     const [activeFilters, setActiveFilters] = useState({
         availability: '',
@@ -47,6 +48,14 @@ export default function RecruiterDashboard() {
     useEffect(() => {
         applyFilters();
     }, [talents, activeFilters]);
+    // Gérer le redimensionnement de la fenêtre pour mobile
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     // Fonction pour appliquer les filtres
     const applyFilters = () => {
         let filtered = talents;
@@ -471,14 +480,19 @@ export default function RecruiterDashboard() {
                                                         display: 'flex',
                                                         flexDirection: 'column',
                                                         justifyContent: 'space-between'
-                                                    }, children: [_jsx("div", { style: { width: '100%', height: '2px', backgroundColor: '#ffcc00' } }), _jsx("div", { style: { width: '75%', height: '2px', backgroundColor: '#ffcc00' } }), _jsx("div", { style: { width: '50%', height: '2px', backgroundColor: '#ffcc00' } })] }), _jsx("span", { style: { fontSize: '14px', color: '#ffcc00' }, children: showFilters ? 'Fermer' : 'Filtrer' })] }), !showFilters && (_jsxs("h2", { style: { margin: 0, color: '#ffcc00' }, children: ["Tous les talents (", talents.length, ")"] }))] }), _jsx("span", { style: { fontSize: '14px', color: '#888' }, children: "Page 1" })] }), _jsxs("div", { style: { display: 'flex', gap: '20px' }, children: [_jsx("div", { style: {
-                                        width: showFilters ? '250px' : '0px',
-                                        overflow: 'hidden',
-                                        transition: 'width 0.3s ease',
+                                                    }, children: [_jsx("div", { style: { width: '100%', height: '2px', backgroundColor: '#ffcc00' } }), _jsx("div", { style: { width: '75%', height: '2px', backgroundColor: '#ffcc00' } }), _jsx("div", { style: { width: '50%', height: '2px', backgroundColor: '#ffcc00' } })] }), _jsx("span", { style: { fontSize: '14px', color: '#ffcc00' }, children: showFilters ? 'Fermer' : 'Filtrer' })] }), !showFilters && (_jsxs("h2", { style: { margin: 0, color: '#ffcc00' }, children: ["Tous les talents (", talents.length, ")"] }))] }), _jsx("span", { style: { fontSize: '14px', color: '#888' }, children: "Page 1" })] }), _jsxs("div", { style: { 
+                                display: 'flex', 
+                                flexDirection: isMobile ? 'column' : 'row',
+                                gap: '20px' 
+                            }, children: [_jsx("div", { style: {
+                                        width: isMobile ? '100%' : (showFilters ? '250px' : '0px'),
+                                        height: isMobile && showFilters ? 'auto' : 'fit-content',
+                                        overflow: isMobile ? 'visible' : 'hidden',
+                                        transition: isMobile ? 'none' : 'width 0.3s ease',
                                         backgroundColor: '#1a1a1a',
                                         borderRadius: '4px',
                                         padding: showFilters ? '25px' : '0px',
-                                        height: 'fit-content'
+                                        marginBottom: isMobile && showFilters ? '20px' : '0px'
                                     }, children: showFilters && (_jsx(_Fragment, { children: _jsxs("div", { style: { display: 'flex', flexDirection: 'column', gap: '16px' }, children: [generateFilterOptions().skills.length > 0 && (_jsxs("div", { children: [_jsx("div", { style: {
                                                                 display: 'flex',
                                                                 alignItems: 'center',
@@ -693,9 +707,9 @@ export default function RecruiterDashboard() {
                                                 marginTop: '-40px' // Aligner vraiment le titre avec le bouton "Fermer"
                                             }, children: _jsxs("h2", { style: { margin: 0, color: '#ffcc00' }, children: ["Tous les talents (", talents.length, ")"] }) })), _jsx("div", { style: {
                                                 display: 'grid',
-                                                gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                                                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(300px, 1fr))',
                                                 gap: '16px',
-                                                marginTop: showFilters ? '30px' : '0px' // Aligner les cartes avec le menu du filtre
+                                                marginTop: (showFilters && !isMobile) ? '30px' : '0px'
                                             }, children: filteredTalents.map((talent) => (_jsxs("div", { style: {
                                                     display: 'flex',
                                                     alignItems: 'center',

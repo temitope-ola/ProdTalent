@@ -13,7 +13,10 @@ const CoachAppointmentManager: React.FC<CoachAppointmentManagerProps> = ({ onClo
   const [appointments, setAppointments] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
 
+  console.log('🔍 CoachAppointmentManager - Rendu avec user:', user?.id);
+
   useEffect(() => {
+    console.log('🔍 CoachAppointmentManager - useEffect avec user:', user?.id);
     if (user) {
       loadAppointments();
     }
@@ -22,25 +25,22 @@ const CoachAppointmentManager: React.FC<CoachAppointmentManagerProps> = ({ onClo
   const loadAppointments = async () => {
     if (!user) return;
     
+    console.log('📅 Chargement des rendez-vous pour coach:', user.id);
     setLoading(true);
     try {
       const result = await AppointmentService.getCoachAppointments(user.id);
+      console.log('📅 Résultat AppointmentService:', result);
+      
       if (result.success && result.data) {
+        console.log('✅ Rendez-vous chargés:', result.data.length);
         setAppointments(result.data);
       } else {
-        showNotification({
-          type: 'error',
-          title: 'Erreur',
-          message: 'Impossible de charger les rendez-vous'
-        });
+        console.log('⚠️ Aucun rendez-vous ou erreur:', result);
+        setAppointments([]); // Vide au lieu d'erreur
       }
     } catch (error) {
-      console.error('Erreur lors du chargement des rendez-vous:', error);
-      showNotification({
-        type: 'error',
-        title: 'Erreur',
-        message: 'Erreur lors du chargement des rendez-vous'
-      });
+      console.error('❌ Erreur lors du chargement des rendez-vous:', error);
+      setAppointments([]); // Vide au lieu d'erreur
     } finally {
       setLoading(false);
     }

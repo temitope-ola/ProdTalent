@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../firebase';
 import { UserRole } from '../types';
+// Gmail API sera importe dynamiquement
 import { FirestoreService, UserProfile } from '../services/firestoreService';
 
 interface AuthContextType {
@@ -79,16 +80,54 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signUp = async (email: string, password: string, role: UserRole) => {
+    console.log('🔥 SIGNUP APPELÉ !', { email, role });
     try {
       // Créer l'utilisateur Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
 
       // Créer le profil dans la bonne collection Firestore
+      console.log('🔄 Création du profil Firestore...');
       const result = await FirestoreService.createProfile(firebaseUser.uid, email, role);
+      console.log('✅ Profil Firestore créé:', result);
       
       if (!result) {
+        console.error('❌ Échec création profil Firestore');
         throw new Error('Erreur lors de la création du profil');
+      }
+      
+      console.log('🎯 Profil validé, préparation email de bienvenue...');
+
+      // Envoyer l'email de bienvenue avec Gmail API (fallback SendGrid)
+      console.log('🚀 DÉBUT ENVOI EMAIL DE BIENVENUE...');
+      try {
+        console.log('📧 Appel Gmail API sendWelcomeEmail avec:', { email, role });
+        const { googleIntegratedService } = await import('../services/googleIntegratedService');
+        
+        const gmailSent = await googleIntegratedService.sendWelcomeEmail({
+          recipientEmail: email,
+          recipientName: email.split('@')[0], // Utiliser la partie avant @ comme nom par défaut
+          userRole: role === 'talent' ? 'Talent' : role === 'recruteur' ? 'Recruteur' : 'Coach',
+          dashboardUrl: `https://prodtalent.com/dashboard/${role}`
+        });
+        
+        if (!gmailSent) {
+          // Fallback SendGrid si Gmail échoue
+          console.log('📧 Fallback SendGrid pour email bienvenue...');
+          const sendGridTemplateService = (await import('../services/sendGridTemplateService')).default;
+          await sendGridTemplateService.sendWelcomeEmail({
+            recipientEmail: email,
+            recipientName: email.split('@')[0],
+            userRole: role === 'talent' ? 'Talent' : role === 'recruteur' ? 'Recruteur' : 'Coach',
+            dashboardUrl: `https://prodtalent.com/dashboard/${role}`
+          });
+        }
+        
+        console.log('✅ Email de bienvenue envoyé (Gmail API ou SendGrid fallback)');
+      }
+      } catch (emailError) {
+        console.error('❌ Erreur lors de l\'envoi de l\'email de bienvenue:', emailError);
+        // Ne pas faire échouer l'inscription si l'email échoue
       }
 
       // Le profil sera automatiquement chargé par onAuthStateChanged

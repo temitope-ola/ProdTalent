@@ -32,6 +32,19 @@ export default function MyJobsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isSmallMobile, setIsSmallMobile] = useState(window.innerWidth <= 480);
+
+  // Gérer le redimensionnement de l'écran
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      setIsSmallMobile(window.innerWidth <= 480);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const loadJobs = async () => {
@@ -159,39 +172,53 @@ export default function MyJobsPage() {
         <header style={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: isMobile ? 'flex-start' : 'center',
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: isMobile ? '16px' : '0',
           paddingBottom: 16,
           borderBottom: '1px solid #333',
           marginBottom: 24
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: isSmallMobile ? '8px' : '16px',
+            flexWrap: 'wrap'
+          }}>
             <button
               onClick={() => navigate('/dashboard/recruteur')}
               style={{
-                padding: '8px 16px',
+                padding: isSmallMobile ? '6px 12px' : '8px 16px',
                 backgroundColor: 'transparent',
                 color: '#ffcc00',
                 border: '1px solid #ffcc00',
                 borderRadius: '4px',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                fontSize: isSmallMobile ? '14px' : '16px'
               }}
             >
               ← Retour
             </button>
-            <h1 style={{ margin: 0, color: '#ffcc00' }}>
+            <h1 style={{ 
+              margin: 0, 
+              color: '#ffcc00',
+              fontSize: isSmallMobile ? '20px' : '24px'
+            }}>
               Mes Annonces ({jobs.length})
             </h1>
           </div>
           <button
             onClick={() => navigate('/create-job')}
             style={{
-              padding: '10px 20px',
+              padding: isSmallMobile ? '8px 16px' : '10px 20px',
               backgroundColor: '#ffcc00',
               color: '#000',
               border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
-              fontWeight: 'bold'
+              fontWeight: 'bold',
+              fontSize: isSmallMobile ? '14px' : '16px',
+              width: isSmallMobile ? '100%' : 'auto'
             }}
           >
             + Nouvelle annonce
@@ -240,36 +267,62 @@ export default function MyJobsPage() {
             </button>
           </div>
         ) : (
-          <div style={{ display: 'flex', gap: '24px' }}>
+          <div style={{ 
+            display: 'flex', 
+            gap: '24px',
+            flexDirection: window.innerWidth <= 768 ? 'column' : 'row'
+          }}>
             {/* Liste des annonces */}
-            <div style={{ flex: 1 }}>
+            <div style={{ 
+              flex: 1,
+              minWidth: window.innerWidth <= 768 ? '100%' : 'auto'
+            }}>
               <div style={{
                 backgroundColor: '#111',
                 borderRadius: '8px',
                 overflow: 'hidden'
               }}>
-                <div style={{ padding: '20px', borderBottom: '1px solid #333' }}>
-                  <h2 style={{ color: '#ffcc00', margin: 0 }}>Vos annonces</h2>
+                <div style={{ 
+                  padding: window.innerWidth <= 480 ? '16px' : '20px', 
+                  borderBottom: '1px solid #333' 
+                }}>
+                  <h2 style={{ 
+                    color: '#ffcc00', 
+                    margin: 0,
+                    fontSize: window.innerWidth <= 480 ? '18px' : '20px'
+                  }}>
+                    Vos annonces
+                  </h2>
                 </div>
                 
-                <div style={{ maxHeight: '600px', overflow: 'auto' }}>
+                <div style={{ 
+                  maxHeight: window.innerWidth <= 768 ? '400px' : '600px', 
+                  overflow: 'auto' 
+                }}>
                   {jobs.map(job => (
                     <div
                       key={job.id}
                       onClick={() => setSelectedJob(job)}
                       style={{
-                        padding: '20px',
+                        padding: window.innerWidth <= 480 ? '16px' : '20px',
                         borderBottom: '1px solid #333',
                         cursor: 'pointer',
                         backgroundColor: selectedJob?.id === job.id ? '#222' : 'transparent',
                         transition: 'background-color 0.2s ease'
                       }}
                     >
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                      <div style={{ 
+                        display: 'flex', 
+                        justifyContent: 'space-between', 
+                        alignItems: 'flex-start', 
+                        marginBottom: '12px',
+                        flexDirection: window.innerWidth <= 480 ? 'column' : 'row',
+                        gap: window.innerWidth <= 480 ? '8px' : '0'
+                      }}>
                         <h3 style={{ 
                           color: '#f5f5f7', 
                           margin: '0 0 8px 0',
-                          fontSize: '18px',
+                          fontSize: window.innerWidth <= 480 ? '16px' : '18px',
                           fontWeight: '600'
                         }}>
                           {job.title}
@@ -280,20 +333,32 @@ export default function MyJobsPage() {
                           fontWeight: 'bold',
                           padding: '4px 8px',
                           backgroundColor: `${getStatusColor(job.status)}20`,
-                          borderRadius: '4px'
+                          borderRadius: '4px',
+                          alignSelf: window.innerWidth <= 480 ? 'flex-start' : 'auto'
                         }}>
                           {getStatusText(job.status)}
                         </span>
                       </div>
                       
-                      <p style={{ color: '#888', margin: '0 0 8px 0', fontSize: '14px' }}>
+                      <p style={{ 
+                        color: '#888', 
+                        margin: '0 0 8px 0', 
+                        fontSize: window.innerWidth <= 480 ? '13px' : '14px'
+                      }}>
                         {job.company} • {job.location}
                       </p>
                       
-                      <div style={{ display: 'flex', gap: '16px', fontSize: '12px', color: '#888' }}>
-                        <span>📅 {formatDate(job.createdAt)}</span>
-                        <span>👁️ {job.views} vues</span>
-                        <span>📝 {job.applications.length} candidatures</span>
+                      <div style={{ 
+                        display: 'flex', 
+                        gap: window.innerWidth <= 480 ? '8px' : '16px', 
+                        fontSize: '12px', 
+                        color: '#888',
+                        flexDirection: window.innerWidth <= 480 ? 'column' : 'row',
+                        flexWrap: 'wrap'
+                      }}>
+                        <span>{formatDate(job.createdAt)}</span>
+                        <span>{job.views} vues</span>
+                        <span>{job.applications.length} candidatures</span>
                       </div>
                     </div>
                   ))}
@@ -303,21 +368,38 @@ export default function MyJobsPage() {
 
             {/* Détails de l'annonce sélectionnée */}
             {selectedJob && (
-              <div style={{ flex: 1 }}>
+              <div style={{ 
+                flex: 1,
+                minWidth: window.innerWidth <= 768 ? '100%' : 'auto'
+              }}>
                 <div style={{
                   backgroundColor: '#111',
                   borderRadius: '8px',
-                  padding: '24px'
+                  padding: window.innerWidth <= 480 ? '16px' : '24px'
                 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>
-                    <h2 style={{ color: '#ffcc00', margin: 0 }}>{selectedJob.title}</h2>
+                  <div style={{ 
+                    display: 'flex', 
+                    justifyContent: 'space-between', 
+                    alignItems: 'flex-start', 
+                    marginBottom: '20px',
+                    flexDirection: window.innerWidth <= 480 ? 'column' : 'row',
+                    gap: window.innerWidth <= 480 ? '12px' : '0'
+                  }}>
+                    <h2 style={{ 
+                      color: '#ffcc00', 
+                      margin: 0,
+                      fontSize: window.innerWidth <= 480 ? '18px' : '20px'
+                    }}>
+                      {selectedJob.title}
+                    </h2>
                     <span style={{ 
                       color: getStatusColor(selectedJob.status), 
                       fontSize: '12px',
                       fontWeight: 'bold',
                       padding: '4px 8px',
                       backgroundColor: `${getStatusColor(selectedJob.status)}20`,
-                      borderRadius: '4px'
+                      borderRadius: '4px',
+                      alignSelf: window.innerWidth <= 480 ? 'flex-start' : 'auto'
                     }}>
                       {getStatusText(selectedJob.status)}
                     </span>
@@ -357,63 +439,76 @@ export default function MyJobsPage() {
                   </div>
 
                   {/* Actions */}
-                  <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                  <div style={{ 
+                    display: 'flex', 
+                    gap: window.innerWidth <= 480 ? '8px' : '12px', 
+                    flexWrap: 'wrap',
+                    flexDirection: window.innerWidth <= 480 ? 'column' : 'row'
+                  }}>
                     <button
                       onClick={() => handleViewApplications(selectedJob.id)}
                       style={{
-                        padding: '8px 16px',
+                        padding: window.innerWidth <= 480 ? '10px 16px' : '8px 16px',
                         backgroundColor: '#61bfac',
                         color: '#000',
                         border: 'none',
                         borderRadius: '4px',
                         cursor: 'pointer',
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        fontSize: window.innerWidth <= 480 ? '14px' : '16px',
+                        width: window.innerWidth <= 480 ? '100%' : 'auto'
                       }}
                     >
-                      📝 Voir candidatures ({selectedJob.applications.length})
+                      Voir candidatures ({selectedJob.applications.length})
                     </button>
                     
                     <button
                       onClick={() => handleToggleStatus(selectedJob.id, selectedJob.status)}
                       style={{
-                        padding: '8px 16px',
+                        padding: window.innerWidth <= 480 ? '10px 16px' : '8px 16px',
                         backgroundColor: selectedJob.status === 'active' ? '#ff6b6b' : '#61bfac',
                         color: '#000',
                         border: 'none',
                         borderRadius: '4px',
                         cursor: 'pointer',
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        fontSize: window.innerWidth <= 480 ? '14px' : '16px',
+                        width: window.innerWidth <= 480 ? '100%' : 'auto'
                       }}
                     >
-                      {selectedJob.status === 'active' ? '⏸️ Désactiver' : '▶️ Activer'}
+                      {selectedJob.status === 'active' ? 'Désactiver' : 'Activer'}
                     </button>
                     
                     <button
                       onClick={() => handleEditJob(selectedJob.id)}
                       style={{
-                        padding: '8px 16px',
+                        padding: window.innerWidth <= 480 ? '10px 16px' : '8px 16px',
                         backgroundColor: 'transparent',
                         color: '#ffcc00',
                         border: '1px solid #ffcc00',
                         borderRadius: '4px',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        fontSize: window.innerWidth <= 480 ? '14px' : '16px',
+                        width: window.innerWidth <= 480 ? '100%' : 'auto'
                       }}
                     >
-                      ✏️ Modifier
+                      Modifier
                     </button>
                     
                     <button
                       onClick={() => handleDeleteJob(selectedJob.id)}
                       style={{
-                        padding: '8px 16px',
+                        padding: window.innerWidth <= 480 ? '10px 16px' : '8px 16px',
                         backgroundColor: 'transparent',
                         color: '#ff6b6b',
                         border: '1px solid #ff6b6b',
                         borderRadius: '4px',
-                        cursor: 'pointer'
+                        cursor: 'pointer',
+                        fontSize: window.innerWidth <= 480 ? '14px' : '16px',
+                        width: window.innerWidth <= 480 ? '100%' : 'auto'
                       }}
                     >
-                      🗑️ Supprimer
+                      Supprimer
                     </button>
                   </div>
                 </div>

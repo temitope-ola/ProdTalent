@@ -18,6 +18,7 @@ const CoachRecruteursPage: React.FC = () => {
     industry: '',
     experience: ''
   });
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const loadRecruteurs = async () => {
@@ -39,6 +40,16 @@ const CoachRecruteursPage: React.FC = () => {
 
     loadRecruteurs();
   }, [user, navigate]);
+
+  // Screen width detection
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Filter recruiters when filters change
   useEffect(() => {
@@ -312,6 +323,239 @@ const CoachRecruteursPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Filtres mobiles au-dessus - s'ouvrent vers le haut */}
+        {showFilters && screenWidth <= 768 && (
+          <div style={{
+            width: '100%',
+            backgroundColor: '#1a1a1a',
+            borderRadius: '4px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
+            marginBottom: '20px'
+          }}>
+            {/* Filtres en grid sur toute la largeur */}
+            <div style={{ 
+              display: 'grid',
+              gridTemplateColumns: screenWidth <= 480 
+                ? '1fr' 
+                : screenWidth <= 768 
+                  ? 'repeat(2, 1fr)' 
+                  : 'repeat(4, 1fr)',
+              gap: screenWidth <= 480 ? '12px' : '16px' 
+            }}>
+
+              {/* Filtre par localisation */}
+              <div>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'space-between',
+                  marginBottom: '8px'
+                }}>
+                  <label style={{ color: '#f5f5f7', fontSize: '14px', fontWeight: 'bold' }}>
+                    Localisation
+                  </label>
+                  {activeFilters.location && (
+                    <button 
+                      onClick={() => setActiveFilters(prev => ({ ...prev, location: '' }))}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#888',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        padding: '0'
+                      }}
+                    >
+                      Effacer
+                    </button>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  placeholder="Ville, pays..."
+                  value={activeFilters.location}
+                  onChange={(e) => setActiveFilters(prev => ({ ...prev, location: e.target.value }))}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    backgroundColor: '#1a1a1a',
+                    border: '1px solid #333',
+                    borderRadius: '4px',
+                    color: '#f5f5f7',
+                    fontSize: '13px'
+                  }}
+                />
+              </div>
+
+              {/* Filtre par entreprise */}
+              <div>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'space-between',
+                  marginBottom: '8px'
+                }}>
+                  <label style={{ color: '#f5f5f7', fontSize: '14px', fontWeight: 'bold' }}>
+                    Entreprise
+                  </label>
+                  {activeFilters.company && (
+                    <button 
+                      onClick={() => setActiveFilters(prev => ({ ...prev, company: '' }))}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#888',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        padding: '0'
+                      }}
+                    >
+                      Effacer
+                    </button>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  placeholder="Nom d'entreprise..."
+                  value={activeFilters.company}
+                  onChange={(e) => setActiveFilters(prev => ({ ...prev, company: e.target.value }))}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    backgroundColor: '#1a1a1a',
+                    border: '1px solid #333',
+                    borderRadius: '4px',
+                    color: '#f5f5f7',
+                    fontSize: '13px'
+                  }}
+                />
+              </div>
+
+              {/* Filtre par secteur */}
+              <div>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'space-between',
+                  marginBottom: '8px'
+                }}>
+                  <label style={{ color: '#f5f5f7', fontSize: '14px', fontWeight: 'bold' }}>
+                    Secteur
+                  </label>
+                  {activeFilters.industry && (
+                    <button 
+                      onClick={() => setActiveFilters(prev => ({ ...prev, industry: '' }))}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#888',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        padding: '0'
+                      }}
+                    >
+                      Effacer
+                    </button>
+                  )}
+                </div>
+                <select
+                  value={activeFilters.industry}
+                  onChange={(e) => setActiveFilters(prev => ({ ...prev, industry: e.target.value }))}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    backgroundColor: '#1a1a1a',
+                    border: '1px solid #333',
+                    borderRadius: '4px',
+                    color: '#f5f5f7',
+                    fontSize: '13px'
+                  }}
+                >
+                  <option value="">Tous les secteurs</option>
+                  <option value="Technologie">Technologie</option>
+                  <option value="Finance">Finance</option>
+                  <option value="Santé">Santé</option>
+                  <option value="Éducation">Éducation</option>
+                  <option value="Commerce">Commerce</option>
+                  <option value="Marketing">Marketing</option>
+                  <option value="Consulting">Consulting</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+
+              {/* Filtre par expérience */}
+              <div>
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'space-between',
+                  marginBottom: '8px'
+                }}>
+                  <label style={{ color: '#f5f5f7', fontSize: '14px', fontWeight: 'bold' }}>
+                    Expérience
+                  </label>
+                  {activeFilters.experience && (
+                    <button 
+                      onClick={() => setActiveFilters(prev => ({ ...prev, experience: '' }))}
+                      style={{
+                        background: 'none',
+                        border: 'none',
+                        color: '#888',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                        padding: '0'
+                      }}
+                    >
+                      Effacer
+                    </button>
+                  )}
+                </div>
+                <select
+                  value={activeFilters.experience}
+                  onChange={(e) => setActiveFilters(prev => ({ ...prev, experience: e.target.value }))}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    backgroundColor: '#1a1a1a',
+                    border: '1px solid #333',
+                    borderRadius: '4px',
+                    color: '#f5f5f7',
+                    fontSize: '13px'
+                  }}
+                >
+                  <option value="">Toute expérience</option>
+                  <option value="0-2">0-2 ans</option>
+                  <option value="3-5">3-5 ans</option>
+                  <option value="6-10">6-10 ans</option>
+                  <option value="10+">10+ ans</option>
+                </select>
+              </div>
+
+            </div>
+
+            {/* Bouton "Appliquer les filtres" */}
+            <button 
+              onClick={() => setShowFilters(false)}
+              style={{
+                width: '100%',
+                padding: '12px',
+                marginTop: '16px',
+                backgroundColor: '#333',
+                color: '#f5f5f7',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '13px',
+                transition: 'background-color 0.2s'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
+            >
+              Appliquer les filtres
+            </button>
+          </div>
+        )}
+
         {/* Section "Tous les recruteurs" avec filtre sidebar */}
         <div style={{
           backgroundColor: '#1a1a1a',
@@ -364,8 +608,8 @@ const CoachRecruteursPage: React.FC = () => {
               
               {/* Titre "Tous les recruteurs" - slide avec les filtres */}
               <div style={{ 
-                marginLeft: showFilters ? '250px' : '0px',
-                transition: 'margin-left 0.3s ease'
+                marginLeft: screenWidth <= 768 ? '0px' : (showFilters ? '250px' : '0px'),
+                transition: screenWidth <= 768 ? 'none' : 'margin-left 0.3s ease'
               }}>
                 <h2 style={{ margin: 0, color: '#ffcc00' }}>Tous les recruteurs ({filteredRecruteurs.length})</h2>
               </div>
@@ -375,22 +619,26 @@ const CoachRecruteursPage: React.FC = () => {
             <span style={{ fontSize: '14px', color: '#888' }}>Page 1</span>
           </div>
 
+
           {/* Contenu principal avec sidebar et cartes */}
-          <div style={{ display: 'flex', gap: '20px' }}>
+          <div style={{ 
+            display: 'flex', 
+            flexDirection: screenWidth <= 768 ? 'column' : 'row',
+            gap: '20px' 
+          }}>
             
-            {/* Sidebar filtres */}
+            {/* Sidebar filtres - seulement sur desktop */}
+            {screenWidth > 768 && showFilters && (
             <div style={{
               width: showFilters ? '250px' : '0px',
               overflow: 'hidden',
               transition: 'width 0.3s ease',
-              backgroundColor: '#1a1a1a',
+              backgroundColor: '#0a0a0a',
               borderRadius: '4px',
               padding: showFilters ? '25px' : '0px',
               height: 'fit-content'
             }}>
-              {showFilters && (
-                <>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     
                     {/* Filtre par localisation */}
                     <div>
@@ -521,22 +769,28 @@ const CoachRecruteursPage: React.FC = () => {
                       />
                     </div>
                     
-                  </div>
-                </>
-              )}
-            </div>
+                </div>
+              </div>
+            )}
 
             {/* Section des cartes recruteurs */}
             <div style={{ 
               flex: 1,
-              padding: showFilters ? '0px' : '0px 20px'
+              padding: screenWidth <= 768 
+                ? '0px 10px' 
+                : (showFilters ? '0px' : '0px 20px')
             }}>
               
               {/* Grille des recruteurs */}
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '16px'
+                gridTemplateColumns: screenWidth <= 480 
+                  ? '1fr' 
+                  : screenWidth <= 768 
+                    ? 'repeat(auto-fit, minmax(280px, 1fr))' 
+                    : 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: screenWidth <= 480 ? '12px' : '16px',
+                padding: screenWidth <= 480 ? '0 10px' : '0'
               }}>
                 {filteredRecruteurs.slice(0, 12).map((recruteur, index) => (
                   <div

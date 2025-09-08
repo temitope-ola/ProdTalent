@@ -19,6 +19,8 @@ const ProfilePage: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [isOwnProfile, setIsOwnProfile] = useState(false);
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [loadingJobs, setLoadingJobs] = useState(false);
 
   useEffect(() => {
     const loadProfile = async () => {
@@ -52,6 +54,33 @@ const ProfilePage: React.FC = () => {
 
     loadProfile();
   }, [user, userId, navigate]);
+
+  // Load jobs for recruiters
+  useEffect(() => {
+    const loadJobs = async () => {
+      if (profile && profile.role === 'recruteur') {
+        setLoadingJobs(true);
+        try {
+          const { JobService } = await import('../services/jobService');
+          const jobsResult = await JobService.getAllActiveJobs();
+          if (jobsResult.success && jobsResult.data) {
+            // Filter jobs by recruiter
+            const recruiterJobs = jobsResult.data.filter(job => 
+              job.recruiterId === profile.id || 
+              job.recruiterEmail === profile.email
+            );
+            setJobs(recruiterJobs);
+          }
+        } catch (error) {
+          console.error('Erreur lors du chargement des offres:', error);
+        } finally {
+          setLoadingJobs(false);
+        }
+      }
+    };
+
+    loadJobs();
+  }, [profile]);
 
   const handleEditProfile = () => {
     setIsEditModalOpen(true);
@@ -489,10 +518,73 @@ const ProfilePage: React.FC = () => {
               padding: '20px',
               marginBottom: 24
             }}>
-              <h3 style={{ color: '#ffcc00', margin: '0 0 16px 0' }}>Entreprise</h3>
-              <p style={{ color: '#f5f5f7', margin: 0 }}>
-                Section pour afficher les informations de l'entreprise...
-              </p>
+              <h3 style={{ color: '#ffcc00', margin: '0 0 16px 0' }}>📋 Offres d'emploi ({jobs.length})</h3>
+              
+              {loadingJobs ? (
+                <div style={{ color: '#f5f5f7', textAlign: 'center', padding: '20px' }}>
+                  Chargement des offres...
+                </div>
+              ) : jobs.length === 0 ? (
+                <p style={{ color: '#666', margin: 0, fontStyle: 'italic' }}>
+                  Aucune offre d'emploi active
+                </p>
+              ) : (
+                <div style={{ display: 'grid', gap: '12px' }}>
+                  {jobs.slice(0, 5).map(job => (
+                    <div
+                      key={job.id}
+                      style={{
+                        backgroundColor: '#0a0a0a',
+                        padding: '16px',
+                        borderRadius: '4px',
+                        border: '1px solid #333',
+                        cursor: 'pointer',
+                        transition: 'border-color 0.2s'
+                      }}
+                      onClick={() => navigate(`/jobs/${job.id}`)}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = '#ffcc00';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = '#333';
+                      }}
+                    >
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                        <h4 style={{ color: '#f5f5f7', margin: 0, fontSize: '16px' }}>
+                          {job.title}
+                        </h4>
+                        <span style={{
+                          backgroundColor: job.isActive ? '#61bfac' : '#ff6b6b',
+                          color: '#000',
+                          padding: '4px 8px',
+                          borderRadius: '4px',
+                          fontSize: '12px',
+                          fontWeight: 'bold'
+                        }}>
+                          {job.isActive ? 'Active' : 'Inactive'}
+                        </span>
+                      </div>
+                      <div style={{ color: '#888', fontSize: '14px', marginBottom: '4px' }}>
+                        🏢 {job.company || 'Entreprise'} • 📍 {job.location || 'Non spécifié'}
+                      </div>
+                      <div style={{ color: '#ccc', fontSize: '13px' }}>
+                        💰 {job.salary || 'Salaire non communiqué'}
+                      </div>
+                    </div>
+                  ))}
+                  {jobs.length > 5 && (
+                    <div style={{ 
+                      textAlign: 'center', 
+                      color: '#666', 
+                      fontSize: '14px',
+                      fontStyle: 'italic',
+                      marginTop: '8px'
+                    }}>
+                      ... et {jobs.length - 5} autre(s) offre(s)
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
 

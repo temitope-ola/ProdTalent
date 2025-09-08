@@ -45,6 +45,49 @@ export const useAppointments = (userId?: string, userRole?: 'coach' | 'talent') 
       const result = await AppointmentService.createAppointment(appointmentData);
       
       if (result.success) {
+        // Envoyer notification SendGrid de nouveau rendez-vous
+        try {
+          const { FirestoreService } = await import('../services/firestoreService');
+          const { default: sendGridTemplateService } = await import('../services/sendGridTemplateService');
+          
+          // Récupérer les profils du talent et du coach
+          const talentProfile = await FirestoreService.getCurrentProfile(appointmentData.talentId, 'talent');
+          const coachProfile = await FirestoreService.getCurrentProfile(appointmentData.coachId, 'coach');
+          
+          if (talentProfile && talentProfile.email && coachProfile) {
+            // Notification au talent
+            await sendGridTemplateService.sendNewAppointment({
+              recipientEmail: talentProfile.email,
+              recipientName: talentProfile.displayName || talentProfile.firstName || 'Talent',
+              coachName: coachProfile.displayName || coachProfile.firstName || 'Coach',
+              appointmentDate: new Date(appointmentData.date).toLocaleDateString('fr-FR'),
+              appointmentTime: appointmentData.time,
+              meetingType: appointmentData.type || 'Session de coaching',
+              meetLink: appointmentData.meetLink,
+              calendarLink: appointmentData.calendarLink
+            });
+            console.log('📧 Notification de nouveau rendez-vous SendGrid envoyée au talent');
+            
+            // Notification au coach
+            if (coachProfile.email) {
+              await sendGridTemplateService.sendNewAppointment({
+                recipientEmail: coachProfile.email,
+                recipientName: talentProfile.displayName || talentProfile.firstName || 'Talent', // Le talent qui a réservé
+                coachName: coachProfile.displayName || coachProfile.firstName || 'Coach',
+                appointmentDate: new Date(appointmentData.date).toLocaleDateString('fr-FR'),
+                appointmentTime: appointmentData.time,
+                meetingType: `Nouveau rendez-vous avec ${talentProfile.displayName || talentProfile.firstName || 'Talent'}`,
+                meetLink: appointmentData.meetLink,
+                calendarLink: appointmentData.calendarLink
+              });
+              console.log('📧 Notification de nouveau rendez-vous SendGrid envoyée au coach');
+            }
+          }
+        } catch (emailError) {
+          console.error('❌ Erreur envoi notification nouveau rendez-vous:', emailError);
+          // Ne pas faire échouer la création si l'email échoue
+        }
+        
         await loadAppointments(); // Reload appointments after creation
         return result.data;
       } else {
@@ -68,6 +111,55 @@ export const useAppointments = (userId?: string, userRole?: 'coach' | 'talent') 
       // Update the appointment status in Firestore
       const appointmentRef = doc(db, 'Appointments', appointmentId);
       await updateDoc(appointmentRef, { status });
+      
+      // Envoyer notification de confirmation si le statut passe à confirmé
+      if (status === 'confirmé') {
+        try {
+          const { FirestoreService } = await import('../services/firestoreService');
+          const { default: sendGridTemplateService } = await import('../services/sendGridTemplateService');
+          
+          // Récupérer les détails du rendez-vous
+          const appointment = appointments.find(apt => apt.id === appointmentId);
+          if (appointment) {
+            // Récupérer les profils du talent et du coach
+            const talentProfile = await FirestoreService.getCurrentProfile(appointment.talentId, 'talent');
+            const coachProfile = await FirestoreService.getCurrentProfile(appointment.coachId, 'coach');
+            
+            if (talentProfile && talentProfile.email && coachProfile) {
+              // Notification de confirmation au talent
+              await sendGridTemplateService.sendAppointmentConfirmation({
+                recipientEmail: talentProfile.email,
+                recipientName: talentProfile.displayName || talentProfile.firstName || 'Talent',
+                coachName: coachProfile.displayName || coachProfile.firstName || 'Coach',
+                appointmentDate: new Date(appointment.date).toLocaleDateString('fr-FR'),
+                appointmentTime: appointment.time,
+                meetingType: appointment.type || 'Session de coaching',
+                meetLink: appointment.meetLink,
+                calendarLink: appointment.calendarLink
+              });
+              console.log('📧 Notification de confirmation de rendez-vous SendGrid envoyée au talent');
+              
+              // Notification de confirmation au coach
+              if (coachProfile.email) {
+                await sendGridTemplateService.sendAppointmentConfirmation({
+                  recipientEmail: coachProfile.email,
+                  recipientName: talentProfile.displayName || talentProfile.firstName || 'Talent',
+                  coachName: coachProfile.displayName || coachProfile.firstName || 'Coach',
+                  appointmentDate: new Date(appointment.date).toLocaleDateString('fr-FR'),
+                  appointmentTime: appointment.time,
+                  meetingType: `Rendez-vous confirmé avec ${talentProfile.displayName || talentProfile.firstName || 'Talent'}`,
+                  meetLink: appointment.meetLink,
+                  calendarLink: appointment.calendarLink
+                });
+                console.log('📧 Notification de confirmation de rendez-vous SendGrid envoyée au coach');
+              }
+            }
+          }
+        } catch (emailError) {
+          console.error('❌ Erreur envoi notification confirmation rendez-vous:', emailError);
+          // Ne pas faire échouer la mise à jour si l'email échoue
+        }
+      }
       
       // Update local state
       setAppointments(prev => prev.map(apt => 

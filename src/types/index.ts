@@ -71,6 +71,8 @@ export interface Appointment {
   notes?: string | null;
   status: 'confirmé' | 'en_attente' | 'annulé';
   googleEventId?: string; // For Google Calendar synchronization
+  meetLink?: string; // Google Meet link
+  calendarLink?: string; // Google Calendar event link
   timestamp?: Date;
   createdAt?: Date;
 }

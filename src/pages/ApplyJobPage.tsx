@@ -79,6 +79,44 @@ export default function ApplyJobPage() {
 
       await FirestoreService.applyToJob(jobId, user.id, applicationData);
       
+      // Envoyer notification SendGrid au recruteur
+      if (job && job.recruiterId) {
+        try {
+          const recruiterProfile = await FirestoreService.getCurrentProfile(job.recruiterId, 'recruteur');
+          if (recruiterProfile && recruiterProfile.email) {
+            const { default: sendGridTemplateService } = await import('../services/sendGridTemplateService');
+            await sendGridTemplateService.sendApplicationNotification({
+              recipientEmail: recruiterProfile.email,
+              recipientName: recruiterProfile.displayName || recruiterProfile.firstName || 'Recruteur',
+              applicantName: applicationData.talentName,
+              jobTitle: job.title,
+              companyName: job.company || recruiterProfile.companyName || 'Non spécifiée',
+              applicationDate: new Date().toLocaleDateString('fr-FR')
+            });
+            console.log('📧 Notification de candidature SendGrid envoyée avec succès');
+          }
+        } catch (emailError) {
+          console.error('❌ Erreur envoi notification candidature:', emailError);
+          // Ne pas faire échouer la candidature si l'email échoue
+        }
+      }
+
+      // Envoyer notification de confirmation SendGrid au talent
+      try {
+        const { default: sendGridTemplateService } = await import('../services/sendGridTemplateService');
+        await sendGridTemplateService.sendApplicationSentConfirmation({
+          recipientEmail: user.email,
+          recipientName: applicationData.talentName,
+          jobTitle: job.title,
+          companyName: job.company || 'Non spécifiée',
+          applicationDate: new Date().toLocaleDateString('fr-FR')
+        });
+        console.log('📧 Notification de confirmation de candidature SendGrid envoyée au talent');
+      } catch (emailError) {
+        console.error('❌ Erreur envoi notification confirmation candidature:', emailError);
+        // Ne pas faire échouer la candidature si l'email échoue
+      }
+      
       setSuccess('Candidature envoyée avec succès !');
       setTimeout(() => {
         navigate('/jobs');

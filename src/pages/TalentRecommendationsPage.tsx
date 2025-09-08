@@ -4,17 +4,19 @@ import useAuth from '../contexts/AuthContext';
 import { useNotifications } from '../components/NotificationManager';
 
 interface Recommendation {
-  id?: string;
+  id: string;
   coachId: string;
   coachName: string;
   talentId: string;
   talentName: string;
   recruiterId: string;
   recruiterName: string;
+  jobId: string;           // OBLIGATOIRE - pour le bouton "Voir l'offre"
+  jobTitle: string;
+  jobCompany?: string;
   message: string;
-  status: 'en_attente' | 'acceptée' | 'refusée';
+  status: 'pending' | 'accepted' | 'rejected';
   createdAt: Date;
-  updatedAt?: Date;
 }
 
 export default function TalentRecommendationsPage() {
@@ -23,6 +25,8 @@ export default function TalentRecommendationsPage() {
   const { showNotification } = useNotifications();
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(false);
+
+  console.log('🎯 NOUVELLE PAGE TALENT RECOMMENDATIONS');
 
   useEffect(() => {
     if (user && user.role === 'talent') {
@@ -36,40 +40,43 @@ export default function TalentRecommendationsPage() {
     if (!user) return;
     setLoading(true);
     try {
-      const { collection, query, where, getDocs, orderBy } = await import('firebase/firestore');
+      console.log('🔍 CHARGEMENT RECOMMANDATIONS pour talent:', user.id);
+      
+      const { collection, query, where, getDocs } = await import('firebase/firestore');
       const { db } = await import('../firebase');
       
       const recommendationsRef = collection(db, 'recommendations');
-      
-      // Essayer d'abord avec l'ID utilisateur (sans orderBy pour éviter l'index)
-      let q = query(
+      const q = query(
         recommendationsRef,
         where('talentId', '==', user.id)
       );
       
-      let snapshot = await getDocs(q);
+      const snapshot = await getDocs(q);
+      console.log('🔍 TROUVÉ', snapshot.docs.length, 'recommandations');
       
-      // Si aucune recommandation trouvée, essayer avec l'email
-      if (snapshot.docs.length === 0 && user.email) {
-        q = query(
-          recommendationsRef,
-          where('talentEmail', '==', user.email)
-        );
-        snapshot = await getDocs(q);
-      }
-      const recommendationsData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-        createdAt: doc.data().createdAt?.toDate() || new Date(),
-        updatedAt: doc.data().updatedAt?.toDate()
-      })) as Recommendation[];
+      const recommendationsData = snapshot.docs.map(doc => {
+        const data = {
+          id: doc.id,
+          ...doc.data(),
+          createdAt: doc.data().createdAt?.toDate() || new Date()
+        };
+        
+        console.log('🔍 RECOMMANDATION:', {
+          id: data.id,
+          jobId: data.jobId,
+          jobTitle: data.jobTitle,
+          hasJobId: !!data.jobId ? '✅ OUI' : '❌ NON'
+        });
+        
+        return data;
+      }) as Recommendation[];
       
-      // Tri côté client par date de création (plus récent en premier)
+      // Tri côté client (plus récent en premier)
       recommendationsData.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
       
       setRecommendations(recommendationsData);
     } catch (error) {
-      console.error('Erreur lors du chargement des recommandations:', error);
+      console.error('❌ Erreur lors du chargement des recommandations:', error);
       showNotification({
         type: 'error',
         title: 'Erreur',
@@ -82,18 +89,18 @@ export default function TalentRecommendationsPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'acceptée': return '#61bfac';
-      case 'refusée': return '#ff6b6b';
-      case 'en_attente': return '#ffcc00';
+      case 'accepted': return '#61bfac';
+      case 'rejected': return '#ff6b6b';
+      case 'pending': return '#ffcc00';
       default: return '#f5f5f7';
     }
   };
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'acceptée': return '✅ Acceptée par le recruteur';
-      case 'refusée': return '❌ Refusée par le recruteur';
-      case 'en_attente': return '⏳ En attente de réponse';
+      case 'accepted': return '✅ Acceptée';
+      case 'rejected': return '❌ Refusée';
+      case 'pending': return '⏳ En attente';
       default: return status;
     }
   };
@@ -133,9 +140,9 @@ export default function TalentRecommendationsPage() {
           borderBottom: '1px solid #333'
         }}>
           <div>
-            <h1 style={{ color: '#ffcc00', margin: 0 }}>Mes Recommandations</h1>
+            <h1 style={{ color: '#ffcc00', margin: 0 }}>🎯 Mes Recommandations</h1>
             <p style={{ color: '#f5f5f7', margin: '8px 0 0 0' }}>
-              Recommandations envoyées par vos coaches
+              Recommandations reçues de vos coaches
             </p>
           </div>
           <button
@@ -149,7 +156,7 @@ export default function TalentRecommendationsPage() {
               cursor: 'pointer'
             }}
           >
-            Retour au Dashboard
+            ← Retour au Dashboard
           </button>
         </div>
 
@@ -163,26 +170,24 @@ export default function TalentRecommendationsPage() {
           <div style={{
             backgroundColor: '#111',
             padding: 20,
-            borderRadius: 4,
-            border: 'transparent',
+            borderRadius: 8,
             textAlign: 'center'
           }}>
-            <div style={{ color: '#ffcc00', fontSize: '24px', fontWeight: 'bold' }}>
+            <div style={{ color: '#ffcc00', fontSize: '28px', fontWeight: 'bold' }}>
               {recommendations.length}
             </div>
             <div style={{ color: '#f5f5f7', fontSize: '14px' }}>
-              Total des recommandations
+              Total
             </div>
           </div>
           <div style={{
             backgroundColor: '#111',
             padding: 20,
-            borderRadius: 4,
-            border: 'transparent',
+            borderRadius: 8,
             textAlign: 'center'
           }}>
-            <div style={{ color: '#ffcc00', fontSize: '24px', fontWeight: 'bold' }}>
-              {recommendations.filter(r => r.status === 'en_attente').length}
+            <div style={{ color: '#ffcc00', fontSize: '28px', fontWeight: 'bold' }}>
+              {recommendations.filter(r => r.status === 'pending').length}
             </div>
             <div style={{ color: '#f5f5f7', fontSize: '14px' }}>
               En attente
@@ -191,12 +196,11 @@ export default function TalentRecommendationsPage() {
           <div style={{
             backgroundColor: '#111',
             padding: 20,
-            borderRadius: 4,
-            border: 'transparent',
+            borderRadius: 8,
             textAlign: 'center'
           }}>
-            <div style={{ color: '#61bfac', fontSize: '24px', fontWeight: 'bold' }}>
-              {recommendations.filter(r => r.status === 'acceptée').length}
+            <div style={{ color: '#61bfac', fontSize: '28px', fontWeight: 'bold' }}>
+              {recommendations.filter(r => r.status === 'accepted').length}
             </div>
             <div style={{ color: '#f5f5f7', fontSize: '14px' }}>
               Acceptées
@@ -205,12 +209,11 @@ export default function TalentRecommendationsPage() {
           <div style={{
             backgroundColor: '#111',
             padding: 20,
-            borderRadius: 4,
-            border: 'transparent',
+            borderRadius: 8,
             textAlign: 'center'
           }}>
-            <div style={{ color: '#ff6b6b', fontSize: '24px', fontWeight: 'bold' }}>
-              {recommendations.filter(r => r.status === 'refusée').length}
+            <div style={{ color: '#ff6b6b', fontSize: '28px', fontWeight: 'bold' }}>
+              {recommendations.filter(r => r.status === 'rejected').length}
             </div>
             <div style={{ color: '#f5f5f7', fontSize: '14px' }}>
               Refusées
@@ -220,55 +223,77 @@ export default function TalentRecommendationsPage() {
 
         {/* Liste des recommandations */}
         {loading ? (
-          <div style={{ textAlign: 'center', color: '#f5f5f7', padding: 40 }}>
-            Chargement des recommandations...
+          <div style={{ textAlign: 'center', color: '#ffcc00', padding: 40, fontSize: '18px' }}>
+            ⏳ Chargement de vos recommandations...
           </div>
         ) : recommendations.length === 0 ? (
           <div style={{
             backgroundColor: '#111',
             padding: 40,
-            borderRadius: 4,
-            border: 'transparent',
+            borderRadius: 8,
             textAlign: 'center'
           }}>
-            <div style={{ color: '#f5f5f7', fontSize: '18px', marginBottom: 8 }}>
+            <div style={{ fontSize: '48px', marginBottom: 16 }}>📭</div>
+            <div style={{ color: '#f5f5f7', fontSize: '20px', marginBottom: 8 }}>
               Aucune recommandation reçue
             </div>
-            <div style={{ color: '#666', fontSize: '14px' }}>
+            <div style={{ color: '#666', fontSize: '16px' }}>
               Vos coaches vous enverront des recommandations ici
             </div>
           </div>
         ) : (
-          <div style={{ display: 'grid', gap: 16 }}>
+          <div style={{ display: 'grid', gap: 20 }}>
             {recommendations.map(recommendation => (
               <div
                 key={recommendation.id}
                 style={{
                   backgroundColor: '#111',
                   padding: 24,
-                  borderRadius: 4,
-                  border: 'transparent'
+                  borderRadius: 8,
+                  border: '1px solid #333'
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
-                  <div>
-                    <div style={{ color: '#ffcc00', fontSize: '18px', fontWeight: 'bold', marginBottom: 8 }}>
-                      Recommandé à {recommendation.recruiterName}
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'flex-start', 
+                  marginBottom: 16 
+                }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ 
+                      color: '#ffcc00', 
+                      fontSize: '20px', 
+                      fontWeight: 'bold', 
+                      marginBottom: 12 
+                    }}>
+                      📋 {recommendation.jobTitle}
                     </div>
-                    <div style={{ color: '#f5f5f7', fontSize: '14px', marginBottom: 4 }}>
-                      Par <strong>{recommendation.coachName}</strong>
+                    <div style={{ 
+                      color: '#61bfac', 
+                      fontSize: '16px', 
+                      marginBottom: 8,
+                      padding: '6px 12px',
+                      backgroundColor: '#0a2a24',
+                      borderRadius: '6px',
+                      display: 'inline-block'
+                    }}>
+                      🏢 {recommendation.jobCompany || 'Entreprise'} 
+                      • 👤 Recommandé à {recommendation.recruiterName}
                     </div>
-                    <div style={{ color: '#666', fontSize: '12px' }}>
-                      {formatDate(recommendation.createdAt)}
+                    <div style={{ color: '#f5f5f7', fontSize: '14px', marginBottom: 4, marginTop: 12 }}>
+                      👨‍💼 Par <strong>{recommendation.coachName}</strong>
+                    </div>
+                    <div style={{ color: '#888', fontSize: '12px' }}>
+                      📅 {formatDate(recommendation.createdAt)}
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                     <span style={{
-                      padding: '6px 12px',
+                      padding: '8px 16px',
                       backgroundColor: getStatusColor(recommendation.status),
                       color: '#000',
-                      borderRadius: 4,
-                      fontSize: '12px',
+                      borderRadius: 6,
+                      fontSize: '14px',
                       fontWeight: 'bold'
                     }}>
                       {getStatusText(recommendation.status)}
@@ -276,29 +301,73 @@ export default function TalentRecommendationsPage() {
                   </div>
                 </div>
                 
-                <div style={{ color: '#f5f5f7', fontSize: '14px', lineHeight: 1.6, marginBottom: 16 }}>
-                  <strong>Message du coach :</strong><br />
-                  {recommendation.message}
+                <div style={{ 
+                  color: '#f5f5f7', 
+                  fontSize: '15px', 
+                  lineHeight: 1.6, 
+                  marginBottom: 20,
+                  padding: '16px',
+                  backgroundColor: '#0a0a0a',
+                  borderRadius: '6px',
+                  border: '1px solid #222'
+                }}>
+                  <strong>💬 Message du coach :</strong><br />
+                  <span style={{ fontStyle: 'italic' }}>"{recommendation.message}"</span>
                 </div>
 
+                {/* BOUTON PRINCIPAL - VOIR L'OFFRE */}
                 <div style={{
                   paddingTop: 16,
-                  borderTop: '1px solid #333'
+                  borderTop: '1px solid #333',
+                  textAlign: 'center'
                 }}>
-                  <button
-                    onClick={() => navigate(`/profile/${recommendation.recruiterId}`)}
-                    style={{
-                      padding: '8px 16px',
-                      backgroundColor: 'transparent',
-                      color: '#ffcc00',
-                      border: '0.5px solid #ffcc00',
-                      borderRadius: 4,
-                      cursor: 'pointer',
-                      fontSize: '14px'
-                    }}
-                  >
-                    Voir le profil du recruteur
-                  </button>
+                  {recommendation.jobId ? (
+                    <button
+                      onClick={(e) => {
+                        console.log('🔗 NAVIGATION vers offre:', recommendation.jobId, recommendation.jobTitle);
+                        e.preventDefault();
+                        e.stopPropagation();
+                        navigate(`/jobs/${recommendation.jobId}`);
+                      }}
+                      style={{
+                        padding: '14px 28px',
+                        backgroundColor: '#ffcc00',
+                        color: '#000',
+                        border: 'none',
+                        borderRadius: 8,
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        fontWeight: 'bold',
+                        boxShadow: '0 2px 4px rgba(255, 204, 0, 0.3)',
+                        transition: 'all 0.2s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = '0 4px 8px rgba(255, 204, 0, 0.4)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 4px rgba(255, 204, 0, 0.3)';
+                      }}
+                    >
+                      📋 Voir l'offre d'emploi
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => navigate(`/profile/${recommendation.recruiterId}`)}
+                      style={{
+                        padding: '12px 24px',
+                        backgroundColor: 'transparent',
+                        color: '#ffcc00',
+                        border: '2px solid #ffcc00',
+                        borderRadius: 8,
+                        cursor: 'pointer',
+                        fontSize: '14px'
+                      }}
+                    >
+                      👤 Voir le profil du recruteur
+                    </button>
+                  )}
                 </div>
               </div>
             ))}

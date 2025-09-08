@@ -23,7 +23,9 @@ const RecruiterMessagesPage: React.FC = () => {
   const { user } = useAuth();
   const { showNotification } = useNotifications();
   const [messages, setMessages] = useState<Message[]>([]);
+  const [conversations, setConversations] = useState<any[]>([]);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+  const [selectedConversation, setSelectedConversation] = useState<any | null>(null);
   const [newMessage, setNewMessage] = useState('');
   const [recipientEmail, setRecipientEmail] = useState('');
   const [recipientRole, setRecipientRole] = useState<'talent' | 'coach'>('talent');
@@ -43,6 +45,11 @@ const RecruiterMessagesPage: React.FC = () => {
       setLoading(true);
       const messagesData = await FirestoreService.getUserMessages(user.id);
       setMessages(messagesData);
+      
+      // Regrouper les messages en conversations avec profils complets
+      const conversationsData = await FirestoreService.groupMessagesByConversationWithProfiles(messagesData, user.id);
+      console.log('Conversations générées:', conversationsData.length, conversationsData);
+      setConversations(conversationsData);
     } catch (error) {
       console.error('Erreur lors du chargement des messages:', error);
       showNotification({
@@ -138,7 +145,7 @@ const RecruiterMessagesPage: React.FC = () => {
   };
 
   const getUnreadCount = () => {
-    return messages.filter(msg => !msg.read).length;
+    return conversations.reduce((total, conv) => total + conv.unreadCount, 0);
   };
 
 
@@ -229,22 +236,24 @@ const RecruiterMessagesPage: React.FC = () => {
             overflowY: 'auto'
           }}>
             <h3 style={{ color: '#ffcc00', marginTop: 0, marginBottom: '16px' }}>Conversations</h3>
-            {messages.length === 0 ? (
-              <p style={{ color: '#999', textAlign: 'center' }}>Aucun message</p>
+            {conversations.length === 0 ? (
+              <p style={{ color: '#999', textAlign: 'center' }}>Aucune conversation</p>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {messages.map((message) => (
+                {conversations.map((conversation, index) => (
                   <div
-                    key={message.id}
+                    key={`${conversation.interlocutor.id}-${index}`}
                     onClick={() => {
-                      setSelectedMessage(message);
-                      if (!message.read) {
-                        markAsRead(message.id);
-                      }
+                      setSelectedConversation(conversation);
+                      setSelectedMessage(null);
+                      // Marquer les messages non lus comme lus
+                      conversation.messages
+                        .filter((msg: any) => msg.type === 'received' && !msg.read)
+                        .forEach((msg: any) => markAsRead(msg.id));
                     }}
                     style={{
                       padding: '12px',
-                      backgroundColor: message.read ? 'transparent' : '#333',
+                      backgroundColor: conversation.unreadCount > 0 ? '#333' : 'transparent',
                       border: '1px solid #333',
                       borderRadius: '4px',
                       cursor: 'pointer',
@@ -252,16 +261,23 @@ const RecruiterMessagesPage: React.FC = () => {
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <strong style={{ color: message.read ? '#f5f5f7' : '#ffcc00' }}>
-                        {message.from.name}
+                      <strong style={{ color: conversation.unreadCount > 0 ? '#ffcc00' : '#f5f5f7' }}>
+                        {conversation.interlocutor.name}
                       </strong>
-                      {!message.read && (
+                      {conversation.unreadCount > 0 && (
                         <div style={{
-                          width: '8px',
-                          height: '8px',
-                          backgroundColor: '#ffcc00',
-                          borderRadius: '50%'
-                        }} />
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}>
+                          <span style={{ color: '#ffcc00', fontSize: '12px' }}>({conversation.unreadCount})</span>
+                          <div style={{
+                            width: '8px',
+                            height: '8px',
+                            backgroundColor: '#ffcc00',
+                            borderRadius: '50%'
+                          }} />
+                        </div>
                       )}
                     </div>
                     <p style={{
@@ -272,10 +288,10 @@ const RecruiterMessagesPage: React.FC = () => {
                       textOverflow: 'ellipsis',
                       whiteSpace: 'nowrap'
                     }}>
-                      {message.message}
+                      {conversation.lastMessage.type === 'sent' && 'Vous: '}{conversation.lastMessage.message}
                     </p>
                     <small style={{ color: '#666', fontSize: '12px' }}>
-                      {formatDate(message.timestamp)}
+                      {formatDate(conversation.lastMessage.timestamp)}
                     </small>
                   </div>
                 ))}
@@ -293,11 +309,33 @@ const RecruiterMessagesPage: React.FC = () => {
           }}>
             {isComposing ? (
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                <h3 style={{ color: '#ffcc00', marginTop: 0, marginBottom: '16px' }}>Nouveau message</h3>
+                <h3 style={{ color: '#ffcc00', marginTop: 0, marginBottom: '16px' }}>
+                  {selectedConversation ? `Répondre à ${selectedConversation.interlocutor.name}` : 'Nouveau message'}
+                </h3>
+                
+                {selectedConversation && (
+                  <div style={{
+                    backgroundColor: '#222',
+                    padding: '12px',
+                    borderRadius: '4px',
+                    marginBottom: '16px',
+                    border: '1px solid #ffcc00'
+                  }}>
+                    <p style={{ color: '#f5f5f7', margin: '0 0 4px 0', fontWeight: 'bold' }}>
+                      📩 Réponse à: {selectedConversation.interlocutor.name}
+                    </p>
+                    <p style={{ color: '#ffcc00', margin: '0 0 4px 0' }}>
+                      📧 {selectedConversation.interlocutor.email}
+                    </p>
+                    <p style={{ color: '#888', margin: 0, fontSize: '12px' }}>
+                      {selectedConversation.interlocutor.role}
+                    </p>
+                  </div>
+                )}
                 
                 <div style={{ marginBottom: '16px' }}>
                   <label style={{ display: 'block', marginBottom: '8px', color: '#f5f5f7' }}>
-                    Destinataire (email)
+                    Destinataire (email) {selectedConversation && '- Pré-rempli automatiquement'}
                   </label>
                   <input
                     type="email"
@@ -306,34 +344,46 @@ const RecruiterMessagesPage: React.FC = () => {
                     style={{
                       width: '100%',
                       padding: '8px 12px',
-                      backgroundColor: '#333',
+                      backgroundColor: selectedConversation ? '#1a4d3a' : '#333',
                       color: '#f5f5f7',
-                      border: 'none',
+                      border: selectedConversation ? '1px solid #4caf50' : 'none',
                       borderRadius: '4px'
                     }}
                     placeholder="email@exemple.com"
+                    disabled={!!selectedConversation}
                   />
+                  {selectedConversation && (
+                    <small style={{ color: '#4caf50', fontSize: '12px' }}>
+                      ✅ Email automatiquement rempli pour cette conversation
+                    </small>
+                  )}
                 </div>
 
                 <div style={{ marginBottom: '16px' }}>
                   <label style={{ display: 'block', marginBottom: '8px', color: '#f5f5f7' }}>
-                    Type de destinataire
+                    Type de destinataire {selectedConversation && '- Pré-rempli automatiquement'}
                   </label>
                   <select
                     value={recipientRole}
                     onChange={(e) => setRecipientRole(e.target.value as 'talent' | 'coach')}
+                    disabled={!!selectedConversation}
                     style={{
                       width: '100%',
                       padding: '8px 12px',
-                      backgroundColor: '#333',
+                      backgroundColor: selectedConversation ? '#1a4d3a' : '#333',
                       color: '#f5f5f7',
-                      border: 'none',
+                      border: selectedConversation ? '1px solid #4caf50' : 'none',
                       borderRadius: '4px'
                     }}
                   >
                     <option value="talent">Talent</option>
                     <option value="coach">Coach</option>
                   </select>
+                  {selectedConversation && (
+                    <small style={{ color: '#4caf50', fontSize: '12px' }}>
+                      ✅ Type automatiquement détecté
+                    </small>
+                  )}
                 </div>
 
                 <div style={{ marginBottom: '16px', flex: 1 }}>
@@ -357,7 +407,7 @@ const RecruiterMessagesPage: React.FC = () => {
                   />
                 </div>
 
-                <div style={{ display: 'flex', gap: '12px' }}>
+                <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                   <button
                     onClick={sendMessage}
                     style={{
@@ -372,9 +422,32 @@ const RecruiterMessagesPage: React.FC = () => {
                   >
                     Envoyer
                   </button>
+                  
+                  {selectedConversation && (
+                    <button
+                      onClick={() => {
+                        setSelectedConversation(null);
+                        setRecipientEmail('');
+                        setRecipientRole('talent');
+                        setNewMessage('');
+                      }}
+                      style={{
+                        padding: '12px 24px',
+                        backgroundColor: 'transparent',
+                        color: '#ffcc00',
+                        border: '1px solid #ffcc00',
+                        borderRadius: '4px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Nouveau message
+                    </button>
+                  )}
+                  
                   <button
                     onClick={() => {
                       setIsComposing(false);
+                      setSelectedConversation(null);
                       setNewMessage('');
                       setRecipientEmail('');
                     }}
@@ -391,29 +464,59 @@ const RecruiterMessagesPage: React.FC = () => {
                   </button>
                 </div>
               </div>
-            ) : selectedMessage ? (
+            ) : selectedConversation ? (
               <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                 <div style={{ marginBottom: '16px' }}>
                   <h3 style={{ color: '#ffcc00', marginTop: 0, marginBottom: '8px' }}>
-                    {selectedMessage.from.name}
+                    Conversation avec {selectedConversation.interlocutor.name}
                   </h3>
                   <p style={{ color: '#999', margin: 0 }}>
-                    {formatDate(selectedMessage.timestamp)}
+                    {selectedConversation.messages.length} message{selectedConversation.messages.length > 1 ? 's' : ''}
                   </p>
                 </div>
                 
                 <div style={{
                   flex: 1,
-                  padding: '16px',
-                  backgroundColor: '#333',
-                  borderRadius: '4px',
-                  marginBottom: '16px'
+                  overflowY: 'auto',
+                  marginBottom: '16px',
+                  padding: '8px'
                 }}>
-                  <p style={{ margin: 0, lineHeight: '1.6' }}>{selectedMessage.message}</p>
+                  {selectedConversation.messages
+                    .sort((a: any, b: any) => a.timestamp.getTime() - b.timestamp.getTime())
+                    .map((msg: any) => (
+                    <div
+                      key={msg.id}
+                      style={{
+                        marginBottom: '12px',
+                        padding: '12px',
+                        backgroundColor: msg.type === 'sent' ? '#1a4d3a' : '#333',
+                        borderRadius: '4px',
+                        borderLeft: msg.type === 'sent' ? '3px solid #4caf50' : '3px solid #ffcc00'
+                      }}
+                    >
+                      <div style={{ 
+                        display: 'flex', 
+                        justifyContent: 'space-between', 
+                        marginBottom: '8px',
+                        fontSize: '12px',
+                        color: '#999'
+                      }}>
+                        <span>{msg.type === 'sent' ? 'Vous' : msg.from.name}</span>
+                        <span>{formatDate(msg.timestamp)}</span>
+                      </div>
+                      <p style={{ margin: 0, lineHeight: '1.6', color: '#f5f5f7' }}>
+                        {msg.message}
+                      </p>
+                    </div>
+                  ))}
                 </div>
 
                 <button
-                  onClick={() => setIsComposing(true)}
+                  onClick={() => {
+                    setRecipientEmail(selectedConversation.interlocutor.email);
+                    setRecipientRole(selectedConversation.interlocutor.role as 'talent' | 'coach');
+                    setIsComposing(true);
+                  }}
                   style={{
                     padding: '12px 24px',
                     backgroundColor: '#ffcc00',
@@ -436,7 +539,7 @@ const RecruiterMessagesPage: React.FC = () => {
                 justifyContent: 'center',
                 color: '#999'
               }}>
-                <p>Sélectionnez un message pour le lire</p>
+                <p>Sélectionnez une conversation pour voir les messages</p>
               </div>
             )}
           </div>

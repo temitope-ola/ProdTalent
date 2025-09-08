@@ -2,39 +2,47 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../contexts/AuthContext';
 import { FirestoreService, UserProfile } from '../services/firestoreService';
+import { JobService } from '../services/jobService';
 import Avatar from '../components/Avatar';
-import CoachAvailabilityManager from '../components/CoachAvailabilityManager';
 import CoachAppointmentManager from '../components/CoachAppointmentManager';
-import CoachRecommendationManager from '../components/CoachRecommendationManager';
-import SimpleCalendarManager from '../components/SimpleCalendarManager';
+import CoachAvailabilityManager from '../components/CoachAvailabilityManager';
+// import GoogleCalendarManager from '../components/GoogleCalendarManager'; // Désactivé temporairement
+import SimpleRecommendationModal from '../components/SimpleRecommendationModal';
 import { useNotifications } from '../components/NotificationManager';
-
 
 export default function CoachDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const { showNotification } = useNotifications();
   const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [talents, setTalents] = useState<UserProfile[]>([]);
-  const [recruteurs, setRecruteurs] = useState<UserProfile[]>([]);
-  const [isAgendaOpen, setIsAgendaOpen] = useState(false);
-  const [isAppointmentManagerOpen, setIsAppointmentManagerOpen] = useState(false);
-  const [isRecommendationManagerOpen, setIsRecommendationManagerOpen] = useState(false);
-  const [isGoogleCalendarOpen, setIsGoogleCalendarOpen] = useState(false);
-  const [lastAppointmentCount, setLastAppointmentCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [isAppointmentsOpen, setIsAppointmentsOpen] = useState(false);
+  const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<any>(null);
+  const [showJobDetails, setShowJobDetails] = useState(false);
+  const [showRecommendationModal, setShowRecommendationModal] = useState(false);
+  const [showGoogleCalendar, setShowGoogleCalendar] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [activeFilters, setActiveFilters] = useState({
+    skills: '',
+    location: '',
+    contractType: '',
+    company: ''
+  });
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   
   // Statistiques
   const [stats, setStats] = useState({
-    jobsCount: 0,
-    recruteursCount: 0,
     talentsCount: 0,
-    recommendationsCount: 0,
+    recruteursCount: 0,
     messagesCount: 0,
     appointmentsCount: 0
   });
-
-  const [loading, setLoading] = useState(false);
+  
+  // Jobs - exactement comme TalentDashboard
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [filteredJobs, setFilteredJobs] = useState<any[]>([]);
 
   // Redirection si l'utilisateur n'est pas un coach
   useEffect(() => {
@@ -43,15 +51,148 @@ export default function CoachDashboard() {
     }
   }, [user, navigate]);
 
-  // Charger le profil et les données
+  // Charger le profil 
+  const loadProfile = async () => {
+    if (!user) return;
+    setLoading(true);
+    try {
+      const userProfile = await FirestoreService.getCurrentProfile(user.id, user.role);
+      setProfile(userProfile);
+    } catch (error) {
+      console.error('Erreur lors du chargement du profil:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadStats = async () => {
+    if (!user) return;
+    
+    try {
+      // Charger les messages
+      const userMessages = await FirestoreService.getUserMessages(user.id);
+      
+      // Charger les recommandations
+      const { collection, query, where, getDocs } = await import('firebase/firestore');
+      const { db } = await import('../firebase');
+      
+      
+      // Charger les rendez-vous
+      const { AppointmentService } = await import('../services/appointmentService');
+      const appointmentsResult = await AppointmentService.getCoachAppointments(user.id);
+      const appointmentsData = appointmentsResult.success ? appointmentsResult.data || [] : [];
+      
+      // Charger les talents et recruteurs
+      const allTalents = await FirestoreService.getAllTalents();
+      const allRecruiters = await FirestoreService.getAllRecruteurs();
+      
+      setStats({
+        talentsCount: allTalents.length,
+        recruteursCount: allRecruiters.length,
+        messagesCount: userMessages.length,
+        appointmentsCount: appointmentsData.length
+      });
+    } catch (error) {
+      console.error('Erreur lors du chargement des statistiques:', error);
+      // En cas d'erreur, on garde les valeurs par défaut (0)
+      setStats({
+        talentsCount: 0,
+        recruteursCount: 0,
+        messagesCount: 0,
+        appointmentsCount: 0
+      });
+    }
+  };
+
+  const loadJobs = async () => {
+    if (!user) return;
+    try {
+      console.log('🔥 CHARGEMENT JOBS...');
+      // Charger toutes les offres d'emploi disponibles avec JobService
+      const jobsResult = await JobService.getAllActiveJobs();
+      console.log('📊 RÉSULTAT JOBS:', jobsResult);
+      
+      if (jobsResult.success && jobsResult.data) {
+        console.log('✅ JOBS RÉCUPÉRÉS:', jobsResult.data.length, jobsResult.data);
+        setJobs(jobsResult.data);
+        setFilteredJobs(jobsResult.data);
+      } else {
+        console.log('⚠️ Aucun job ou erreur:', jobsResult);
+        setJobs([]);
+        setFilteredJobs([]);
+      }
+    } catch (error) {
+      console.error('❌ Erreur lors du chargement des jobs:', error);
+      setJobs([]);
+      setFilteredJobs([]);
+    }
+  };
+
+  // Fonction pour filtrer les jobs
+  const applyFilters = () => {
+    if (!jobs || jobs.length === 0) {
+      setFilteredJobs([]);
+      return;
+    }
+
+    let filtered = [...jobs];
+
+    // Filtre par compétences
+    if (activeFilters.skills.trim()) {
+      filtered = filtered.filter(job => 
+        job.skills?.toLowerCase().includes(activeFilters.skills.toLowerCase()) ||
+        job.title?.toLowerCase().includes(activeFilters.skills.toLowerCase()) ||
+        job.description?.toLowerCase().includes(activeFilters.skills.toLowerCase())
+      );
+    }
+
+    // Filtre par localisation
+    if (activeFilters.location.trim()) {
+      filtered = filtered.filter(job => 
+        job.location?.toLowerCase().includes(activeFilters.location.toLowerCase())
+      );
+    }
+
+    // Filtre par type de contrat
+    if (activeFilters.contractType.trim()) {
+      filtered = filtered.filter(job => 
+        job.contractType?.toLowerCase().includes(activeFilters.contractType.toLowerCase())
+      );
+    }
+
+    // Filtre par entreprise
+    if (activeFilters.company.trim()) {
+      filtered = filtered.filter(job => 
+        job.company?.toLowerCase().includes(activeFilters.company.toLowerCase())
+      );
+    }
+
+    setFilteredJobs(filtered);
+  };
+
+  // Charger le profil et les statistiques
   useEffect(() => {
     if (user) {
       loadProfile();
-      loadTalents();
-      loadRecruteurs();
       loadStats();
+      loadJobs();
     }
   }, [user]);
+
+  // Filtrer les jobs quand les filtres changent
+  useEffect(() => {
+    applyFilters();
+  }, [jobs, activeFilters]);
+
+  // Gérer le redimensionnement de la fenêtre
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Fermer le menu profil quand on clique à l'extérieur
   useEffect(() => {
@@ -71,139 +212,6 @@ export default function CoachDashboard() {
     };
   }, [showProfileMenu]);
 
-  // Vérifier les nouveaux rendez-vous toutes les 30 secondes
-  useEffect(() => {
-    if (!user) return;
-    
-    // Vérification initiale
-    const initialCheck = async () => {
-      try {
-        const { AppointmentService } = await import('../services/appointmentService');
-        const result = await AppointmentService.getCoachAppointments(user.id);
-        if (result.success && result.data) {
-          setLastAppointmentCount(result.data.length);
-        }
-      } catch (error) {
-        console.error('Erreur lors de la vérification initiale:', error);
-      }
-    };
-    
-    initialCheck();
-    
-    // Vérification périodique
-    const interval = setInterval(checkNewAppointments, 30000); // 30 secondes
-    
-    return () => clearInterval(interval);
-  }, [user, lastAppointmentCount]);
-
-
-  const loadProfile = async () => {
-    if (!user) return;
-    setLoading(true);
-    try {
-      const userProfile = await FirestoreService.getCurrentProfile(user.id, user.role);
-      setProfile(userProfile);
-    } catch (error) {
-      console.error('Erreur lors du chargement du profil:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadTalents = async () => {
-    if (!user) return;
-    try {
-      const talentsList = await FirestoreService.getAllTalents();
-      setTalents(talentsList);
-    } catch (error) {
-      console.error('Erreur lors du chargement des talents:', error);
-    }
-  };
-
-  const loadRecruteurs = async () => {
-    if (!user) return;
-    try {
-      const recruteursList = await FirestoreService.getAllRecruteurs();
-      setRecruteurs(recruteursList);
-    } catch (error) {
-      console.error('Erreur lors du chargement des recruteurs:', error);
-    }
-  };
-
-  const loadStats = async () => {
-    if (!user) return;
-    
-    try {
-      // Charger les offres d'emploi
-      const allJobs = await FirestoreService.getAllJobs();
-      
-      // Charger les messages
-      const userMessages = await FirestoreService.getUserMessages(user.id);
-      
-      // Charger les recommandations
-      const { collection, query, where, getDocs } = await import('firebase/firestore');
-      const { db } = await import('../firebase');
-      
-      const recommendationsRef = collection(db, 'recommendations');
-      const recommendationsQuery = query(
-        recommendationsRef,
-        where('coachId', '==', user.id)
-      );
-      const recommendationsSnapshot = await getDocs(recommendationsQuery);
-      
-      // Charger les rendez-vous du coach
-      const { AppointmentService } = await import('../services/appointmentService');
-      const appointmentsResult = await AppointmentService.getCoachAppointments(user.id);
-      const appointmentsData = appointmentsResult.success ? appointmentsResult.data || [] : [];
-      
-      setStats({
-        jobsCount: allJobs.length,
-        recruteursCount: recruteurs.length,
-        talentsCount: talents.length,
-        recommendationsCount: recommendationsSnapshot.size,
-        messagesCount: userMessages.length,
-        appointmentsCount: appointmentsData.length
-      });
-    } catch (error) {
-      console.error('Erreur lors du chargement des statistiques:', error);
-      setStats({
-        jobsCount: 0,
-        recruteursCount: 0,
-        talentsCount: 0,
-        recommendationsCount: 0,
-        messagesCount: 0,
-        appointmentsCount: 0
-      });
-    }
-  };
-
-  // Vérifier les nouveaux rendez-vous
-  const checkNewAppointments = async () => {
-    if (!user) return;
-    try {
-      const { AppointmentService } = await import('../services/appointmentService');
-      const result = await AppointmentService.getCoachAppointments(user.id);
-      if (result.success && result.data) {
-        const currentCount = result.data.length;
-        if (currentCount > lastAppointmentCount && lastAppointmentCount > 0) {
-          const newAppointments = result.data.slice(lastAppointmentCount);
-          newAppointments.forEach(appointment => {
-            if (appointment.status === 'en_attente') {
-              showNotification({
-                type: 'info',
-                title: 'Nouveau rendez-vous',
-                message: `${appointment.talentName} a réservé un créneau le ${appointment.date} à ${appointment.time}`
-              });
-            }
-          });
-        }
-        setLastAppointmentCount(currentCount);
-      }
-    } catch (error) {
-      console.error('Erreur lors de la vérification des nouveaux rendez-vous:', error);
-    }
-  };
-
   // Affichage de chargement
   if (loading) {
     return (
@@ -219,11 +227,22 @@ export default function CoachDashboard() {
     );
   }
 
-  // Redirection si pas connecté
-  if (!user) {
-    navigate('/', { replace: true });
-    return null;
-  }
+  // Handlers
+  const handleProfileClick = () => {
+    setShowProfileMenu(!showProfileMenu);
+  };
+
+  const handleProfileAction = (action: string) => {
+    setShowProfileMenu(false);
+    switch (action) {
+      case 'profile':
+        navigate('/profile');
+        break;
+      case 'logout':
+        handleLogout();
+        break;
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -242,52 +261,23 @@ export default function CoachDashboard() {
     navigate('/coach/recruteurs');
   };
 
-
-
-  const handleScheduleSession = () => {
-    showNotification({
-      type: 'info',
-      title: 'Fonctionnalité à venir',
-      message: 'La planification de session sera bientôt disponible'
-    });
-    // Ici vous pourriez ouvrir une modale de planification
-  };
-
-  const handleCreateRecommendation = () => {
-    setIsRecommendationManagerOpen(true);
-  };
-
   const handleOpenMessages = () => {
     navigate('/coach/messages');
   };
 
 
-
-  const handleViewJobs = () => {
-    navigate('/jobs');
-  };
-
-  const handleProfileClick = () => {
-    setShowProfileMenu(!showProfileMenu);
-  };
-
-  const handleProfileAction = (action: string) => {
-    setShowProfileMenu(false);
-    switch (action) {
-      case 'profile':
-        navigate('/profile');
-        break;
-      case 'logout':
-        handleLogout();
-        break;
-    }
-  };
+  // Redirection si pas connecté
+  if (!user) {
+    navigate('/', { replace: true });
+    return null;
+  }
 
   return (
     <div style={{
       minHeight: '100vh',
       backgroundColor: '#0a0a0a',
       color: '#f5f5f7',
+      padding: '20px',
       display: 'flex',
       justifyContent: 'center'
     }}>
@@ -295,10 +285,10 @@ export default function CoachDashboard() {
       <div style={{
         width: '100%',
         maxWidth: '1200px',
-        padding: '20px'
+        padding: screenWidth <= 480 ? '10px' : screenWidth <= 768 ? '15px' : '20px'
       }}>
         
-        {/* Header avec navigation user-friendly */}
+        {/* Header - Simple comme RecruiterDashboard.js */}
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -309,16 +299,27 @@ export default function CoachDashboard() {
           borderRadius: '4px'
         }}>
           <div>
-            <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '600' }}>
+            <h1 style={{ 
+              margin: 0, 
+              fontSize: screenWidth <= 480 ? '18px' : '20px', 
+              fontWeight: '600',
+              color: '#f5f5f7'
+            }}>
               Dashboard Coach
             </h1>
-            <p style={{ margin: 0, color: '#888', fontSize: '12px' }}>
-              Accompagnez les talents et connectez-vous avec les recruteurs
+            <p style={{ 
+              margin: 0, 
+              color: '#888', 
+              fontSize: screenWidth <= 480 ? '11px' : '12px' 
+            }}>
+              Accompagnez les talents
             </p>
           </div>
           
           {/* Menu profil déroulant */}
-          <div style={{ position: 'relative' }} data-profile-menu>
+          <div style={{ 
+            position: 'relative'
+          }} data-profile-menu>
             <div
               onClick={handleProfileClick}
               style={{
@@ -336,11 +337,11 @@ export default function CoachDashboard() {
             >
               <Avatar 
                 src={profile?.avatarUrl} 
-                alt={user?.email ? user.email.split('@')[0] : 'Utilisateur'}
+                alt={user?.email ? user.email.split('@')[0] : 'Coach'}
                 size="small"
               />
               <span style={{ fontSize: '13px', color: '#f5f5f7' }}>
-                {user?.email ? user.email.split('@')[0] : 'Utilisateur'}
+                {String(user?.email ? user.email.split('@')[0] : 'Coach')}
               </span>
               <span style={{ 
                 fontSize: '10px', 
@@ -383,7 +384,7 @@ export default function CoachDashboard() {
                 >
                   <div style={{ fontSize: '13px', color: '#f5f5f7' }}>👤 Mon profil</div>
                   <div style={{ fontSize: '11px', color: '#888', marginTop: '2px' }}>
-                    {user?.email}
+                    {String(user?.email || '')}
                   </div>
                 </div>
                 
@@ -408,49 +409,42 @@ export default function CoachDashboard() {
           </div>
         </div>
 
-        {/* Actions principales */}
+        {/* Actions principales - Exactement comme TalentDashboard avec MAX 3 cartes par ligne */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '20px',
-          marginBottom: '30px'
+          gridTemplateColumns: screenWidth <= 480 
+            ? '1fr' 
+            : screenWidth <= 768 
+              ? 'repeat(2, 1fr)' 
+              : 'repeat(3, 1fr)',
+          gap: screenWidth <= 480 ? '12px' : '20px',
+          marginBottom: '30px',
+          padding: screenWidth <= 480 ? '0 10px' : '0'
         }}>
           
+          {/* Première ligne - 3 cartes */}
           <div style={{
-            padding: '20px',
-            backgroundColor: '#1a1a1a',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            transition: 'transform 0.2s',
-            border: 'none'
-          }} onClick={handleViewJobs}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Offres d'emploi ({stats.jobsCount})</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Consultez toutes les offres d'emploi disponibles
-            </p>
-          </div>
-
-          <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
             transition: 'transform 0.2s'
           }} onClick={handleViewRecruteurs}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Recruteurs ({stats.recruteursCount})</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Recruteurs ({Number(stats.recruteursCount) || 0})</h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
               Connectez-vous avec les recruteurs actifs
             </p>
           </div>
 
           <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
-            transition: 'transform 0.2s'
+            transition: 'transform 0.2s',
+            border: 'none'
           }} onClick={handleViewTalents}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Talents ({stats.talentsCount})</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Talents ({Number(stats.talentsCount) || 0})</h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
               Accompagnez et gérez vos talents
             </p>
@@ -462,90 +456,710 @@ export default function CoachDashboard() {
             borderRadius: '4px',
             cursor: 'pointer',
             transition: 'transform 0.2s'
-          }} onClick={handleCreateRecommendation}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Recommandations ({stats.recommendationsCount})</h3>
+          }} onClick={() => setIsAvailabilityOpen(true)}>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Agenda de Coaching</h3>
+            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
+              Consultez l'agenda et réservez votre créneau
+            </p>
+          </div>
+
+        </div>
+
+        {/* Deuxième ligne - 3 cartes */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: screenWidth <= 480 
+            ? '1fr' 
+            : screenWidth <= 768 
+              ? 'repeat(2, 1fr)' 
+              : 'repeat(3, 1fr)',
+          gap: screenWidth <= 480 ? '12px' : '20px',
+          marginBottom: '30px',
+          padding: screenWidth <= 480 ? '0 10px' : '0'
+        }}>
+
+          <div style={{
+            padding: '20px',
+            backgroundColor: '#1a1a1a',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            transition: 'transform 0.2s'
+          }} onClick={() => setIsAppointmentsOpen(true)}>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Mes Rendez-vous ({Number(stats.appointmentsCount) || 0})</h3>
+            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
+              Consultez vos rendez-vous et leur statut
+            </p>
+          </div>
+
+          <div style={{
+            padding: screenWidth <= 480 ? '15px' : '20px',
+            backgroundColor: '#1a1a1a',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            transition: 'transform 0.2s'
+          }} onClick={() => console.log('Card recommandations cliquée - fonctionnalité à implémenter')}>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Recommandations</h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
               Créez et gérez vos recommandations
             </p>
           </div>
 
           <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
             transition: 'transform 0.2s'
           }} onClick={handleOpenMessages}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Messages ({stats.messagesCount})</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Messages ({Number(stats.messagesCount) || 0})</h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Communiquez avec talents et recruteurs
-            </p>
-          </div>
-
-          <div style={{
-            padding: '20px',
-            backgroundColor: '#1a1a1a',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            transition: 'transform 0.2s'
-          }} onClick={() => setIsAgendaOpen(true)}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Agenda ({stats.appointmentsCount})</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Gérez vos disponibilités et rendez-vous
+              Communiquez avec les recruteurs et coaches
             </p>
           </div>
 
         </div>
 
-        {/* Section d'informations simples */}
+        {/* Troisième ligne - 1 carte à gauche */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: screenWidth <= 480 
+            ? '1fr' 
+            : screenWidth <= 768 
+              ? 'repeat(2, 1fr)' 
+              : 'repeat(3, 1fr)',
+          gap: screenWidth <= 480 ? '12px' : '20px',
+          marginBottom: '30px',
+          padding: screenWidth <= 480 ? '0 10px' : '0'
+        }}>
+          <div style={{
+            padding: screenWidth <= 480 ? '15px' : '20px',
+            backgroundColor: '#1a1a1a',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            transition: 'transform 0.2s'
+          }} onClick={() => setShowGoogleCalendar(true)}>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Google Calendar</h3>
+            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
+              Synchroniser avec Google Calendar et Meet
+            </p>
+          </div>
+        </div>
+
+        {/* Section Offres d'emploi avec filtres */}
         <div style={{
           backgroundColor: '#1a1a1a',
           borderRadius: '4px',
           padding: '20px',
           marginBottom: '20px'
         }}>
-          <h2 style={{ margin: '0 0 16px 0', color: '#ffcc00', fontSize: '18px' }}>
-            Bienvenue sur votre dashboard coach ! 👋
-          </h2>
-          <p style={{ color: '#f5f5f7', margin: '0 0 12px 0', fontSize: '14px' }}>
-            Gérez facilement vos talents, connectez-vous avec les recruteurs et organisez vos sessions de coaching.
-          </p>
-          <p style={{ color: '#888', margin: 0, fontSize: '12px' }}>
-            Utilisez les cartes ci-dessus pour accéder rapidement à toutes les fonctionnalités.
-          </p>
+          
+          {/* Header avec bouton filtre */}
+          <div style={{
+            display: 'flex',
+            flexDirection: screenWidth <= 480 ? 'column' : 'row',
+            justifyContent: 'space-between',
+            alignItems: screenWidth <= 480 ? 'stretch' : 'center',
+            gap: screenWidth <= 480 ? '12px' : '0',
+            marginBottom: screenWidth <= 480 ? '15px' : '20px',
+            paddingLeft: screenWidth <= 480 ? '0' : screenWidth <= 768 ? '10px' : '20px'
+          }}>
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: screenWidth <= 480 ? 'column' : 'row',
+              alignItems: screenWidth <= 480 ? 'stretch' : 'center', 
+              gap: screenWidth <= 480 ? '8px' : '16px' 
+            }}>
+              {/* Bouton filtre toggle */}
+              <div
+                onClick={() => setShowFilters(!showFilters)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start',
+                  gap: '8px',
+                  padding: screenWidth <= 480 ? '10px 16px' : '8px 12px',
+                  paddingLeft: screenWidth <= 480 ? '16px' : '16px',
+                  backgroundColor: '#333',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.2s',
+                  minWidth: screenWidth <= 480 ? '140px' : 'auto'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
+              >
+                <div style={{
+                  width: '16px',
+                  height: '16px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}>
+                  <div style={{ width: '100%', height: '2px', backgroundColor: '#ffcc00' }}></div>
+                  <div style={{ width: '75%', height: '2px', backgroundColor: '#ffcc00' }}></div>
+                  <div style={{ width: '50%', height: '2px', backgroundColor: '#ffcc00' }}></div>
+                </div>
+                <span style={{ 
+                  fontSize: screenWidth <= 480 ? '13px' : '14px', 
+                  color: '#ffcc00' 
+                }}>
+                  {showFilters ? 'Fermer' : 'Filtrer'}
+                </span>
+              </div>
+              
+              {/* Titre "Offres d'emploi récentes" - fixe */}
+              <div style={{ 
+                textAlign: screenWidth <= 480 ? 'center' : 'left'
+              }}>
+                <h2 style={{ 
+                  margin: 0, 
+                  color: '#ffcc00',
+                  fontSize: screenWidth <= 480 ? '16px' : screenWidth <= 768 ? '18px' : '20px'
+                }}>
+                  Offres d'emploi récentes ({Number(filteredJobs.length) || 0})
+                </h2>
+              </div>
+            </div>
+            
+            {/* Pagination */}
+            <span style={{ 
+              fontSize: screenWidth <= 480 ? '12px' : '14px', 
+              color: '#888',
+              alignSelf: screenWidth <= 480 ? 'center' : 'auto'
+            }}>Page 1</span>
+          </div>
+
+          <div style={{ width: '100%' }}>
+            {/* Filtres au-dessus - comme RecruiterDashboard */}
+            {showFilters && (
+              <div style={{
+                width: '100%',
+                backgroundColor: '#1a1a1a',
+                borderRadius: '4px',
+                padding: screenWidth <= 480 ? '15px' : '20px',
+                marginBottom: '20px'
+              }}>
+                {/* Filtres en grid sur toute la largeur */}
+                <div style={{ 
+                  display: 'grid',
+                  gridTemplateColumns: screenWidth <= 480 
+                    ? '1fr' 
+                    : screenWidth <= 768 
+                      ? 'repeat(2, 1fr)' 
+                      : 'repeat(4, 1fr)',
+                  gap: screenWidth <= 480 ? '12px' : '16px' 
+                }}>
+                      
+                      {/* Filtre par compétences */}
+                      <div>
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'space-between',
+                          marginBottom: '8px'
+                        }}>
+                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                            Compétences
+                          </span>
+                          {activeFilters.skills && (
+                            <button
+                              onClick={() => setActiveFilters(prev => ({ ...prev, skills: '' }))}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#888',
+                                cursor: 'pointer',
+                                fontSize: '12px',
+                                padding: '2px'
+                              }}
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="React, Node.js..."
+                          value={activeFilters.skills}
+                          onChange={(e) => setActiveFilters(prev => ({ ...prev, skills: e.target.value }))}
+                          style={{
+                            width: '100%',
+                            padding: '8px 12px',
+                            backgroundColor: '#1a1a1a',
+                            border: '1px solid #333',
+                            borderRadius: '4px',
+                            color: '#f5f5f7',
+                            fontSize: '13px'
+                          }}
+                        />
+                      </div>
+
+                      {/* Filtre par localisation */}
+                      <div>
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'space-between',
+                          marginBottom: '8px'
+                        }}>
+                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                            Localisation
+                          </span>
+                          {activeFilters.location && (
+                            <button
+                              onClick={() => setActiveFilters(prev => ({ ...prev, location: '' }))}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#888',
+                                cursor: 'pointer',
+                                fontSize: '12px',
+                                padding: '2px'
+                              }}
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Paris, Lyon, Remote..."
+                          value={activeFilters.location}
+                          onChange={(e) => setActiveFilters(prev => ({ ...prev, location: e.target.value }))}
+                          style={{
+                            width: '100%',
+                            padding: '8px 12px',
+                            backgroundColor: '#1a1a1a',
+                            border: '1px solid #333',
+                            borderRadius: '4px',
+                            color: '#f5f5f7',
+                            fontSize: '13px'
+                          }}
+                        />
+                      </div>
+
+                      {/* Filtre par type de contrat */}
+                      <div>
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'space-between',
+                          marginBottom: '8px'
+                        }}>
+                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                            Type de contrat
+                          </span>
+                          {activeFilters.contractType && (
+                            <button
+                              onClick={() => setActiveFilters(prev => ({ ...prev, contractType: '' }))}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#888',
+                                cursor: 'pointer',
+                                fontSize: '12px',
+                                padding: '2px'
+                              }}
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="CDI, CDD, Freelance..."
+                          value={activeFilters.contractType}
+                          onChange={(e) => setActiveFilters(prev => ({ ...prev, contractType: e.target.value }))}
+                          style={{
+                            width: '100%',
+                            padding: '8px 12px',
+                            backgroundColor: '#1a1a1a',
+                            border: '1px solid #333',
+                            borderRadius: '4px',
+                            color: '#f5f5f7',
+                            fontSize: '13px'
+                          }}
+                        />
+                      </div>
+
+                      {/* Filtre par entreprise */}
+                      <div>
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'space-between',
+                          marginBottom: '8px'
+                        }}>
+                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                            Entreprise
+                          </span>
+                          {activeFilters.company && (
+                            <button
+                              onClick={() => setActiveFilters(prev => ({ ...prev, company: '' }))}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#888',
+                                cursor: 'pointer',
+                                fontSize: '12px',
+                                padding: '2px'
+                              }}
+                            >
+                              ✕
+                            </button>
+                          )}
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Google, Airbnb..."
+                          value={activeFilters.company}
+                          onChange={(e) => setActiveFilters(prev => ({ ...prev, company: e.target.value }))}
+                          style={{
+                            width: '100%',
+                            padding: '8px 12px',
+                            backgroundColor: '#1a1a1a',
+                            border: '1px solid #333',
+                            borderRadius: '4px',
+                            color: '#f5f5f7',
+                            fontSize: '13px'
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Bouton Reset */}
+                    <button
+                      onClick={() => setActiveFilters({ skills: '', location: '', contractType: '', company: '' })}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        marginTop: '16px',
+                        backgroundColor: '#333',
+                        color: '#f5f5f7',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '13px',
+                        transition: 'background-color 0.2s'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
+                    >
+                      Réinitialiser
+                    </button>
+              </div>
+            )}
+
+            {/* Contenu principal avec cartes */}
+            <div style={{ 
+              width: '100%',
+              padding: screenWidth <= 480 ? '0 5px' : screenWidth <= 768 ? '0 10px' : '0'
+            }}>
+            
+            {filteredJobs.length === 0 ? (
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '200px',
+                color: '#888'
+              }}>
+                <div style={{
+                  fontSize: '48px',
+                  marginBottom: '16px',
+                  opacity: 0.5
+                }}>
+                  🔍
+                </div>
+                <h3 style={{ margin: '0 0 8px 0', fontSize: '18px' }}>Aucune offre trouvée</h3>
+                <p style={{ margin: 0, textAlign: 'center', fontSize: '14px' }}>
+                  Essayez de modifier vos critères de recherche
+                </p>
+              </div>
+            ) : (
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: screenWidth <= 480 
+                  ? '1fr' 
+                  : screenWidth <= 768 
+                    ? 'repeat(auto-fit, minmax(280px, 1fr))' 
+                    : 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: screenWidth <= 480 ? '12px' : '16px',
+                padding: screenWidth <= 480 ? '0 10px' : '0'
+              }}>
+                {filteredJobs.slice(0, 6).map((job, index) => (
+                  <div
+                    key={job.id || index}
+                    style={{
+                      padding: '20px',
+                      backgroundColor: '#111',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      transition: 'transform 0.2s, box-shadow 0.2s'
+                    }}
+                    onClick={() => {
+                      console.log('🔥 CLIC SUR OFFRE:', job.id, job.title);
+                      setSelectedJob(job);
+                      setShowJobDetails(true);
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-4px)';
+                      e.currentTarget.style.boxShadow = '0 8px 25px rgba(255, 204, 0, 0.15)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0px)';
+                      e.currentTarget.style.boxShadow = 'none';
+                    }}
+                  >
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                      marginBottom: '12px'
+                    }}>
+                      <div style={{ flex: 1 }}>
+                        <h3 style={{
+                          margin: '0 0 6px 0',
+                          color: '#f5f5f7',
+                          fontSize: '16px',
+                          fontWeight: '600',
+                          lineHeight: '1.3'
+                        }}>
+                          {String(job.title || 'Poste à pourvoir')}
+                        </h3>
+                        <p style={{ 
+                          margin: '0 0 4px 0', 
+                          color: '#ffcc00', 
+                          fontSize: '14px',
+                          fontWeight: '500' 
+                        }}>
+                          {String(job.company || 'Entreprise')}
+                        </p>
+                        <div style={{ 
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '8px',
+                          margin: 0,
+                          color: '#888', 
+                          fontSize: '12px' 
+                        }}>
+                          <span>📍 {String(job.location || 'Non spécifié')}</span>
+                          <span>💼 {String(job.contractType || 'CDI')}</span>
+                          <span>💰 {String(job.salary || 'À négocier')}</span>
+                        </div>
+                      </div>
+                      <div style={{
+                        padding: '4px 8px',
+                        backgroundColor: '#333',
+                        borderRadius: '4px',
+                        fontSize: '11px',
+                        color: '#61bfac',
+                        marginLeft: '12px',
+                        flexShrink: 0
+                      }}>
+                        Nouveau
+                      </div>
+                    </div>
+                    <p style={{
+                      margin: 0,
+                      color: '#ccc',
+                      fontSize: '13px',
+                      lineHeight: '1.5'
+                    }}>
+                      {String((job.description || '').toString()).substring(0, 120)}...
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          </div>
         </div>
       </div>
 
-      {/* Modals existants */}
-      {isAgendaOpen && (
-        <CoachAvailabilityManager 
-          isOpen={isAgendaOpen} 
-          onClose={() => setIsAgendaOpen(false)} 
-        />
+      {/* Modals */}
+      {isAppointmentsOpen && (
+        <CoachAppointmentManager onClose={() => setIsAppointmentsOpen(false)} />
       )}
 
-      {isAppointmentManagerOpen && (
-        <CoachAppointmentManager 
-          isOpen={isAppointmentManagerOpen} 
-          onClose={() => setIsAppointmentManagerOpen(false)} 
-        />
+      {isAvailabilityOpen && (
+        <CoachAvailabilityManager onClose={() => setIsAvailabilityOpen(false)} />
       )}
 
-      {isRecommendationManagerOpen && (
-        <CoachRecommendationManager 
-          isOpen={isRecommendationManagerOpen} 
-          onClose={() => setIsRecommendationManagerOpen(false)} 
+      {/* GoogleCalendarManager désactivé temporairement pour éviter l'authentification client-side
+      {showGoogleCalendar && (
+        <GoogleCalendarManager 
+          isOpen={showGoogleCalendar}
+          onClose={() => setShowGoogleCalendar(false)} 
+          coachId={user?.id || ''}
         />
       )}
+      */}
 
+      {/* Modal des détails d'offre */}
+      {showJobDetails && selectedJob && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          zIndex: 10000,
+          padding: '20px'
+        }}>
+          <div style={{
+            backgroundColor: '#1a1a1a',
+            borderRadius: '4px',
+            padding: '30px',
+            width: '90%',
+            maxWidth: '800px',
+            maxHeight: '90vh',
+            overflow: 'auto',
+            position: 'relative'
+          }}>
+            {/* Bouton fermer */}
+            <button
+              onClick={() => {
+                setShowJobDetails(false);
+                setSelectedJob(null);
+              }}
+              style={{
+                position: 'absolute',
+                top: '20px',
+                right: '20px',
+                backgroundColor: 'transparent',
+                color: '#f5f5f7',
+                border: 'none',
+                fontSize: '24px',
+                cursor: 'pointer',
+                padding: '4px'
+              }}
+            >
+              ✕
+            </button>
 
-      {isGoogleCalendarOpen && (
-        <SimpleCalendarManager 
-          isOpen={isGoogleCalendarOpen}
-          onClose={() => setIsGoogleCalendarOpen(false)}
-        />
+            {/* Détails de l'offre */}
+            <div style={{ marginRight: '40px' }}>
+              <h1 style={{
+                margin: '0 0 8px 0',
+                color: '#ffcc00',
+                fontSize: '28px',
+                fontWeight: '600'
+              }}>
+                {String(selectedJob.title || 'Titre non spécifié')}
+              </h1>
+              <p style={{
+                margin: '0 0 4px 0',
+                color: '#f5f5f7',
+                fontSize: '18px'
+              }}>
+                {String(selectedJob.company || 'Entreprise non spécifiée')}
+              </p>
+              <p style={{
+                margin: '0 0 20px 0',
+                color: '#888',
+                fontSize: '16px'
+              }}>
+                📍 {String(selectedJob.location || 'Localisation non spécifiée')} • 
+                💼 {String(selectedJob.contractType || 'CDI')} • 
+                💰 {String(selectedJob.salary || 'À négocier')}
+              </p>
+
+              <div style={{
+                borderTop: '1px solid #333',
+                paddingTop: '20px',
+                marginBottom: '20px'
+              }}>
+                <h3 style={{
+                  margin: '0 0 12px 0',
+                  color: '#ffcc00',
+                  fontSize: '18px'
+                }}>
+                  Description du poste
+                </h3>
+                <p style={{
+                  margin: 0,
+                  color: '#ccc',
+                  fontSize: '14px',
+                  lineHeight: '1.6',
+                  whiteSpace: 'pre-wrap'
+                }}>
+                  {String(selectedJob.description || 'Aucune description disponible')}
+                </p>
+              </div>
+
+              {selectedJob.requirements && (
+                <div style={{
+                  borderTop: '1px solid #333',
+                  paddingTop: '20px',
+                  marginBottom: '20px'
+                }}>
+                  <h3 style={{
+                    margin: '0 0 12px 0',
+                    color: '#ffcc00',
+                    fontSize: '18px'
+                  }}>
+                    Exigences
+                  </h3>
+                  <p style={{
+                    margin: 0,
+                    color: '#ccc',
+                    fontSize: '14px',
+                    lineHeight: '1.6',
+                    whiteSpace: 'pre-wrap'
+                  }}>
+                    {String(selectedJob.requirements)}
+                  </p>
+                </div>
+              )}
+
+              {/* Bouton recommandation */}
+              <div style={{
+                borderTop: '1px solid #333',
+                paddingTop: '20px',
+                textAlign: 'center'
+              }}>
+                <button
+                  onClick={() => {
+                    console.log('🔥 CLIC RECOMMANDATION pour offre:', selectedJob.title);
+                    console.log('🔥 SELECTED JOB COMPLET:', selectedJob);
+                    console.log('🔥 SELECTED JOB.ID:', selectedJob.id);
+                    setShowJobDetails(false);
+                    setShowRecommendationModal(true);
+                  }}
+                  style={{
+                    padding: '14px 28px',
+                    backgroundColor: '#ffcc00',
+                    color: '#000',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  📋 Recommander des talents pour cette offre
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
+      {/* Nouveau Modal de Recommandation Simple */}
+      <SimpleRecommendationModal 
+        isOpen={showRecommendationModal}
+        onClose={() => {
+          setShowRecommendationModal(false);
+          setSelectedJob(null);
+        }}
+        job={selectedJob}
+      />
     </div>
   );
 }

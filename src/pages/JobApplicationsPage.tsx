@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { FirestoreService } from '../services/firestoreService';
+import { JobService } from '../services/jobService';
 
 interface Application {
   id: string;
@@ -20,14 +21,26 @@ export default function JobApplicationsPage() {
   const navigate = useNavigate();
   const { jobId } = useParams<{ jobId: string }>();
   
+  console.log('🔥 JobApplicationsPage - Rendu avec:', { user: user?.email, role: user?.role, jobId });
+  
   const [applications, setApplications] = useState<Application[]>([]);
   const [job, setJob] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user || user.role !== 'recruteur') {
-      navigate('/dashboard/recruteur');
+    if (!user) {
+      navigate('/');
+      return;
+    }
+    
+    // Rediriger selon le rôle si pas de jobId
+    if (!jobId) {
+      if (user.role === 'recruteur') {
+        navigate('/dashboard/recruteur');
+      } else if (user.role === 'coach') {
+        navigate('/dashboard/coach');
+      }
       return;
     }
 
@@ -41,18 +54,35 @@ export default function JobApplicationsPage() {
       setIsLoading(true);
       
       // Charger l'annonce
-      const jobData = await FirestoreService.getJobById(jobId!);
+      const jobResult = await JobService.getJobById(jobId!);
       
-      // Vérifier que l'annonce appartient au recruteur connecté
-      if (jobData.recruiterId !== user?.id) {
-        setError('Vous n\'êtes pas autorisé à voir les candidatures de cette annonce');
+      if (!jobResult.success || !jobResult.data) {
+        setError('Impossible de charger l\'offre d\'emploi');
         return;
       }
       
+      const jobData = jobResult.data;
+      
+      // Vérifier les permissions selon le rôle
+      if (user?.role === 'recruteur') {
+        // Pour les recruteurs, vérifier que l'annonce leur appartient
+        if (jobData.recruiterId !== user.id) {
+          setError('Vous n\'êtes pas autorisé à voir les candidatures de cette annonce');
+          return;
+        }
+      }
+      // Pour les coachs, pas de vérification - ils peuvent voir toutes les offres
+      
       setJob(jobData);
       
-      // Charger les candidatures
-      const applicationsData = await FirestoreService.getJobApplications(jobId!);
+      // Charger les candidatures (seulement pour les recruteurs)
+      let applicationsData = [];
+      if (user?.role === 'recruteur') {
+        const applicationsResult = await JobService.getJobApplications(jobId!);
+        if (applicationsResult.success && applicationsResult.data) {
+          applicationsData = applicationsResult.data;
+        }
+      }
       
       // Enrichir avec les profils des talents
       const enrichedApplications = await Promise.all(

@@ -32,6 +32,48 @@ export class FeaturedTalentsService {
   static async addFeaturedTalent(talent: Omit<FeaturedTalent, 'id'>): Promise<string | null> {
     try {
       const docRef = await addDoc(collection(db, COLLECTION_NAME), talent);
+      
+      // Envoyer notifications Gmail API (avec fallback SendGrid) aux recruteurs
+      try {
+        const { FirestoreService } = await import('./firestoreService');
+        const { googleIntegratedService } = await import('./googleIntegratedService');
+        
+        // Récupérer tous les recruteurs actifs
+        const recruiters = await FirestoreService.getAllRecruteurs();
+        
+        if (recruiters && recruiters.length > 0) {
+          // Envoyer notification à chaque recruteur
+          for (const recruiter of recruiters) {
+            if (recruiter.email) {
+              // Essayer Gmail API d'abord
+              const gmailSent = await googleIntegratedService.sendProfileNotification({
+                recipientEmail: recruiter.email,
+                recipientName: recruiter.displayName || recruiter.firstName || 'Recruteur',
+                talentName: talent.name,
+                talentSkills: Array.isArray(talent.skills) ? talent.skills.join(', ') : talent.skills || 'Non spécifié',
+                talentExperience: talent.experience || 'Non spécifié'
+              });
+              
+              if (!gmailSent) {
+                // Fallback SendGrid si Gmail échoue
+                const { default: sendGridTemplateService } = await import('./sendGridTemplateService');
+                await sendGridTemplateService.sendProfileNotification({
+                  recipientEmail: recruiter.email,
+                  recipientName: recruiter.displayName || recruiter.firstName || 'Recruteur',
+                  talentName: talent.name,
+                  talentSkills: Array.isArray(talent.skills) ? talent.skills.join(', ') : talent.skills || 'Non spécifié',
+                  talentExperience: talent.experience || 'Non spécifié'
+                });
+              }
+            }
+          }
+          console.log(`📧 Notifications de nouveau profil SendGrid envoyées à ${recruiters.length} recruteurs`);
+        }
+      } catch (emailError) {
+        console.error('❌ Erreur envoi notifications nouveau profil:', emailError);
+        // Ne pas faire échouer l'ajout si l'email échoue
+      }
+      
       return docRef.id;
     } catch (error) {
       console.error('Erreur lors de l\'ajout du talent:', error);

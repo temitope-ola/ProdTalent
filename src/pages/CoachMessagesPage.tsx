@@ -23,8 +23,10 @@ const CoachMessagesPage: React.FC = () => {
   const navigate = useNavigate();
   const { showNotification } = useNotifications();
   const [messages, setMessages] = useState<Message[]>([]);
+  const [conversations, setConversations] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMessage, setSelectedMessage] = useState<Message | null>(null);
+  const [selectedConversation, setSelectedConversation] = useState<any | null>(null);
   const [isReplyModalOpen, setIsReplyModalOpen] = useState(false);
   const [replyContent, setReplyContent] = useState('');
   const [replyingTo, setReplyingTo] = useState<Message | null>(null);
@@ -52,6 +54,10 @@ const CoachMessagesPage: React.FC = () => {
         }));
         
         setMessages(formattedMessages);
+        
+        // Regrouper les messages en conversations avec profils complets
+        const conversationsData = await FirestoreService.groupMessagesByConversationWithProfiles(realMessages, user.id);
+        setConversations(conversationsData);
       } catch (error) {
         console.error('Erreur lors du chargement des messages:', error);
       } finally {
@@ -80,6 +86,20 @@ const CoachMessagesPage: React.FC = () => {
         msg.id === message.id ? { ...msg, read: true } : msg
       ));
     }
+  };
+
+  const handleConversationClick = async (conversation: any) => {
+    setSelectedConversation(conversation);
+    setSelectedMessage(null);
+    // Marquer les messages non lus comme lus
+    const unreadMessages = conversation.messages.filter((msg: any) => msg.type === 'received' && !msg.read);
+    for (const msg of unreadMessages) {
+      await FirestoreService.markMessageAsRead(msg.id);
+    }
+    // Recharger les conversations
+    const realMessages = await FirestoreService.getUserMessages(user.id);
+    const conversationsData = await FirestoreService.groupMessagesByConversationWithProfiles(realMessages, user.id);
+    setConversations(conversationsData);
   };
 
   const handleReply = (message: Message) => {
@@ -127,6 +147,10 @@ const CoachMessagesPage: React.FC = () => {
           read: msg.read
         }));
         setMessages(formattedMessages);
+        
+        // Regrouper les messages en conversations avec profils complets
+        const conversationsData = await FirestoreService.groupMessagesByConversationWithProfiles(realMessages, user.id);
+        setConversations(conversationsData);
       } else {
         showNotification({
           type: 'error',
@@ -144,7 +168,7 @@ const CoachMessagesPage: React.FC = () => {
     }
   };
 
-  const unreadCount = messages.filter(msg => !msg.read).length;
+  const unreadCount = conversations.reduce((total, conv) => total + conv.unreadCount, 0);
 
   if (isLoading) {
     return (
@@ -239,25 +263,25 @@ const CoachMessagesPage: React.FC = () => {
               height: 'calc(100% - 60px)', 
               overflowY: 'auto'
             }}>
-              {messages.length === 0 ? (
+              {conversations.length === 0 ? (
                 <div style={{
                   padding: 20,
                   textAlign: 'center',
                   color: '#888'
                 }}>
-                  Aucun message
+                  Aucune conversation
                 </div>
               ) : (
-                messages.map((message) => (
+                conversations.map((conversation, index) => (
                   <div
-                    key={message.id}
-                    onClick={() => handleMessageClick(message)}
+                    key={`${conversation.interlocutor.id}-${index}`}
+                    onClick={() => handleConversationClick(conversation)}
                     style={{
                       padding: 16,
                       borderBottom: '1px solid #333',
                       cursor: 'pointer',
-                      backgroundColor: selectedMessage?.id === message.id ? '#222' : 'transparent',
-                      borderLeft: selectedMessage?.id === message.id ? '3px solid #ffcc00' : '3px solid transparent'
+                      backgroundColor: selectedConversation?.interlocutor.id === conversation.interlocutor.id ? '#222' : 'transparent',
+                      borderLeft: selectedConversation?.interlocutor.id === conversation.interlocutor.id ? '3px solid #ffcc00' : '3px solid transparent'
                     }}
                   >
                     <div style={{
@@ -267,23 +291,30 @@ const CoachMessagesPage: React.FC = () => {
                       marginBottom: 8
                     }}>
                       <h3 style={{ 
-                        color: message.read ? '#888' : '#f5f5f7', 
+                        color: conversation.unreadCount > 0 ? '#f5f5f7' : '#888', 
                         margin: 0,
                         fontSize: '14px',
-                        fontWeight: message.read ? 'normal' : 'bold'
+                        fontWeight: conversation.unreadCount > 0 ? 'bold' : 'normal'
                       }}>
-                        {message.subject}
+                        {conversation.interlocutor.name}
                       </h3>
-                      <span style={{ color: '#888', fontSize: '12px' }}>
-                        {message.timestamp.toLocaleDateString()}
-                      </span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {conversation.unreadCount > 0 && (
+                          <span style={{ color: '#ffcc00', fontSize: '12px', fontWeight: 'bold' }}>
+                            ({conversation.unreadCount})
+                          </span>
+                        )}
+                        <span style={{ color: '#888', fontSize: '12px' }}>
+                          {conversation.lastMessage.timestamp.toLocaleDateString()}
+                        </span>
+                      </div>
                     </div>
                     <p style={{ 
                       color: '#888', 
                       margin: '0 0 8px 0',
                       fontSize: '14px'
                     }}>
-                      De: {message.from.name} ({message.from.email})
+                      {conversation.interlocutor.role}: {conversation.interlocutor.email}
                     </p>
                     <p style={{ 
                       color: '#888', 
@@ -294,7 +325,7 @@ const CoachMessagesPage: React.FC = () => {
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden'
                     }}>
-                      {message.message}
+                      {conversation.lastMessage.type === 'sent' && 'Vous: '}{conversation.lastMessage.message}
                     </p>
                   </div>
                 ))
@@ -302,8 +333,8 @@ const CoachMessagesPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Détail du message */}
-          {selectedMessage && (
+          {/* Détail de la conversation */}
+          {selectedConversation && (
             <div style={{ 
               flex: 1, 
               backgroundColor: '#111', 
@@ -312,44 +343,61 @@ const CoachMessagesPage: React.FC = () => {
             }}>
               <div style={{ marginBottom: 20 }}>
                 <h2 style={{ color: '#ffcc00', margin: '0 0 16px 0' }}>
-                  {selectedMessage.subject}
+                  Conversation avec {selectedConversation.interlocutor.name}
                 </h2>
                 
                 <div style={{ marginBottom: 16 }}>
                   <p style={{ color: '#888', margin: '0 0 4px 0' }}>
-                    <strong>De:</strong> {selectedMessage.from.name}
-                  </p>
-                  <p style={{ color: '#888', margin: '0 0 4px 0' }}>
-                    <strong>Email:</strong> {selectedMessage.from.email}
+                    <strong>Email:</strong> {selectedConversation.interlocutor.email}
                   </p>
                   <p style={{ color: '#888', margin: '0 0 8px 0' }}>
-                    <strong>Rôle:</strong> {selectedMessage.from.role}
+                    <strong>Rôle:</strong> {selectedConversation.interlocutor.role}
                   </p>
                   <p style={{ color: '#888', margin: 0 }}>
-                    <strong>Date:</strong> {selectedMessage.timestamp.toLocaleString()}
+                    <strong>Messages:</strong> {selectedConversation.messages.length}
                   </p>
                 </div>
               </div>
 
               <div style={{ 
-                backgroundColor: '#222', 
-                padding: 16, 
-                borderRadius: 4,
-                marginBottom: 20
+                flex: 1,
+                overflowY: 'auto',
+                marginBottom: 20,
+                padding: '8px'
               }}>
-                <p style={{ 
-                  color: '#f5f5f7', 
-                  margin: 0,
-                  lineHeight: '1.6',
-                  whiteSpace: 'pre-wrap'
-                }}>
-                  {selectedMessage.message}
-                </p>
+                {selectedConversation.messages
+                  .sort((a: any, b: any) => a.timestamp.getTime() - b.timestamp.getTime())
+                  .map((msg: any) => (
+                  <div
+                    key={msg.id}
+                    style={{
+                      marginBottom: '12px',
+                      padding: '12px',
+                      backgroundColor: msg.type === 'sent' ? '#1a4d3a' : '#333',
+                      borderRadius: '4px',
+                      borderLeft: msg.type === 'sent' ? '3px solid #4caf50' : '3px solid #ffcc00'
+                    }}
+                  >
+                    <div style={{ 
+                      display: 'flex', 
+                      justifyContent: 'space-between', 
+                      marginBottom: '8px',
+                      fontSize: '12px',
+                      color: '#999'
+                    }}>
+                      <span>{msg.type === 'sent' ? 'Vous' : msg.from.name}</span>
+                      <span>{msg.timestamp.toLocaleString()}</span>
+                    </div>
+                    <p style={{ margin: 0, lineHeight: '1.6', color: '#f5f5f7' }}>
+                      {msg.message}
+                    </p>
+                  </div>
+                ))}
               </div>
 
               <div style={{ display: 'flex', gap: 12 }}>
                 <button
-                  onClick={() => handleReply(selectedMessage)}
+                  onClick={() => handleReply(selectedConversation.lastMessage)}
                   style={{
                     padding: '10px 20px',
                     backgroundColor: '#ffcc00',
@@ -418,9 +466,22 @@ const CoachMessagesPage: React.FC = () => {
               </div>
 
               <div style={{ marginBottom: 16 }}>
-                <p style={{ color: '#888', margin: '0 0 8px 0' }}>
-                  <strong>À:</strong> {replyingTo.from.name} ({replyingTo.from.email})
-                </p>
+                <div style={{
+                  backgroundColor: '#222',
+                  padding: '12px',
+                  borderRadius: '4px',
+                  marginBottom: '8px'
+                }}>
+                  <p style={{ color: '#f5f5f7', margin: '0 0 4px 0', fontWeight: 'bold' }}>
+                    <strong>À:</strong> {replyingTo.from.name}
+                  </p>
+                  <p style={{ color: '#ffcc00', margin: '0 0 4px 0' }}>
+                    📧 {replyingTo.from.email}
+                  </p>
+                  <p style={{ color: '#888', margin: 0, fontSize: '12px' }}>
+                    {replyingTo.from.role}
+                  </p>
+                </div>
                 <p style={{ color: '#888', margin: '0 0 16px 0' }}>
                   <strong>Sujet:</strong> Réponse: {replyingTo.subject}
                 </p>

@@ -38,6 +38,24 @@ const AVAILABLE_SKILLS = {
   ]
 };
 
+// Secteurs d'activité pour les recruteurs
+const INDUSTRIES = [
+  'Technologie / IT', 'Finance / Banque', 'Santé / Pharmaceutique', 'Éducation / Formation',
+  'Commerce / Retail', 'Marketing / Communication', 'Consulting', 'Automobile',
+  'Énergie / Environnement', 'Immobilier', 'Transports / Logistique', 'Agroalimentaire',
+  'Média / Divertissement', 'Tourisme / Hôtellerie', 'Mode / Luxe', 'Sport',
+  'Associations / ONG', 'Services publics', 'Startup', 'Autre'
+];
+
+// Tailles d'entreprise
+const COMPANY_SIZES = [
+  '1-10 employés (Startup)',
+  '11-50 employés (Petite entreprise)',
+  '51-200 employés (Moyenne entreprise)',
+  '201-1000 employés (Grande entreprise)',
+  '1000+ employés (Groupe/Multinationale)'
+];
+
 const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
   const { showNotification } = useNotifications();
   const { logout } = useAuth();
@@ -53,7 +71,16 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
     skills: existingSkills,
     linkedinUrl: profile.linkedinUrl || '',
     githubUrl: profile.githubUrl || '',
-    cvUrl: profile.cvUrl || ''
+    cvUrl: profile.cvUrl || '',
+    // Champs spécifiques aux recruteurs/entreprises
+    company: profile.company || '',
+    position: profile.position || '',
+    industry: profile.industry || '',
+    companySize: profile.companySize || '',
+    website: profile.website || '',
+    companyLinkedin: profile.companyLinkedin || '',
+    location: profile.location || '',
+    description: profile.description || ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const [cvFile, setCvFile] = useState(null);
@@ -328,6 +355,264 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
               placeholder="Parlez-nous de vous..."
             />
           </div>
+
+          {/* Champs spécifiques aux recruteurs */}
+          {profile.role === 'recruteur' && (
+            <>
+              {/* Section Entreprise */}
+              <div style={{ 
+                marginBottom: '24px',
+                padding: '16px',
+                backgroundColor: '#1a1a1a',
+                borderRadius: '4px',
+                border: '1px solid #333'
+              }}>
+                <h3 style={{ 
+                  color: '#ffcc00', 
+                  margin: '0 0 16px 0',
+                  fontSize: '16px',
+                  fontWeight: 'bold'
+                }}>
+                  🏢 Informations Entreprise
+                </h3>
+
+                {/* Nom de l'entreprise */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    color: '#f5f5f7', 
+                    marginBottom: '8px',
+                    fontWeight: 'bold'
+                  }}>
+                    Nom de l'entreprise *
+                  </label>
+                  <input
+                    type="text"
+                    name="company"
+                    value={formData.company}
+                    onChange={handleInputChange}
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      backgroundColor: '#222',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f5f5f7',
+                      fontSize: '14px'
+                    }}
+                    placeholder="Nom de votre entreprise"
+                  />
+                </div>
+
+                {/* Poste */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    color: '#f5f5f7', 
+                    marginBottom: '8px',
+                    fontWeight: 'bold'
+                  }}>
+                    Votre poste *
+                  </label>
+                  <input
+                    type="text"
+                    name="position"
+                    value={formData.position}
+                    onChange={handleInputChange}
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      backgroundColor: '#222',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f5f5f7',
+                      fontSize: '14px'
+                    }}
+                    placeholder="Ex: Responsable RH, Directeur Talent, CEO..."
+                  />
+                </div>
+
+                {/* Secteur d'activité */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    color: '#f5f5f7', 
+                    marginBottom: '8px',
+                    fontWeight: 'bold'
+                  }}>
+                    Secteur d'activité *
+                  </label>
+                  <select
+                    name="industry"
+                    value={formData.industry}
+                    onChange={handleInputChange}
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      backgroundColor: '#222',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f5f5f7',
+                      fontSize: '14px'
+                    }}
+                  >
+                    <option value="">Sélectionnez un secteur</option>
+                    {INDUSTRIES.map((industry) => (
+                      <option key={industry} value={industry}>
+                        {industry}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Taille de l'entreprise */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    color: '#f5f5f7', 
+                    marginBottom: '8px',
+                    fontWeight: 'bold'
+                  }}>
+                    Taille de l'entreprise
+                  </label>
+                  <select
+                    name="companySize"
+                    value={formData.companySize}
+                    onChange={handleInputChange}
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      backgroundColor: '#222',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f5f5f7',
+                      fontSize: '14px'
+                    }}
+                  >
+                    <option value="">Sélectionnez une taille</option>
+                    {COMPANY_SIZES.map((size) => (
+                      <option key={size} value={size}>
+                        {size}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Localisation */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    color: '#f5f5f7', 
+                    marginBottom: '8px',
+                    fontWeight: 'bold'
+                  }}>
+                    Localisation
+                  </label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={formData.location}
+                    onChange={handleInputChange}
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      backgroundColor: '#222',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f5f5f7',
+                      fontSize: '14px'
+                    }}
+                    placeholder="Ex: Paris, Lyon, Télétravail, Hybride..."
+                  />
+                </div>
+
+                {/* Site web */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    color: '#f5f5f7', 
+                    marginBottom: '8px',
+                    fontWeight: 'bold'
+                  }}>
+                    Site web de l'entreprise
+                  </label>
+                  <input
+                    type="url"
+                    name="website"
+                    value={formData.website}
+                    onChange={handleInputChange}
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      backgroundColor: '#222',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f5f5f7',
+                      fontSize: '14px'
+                    }}
+                    placeholder="https://votreentreprise.com"
+                  />
+                </div>
+
+                {/* LinkedIn Entreprise */}
+                <div style={{ marginBottom: '16px' }}>
+                  <label style={{ 
+                    display: 'block', 
+                    color: '#f5f5f7', 
+                    marginBottom: '8px',
+                    fontWeight: 'bold'
+                  }}>
+                    LinkedIn Entreprise
+                  </label>
+                  <input
+                    type="url"
+                    name="companyLinkedin"
+                    value={formData.companyLinkedin}
+                    onChange={handleInputChange}
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      backgroundColor: '#222',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f5f5f7',
+                      fontSize: '14px'
+                    }}
+                    placeholder="https://linkedin.com/company/votre-entreprise"
+                  />
+                </div>
+
+                {/* Description de l'entreprise */}
+                <div>
+                  <label style={{ 
+                    display: 'block', 
+                    color: '#f5f5f7', 
+                    marginBottom: '8px',
+                    fontWeight: 'bold'
+                  }}>
+                    Description de l'entreprise
+                  </label>
+                  <textarea
+                    name="description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                    rows={4}
+                    style={{
+                      width: '100%',
+                      padding: '12px',
+                      backgroundColor: '#222',
+                      border: 'none',
+                      borderRadius: '4px',
+                      color: '#f5f5f7',
+                      fontSize: '14px',
+                      resize: 'vertical'
+                    }}
+                    placeholder="Décrivez votre entreprise, sa mission, ses valeurs, son environnement de travail..."
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
           {/* Compétences */}
           <div style={{ marginBottom: '20px' }}>

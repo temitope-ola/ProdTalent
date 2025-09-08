@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../contexts/AuthContext';
 import { FirestoreService, UserProfile } from '../services/firestoreService';
+import { JobService } from '../services/jobService';
 import Avatar from '../components/Avatar';
 import ProfileEditModal from '../components/ProfileEditModal.jsx';
 import TalentAgendaView from '../components/TalentAgendaView';
@@ -27,6 +28,7 @@ export default function TalentDashboard() {
     contractType: '',
     company: ''
   });
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   
   // Statistiques
   const [stats, setStats] = useState({
@@ -46,9 +48,13 @@ export default function TalentDashboard() {
   // Charger le profil et les statistiques
   useEffect(() => {
     if (user) {
+      console.log('🚀 TALENT USEEFFECT - User détecté, chargement des données...', user.id);
       loadProfile();
       loadStats();
+      console.log('🚀 TALENT USEEFFECT - Appel loadJobs()...');
       loadJobs();
+    } else {
+      console.log('❌ TALENT USEEFFECT - Pas d\'utilisateur détecté');
     }
   }, [user]);
 
@@ -56,6 +62,16 @@ export default function TalentDashboard() {
   useEffect(() => {
     applyFilters();
   }, [jobs, activeFilters]);
+
+  // Gérer le redimensionnement de la fenêtre
+  useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Fermer le menu profil quand on clique à l'extérieur (copié du RecruiterDashboard)
   useEffect(() => {
@@ -144,12 +160,24 @@ export default function TalentDashboard() {
   const loadJobs = async () => {
     if (!user) return;
     try {
-      // Charger toutes les offres d'emploi disponibles
-      const allJobs = await FirestoreService.getAllJobs();
-      setJobs(allJobs);
+      console.log('🔥 CHARGEMENT JOBS...');
+      // Charger toutes les offres d'emploi disponibles avec JobService
+      const jobsResult = await JobService.getAllActiveJobs();
+      console.log('📊 RÉSULTAT JOBS:', jobsResult);
+      
+      if (jobsResult.success && jobsResult.data) {
+        console.log('✅ JOBS RÉCUPÉRÉS:', jobsResult.data.length, jobsResult.data);
+        setJobs(jobsResult.data);
+        setFilteredJobs(jobsResult.data);
+      } else {
+        console.log('⚠️ Aucun job ou erreur:', jobsResult);
+        setJobs([]);
+        setFilteredJobs([]);
+      }
     } catch (error) {
-      console.error('Erreur lors du chargement des offres:', error);
+      console.error('❌ Erreur lors du chargement des jobs:', error);
       setJobs([]);
+      setFilteredJobs([]);
     }
   };
 
@@ -355,7 +383,7 @@ export default function TalentDashboard() {
       <div style={{
         width: '100%',
         maxWidth: '1200px',
-        padding: '20px'
+        padding: screenWidth <= 480 ? '10px' : screenWidth <= 768 ? '15px' : '20px'
       }}>
         
         {/* Header avec navigation user-friendly */}
@@ -369,16 +397,27 @@ export default function TalentDashboard() {
           borderRadius: '4px'
         }}>
           <div>
-            <h1 style={{ margin: 0, fontSize: '20px', fontWeight: '600' }}>
+            <h1 style={{ 
+              margin: 0, 
+              fontSize: screenWidth <= 480 ? '18px' : '20px', 
+              fontWeight: '600',
+              color: '#f5f5f7'
+            }}>
               Dashboard Talent
             </h1>
-            <p style={{ margin: 0, color: '#888', fontSize: '12px' }}>
+            <p style={{ 
+              margin: 0, 
+              color: '#888', 
+              fontSize: screenWidth <= 480 ? '11px' : '12px' 
+            }}>
               Gérez votre carrière et vos opportunités
             </p>
           </div>
           
           {/* Menu profil déroulant */}
-          <div style={{ position: 'relative' }} data-profile-menu>
+          <div style={{ 
+            position: 'relative'
+          }} data-profile-menu>
             <div
               onClick={handleProfileClick}
               style={{
@@ -471,13 +510,18 @@ export default function TalentDashboard() {
         {/* Actions principales */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '20px',
-          marginBottom: '30px'
+          gridTemplateColumns: screenWidth <= 480 
+            ? '1fr' 
+            : screenWidth <= 768 
+              ? 'repeat(auto-fit, minmax(250px, 1fr))' 
+              : 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: screenWidth <= 480 ? '12px' : '20px',
+          marginBottom: '30px',
+          padding: screenWidth <= 480 ? '0 10px' : '0'
         }}>
           
           <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
@@ -491,7 +535,7 @@ export default function TalentDashboard() {
           </div>
 
           <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
@@ -504,7 +548,7 @@ export default function TalentDashboard() {
           </div>
 
           <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
@@ -555,25 +599,34 @@ export default function TalentDashboard() {
           {/* Header avec bouton filtre et titre */}
           <div style={{
             display: 'flex',
+            flexDirection: screenWidth <= 480 ? 'column' : 'row',
             justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '10px',
-            paddingLeft: '20px'
+            alignItems: screenWidth <= 480 ? 'stretch' : 'center',
+            gap: screenWidth <= 480 ? '12px' : '0',
+            marginBottom: screenWidth <= 480 ? '15px' : '20px',
+            paddingLeft: screenWidth <= 480 ? '0' : screenWidth <= 768 ? '10px' : '20px'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{ 
+              display: 'flex', 
+              flexDirection: screenWidth <= 480 ? 'column' : 'row',
+              alignItems: screenWidth <= 480 ? 'stretch' : 'center', 
+              gap: screenWidth <= 480 ? '8px' : '16px' 
+            }}>
               {/* Bouton filtre toggle */}
               <div
                 onClick={() => setShowFilters(!showFilters)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'flex-start',
                   gap: '8px',
-                  padding: '8px 12px',
-                  paddingLeft: '16px',
+                  padding: screenWidth <= 480 ? '10px 16px' : '8px 12px',
+                  paddingLeft: screenWidth <= 480 ? '16px' : '16px',
                   backgroundColor: '#333',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  transition: 'background-color 0.2s'
+                  transition: 'background-color 0.2s',
+                  minWidth: screenWidth <= 480 ? '140px' : 'auto'
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
@@ -589,303 +642,344 @@ export default function TalentDashboard() {
                   <div style={{ width: '75%', height: '2px', backgroundColor: '#ffcc00' }}></div>
                   <div style={{ width: '50%', height: '2px', backgroundColor: '#ffcc00' }}></div>
                 </div>
-                <span style={{ fontSize: '14px', color: '#ffcc00' }}>
+                <span style={{ 
+                  fontSize: screenWidth <= 480 ? '13px' : '14px', 
+                  color: '#ffcc00' 
+                }}>
                   {showFilters ? 'Fermer' : 'Filtrer'}
                 </span>
               </div>
               
-              {/* Titre "Opportunités récentes" - slide avec les filtres */}
+              {/* Titre "Opportunités récentes" - fixe */}
               <div style={{ 
-                marginLeft: showFilters ? '250px' : '0px',
-                transition: 'margin-left 0.3s ease'
+                textAlign: screenWidth <= 480 ? 'center' : 'left'
               }}>
-                <h2 style={{ margin: 0, color: '#ffcc00' }}>Opportunités récentes ({filteredJobs.length})</h2>
+                <h2 style={{ 
+                  margin: 0, 
+                  color: '#ffcc00',
+                  fontSize: screenWidth <= 480 ? '16px' : screenWidth <= 768 ? '18px' : '20px'
+                }}>
+                  Opportunités récentes ({filteredJobs.length})
+                </h2>
               </div>
             </div>
             
             {/* Pagination */}
-            <span style={{ fontSize: '14px', color: '#888' }}>Page 1</span>
+            <span style={{ 
+              fontSize: screenWidth <= 480 ? '12px' : '14px', 
+              color: '#888',
+              alignSelf: screenWidth <= 480 ? 'center' : 'auto'
+            }}>Page 1</span>
           </div>
 
-          {/* Contenu principal avec sidebar et cartes */}
-          <div style={{ display: 'flex', gap: '20px' }}>
-            
-            {/* Sidebar filtres */}
-            <div style={{
-              width: showFilters ? '250px' : '0px',
-              overflow: 'hidden',
-              transition: 'width 0.3s ease',
-              backgroundColor: '#1a1a1a',
-              borderRadius: '4px',
-              padding: showFilters ? '25px' : '0px',
-              height: 'fit-content'
-            }}>
-              {showFilters && (
-                <>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    
-                    {/* Filtre par compétences */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Compétences
-                        </span>
-                        {activeFilters.skills && (
-                          <button
-                            onClick={() => clearFilter('skills')}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#ff6b6b',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Effacer
-                          </button>
-                        )}
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="ex: React, Python..."
-                        value={activeFilters.skills}
-                        onChange={(e) => handleFilterChange('skills', e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          backgroundColor: '#333',
-                          color: '#f5f5f7',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontSize: '12px'
-                        }}
-                      />
-                    </div>
-
-                    {/* Filtre par localisation */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Localisation
-                        </span>
-                        {activeFilters.location && (
-                          <button
-                            onClick={() => clearFilter('location')}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#ff6b6b',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Effacer
-                          </button>
-                        )}
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="ex: Paris, Remote..."
-                        value={activeFilters.location}
-                        onChange={(e) => handleFilterChange('location', e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          backgroundColor: '#333',
-                          color: '#f5f5f7',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontSize: '12px'
-                        }}
-                      />
-                    </div>
-
-                    {/* Filtre par type de contrat */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Type de contrat
-                        </span>
-                        {activeFilters.contractType && (
-                          <button
-                            onClick={() => clearFilter('contractType')}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#ff6b6b',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Effacer
-                          </button>
-                        )}
-                      </div>
-                      <select
-                        value={activeFilters.contractType}
-                        onChange={(e) => handleFilterChange('contractType', e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          backgroundColor: '#333',
-                          color: '#f5f5f7',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontSize: '12px'
-                        }}
-                      >
-                        <option value="">Tous types</option>
-                        <option value="CDI">CDI</option>
-                        <option value="CDD">CDD</option>
-                        <option value="Freelance">Freelance</option>
-                        <option value="Préstation">Préstation</option>
-                        <option value="Stage">Stage</option>
-                      </select>
-                    </div>
-                    
-                  </div>
-                </>
-              )}
-            </div>
-
-            {/* Section des cartes opportunités */}
-            <div style={{ 
-              flex: 1,
-              padding: showFilters ? '0px' : '0px 20px'
-            }}>
-              
-
-              {/* Grille des opportunités */}
+          <div style={{ width: '100%' }}>
+            {/* Filtres au-dessus - comme RecruiterDashboard */}
+            {showFilters && (
               <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-                gap: '16px'
+                width: '100%',
+                backgroundColor: '#1a1a1a',
+                borderRadius: '4px',
+                padding: screenWidth <= 480 ? '15px' : '20px',
+                marginBottom: '20px'
               }}>
-                {filteredJobs.slice(0, 6).map((job, index) => (
-                  <div
-                    key={job.id || index}
-                    style={{
-                      padding: '20px',
-                      backgroundColor: '#111',
-                      borderRadius: '4px',
-                      border: '1px solid #333',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = '#ffcc00';
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = '#333';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                    onClick={() => navigate(`/jobs/${job.id}`)}
-                  >
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-                      <div style={{ flex: 1 }}>
-                        <h3 style={{ margin: '0 0 4px 0', color: '#ffcc00', fontSize: '16px' }}>
-                          {job.title || 'Titre non disponible'}
-                        </h3>
-                        <div style={{ color: '#888', fontSize: '12px', marginBottom: '8px' }}>
-                          {job.company || 'Entreprise'} • {job.location || 'Localisation'}
-                        </div>
-                        <div style={{ fontSize: '12px', color: '#666' }}>
-                          {job.contractType || 'Type de contrat'} • {job.createdAt ? getTimeAgo(new Date(job.createdAt.seconds * 1000)) : 'Récent'}
-                        </div>
-                      </div>
-                      <div style={{
-                        backgroundColor: '#ffcc00',
-                        color: '#0a0a0a',
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                        fontSize: '10px',
-                        fontWeight: 'bold'
-                      }}>
-                        Disponible
-                      </div>
-                    </div>
-                    
-                    <div style={{ fontSize: '13px', color: '#ccc', lineHeight: '1.4', marginBottom: '12px' }}>
-                      {job.description ? (job.description.length > 80 ? job.description.substring(0, 80) + '...' : job.description) : 'Description non disponible'}
-                    </div>
-                    
-                    {job.skills && (
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                        {(Array.isArray(job.skills) ? job.skills : job.skills.split(',')).slice(0, 3).map((skill: any, skillIndex: number) => (
-                          <span
-                            key={skillIndex}
-                            style={{
-                              padding: '2px 6px',
-                              backgroundColor: '#333',
-                              color: '#ffcc00',
-                              borderRadius: '2px',
-                              fontSize: '10px'
-                            }}
-                          >
-                            {typeof skill === 'string' ? skill.trim() : skill}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-              
-              {/* Message si aucune opportunité */}
-              {filteredJobs.length === 0 && (
-                <div style={{
-                  textAlign: 'center',
-                  padding: '40px',
-                  color: '#888'
+                {/* Filtres en grid sur toute la largeur */}
+                <div style={{ 
+                  display: 'grid',
+                  gridTemplateColumns: screenWidth <= 480 
+                    ? '1fr' 
+                    : screenWidth <= 768 
+                      ? 'repeat(2, 1fr)' 
+                      : 'repeat(4, 1fr)',
+                  gap: screenWidth <= 480 ? '12px' : '16px' 
                 }}>
-                  <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔍</div>
-                  <h3 style={{ color: '#f5f5f7', marginBottom: '8px' }}>Aucune opportunité trouvée</h3>
-                  <p>Essayez de modifier vos critères de recherche</p>
+                      
+                      {/* Filtre par compétences */}
+                      <div>
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'space-between',
+                          marginBottom: '8px'
+                        }}>
+                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                            Compétences
+                          </span>
+                          {activeFilters.skills && (
+                            <button
+                              onClick={() => clearFilter('skills')}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#ff6b6b',
+                                cursor: 'pointer',
+                                fontSize: '12px'
+                              }}
+                            >
+                              Effacer
+                            </button>
+                          )}
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="ex: React, Python..."
+                          value={activeFilters.skills}
+                          onChange={(e) => handleFilterChange('skills', e.target.value)}
+                          style={{
+                            width: '100%',
+                            padding: '8px',
+                            backgroundColor: '#333',
+                            color: '#f5f5f7',
+                            border: 'none',
+                            borderRadius: '4px',
+                            fontSize: '12px'
+                          }}
+                        />
+                      </div>
+
+                      {/* Filtre par localisation */}
+                      <div>
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'space-between',
+                          marginBottom: '8px'
+                        }}>
+                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                            Localisation
+                          </span>
+                          {activeFilters.location && (
+                            <button
+                              onClick={() => clearFilter('location')}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#ff6b6b',
+                                cursor: 'pointer',
+                                fontSize: '12px'
+                              }}
+                            >
+                              Effacer
+                            </button>
+                          )}
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="ex: Paris, Remote..."
+                          value={activeFilters.location}
+                          onChange={(e) => handleFilterChange('location', e.target.value)}
+                          style={{
+                            width: '100%',
+                            padding: '8px',
+                            backgroundColor: '#333',
+                            color: '#f5f5f7',
+                            border: 'none',
+                            borderRadius: '4px',
+                            fontSize: '12px'
+                          }}
+                        />
+                      </div>
+
+                      {/* Filtre par type de contrat */}
+                      <div>
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'space-between',
+                          marginBottom: '8px'
+                        }}>
+                          <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
+                            Type de contrat
+                          </span>
+                          {activeFilters.contractType && (
+                            <button
+                              onClick={() => clearFilter('contractType')}
+                              style={{
+                                background: 'none',
+                                border: 'none',
+                                color: '#ff6b6b',
+                                cursor: 'pointer',
+                                fontSize: '12px'
+                              }}
+                            >
+                              Effacer
+                            </button>
+                          )}
+                        </div>
+                        <select
+                          value={activeFilters.contractType}
+                          onChange={(e) => handleFilterChange('contractType', e.target.value)}
+                          style={{
+                            width: '100%',
+                            padding: '8px',
+                            backgroundColor: '#333',
+                            color: '#f5f5f7',
+                            border: 'none',
+                            borderRadius: '4px',
+                            fontSize: '12px'
+                          }}
+                        >
+                          <option value="">Tous types</option>
+                          <option value="CDI">CDI</option>
+                          <option value="CDD">CDD</option>
+                          <option value="Freelance">Freelance</option>
+                          <option value="Préstation">Préstation</option>
+                          <option value="Stage">Stage</option>
+                        </select>
+                      </div>
+                      
+                    </div>
+
+                    {/* Bouton Reset */}
+                    <button
+                      onClick={() => setActiveFilters({ skills: '', location: '', contractType: '', company: '' })}
+                      style={{
+                        width: '100%',
+                        padding: '8px',
+                        marginTop: '16px',
+                        backgroundColor: '#333',
+                        color: '#f5f5f7',
+                        border: 'none',
+                        borderRadius: '4px',
+                        cursor: 'pointer',
+                        fontSize: '13px',
+                        transition: 'background-color 0.2s'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
+                    >
+                      Réinitialiser
+                    </button>
+              </div>
+            )}
+
+            {/* Contenu principal avec cartes */}
+            <div style={{ 
+              width: '100%',
+              padding: screenWidth <= 480 ? '0 5px' : screenWidth <= 768 ? '0 10px' : '0'
+            }}>
+            
+
+            {/* Grille des opportunités */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: screenWidth <= 480 
+                ? '1fr' 
+                : screenWidth <= 768 
+                  ? 'repeat(auto-fit, minmax(280px, 1fr))' 
+                  : 'repeat(auto-fit, minmax(300px, 1fr))',
+              gap: screenWidth <= 480 ? '12px' : '16px',
+              padding: screenWidth <= 480 ? '0 10px' : '0'
+            }}>
+              {filteredJobs.slice(0, 6).map((job, index) => (
+                <div
+                  key={job.id || index}
+                  style={{
+                    padding: '20px',
+                    backgroundColor: '#111',
+                    borderRadius: '4px',
+                    border: '1px solid #333',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = '#ffcc00';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = '#333';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                  onClick={() => navigate(`/jobs/${job.id}`)}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                    <div style={{ flex: 1 }}>
+                      <h3 style={{ margin: '0 0 4px 0', color: '#ffcc00', fontSize: '16px' }}>
+                        {job.title || 'Titre non disponible'}
+                      </h3>
+                      <div style={{ color: '#888', fontSize: '12px', marginBottom: '8px' }}>
+                        {job.company || 'Entreprise'} • {job.location || 'Localisation'}
+                      </div>
+                      <div style={{ fontSize: '12px', color: '#666' }}>
+                        {job.contractType || 'Type de contrat'} • {job.createdAt ? getTimeAgo(new Date(job.createdAt.seconds * 1000)) : 'Récent'}
+                      </div>
+                    </div>
+                    <div style={{
+                      backgroundColor: '#ffcc00',
+                      color: '#0a0a0a',
+                      padding: '4px 8px',
+                      borderRadius: '4px',
+                      fontSize: '10px',
+                      fontWeight: 'bold'
+                    }}>
+                      Disponible
+                    </div>
+                  </div>
+                  
+                  <div style={{ fontSize: '13px', color: '#ccc', lineHeight: '1.4', marginBottom: '12px' }}>
+                    {job.description ? (job.description.length > 80 ? job.description.substring(0, 80) + '...' : job.description) : 'Description non disponible'}
+                  </div>
+                  
+                  {job.skills && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                      {(Array.isArray(job.skills) ? job.skills : job.skills.split(',')).slice(0, 3).map((skill: any, skillIndex: number) => (
+                        <span
+                          key={skillIndex}
+                          style={{
+                            padding: '2px 6px',
+                            backgroundColor: '#333',
+                            color: '#ffcc00',
+                            borderRadius: '2px',
+                            fontSize: '10px'
+                          }}
+                        >
+                          {typeof skill === 'string' ? skill.trim() : skill}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
+            
+            {/* Message si aucune opportunité */}
+            {filteredJobs.length === 0 && (
+              <div style={{
+                textAlign: 'center',
+                padding: '40px',
+                color: '#888'
+              }}>
+                <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔍</div>
+                <h3 style={{ color: '#f5f5f7', marginBottom: '8px' }}>Aucune opportunité trouvée</h3>
+                <p>Essayez de modifier vos critères de recherche</p>
+              </div>
+            )}
+          </div>
           </div>
         </div>
       </div>
-      
-        
-        {user && (
-          <ProfileEditModal
-            profile={user}
-            isOpen={isEditModalOpen}
-            onClose={() => {
-              console.log('🔍 Test: Fermeture de ProfileEditModal');
-              setIsEditModalOpen(false);
-            }}
-            onSave={handleSaveProfile}
-          />
-        )}
 
-                            {/* Agenda de coaching */}
-              {isCalendarOpen && (
-                <TalentAgendaView onClose={() => setIsCalendarOpen(false)} />
-              )}
+      {/* Modals */}
+      {user && (
+        <ProfileEditModal
+          profile={user}
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            console.log('🔍 Test: Fermeture de ProfileEditModal');
+            setIsEditModalOpen(false);
+          }}
+          onSave={handleSaveProfile}
+        />
+      )}
 
-              {/* Mes rendez-vous */}
-              {isAppointmentsOpen && (
-                <TalentAppointmentManager onClose={() => setIsAppointmentsOpen(false)} />
-              )}
+      {/* Agenda de coaching */}
+      {isCalendarOpen && (
+        <TalentAgendaView onClose={() => setIsCalendarOpen(false)} />
+      )}
+
+      {/* Mes rendez-vous */}
+      {isAppointmentsOpen && (
+        <TalentAppointmentManager onClose={() => setIsAppointmentsOpen(false)} />
+      )}
     </div>
   );
 }

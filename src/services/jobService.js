@@ -177,3 +177,6 @@ export class JobService {
         }
     }
 }
+
+export const jobService = new JobService();
+export default JobService;

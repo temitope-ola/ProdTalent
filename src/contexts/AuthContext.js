@@ -69,6 +69,51 @@ export function AuthProvider({ children }) {
             if (!result) {
                 throw new Error('Erreur lors de la création du profil');
             }
+            
+            // Envoyer l'email de bienvenue avec SendGrid
+            try {
+                const { default: sendGridTemplateService } = await import('../services/sendGridTemplateService');
+                await sendGridTemplateService.sendWelcomeEmail({
+                    recipientEmail: email,
+                    recipientName: email.split('@')[0],
+                    userRole: role === 'talent' ? 'Talent' : role === 'recruteur' ? 'Recruteur' : 'Coach',
+                    dashboardUrl: `https://prodtalent.com/dashboard/${role}`
+                });
+                console.log('✅ Email de bienvenue envoyé avec succès');
+            } catch (emailError) {
+                console.error('❌ Erreur lors de l\'envoi de l\'email de bienvenue:', emailError);
+                // Ne pas faire échouer l'inscription si l'email échoue
+            }
+            
+            // Si c'est un nouveau talent, notifier les recruteurs
+            if (role === 'talent') {
+                try {
+                    const { default: sendGridTemplateService } = await import('../services/sendGridTemplateService');
+                    
+                    // Récupérer tous les recruteurs
+                    const recruiters = await FirestoreService.getAllRecruteurs();
+                    console.log(`📢 Notification de ${recruiters.length} recruteurs pour nouveau talent`);
+                    
+                    // Envoyer notification à chaque recruteur
+                    for (const recruiter of recruiters) {
+                        try {
+                            await sendGridTemplateService.sendProfileNotification({
+                                recipientEmail: recruiter.email,
+                                recipientName: recruiter.displayName || recruiter.email.split('@')[0],
+                                talentName: email.split('@')[0],
+                                talentSkills: 'Profil complet à découvrir',
+                                talentExperience: 'Formation certifiée Edacy'
+                            });
+                        } catch (recruitNotifError) {
+                            console.error(`❌ Erreur notification recruteur ${recruiter.email}:`, recruitNotifError);
+                        }
+                    }
+                    console.log('✅ Recruteurs notifiés du nouveau talent');
+                } catch (recruitersError) {
+                    console.error('❌ Erreur lors de la notification des recruteurs:', recruitersError);
+                }
+            }
+            
             // Le profil sera automatiquement chargé par onAuthStateChanged
         }
         catch (error) {
