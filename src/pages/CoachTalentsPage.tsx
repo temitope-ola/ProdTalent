@@ -333,234 +333,6 @@ const CoachTalentsPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Filtres mobiles au-dessus - s'ouvrent vers le haut */}
-        {showFilters && screenWidth <= 768 && (
-          <div style={{
-            width: '100%',
-            backgroundColor: '#1a1a1a',
-            borderRadius: '4px',
-            padding: screenWidth <= 480 ? '15px' : '20px',
-            marginBottom: '20px'
-          }}>
-            {/* Filtres en grid sur toute la largeur */}
-            <div style={{ 
-              display: 'grid',
-              gridTemplateColumns: screenWidth <= 480 
-                ? '1fr' 
-                : screenWidth <= 768 
-                  ? 'repeat(2, 1fr)' 
-                  : 'repeat(4, 1fr)',
-              gap: screenWidth <= 480 ? '12px' : '16px' 
-            }}>
-
-              {/* Filtre par compétences */}
-              <div>
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'space-between',
-                  marginBottom: '8px'
-                }}>
-                  <label style={{ color: '#f5f5f7', fontSize: '14px', fontWeight: 'bold' }}>
-                    Compétences
-                  </label>
-                  {activeFilters.skills && (
-                    <button 
-                      onClick={() => setActiveFilters(prev => ({ ...prev, skills: '' }))}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#888',
-                        cursor: 'pointer',
-                        fontSize: '12px',
-                        padding: '0'
-                      }}
-                    >
-                      Effacer
-                    </button>
-                  )}
-                </div>
-                <input
-                  type="text"
-                  placeholder="Ex: React, Node.js..."
-                  value={activeFilters.skills}
-                  onChange={(e) => setActiveFilters(prev => ({ ...prev, skills: e.target.value }))}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    backgroundColor: '#1a1a1a',
-                    border: '1px solid #333',
-                    borderRadius: '4px',
-                    color: '#f5f5f7',
-                    fontSize: '13px'
-                  }}
-                />
-              </div>
-
-              {/* Filtre par disponibilité */}
-              <div>
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'space-between',
-                  marginBottom: '8px'
-                }}>
-                  <label style={{ color: '#f5f5f7', fontSize: '14px', fontWeight: 'bold' }}>
-                    Disponibilité
-                  </label>
-                  {activeFilters.availability && (
-                    <button 
-                      onClick={() => setActiveFilters(prev => ({ ...prev, availability: '' }))}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#888',
-                        cursor: 'pointer',
-                        fontSize: '12px',
-                        padding: '0'
-                      }}
-                    >
-                      Effacer
-                    </button>
-                  )}
-                </div>
-                <select
-                  value={activeFilters.availability}
-                  onChange={(e) => setActiveFilters(prev => ({ ...prev, availability: e.target.value }))}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    backgroundColor: '#1a1a1a',
-                    border: '1px solid #333',
-                    borderRadius: '4px',
-                    color: '#f5f5f7',
-                    fontSize: '13px'
-                  }}
-                >
-                  <option value="">Toute disponibilité</option>
-                  <option value="Immédiat">Immédiat</option>
-                  <option value="Dans la semaine">Dans la semaine</option>
-                  <option value="Dans le mois">Dans le mois</option>
-                  <option value="Plus tard">Plus tard</option>
-                </select>
-              </div>
-
-              {/* Filtre par localisation */}
-              <div>
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'space-between',
-                  marginBottom: '8px'
-                }}>
-                  <label style={{ color: '#f5f5f7', fontSize: '14px', fontWeight: 'bold' }}>
-                    Localisation
-                  </label>
-                  {activeFilters.location && (
-                    <button 
-                      onClick={() => setActiveFilters(prev => ({ ...prev, location: '' }))}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#888',
-                        cursor: 'pointer',
-                        fontSize: '12px',
-                        padding: '0'
-                      }}
-                    >
-                      Effacer
-                    </button>
-                  )}
-                </div>
-                <input
-                  type="text"
-                  placeholder="Ville, pays..."
-                  value={activeFilters.location}
-                  onChange={(e) => setActiveFilters(prev => ({ ...prev, location: e.target.value }))}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    backgroundColor: '#1a1a1a',
-                    border: '1px solid #333',
-                    borderRadius: '4px',
-                    color: '#f5f5f7',
-                    fontSize: '13px'
-                  }}
-                />
-              </div>
-
-              {/* Filtre par expérience */}
-              <div>
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  justifyContent: 'space-between',
-                  marginBottom: '8px'
-                }}>
-                  <label style={{ color: '#f5f5f7', fontSize: '14px', fontWeight: 'bold' }}>
-                    Expérience
-                  </label>
-                  {activeFilters.experience && (
-                    <button 
-                      onClick={() => setActiveFilters(prev => ({ ...prev, experience: '' }))}
-                      style={{
-                        background: 'none',
-                        border: 'none',
-                        color: '#888',
-                        cursor: 'pointer',
-                        fontSize: '12px',
-                        padding: '0'
-                      }}
-                    >
-                      Effacer
-                    </button>
-                  )}
-                </div>
-                <select
-                  value={activeFilters.experience}
-                  onChange={(e) => setActiveFilters(prev => ({ ...prev, experience: e.target.value }))}
-                  style={{
-                    width: '100%',
-                    padding: '8px 12px',
-                    backgroundColor: '#1a1a1a',
-                    border: '1px solid #333',
-                    borderRadius: '4px',
-                    color: '#f5f5f7',
-                    fontSize: '13px'
-                  }}
-                >
-                  <option value="">Toute expérience</option>
-                  <option value="Junior">Junior (0-2 ans)</option>
-                  <option value="Intermédiaire">Intermédiaire (3-5 ans)</option>
-                  <option value="Senior">Senior (6+ ans)</option>
-                  <option value="Expert">Expert (10+ ans)</option>
-                </select>
-              </div>
-
-            </div>
-
-            {/* Bouton "Appliquer les filtres" */}
-            <button 
-              onClick={() => setShowFilters(false)}
-              style={{
-                width: '100%',
-                padding: '12px',
-                marginTop: '16px',
-                backgroundColor: '#333',
-                color: '#f5f5f7',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                fontSize: '13px',
-                transition: 'background-color 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
-            >
-              Appliquer les filtres
-            </button>
-          </div>
-        )}
 
         {/* Section "Tous les talents" avec filtre sidebar */}
         <div style={{
@@ -625,53 +397,26 @@ const CoachTalentsPage: React.FC = () => {
             <span style={{ fontSize: '14px', color: '#888' }}>Page 1</span>
           </div>
 
-          {/* Filtres au-dessus - comme RecruiterDashboard */}
+
+          {/* Filtres mobiles - seulement pour mobile/tablette */}
           {showFilters && screenWidth <= 768 && (
             <div style={{
               width: '100%',
-              backgroundColor: '#1a1a1a',
+              backgroundColor: '#0a0a0a',
               borderRadius: '4px',
-              padding: screenWidth <= 480 ? '15px' : '20px',
+              padding: '20px',
               marginBottom: '20px'
             }}>
-              {/* Filtres en grid sur toute la largeur */}
               <div style={{ 
                 display: 'grid',
-                gridTemplateColumns: screenWidth <= 480 
-                  ? '1fr' 
-                  : screenWidth <= 768 
-                    ? 'repeat(2, 1fr)' 
-                    : 'repeat(4, 1fr)',
-                gap: screenWidth <= 480 ? '12px' : '16px' 
+                gridTemplateColumns: screenWidth <= 480 ? '1fr' : 'repeat(2, 1fr)',
+                gap: '16px' 
               }}>
-
-                {/* Filtre par compétences */}
+                {/* Compétences */}
                 <div>
-                  <div style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'space-between',
-                    marginBottom: '8px'
-                  }}>
-                    <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                      Compétences
-                    </span>
-                    {activeFilters.skills && (
-                      <button
-                        onClick={() => clearFilter('skills')}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: '#888',
-                          cursor: 'pointer',
-                          fontSize: '12px',
-                          padding: '2px'
-                        }}
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
+                  <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500', marginBottom: '8px', display: 'block' }}>
+                    Compétences
+                  </span>
                   <input
                     type="text"
                     placeholder="ex: React, Python..."
@@ -679,53 +424,31 @@ const CoachTalentsPage: React.FC = () => {
                     onChange={(e) => handleFilterChange('skills', e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '8px 12px',
-                      backgroundColor: '#1a1a1a',
-                      border: '1px solid #333',
-                      borderRadius: '4px',
+                      padding: '8px',
+                      backgroundColor: '#333',
                       color: '#f5f5f7',
+                      border: 'none',
+                      borderRadius: '4px',
                       fontSize: '13px'
                     }}
                   />
                 </div>
 
-                {/* Filtre par disponibilité */}
+                {/* Disponibilité */}
                 <div>
-                  <div style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'space-between',
-                    marginBottom: '8px'
-                  }}>
-                    <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                      Disponibilité
-                    </span>
-                    {activeFilters.availability && (
-                      <button
-                        onClick={() => clearFilter('availability')}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: '#888',
-                          cursor: 'pointer',
-                          fontSize: '12px',
-                          padding: '2px'
-                        }}
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
+                  <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500', marginBottom: '8px', display: 'block' }}>
+                    Disponibilité
+                  </span>
                   <select
                     value={activeFilters.availability}
                     onChange={(e) => handleFilterChange('availability', e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '8px 12px',
-                      backgroundColor: '#1a1a1a',
-                      border: '1px solid #333',
-                      borderRadius: '4px',
+                      padding: '8px',
+                      backgroundColor: '#333',
                       color: '#f5f5f7',
+                      border: 'none',
+                      borderRadius: '4px',
                       fontSize: '13px'
                     }}
                   >
@@ -737,33 +460,11 @@ const CoachTalentsPage: React.FC = () => {
                   </select>
                 </div>
 
-                {/* Filtre par localisation */}
+                {/* Localisation */}
                 <div>
-                  <div style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'space-between',
-                    marginBottom: '8px'
-                  }}>
-                    <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                      Localisation
-                    </span>
-                    {activeFilters.location && (
-                      <button
-                        onClick={() => clearFilter('location')}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: '#888',
-                          cursor: 'pointer',
-                          fontSize: '12px',
-                          padding: '2px'
-                        }}
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
+                  <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500', marginBottom: '8px', display: 'block' }}>
+                    Localisation
+                  </span>
                   <input
                     type="text"
                     placeholder="ex: Paris, Lyon..."
@@ -771,53 +472,31 @@ const CoachTalentsPage: React.FC = () => {
                     onChange={(e) => handleFilterChange('location', e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '8px 12px',
-                      backgroundColor: '#1a1a1a',
-                      border: '1px solid #333',
-                      borderRadius: '4px',
+                      padding: '8px',
+                      backgroundColor: '#333',
                       color: '#f5f5f7',
+                      border: 'none',
+                      borderRadius: '4px',
                       fontSize: '13px'
                     }}
                   />
                 </div>
 
-                {/* Filtre par expérience */}
+                {/* Expérience */}
                 <div>
-                  <div style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    justifyContent: 'space-between',
-                    marginBottom: '8px'
-                  }}>
-                    <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                      Expérience
-                    </span>
-                    {activeFilters.experience && (
-                      <button
-                        onClick={() => clearFilter('experience')}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          color: '#888',
-                          cursor: 'pointer',
-                          fontSize: '12px',
-                          padding: '2px'
-                        }}
-                      >
-                        ✕
-                      </button>
-                    )}
-                  </div>
+                  <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500', marginBottom: '8px', display: 'block' }}>
+                    Expérience
+                  </span>
                   <select
                     value={activeFilters.experience}
                     onChange={(e) => handleFilterChange('experience', e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '8px 12px',
-                      backgroundColor: '#1a1a1a',
-                      border: '1px solid #333',
-                      borderRadius: '4px',
+                      padding: '8px',
+                      backgroundColor: '#333',
                       color: '#f5f5f7',
+                      border: 'none',
+                      borderRadius: '4px',
                       fontSize: '13px'
                     }}
                   >
@@ -841,11 +520,8 @@ const CoachTalentsPage: React.FC = () => {
                   border: 'none',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  fontSize: '13px',
-                  transition: 'background-color 0.2s'
+                  fontSize: '13px'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
               >
                 Réinitialiser
               </button>
