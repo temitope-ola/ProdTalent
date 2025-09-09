@@ -60,7 +60,11 @@ export const useAppointments = (userId?: string, userRole?: 'coach' | 'talent') 
               recipientEmail: talentProfile.email,
               recipientName: talentProfile.displayName || talentProfile.firstName || 'Talent',
               coachName: coachProfile.displayName || coachProfile.firstName || 'Coach',
-              appointmentDate: new Date(appointmentData.date).toLocaleDateString('fr-FR'),
+              appointmentDate: new Date(appointmentData.date).toLocaleDateString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+              }),
               appointmentTime: appointmentData.time,
               meetingType: appointmentData.type || 'Session de coaching',
               meetLink: appointmentData.meetLink,
@@ -74,7 +78,11 @@ export const useAppointments = (userId?: string, userRole?: 'coach' | 'talent') 
                 recipientEmail: coachProfile.email,
                 recipientName: talentProfile.displayName || talentProfile.firstName || 'Talent', // Le talent qui a réservé
                 coachName: coachProfile.displayName || coachProfile.firstName || 'Coach',
-                appointmentDate: new Date(appointmentData.date).toLocaleDateString('fr-FR'),
+                appointmentDate: new Date(appointmentData.date).toLocaleDateString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+              }),
                 appointmentTime: appointmentData.time,
                 meetingType: `Nouveau rendez-vous avec ${talentProfile.displayName || talentProfile.firstName || 'Talent'}`,
                 meetLink: appointmentData.meetLink,
@@ -131,7 +139,11 @@ export const useAppointments = (userId?: string, userRole?: 'coach' | 'talent') 
                 recipientEmail: talentProfile.email,
                 recipientName: talentProfile.displayName || talentProfile.firstName || 'Talent',
                 coachName: coachProfile.displayName || coachProfile.firstName || 'Coach',
-                appointmentDate: new Date(appointment.date).toLocaleDateString('fr-FR'),
+                appointmentDate: new Date(appointment.date).toLocaleDateString('fr-FR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric'
+                }),
                 appointmentTime: appointment.time,
                 meetingType: appointment.type || 'Session de coaching',
                 meetLink: appointment.meetLink,
@@ -145,7 +157,11 @@ export const useAppointments = (userId?: string, userRole?: 'coach' | 'talent') 
                   recipientEmail: coachProfile.email,
                   recipientName: talentProfile.displayName || talentProfile.firstName || 'Talent',
                   coachName: coachProfile.displayName || coachProfile.firstName || 'Coach',
-                  appointmentDate: new Date(appointment.date).toLocaleDateString('fr-FR'),
+                  appointmentDate: new Date(appointment.date).toLocaleDateString('fr-FR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                  year: 'numeric'
+                }),
                   appointmentTime: appointment.time,
                   meetingType: `Rendez-vous confirmé avec ${talentProfile.displayName || talentProfile.firstName || 'Talent'}`,
                   meetLink: appointment.meetLink,

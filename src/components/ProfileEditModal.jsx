@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FirestoreService } from '../services/firestoreService';
 import { useNotifications } from './NotificationManager';
 import useAuth from '../contexts/AuthContext';
+import EmailPreferencesModal from './EmailPreferencesModal';
 
 // Compétences disponibles organisées par catégories
 const AVAILABLE_SKILLS = {
@@ -84,9 +85,11 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [cvFile, setCvFile] = useState(null);
+  const [avatarFile, setAvatarFile] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [newSkill, setNewSkill] = useState('');
   const [showSkillSuggestions, setShowSkillSuggestions] = useState(false);
+  const [showEmailPreferences, setShowEmailPreferences] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -167,13 +170,44 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
     }
   };
 
+  const handleAvatarUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const maxSize = 2 * 1024 * 1024; // 2MB pour les images
+      if (file.size > maxSize) {
+        showNotification({
+          type: 'error',
+          title: 'Image trop volumineuse',
+          message: 'L\'image est trop volumineuse. Veuillez choisir un fichier de moins de 2MB.'
+        });
+        e.target.value = '';
+        return;
+      }
+      
+      // Vérifier que c'est bien une image
+      if (!file.type.startsWith('image/')) {
+        showNotification({
+          type: 'error',
+          title: 'Type de fichier invalide',
+          message: 'Veuillez sélectionner un fichier image (JPG, PNG, WebP, etc.).'
+        });
+        e.target.value = '';
+        return;
+      }
+      
+      setAvatarFile(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
       let cvUrl = formData.cvUrl;
+      let avatarUrl = profile.avatarUrl; // Garder l'avatar existant par défaut
       
+      // Upload CV si nouveau fichier
       if (cvFile) {
         try {
           cvUrl = await FirestoreService.uploadCV(cvFile);
@@ -181,8 +215,25 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
           console.error('Erreur lors de l\'upload du CV:', error);
           showNotification({
             type: 'error',
-            title: 'Erreur d\'upload',
+            title: 'Erreur d\'upload CV',
             message: error instanceof Error ? error.message : 'Erreur lors de l\'upload du CV'
+          });
+          setIsLoading(false);
+          return;
+        }
+      }
+
+      // Upload Avatar si nouveau fichier
+      if (avatarFile) {
+        try {
+          avatarUrl = await FirestoreService.uploadAvatar(avatarFile);
+          console.log('✅ Avatar uploadé avec succès:', avatarUrl);
+        } catch (error) {
+          console.error('Erreur lors de l\'upload de l\'avatar:', error);
+          showNotification({
+            type: 'error',
+            title: 'Erreur d\'upload photo',
+            message: error instanceof Error ? error.message : 'Erreur lors de l\'upload de la photo de profil'
           });
           setIsLoading(false);
           return;
@@ -195,7 +246,17 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
         skills: formData.skills,
         linkedinUrl: formData.linkedinUrl,
         githubUrl: formData.githubUrl,
-        cvUrl: cvUrl
+        cvUrl: cvUrl,
+        avatarUrl: avatarUrl, // Inclure l'avatar dans la sauvegarde
+        // Champs recruteur/entreprise
+        company: formData.company,
+        position: formData.position,
+        industry: formData.industry,
+        companySize: formData.companySize,
+        website: formData.website,
+        companyLinkedin: formData.companyLinkedin,
+        location: formData.location,
+        description: formData.description
       };
 
       await FirestoreService.updateProfile(profile.id, profile.role, updatedData);
@@ -325,6 +386,62 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
               }}
               placeholder="Votre nom d'affichage"
             />
+          </div>
+
+          {/* Photo de profil */}
+          <div style={{ marginBottom: '24px' }}>
+            <label style={{ 
+              display: 'block', 
+              color: '#f5f5f7', 
+              marginBottom: '8px',
+              fontWeight: 'bold'
+            }}>
+              Photo de profil
+            </label>
+            
+            {/* Affichage de la photo actuelle */}
+            {(profile.avatarUrl || avatarFile) && (
+              <div style={{ marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <img
+                  src={avatarFile ? URL.createObjectURL(avatarFile) : profile.avatarUrl}
+                  alt="Photo de profil"
+                  style={{
+                    width: '80px',
+                    height: '80px',
+                    borderRadius: '50%',
+                    objectFit: 'cover',
+                    border: '2px solid #61bfac'
+                  }}
+                />
+                <div>
+                  <p style={{ color: '#61bfac', fontSize: '14px', margin: '0 0 4px 0' }}>
+                    {avatarFile ? '🆕 Nouvelle photo' : '📸 Photo actuelle'}
+                  </p>
+                  <p style={{ color: '#888', fontSize: '12px', margin: 0 }}>
+                    Format recommandé: JPG, PNG (max 2MB)
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleAvatarUpload}
+              style={{
+                width: '100%',
+                padding: '12px',
+                backgroundColor: '#222',
+                border: '2px dashed #555',
+                borderRadius: '8px',
+                color: '#f5f5f7',
+                fontSize: '14px',
+                cursor: 'pointer'
+              }}
+            />
+            <p style={{ color: '#888', fontSize: '12px', marginTop: '4px', margin: '4px 0 0 0' }}>
+              Formats acceptés : JPG, PNG, WebP, etc. Taille maximale : 2MB
+            </p>
           </div>
 
           {/* Bio */}
@@ -905,6 +1022,44 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
             )}
           </div>
 
+          {/* Section Préférences Email */}
+          <div style={{
+            marginTop: '32px',
+            paddingTop: '24px',
+            borderTop: '1px solid #333'
+          }}>
+            <h3 style={{ 
+              color: '#61bfac', 
+              margin: '0 0 16px 0', 
+              fontSize: '16px' 
+            }}>
+              📧 Préférences de communication
+            </h3>
+            <p style={{ 
+              color: '#ccc', 
+              fontSize: '14px', 
+              marginBottom: '16px' 
+            }}>
+              Gérez les types d'emails que vous souhaitez recevoir.
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowEmailPreferences(true)}
+              style={{
+                padding: '10px 20px',
+                backgroundColor: '#61bfac',
+                color: 'white',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 'bold'
+              }}
+            >
+              Gérer mes préférences email
+            </button>
+          </div>
+
           {/* Boutons principaux */}
           <div style={{
             display: 'flex',
@@ -947,6 +1102,13 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
           </div>
         </form>
       </div>
+
+      {/* Modal Email Preferences */}
+      <EmailPreferencesModal
+        isOpen={showEmailPreferences}
+        onClose={() => setShowEmailPreferences(false)}
+        userId={profile.id}
+      />
     </div>
   );
 };

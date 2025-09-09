@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { FirestoreService, UserProfile } from '../services/firestoreService';
-import { JobService } from '../services/jobService';
+// JobService methods are now in FirestoreService
 import { useNotifications } from '../components/NotificationManager';
 
 export default function CoachJobViewPage() {
@@ -44,7 +44,7 @@ export default function CoachJobViewPage() {
       setIsLoading(true);
       console.log('🔥 Chargement offre:', jobId);
       
-      const jobResult = await JobService.getJobById(jobId!);
+      const jobResult = await FirestoreService.getJobById(jobId!);
       
       if (jobResult.success && jobResult.data) {
         console.log('✅ Offre chargée:', jobResult.data);

@@ -67,9 +67,12 @@ const TalentAppointmentManager: React.FC<TalentAppointmentManagerProps> = ({ onC
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr);
-    const days = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
-    const months = ['jan.', 'fév.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
-    return `${days[date.getDay()]} ${date.getDate()} ${months[date.getMonth()]}`;
+    // Format j/m/a (français)
+    return date.toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
   };
 
   const getStatusColor = (status: string) => {

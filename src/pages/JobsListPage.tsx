@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { FirestoreService } from '../services/firestoreService';
 import { useNotifications } from '../components/NotificationManager';
+import SEOHead from '../components/SEOHead';
+import { seoData } from '../utils/seoData';
+import { useSEO } from '../hooks/useSEO';
 
 interface Job {
   id: string;
@@ -31,6 +34,7 @@ export default function JobsListPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { showNotification } = useNotifications();
+  const { trackPageView } = useSEO();
   const [jobs, setJobs] = useState<Job[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -137,14 +141,28 @@ export default function JobsListPage() {
     );
   }
 
+  // Track page view
+  React.useEffect(() => {
+    trackPageView('Jobs List');
+  }, [trackPageView]);
+
   return (
-    <div style={{
-      minHeight: '100vh',
-      backgroundColor: '#0a0a0a',
-      color: '#f5f5f7',
-      display: 'flex',
-      justifyContent: 'center'
-    }}>
+    <>
+      <SEOHead
+        title={seoData.jobs.title}
+        description={seoData.jobs.description}
+        keywords={seoData.jobs.keywords}
+        url="https://prodtalent.com/jobs"
+        structuredData={seoData.jobs.structuredData}
+      />
+      
+      <div style={{
+        minHeight: '100vh',
+        backgroundColor: '#0a0a0a',
+        color: '#f5f5f7',
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
       <div style={{
         width: '1214px',
         maxWidth: '100%',
@@ -443,5 +461,6 @@ export default function JobsListPage() {
         )}
       </div>
     </div>
+    </>
   );
 }

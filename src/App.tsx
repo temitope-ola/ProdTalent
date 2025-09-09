@@ -1,6 +1,7 @@
 // src/App.tsx
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import useAuth from './contexts/AuthContext';
 import { useEffect } from 'react';
 import NotificationProvider from './components/NotificationManager';
@@ -45,6 +46,12 @@ import SendGridAdminPage from './pages/SendGridAdminPage';
 import CalendarMeetTest from './pages/CalendarMeetTest';
 import ModernCalendarTest from './pages/ModernCalendarTest';
 import SendGridTemplateTestPage from './pages/SendGridTemplateTestPage';
+import Footer from './components/Footer';
+import LegalPage from './pages/LegalPage';
+import PrivacyPage from './pages/PrivacyPage';
+import TermsPage from './pages/TermsPage';
+import CookiesPage from './pages/CookiesPage';
+import ContactPage from './pages/ContactPage';
 
 // Composant de login admin simple
 function AdminLogin() {
@@ -195,224 +202,241 @@ function ProtectedRoute({ children }: { children: React.ReactElement }) {
 
 export default function App() {
   return (
-    <NotificationProvider>
-      <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/admin" element={<AdminLogin />} />
-      <Route path="/coach/login" element={<CoachLogin />} />
+    <HelmetProvider>
+      <NotificationProvider>
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column'
+        }}>
+          <div style={{ flex: 1 }}>
+            <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/admin" element={<AdminLogin />} />
+            <Route path="/coach/login" element={<CoachLogin />} />
 
-      <Route
-        path="/dashboard/talent"
-        element={
-          <ProtectedRoute>
-            <TalentDashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/dashboard/recruteur"
-        element={
-          <ProtectedRoute>
-            <RecruiterDashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/dashboard/coach"
-        element={
-          <ProtectedRoute>
-            <CoachDashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/coach-test"
-        element={
-          <ProtectedRoute>
-            <CoachDashboard />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/dashboard/talent"
+              element={
+                <ProtectedRoute>
+                  <TalentDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/recruteur"
+              element={
+                <ProtectedRoute>
+                  <RecruiterDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/dashboard/coach"
+              element={
+                <ProtectedRoute>
+                  <CoachDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/coach-test"
+              element={
+                <ProtectedRoute>
+                  <CoachDashboard />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/profile/:userId"
-        element={
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile/:userId"
+              element={
+                <ProtectedRoute>
+                  <ProfilePage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/talents"
-        element={
-          <ProtectedRoute>
-            <TalentsListPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/talents"
+              element={
+                <ProtectedRoute>
+                  <TalentsListPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/coach/talents"
-        element={
-          <ProtectedRoute>
-            <CoachTalentsPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/coach/talents"
+              element={
+                <ProtectedRoute>
+                  <CoachTalentsPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/coach/recruteurs"
-        element={
-          <ProtectedRoute>
-            <CoachRecruteursPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/coach/recruteurs"
+              element={
+                <ProtectedRoute>
+                  <CoachRecruteursPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/talent/messages"
-        element={
-          <ProtectedRoute>
-            <ModernMessagesPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/talent/messages"
+              element={
+                <ProtectedRoute>
+                  <ModernMessagesPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/coach/messages"
-        element={
-          <ProtectedRoute>
-            <ModernMessagesPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/coach/messages"
+              element={
+                <ProtectedRoute>
+                  <ModernMessagesPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/messages"
-        element={
-          <ProtectedRoute>
-            <ModernMessagesPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/messages"
+              element={
+                <ProtectedRoute>
+                  <ModernMessagesPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/create-job"
-        element={
-          <ProtectedRoute>
-            <CreateJobPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/create-job"
+              element={
+                <ProtectedRoute>
+                  <CreateJobPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/my-jobs"
-        element={
-          <ProtectedRoute>
-            <MyJobsPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/my-jobs"
+              element={
+                <ProtectedRoute>
+                  <MyJobsPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/jobs"
-        element={
-          <ProtectedRoute>
-            <JobsListPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/jobs"
+              element={
+                <ProtectedRoute>
+                  <JobsListPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/jobs/:jobId"
-        element={
-          <ProtectedRoute>
-            <JobDetailsPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/jobs/:jobId"
+              element={
+                <ProtectedRoute>
+                  <JobDetailsPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/coach/jobs/:jobId"
-        element={
-          <ProtectedRoute>
-            <CoachJobViewPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/coach/jobs/:jobId"
+              element={
+                <ProtectedRoute>
+                  <CoachJobViewPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/jobs/:jobId/apply"
-        element={
-          <ProtectedRoute>
-            <ApplyJobPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/jobs/:jobId/apply"
+              element={
+                <ProtectedRoute>
+                  <ApplyJobPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/edit-job/:jobId"
-        element={
-          <ProtectedRoute>
-            <EditJobPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/edit-job/:jobId"
+              element={
+                <ProtectedRoute>
+                  <EditJobPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/applications"
-        element={
-          <ProtectedRoute>
-            <RecruiterApplicationsPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/applications"
+              element={
+                <ProtectedRoute>
+                  <RecruiterApplicationsPage />
+                </ProtectedRoute>
+              }
+            />
 
-      <Route
-        path="/my-applications"
-        element={
-          <ProtectedRoute>
-            <TalentApplicationsPage />
-          </ProtectedRoute>
-        }
-      />
+            <Route
+              path="/my-applications"
+              element={
+                <ProtectedRoute>
+                  <TalentApplicationsPage />
+                </ProtectedRoute>
+              }
+            />
 
+            {/* Route des recommandations talent */}
+            <Route
+              path="/talent/recommendations"
+              element={
+                <ProtectedRoute>
+                  <TalentRecommendationsPage />
+                </ProtectedRoute>
+              }
+            />
 
-      {/* Route des recommandations talent */}
-      <Route
-        path="/talent/recommendations"
-        element={
-          <ProtectedRoute>
-            <TalentRecommendationsPage />
-          </ProtectedRoute>
-        }
-      />
+            {/* Route publique pour la réservation de créneaux */}
+            <Route path="/book/:coachId" element={<BookingPage />} />
+            
+            {/* Route de configuration Google */}
+            <Route path="/google-config" element={<GoogleConfigPage />} />
+            <Route path="/google-test" element={<SimpleGoogleTest />} />
+            <Route path="/google-working" element={<WorkingGoogleTest />} />
+            <Route path="/sendgrid-setup" element={<SendGridSetup />} />
+            <Route path="/sendgrid-admin" element={<SendGridAdminPage />} />
+            <Route path="/calendar-meet-test" element={<CalendarMeetTest />} />
+            <Route path="/modern-calendar-test" element={<ModernCalendarTest />} />
+            <Route path="/sendgrid-template-test" element={<SendGridTemplateTestPage />} />
 
-      {/* Route publique pour la réservation de créneaux */}
-      <Route path="/book/:coachId" element={<BookingPage />} />
-      
-      {/* Route de configuration Google */}
-      <Route path="/google-config" element={<GoogleConfigPage />} />
-      <Route path="/google-test" element={<SimpleGoogleTest />} />
-      <Route path="/google-working" element={<WorkingGoogleTest />} />
-      <Route path="/sendgrid-setup" element={<SendGridSetup />} />
-      <Route path="/sendgrid-admin" element={<SendGridAdminPage />} />
-      <Route path="/calendar-meet-test" element={<CalendarMeetTest />} />
-      <Route path="/modern-calendar-test" element={<ModernCalendarTest />} />
-      <Route path="/sendgrid-template-test" element={<SendGridTemplateTestPage />} />
+            {/* Pages légales */}
+            <Route path="/legal" element={<LegalPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
+            <Route path="/cookies" element={<CookiesPage />} />
+            <Route path="/contact" element={<ContactPage />} />
 
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
-    </NotificationProvider>
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+          </div>
+          <Footer />
+        </div>
+      </NotificationProvider>
+    </HelmetProvider>
   );
 }

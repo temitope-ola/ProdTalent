@@ -46,34 +46,38 @@ export class AppointmentService {
       
       console.log('Rendez-vous créé avec succès, ID:', docRef.id);
 
-      // Notification EMAIL au talent (Gmail API avec fallback SendGrid)
+      // EMAIL DE CONFIRMATION au talent (il vient de réserver)
       try {
-        const gmailSent = await this.sendEmailWithGmail('new', {
+        const gmailSent = await this.sendEmailWithGmail('confirmation', {
           recipientEmail: appointmentData.talentEmail,
           recipientName: appointmentData.talentName,
           coachName: appointmentData.coachName,
           appointmentDate: appointmentData.date,
           appointmentTime: appointmentData.time,
-          meetingType: 'Session de coaching'
+          appointmentType: 'Réservation de session de coaching',
+          meetLink: '',
+          calendarLink: ''
         });
 
         if (!gmailSent) {
-          await sendGridTemplateService.sendNewAppointment({
+          await sendGridTemplateService.sendAppointmentConfirmation({
             recipientEmail: appointmentData.talentEmail,
             recipientName: appointmentData.talentName,
             coachName: appointmentData.coachName,
             appointmentDate: appointmentData.date,
             appointmentTime: appointmentData.time,
-            meetingType: 'Session de coaching'
+            meetingType: 'Réservation de session de coaching',
+            meetLink: '',
+            calendarLink: ''
           });
         }
-        console.log('✅ Email de réservation envoyé au talent (Gmail API ou SendGrid)');
+        console.log('✅ Email de confirmation de réservation envoyé au talent (Gmail API ou SendGrid)');
       } catch (emailError) {
-        console.error('❌ Erreur envoi email réservation:', emailError);
+        console.error('❌ Erreur envoi email confirmation talent:', emailError);
         // Ne pas faire échouer la création si l'email échoue
       }
       
-      // Notification SendGrid template au coach pour nouveau rendez-vous
+      // EMAIL DE NOTIFICATION au coach pour qu'il confirme le nouveau rendez-vous
       try {
         // Récupérer l'email du coach depuis son profil
         const { FirestoreService } = await import('./firestoreService');
@@ -87,7 +91,9 @@ export class AppointmentService {
             coachName: appointmentData.coachName,
             appointmentDate: appointmentData.date,
             appointmentTime: appointmentData.time,
-            meetingType: `Nouveau rendez-vous avec ${appointmentData.talentName}`
+            meetingType: `NOUVEAU RENDEZ-VOUS À CONFIRMER - ${appointmentData.talentName}`,
+            meetLink: '',
+            calendarLink: ''
           });
 
           if (!gmailSentToCoach) {
@@ -98,15 +104,15 @@ export class AppointmentService {
               coachName: appointmentData.coachName,
               appointmentDate: appointmentData.date,
               appointmentTime: appointmentData.time,
-              meetingType: `Nouveau rendez-vous avec ${appointmentData.talentName}`
+              meetingType: `NOUVEAU RENDEZ-VOUS À CONFIRMER - ${appointmentData.talentName}`
             });
           }
-          console.log('✅ Email de nouveau rendez-vous envoyé au coach (Gmail API ou SendGrid fallback)');
+          console.log('✅ Email de notification (à confirmer) envoyé au coach (Gmail API ou SendGrid fallback)');
         } else {
           console.warn('⚠️ Impossible de récupérer l\'email du coach');
         }
       } catch (emailError) {
-        console.error('❌ Erreur envoi email nouveau rendez-vous coach SendGrid:', emailError);
+        console.error('❌ Erreur envoi email notification coach:', emailError);
         // Ne pas faire échouer la création si l'email échoue
       }
 
@@ -200,18 +206,85 @@ export class AppointmentService {
       const updatedAppointmentDoc = await getDoc(appointmentRef);
       const updatedAppointmentData = updatedAppointmentDoc.data() as Appointment;
 
-      // Notification EMAIL au talent (Gmail API avec fallback SendGrid)  
+      // NOTIFICATION au coach d'abord (il doit confirmer)
+      try {
+        // Récupérer l'email du coach depuis son profil
+        const { FirestoreService } = await import('./firestoreService');
+        const coachProfile = await FirestoreService.getCurrentProfile(appointmentData.coachId, 'coach');
+        
+        if (coachProfile && coachProfile.email) {
+          if (status === 'confirmé') {
+            // Le coach vient de confirmer → Email de CONFIRMATION au coach
+            const gmailSentToCoach = await this.sendEmailWithGmail('confirmation', {
+              recipientEmail: coachProfile.email,
+              recipientName: updatedAppointmentData.coachName,
+              coachName: updatedAppointmentData.coachName,
+              appointmentDate: updatedAppointmentData.date,
+              appointmentTime: updatedAppointmentData.time,
+              appointmentType: `RENDEZ-VOUS CONFIRMÉ avec ${updatedAppointmentData.talentName}`,
+              meetLink: updatedAppointmentData.meetLink || 'https://meet.google.com/lien-a-generer',
+              calendarLink: updatedAppointmentData.calendarLink || 'https://calendar.google.com/calendar/'
+            });
+
+            if (!gmailSentToCoach) {
+              await sendGridTemplateService.sendAppointmentConfirmation({
+                recipientEmail: coachProfile.email,
+                recipientName: updatedAppointmentData.talentName,
+                coachName: updatedAppointmentData.coachName,
+                appointmentDate: updatedAppointmentData.date,
+                appointmentTime: updatedAppointmentData.time,
+                meetingType: `RENDEZ-VOUS CONFIRMÉ avec ${updatedAppointmentData.talentName}`,
+                meetLink: updatedAppointmentData.meetLink || 'https://meet.google.com/lien-a-generer',
+                calendarLink: updatedAppointmentData.calendarLink || 'https://calendar.google.com/calendar/'
+              });
+            }
+            console.log('✅ 1️⃣ Email de confirmation envoyé au COACH (Gmail API ou SendGrid)');
+          } else {
+            // Pour les autres statuts (annulé, reprogrammé)
+            const gmailSentToCoach = await this.sendEmailWithGmail('new', {
+              recipientEmail: coachProfile.email,
+              recipientName: appointmentData.coachName,
+              coachName: appointmentData.coachName,
+              appointmentDate: appointmentData.date,
+              appointmentTime: appointmentData.time,
+              meetingType: `Rendez-vous ${status} avec ${appointmentData.talentName}`,
+              meetLink: appointmentData.meetLink || '',
+              calendarLink: appointmentData.calendarLink || ''
+            });
+
+            if (!gmailSentToCoach) {
+              await sendGridTemplateService.sendNewAppointment({
+                recipientEmail: coachProfile.email,
+                recipientName: appointmentData.coachName,
+                coachName: appointmentData.coachName,
+                appointmentDate: appointmentData.date,
+                appointmentTime: appointmentData.time,
+                meetingType: `Rendez-vous ${status} avec ${appointmentData.talentName}`
+              });
+            }
+            console.log(`✅ Email ${status} envoyé au coach (Gmail API ou SendGrid)`);
+          }
+        } else {
+          console.warn('⚠️ Impossible de récupérer l\'email du coach pour notification');
+        }
+      } catch (emailError) {
+        console.error('❌ Erreur envoi email coach:', emailError);
+        // Ne pas faire échouer la mise à jour si l'email échoue
+      }
+
+      // PUIS confirmation finale au talent (après que le coach ait confirmé)
       try {
         if (status === 'confirmé') {
+          // Le coach a confirmé → Email final au talent avec liens agenda/meet
           const gmailSent = await this.sendEmailWithGmail('confirmation', {
             recipientEmail: updatedAppointmentData.talentEmail,
             recipientName: updatedAppointmentData.talentName,
             coachName: updatedAppointmentData.coachName,
             appointmentDate: updatedAppointmentData.date,
             appointmentTime: updatedAppointmentData.time,
-            appointmentType: 'Session de coaching',
-            meetLink: updatedAppointmentData.meetLink || '',
-            calendarLink: updatedAppointmentData.calendarLink || ''
+            appointmentType: 'RENDEZ-VOUS CONFIRMÉ - Session de coaching',
+            meetLink: updatedAppointmentData.meetLink || 'https://meet.google.com/lien-a-generer',
+            calendarLink: updatedAppointmentData.calendarLink || 'https://calendar.google.com/calendar/'
           });
 
           if (!gmailSent) {
@@ -221,12 +294,14 @@ export class AppointmentService {
               coachName: updatedAppointmentData.coachName,
               appointmentDate: updatedAppointmentData.date,
               appointmentTime: updatedAppointmentData.time,
-              meetingType: 'Session de coaching',
-              meetLink: updatedAppointmentData.meetLink || '',
-              calendarLink: updatedAppointmentData.calendarLink || ''
+              meetingType: 'RENDEZ-VOUS CONFIRMÉ - Session de coaching',
+              meetLink: updatedAppointmentData.meetLink || 'https://meet.google.com/lien-a-generer',
+              calendarLink: updatedAppointmentData.calendarLink || 'https://calendar.google.com/calendar/'
             });
           }
+          console.log('✅ 2️⃣ Email de confirmation finale envoyé au TALENT avec liens agenda/meet (Gmail API ou SendGrid)');
         } else {
+          // Pour les autres statuts, notifier le talent
           const gmailSent = await this.sendEmailWithGmail('new', {
             recipientEmail: appointmentData.talentEmail,
             recipientName: appointmentData.talentName,
@@ -248,78 +323,13 @@ export class AppointmentService {
               meetingType: `Session ${status}`
             });
           }
+          console.log(`✅ Email ${status} envoyé au talent (Gmail API ou SendGrid)`);
         }
-        
-        console.log('✅ Email de mise à jour envoyé au talent (Gmail API ou SendGrid)');
       } catch (emailError) {
-        console.error('❌ Erreur envoi email mise à jour SendGrid:', emailError);
+        console.error('❌ Erreur envoi email talent:', emailError);
         // Ne pas faire échouer la mise à jour si l'email échoue
       }
 
-      // Notification SendGrid template au coach pour mise à jour
-      try {
-        // Récupérer l'email du coach depuis son profil
-        const { FirestoreService } = await import('./firestoreService');
-        const coachProfile = await FirestoreService.getCurrentProfile(appointmentData.coachId, 'coach');
-        
-        if (coachProfile && coachProfile.email) {
-          if (status === 'confirmé') {
-            // Utiliser Gmail API pour le coach aussi
-            const gmailSentToCoach = await this.sendEmailWithGmail('confirmation', {
-              recipientEmail: coachProfile.email,
-              recipientName: updatedAppointmentData.coachName,
-              coachName: updatedAppointmentData.coachName,
-              appointmentDate: updatedAppointmentData.date,
-              appointmentTime: updatedAppointmentData.time,
-              appointmentType: `Rendez-vous confirmé avec ${updatedAppointmentData.talentName}`,
-              meetLink: updatedAppointmentData.meetLink || '',
-              calendarLink: updatedAppointmentData.calendarLink || ''
-            });
-
-            if (!gmailSentToCoach) {
-              // Fallback SendGrid si Gmail échoue
-              await sendGridTemplateService.sendAppointmentConfirmation({
-                recipientEmail: coachProfile.email,
-                recipientName: updatedAppointmentData.talentName,
-                coachName: updatedAppointmentData.coachName,
-                appointmentDate: updatedAppointmentData.date,
-                appointmentTime: updatedAppointmentData.time,
-                meetingType: `Rendez-vous confirmé avec ${updatedAppointmentData.talentName}`,
-                meetLink: updatedAppointmentData.meetLink || '',
-                calendarLink: updatedAppointmentData.calendarLink || ''
-              });
-            }
-          } else {
-            // Pour annulé ou reprogrammé - utiliser Gmail API
-            const gmailSentToCoach = await this.sendEmailWithGmail('new', {
-              recipientEmail: coachProfile.email,
-              recipientName: appointmentData.coachName,
-              coachName: appointmentData.coachName,
-              appointmentDate: appointmentData.date,
-              appointmentTime: appointmentData.time,
-              meetingType: `Rendez-vous ${status} avec ${appointmentData.talentName}`
-            });
-
-            if (!gmailSentToCoach) {
-              // Fallback SendGrid
-              await sendGridTemplateService.sendNewAppointment({
-                recipientEmail: coachProfile.email,
-                recipientName: appointmentData.coachName,
-                coachName: appointmentData.coachName,
-                appointmentDate: appointmentData.date,
-                appointmentTime: appointmentData.time,
-                meetingType: `Rendez-vous ${status} avec ${appointmentData.talentName}`
-              });
-            }
-          }
-          console.log('✅ Email de mise à jour envoyé au coach (Gmail API ou SendGrid fallback)');
-        } else {
-          console.warn('⚠️ Impossible de récupérer l\'email du coach pour mise à jour');
-        }
-      } catch (emailError) {
-        console.error('❌ Erreur envoi email mise à jour coach SendGrid:', emailError);
-        // Ne pas faire échouer la mise à jour si l'email échoue
-      }
     } catch (error) {
       console.error('Erreur lors de la mise à jour du statut:', error);
       throw new Error('Impossible de mettre à jour le statut');

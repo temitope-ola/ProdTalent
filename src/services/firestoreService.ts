@@ -872,7 +872,7 @@ export class FirestoreService {
     }
   }
 
-  static async getAllActiveJobs(): Promise<any[]> {
+  static async getAllActiveJobs(): Promise<{success: boolean, data: any[]}> {
     try {
       const q = query(
         collection(db, 'Jobs'),
@@ -886,30 +886,32 @@ export class FirestoreService {
       }));
       
       // Tri côté client pour éviter l'index composite
-      return jobs.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      const sortedJobs = jobs.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      return { success: true, data: sortedJobs };
     } catch (error) {
       console.error('Erreur lors du chargement des annonces actives:', error);
-      throw new Error('Erreur lors du chargement des annonces');
+      return { success: false, data: [] };
     }
   }
 
-  static async getJobById(jobId: string): Promise<any> {
+  static async getJobById(jobId: string): Promise<{success: boolean, data?: any, error?: string}> {
     try {
       const docRef = doc(db, 'Jobs', jobId);
       const docSnap = await getDoc(docRef);
       
       if (docSnap.exists()) {
-        return {
+        const jobData = {
           id: docSnap.id,
           ...docSnap.data(),
           createdAt: docSnap.data().createdAt?.toDate() || new Date()
         };
+        return { success: true, data: jobData };
       } else {
-        throw new Error('Annonce non trouvée');
+        return { success: false, error: 'Annonce non trouvée' };
       }
     } catch (error) {
       console.error('Erreur lors du chargement de l\'annonce:', error);
-      throw new Error('Erreur lors du chargement de l\'annonce');
+      return { success: false, error: 'Erreur lors du chargement de l\'annonce' };
     }
   }
 
@@ -1150,6 +1152,69 @@ export class FirestoreService {
     } catch (error) {
       console.error('❌ Erreur envoi message moderne:', error);
       return false;
+    }
+  }
+
+  // Méthodes pour les préférences email
+  static async getEmailPreferences(userId: string): Promise<any | null> {
+    try {
+      const docRef = doc(db, 'EmailPreferences', userId);
+      const docSnap = await getDoc(docRef);
+      
+      if (docSnap.exists()) {
+        return docSnap.data();
+      }
+      
+      return null; // Retourner null si aucune préférence n'existe
+    } catch (error) {
+      console.error('Erreur lors du chargement des préférences email:', error);
+      throw new Error('Impossible de charger les préférences email');
+    }
+  }
+
+  static async saveEmailPreferences(userId: string, preferences: any): Promise<void> {
+    try {
+      const docRef = doc(db, 'EmailPreferences', userId);
+      await setDoc(docRef, {
+        ...preferences,
+        updatedAt: Timestamp.now()
+      }, { merge: true });
+      
+      console.log('✅ Préférences email sauvegardées:', userId);
+    } catch (error) {
+      console.error('Erreur lors de la sauvegarde des préférences email:', error);
+      throw new Error('Impossible de sauvegarder les préférences email');
+    }
+  }
+
+  // Vérifier si un utilisateur veut recevoir un type d'email spécifique
+  static async shouldReceiveEmail(userId: string, emailType: string): Promise<boolean> {
+    try {
+      const preferences = await this.getEmailPreferences(userId);
+      
+      if (!preferences) {
+        // Si aucune préférence, utiliser les valeurs par défaut
+        const defaultPrefs = {
+          messages: true,
+          messageConfirmations: true,
+          appointments: true,
+          appointmentReminders: true,
+          recommendations: true,
+          jobAlerts: true,
+          newsletter: false,
+          productUpdates: false,
+          accountSecurity: true,
+          adminNotices: true
+        };
+        return defaultPrefs[emailType] || false;
+      }
+      
+      return preferences[emailType] || false;
+    } catch (error) {
+      console.error('Erreur lors de la vérification des préférences email:', error);
+      // En cas d'erreur, permettre l'envoi des emails critiques seulement
+      const criticalEmails = ['accountSecurity', 'adminNotices', 'appointments'];
+      return criticalEmails.includes(emailType);
     }
   }
 }

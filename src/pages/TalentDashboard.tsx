@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../contexts/AuthContext';
 import { FirestoreService, UserProfile } from '../services/firestoreService';
-import { JobService } from '../services/jobService';
+// JobService methods are now in FirestoreService
 import Avatar from '../components/Avatar';
 import ProfileEditModal from '../components/ProfileEditModal.jsx';
 import TalentAgendaView from '../components/TalentAgendaView';
@@ -162,7 +162,7 @@ export default function TalentDashboard() {
     try {
       console.log('🔥 CHARGEMENT JOBS...');
       // Charger toutes les offres d'emploi disponibles avec JobService
-      const jobsResult = await JobService.getAllActiveJobs();
+      const jobsResult = await FirestoreService.getAllActiveJobs();
       console.log('📊 RÉSULTAT JOBS:', jobsResult);
       
       if (jobsResult.success && jobsResult.data) {

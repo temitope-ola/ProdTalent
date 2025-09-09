@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../contexts/AuthContext';
 import { FeaturedTalentsService, FeaturedTalent } from '../services/featuredTalentsService';
+import SEOHead from '../components/SEOHead';
+import { seoData } from '../utils/seoData';
 
 type Mode = 'login' | 'signup';
 type Role = 'talent' | 'recruteur' | 'coach';
@@ -105,15 +107,23 @@ export default function HomePage() {
   };
 
   return (
-    <main style={{ 
-      padding: 0, 
-      color: '#f5f5f7',
-      backgroundColor: '#0a0a0a',
-      minHeight: '100vh',
-      width: '100%'
-    }}>
+    <>
+      <SEOHead
+        title={seoData.home.title}
+        description={seoData.home.description}
+        keywords={seoData.home.keywords}
+        structuredData={seoData.home.structuredData}
+      />
+      
+      <main style={{ 
+        padding: 0, 
+        color: '#f5f5f7',
+        backgroundColor: '#0a0a0a',
+        minHeight: '100vh',
+        width: '100%'
+      }}>
 
-      {/* Header avec effet de flou */}
+        {/* Header avec effet de flou */}
       <header style={{ 
         display: 'flex', 
         justifyContent: 'center',
@@ -1253,5 +1263,6 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
       }} />
 
     </main>
+    </>
   );
 }

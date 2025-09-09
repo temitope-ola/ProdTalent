@@ -1,0 +1,57 @@
+User-agent: *
+Allow: /
+
+# Pages importantes
+Allow: /
+Allow: /register
+Allow: /jobs
+Allow: /talents
+Allow: /legal
+Allow: /privacy
+Allow: /terms
+Allow: /contact
+Allow: /cookies
+
+# Pages privées - bloquées pour les robots
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /profile/
+Disallow: /messages/
+Disallow: /my-*/
+Disallow: /applications/
+Disallow: /edit-*/
+Disallow: /create-*/
+Disallow: /coach/
+Disallow: /book/
+Disallow: /*-test/
+Disallow: /*-config/
+Disallow: /*-setup/
+
+# Fichiers techniques
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /*.js$
+Disallow: /*.ts$
+Disallow: /*.tsx$
+Disallow: /*.jsx$
+Disallow: /*.css$
+Disallow: /*.json$
+
+# Sitemap
+Sitemap: https://prodtalent.com/sitemap.xml
+
+# Instructions spécifiques pour différents bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Crawl-delay pour éviter la surcharge
+Crawl-delay: 1

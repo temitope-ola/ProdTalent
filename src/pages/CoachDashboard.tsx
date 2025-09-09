@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../contexts/AuthContext';
 import { FirestoreService, UserProfile } from '../services/firestoreService';
-import { JobService } from '../services/jobService';
+// JobService methods are now in FirestoreService
 import Avatar from '../components/Avatar';
 import CoachAppointmentManager from '../components/CoachAppointmentManager';
 import CoachAvailabilityManager from '../components/CoachAvailabilityManager';
@@ -109,7 +109,7 @@ export default function CoachDashboard() {
     try {
       console.log('🔥 CHARGEMENT JOBS...');
       // Charger toutes les offres d'emploi disponibles avec JobService
-      const jobsResult = await JobService.getAllActiveJobs();
+      const jobsResult = await FirestoreService.getAllActiveJobs();
       console.log('📊 RÉSULTAT JOBS:', jobsResult);
       
       if (jobsResult.success && jobsResult.data) {
