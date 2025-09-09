@@ -22,7 +22,7 @@ export const seoData = {
       "@type": "Organization",
       "name": "ProdTalent by Edacy",
       "url": "https://prodtalent.com",
-      "logo": "https://prodtalent.com/prodtalent-logo.png",
+      "logo": "https://prodtalent.vercel.app/prodtalent-logo.png",
       "description": "Plateforme de recrutement tech qui révèle le potentiel des talents africains",
       "address": {
         "@type": "PostalAddress",
