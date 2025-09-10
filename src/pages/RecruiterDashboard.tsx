@@ -16,11 +16,8 @@ export default function RecruiterDashboard() {
   const [showFilters, setShowFilters] = useState(false);
   const [filteredTalents, setFilteredTalents] = useState<UserProfile[]>([]);
   const [activeFilters, setActiveFilters] = useState({
-    availability: '',
     skills: '',
-    experience: '',
-    location: '',
-    contractType: ''
+    searchTerm: ''
   });
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   
@@ -234,35 +231,31 @@ export default function RecruiterDashboard() {
 
     let filtered = [...talents];
 
-    // Filtre par nom/compétences
+    // Filtre par compétences
     if (activeFilters.skills.trim()) {
-      filtered = filtered.filter(talent => 
-        talent.displayName?.toLowerCase().includes(activeFilters.skills.toLowerCase()) ||
-        talent.skills?.toLowerCase().includes(activeFilters.skills.toLowerCase()) ||
-        talent.firstName?.toLowerCase().includes(activeFilters.skills.toLowerCase()) ||
-        talent.lastName?.toLowerCase().includes(activeFilters.skills.toLowerCase())
-      );
+      filtered = filtered.filter(talent => {
+        if (!talent.skills) return false;
+        
+        const talentSkills = Array.isArray(talent.skills) 
+          ? talent.skills.map((skill: string) => skill.toLowerCase())
+          : talent.skills.toLowerCase().split(/[,\s]+/).filter((skill: string) => skill.trim());
+          
+        return talentSkills.some((skill: string) => 
+          skill.includes(activeFilters.skills.toLowerCase()) || 
+          activeFilters.skills.toLowerCase().includes(skill)
+        );
+      });
     }
 
-    // Filtre par localisation
-    if (activeFilters.location.trim()) {
-      filtered = filtered.filter(talent => 
-        talent.location?.toLowerCase().includes(activeFilters.location.toLowerCase())
-      );
-    }
-
-    // Filtre par expérience
-    if (activeFilters.experience.trim()) {
-      filtered = filtered.filter(talent => 
-        talent.experience?.toLowerCase().includes(activeFilters.experience.toLowerCase())
-      );
-    }
-
-    // Filtre par disponibilité
-    if (activeFilters.availability.trim()) {
-      filtered = filtered.filter(talent => 
-        talent.availability?.toLowerCase().includes(activeFilters.availability.toLowerCase())
-      );
+    // Filtre par recherche générale (nom, email, bio)
+    if (activeFilters.searchTerm.trim()) {
+      const searchLower = activeFilters.searchTerm.toLowerCase();
+      filtered = filtered.filter(talent => {
+        const nameMatch = talent.displayName?.toLowerCase().includes(searchLower);
+        const emailMatch = talent.email.toLowerCase().includes(searchLower);
+        const bioMatch = talent.bio?.toLowerCase().includes(searchLower);
+        return nameMatch || emailMatch || bioMatch;
+      });
     }
 
     setFilteredTalents(filtered);
@@ -631,7 +624,7 @@ export default function RecruiterDashboard() {
                         marginBottom: '8px'
                       }}>
                         <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Nom / Compétences
+                          Compétences
                         </span>
                         {activeFilters.skills && (
                           <button
@@ -651,7 +644,7 @@ export default function RecruiterDashboard() {
                       </div>
                       <input
                         type="text"
-                        placeholder="React, JavaScript, John Doe..."
+                        placeholder="React, Python, JavaScript..."
                         value={activeFilters.skills}
                         onChange={(e) => setActiveFilters(prev => ({ ...prev, skills: e.target.value }))}
                         style={{
@@ -671,7 +664,7 @@ export default function RecruiterDashboard() {
 
 
 
-                    {/* Filtre par localisation */}
+                    {/* Filtre par recherche */}
                     <div>
                       <div style={{ 
                         display: 'flex', 
@@ -680,11 +673,11 @@ export default function RecruiterDashboard() {
                         marginBottom: '8px'
                       }}>
                         <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Localisation
+                          Rechercher un talent
                         </span>
-                        {activeFilters.location && (
+                        {activeFilters.searchTerm && (
                           <button
-                            onClick={() => setActiveFilters(prev => ({ ...prev, location: '' }))}
+                            onClick={() => setActiveFilters(prev => ({ ...prev, searchTerm: '' }))}
                             style={{
                               background: 'none',
                               border: 'none',
@@ -700,9 +693,9 @@ export default function RecruiterDashboard() {
                       </div>
                       <input
                         type="text"
-                        placeholder="Paris, Lyon, Remote..."
-                        value={activeFilters.location}
-                        onChange={(e) => setActiveFilters(prev => ({ ...prev, location: e.target.value }))}
+                        placeholder="Nom, email, bio..."
+                        value={activeFilters.searchTerm}
+                        onChange={(e) => setActiveFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
                         style={{
                           width: '100%',
                           padding: '8px 12px',
@@ -715,98 +708,11 @@ export default function RecruiterDashboard() {
                       />
                     </div>
 
-                    {/* Filtre par expérience */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Expérience
-                        </span>
-                        {activeFilters.experience && (
-                          <button
-                            onClick={() => setActiveFilters(prev => ({ ...prev, experience: '' }))}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#888',
-                              cursor: 'pointer',
-                              fontSize: '12px',
-                              padding: '2px'
-                            }}
-                          >
-                            ✕
-                          </button>
-                        )}
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="Junior, Senior, Expert..."
-                        value={activeFilters.experience}
-                        onChange={(e) => setActiveFilters(prev => ({ ...prev, experience: e.target.value }))}
-                        style={{
-                          width: '100%',
-                          padding: '8px 12px',
-                          backgroundColor: '#1a1a1a',
-                          border: '1px solid #333',
-                          borderRadius: '4px',
-                          color: '#f5f5f7',
-                          fontSize: '13px'
-                        }}
-                      />
-                    </div>
-
-                    {/* Filtre par disponibilité */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Disponibilité
-                        </span>
-                        {activeFilters.availability && (
-                          <button
-                            onClick={() => setActiveFilters(prev => ({ ...prev, availability: '' }))}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#888',
-                              cursor: 'pointer',
-                              fontSize: '12px',
-                              padding: '2px'
-                            }}
-                          >
-                            ✕
-                          </button>
-                        )}
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="Immédiate, 1 mois, 3 mois..."
-                        value={activeFilters.availability}
-                        onChange={(e) => setActiveFilters(prev => ({ ...prev, availability: e.target.value }))}
-                        style={{
-                          width: '100%',
-                          padding: '8px 12px',
-                          backgroundColor: '#1a1a1a',
-                          border: '1px solid #333',
-                          borderRadius: '4px',
-                          color: '#f5f5f7',
-                          fontSize: '13px'
-                        }}
-                      />
-                    </div>
                   </div>
 
                 {/* Bouton Reset */}
                 <button
-                  onClick={() => setActiveFilters({ skills: '', location: '', experience: '', availability: '', contractType: '' })}
+                  onClick={() => setActiveFilters({ skills: '', searchTerm: '' })}
                   style={{
                     width: '100%',
                     padding: '8px',
@@ -824,7 +730,6 @@ export default function RecruiterDashboard() {
                 >
                   Réinitialiser
                 </button>
-            </div>
             </div>
           )}
 

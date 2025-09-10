@@ -13,10 +13,10 @@ import NotificationProvider from './components/NotificationManager';
 import HomePage from './pages/HomePage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
 import TalentDashboard from './pages/TalentDashboard';
-import RecruiterDashboard from './pages/RecruiterDashboard';
+import RecruiterDashboard from './pages/RecruiterDashboard.tsx';
 // CoachDashboard supprimé - fonctionnalité non implémentée
 import ProfilePage from './pages/ProfilePage';
-import TalentsListPage from './pages/TalentsListPage';
+import TalentsListPage from './pages/TalentsListPage.tsx';
 import CoachTalentsPage from './pages/CoachTalentsPage';
 import CoachRecruteursPage from './pages/CoachRecruteursPage';
 import ModernMessagesPage from './pages/ModernMessagesPage';
