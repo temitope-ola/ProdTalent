@@ -13,9 +13,7 @@ const TalentsListPage: React.FC = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState({
     skills: '',
-    availability: '',
-    location: '',
-    experience: ''
+    searchTerm: ''
   });
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
@@ -76,25 +74,15 @@ const TalentsListPage: React.FC = () => {
       });
     }
 
-    // Filter by availability
-    if (activeFilters.availability) {
-      filtered = filtered.filter(talent => 
-        talent.availability && talent.availability.toLowerCase().includes(activeFilters.availability.toLowerCase())
-      );
-    }
-
-    // Filter by location
-    if (activeFilters.location) {
-      filtered = filtered.filter(talent => 
-        talent.location && talent.location.toLowerCase().includes(activeFilters.location.toLowerCase())
-      );
-    }
-
-    // Filter by experience
-    if (activeFilters.experience) {
-      filtered = filtered.filter(talent => 
-        talent.experience && talent.experience.toLowerCase().includes(activeFilters.experience.toLowerCase())
-      );
+    // Filter by search term (name, email, bio)
+    if (activeFilters.searchTerm) {
+      const searchLower = activeFilters.searchTerm.toLowerCase();
+      filtered = filtered.filter(talent => {
+        const nameMatch = talent.displayName?.toLowerCase().includes(searchLower);
+        const emailMatch = talent.email.toLowerCase().includes(searchLower);
+        const bioMatch = talent.bio?.toLowerCase().includes(searchLower);
+        return nameMatch || emailMatch || bioMatch;
+      });
     }
 
     setFilteredTalents(filtered);
@@ -253,9 +241,31 @@ const TalentsListPage: React.FC = () => {
           }}>
             <div style={{ 
               display: 'grid',
-              gridTemplateColumns: screenWidth <= 480 ? '1fr' : screenWidth <= 768 ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+              gridTemplateColumns: screenWidth <= 768 ? '1fr' : 'repeat(2, 1fr)',
               gap: '16px' 
             }}>
+              {/* Recherche générale */}
+              <div>
+                <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500', marginBottom: '8px', display: 'block' }}>
+                  Rechercher un talent
+                </span>
+                <input
+                  type="text"
+                  placeholder="Nom, email, bio..."
+                  value={activeFilters.searchTerm}
+                  onChange={(e) => handleFilterChange('searchTerm', e.target.value)}
+                  style={{
+                    width: '100%',
+                    padding: '8px',
+                    backgroundColor: '#333',
+                    color: '#f5f5f7',
+                    border: 'none',
+                    borderRadius: '4px',
+                    fontSize: '13px'
+                  }}
+                />
+              </div>
+
               {/* Compétences */}
               <div>
                 <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500', marginBottom: '8px', display: 'block' }}>
@@ -277,84 +287,11 @@ const TalentsListPage: React.FC = () => {
                   }}
                 />
               </div>
-
-              {/* Disponibilité */}
-              <div>
-                <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500', marginBottom: '8px', display: 'block' }}>
-                  Disponibilité
-                </span>
-                <select
-                  value={activeFilters.availability}
-                  onChange={(e) => handleFilterChange('availability', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    backgroundColor: '#333',
-                    color: '#f5f5f7',
-                    border: 'none',
-                    borderRadius: '4px',
-                    fontSize: '13px'
-                  }}
-                >
-                  <option value="">Toutes</option>
-                  <option value="immédiate">Immédiate</option>
-                  <option value="1 mois">Dans 1 mois</option>
-                  <option value="2 mois">Dans 2 mois</option>
-                  <option value="3 mois">Dans 3 mois+</option>
-                </select>
-              </div>
-
-              {/* Localisation */}
-              <div>
-                <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500', marginBottom: '8px', display: 'block' }}>
-                  Localisation
-                </span>
-                <input
-                  type="text"
-                  placeholder="ex: Paris, Lyon..."
-                  value={activeFilters.location}
-                  onChange={(e) => handleFilterChange('location', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    backgroundColor: '#333',
-                    color: '#f5f5f7',
-                    border: 'none',
-                    borderRadius: '4px',
-                    fontSize: '13px'
-                  }}
-                />
-              </div>
-
-              {/* Expérience */}
-              <div>
-                <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500', marginBottom: '8px', display: 'block' }}>
-                  Expérience
-                </span>
-                <select
-                  value={activeFilters.experience}
-                  onChange={(e) => handleFilterChange('experience', e.target.value)}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    backgroundColor: '#333',
-                    color: '#f5f5f7',
-                    border: 'none',
-                    borderRadius: '4px',
-                    fontSize: '13px'
-                  }}
-                >
-                  <option value="">Tous niveaux</option>
-                  <option value="junior">Junior (0-2 ans)</option>
-                  <option value="confirmé">Confirmé (3-5 ans)</option>
-                  <option value="senior">Senior (5+ ans)</option>
-                </select>
-              </div>
             </div>
 
             {/* Bouton Reset */}
             <button
-              onClick={() => setActiveFilters({ skills: '', availability: '', location: '', experience: '' })}
+              onClick={() => setActiveFilters({ skills: '', searchTerm: '' })}
               style={{
                 width: '100%',
                 padding: '8px',
