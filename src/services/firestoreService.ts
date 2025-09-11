@@ -245,9 +245,24 @@ export class FirestoreService {
          // Méthode pour convertir une image en base64 (temporaire, idéalement utiliser Firebase Storage)
            static async uploadAvatar(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
+      // Vérifier la taille avant de lire le fichier (limite Firestore)
+      const maxSize = 700 * 1024; // 700KB (pour rester sous la limite Firestore de 1MB en base64)
+      if (file.size > maxSize) {
+        reject(new Error('L\'image est trop volumineuse. Taille maximale: 700KB'));
+        return;
+      }
+      
       const reader = new FileReader();
       reader.onload = () => {
-        resolve(reader.result as string);
+        const result = reader.result as string;
+        
+        // Vérifier la taille du base64 pour Firestore (limite 1MB)
+        if (result.length > 1000000) { // ~1MB en base64 (limite Firestore)
+          reject(new Error('L\'image est trop volumineuse pour Firestore. Taille maximale: 700KB'));
+          return;
+        }
+        
+        resolve(result);
       };
       reader.onerror = reject;
       reader.readAsDataURL(file);
@@ -256,10 +271,10 @@ export class FirestoreService {
 
     static async uploadCV(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
-      // Vérifier la taille avant de lire le fichier
-      const maxSize = 3 * 1024 * 1024; // 3MB
+      // Vérifier la taille avant de lire le fichier (limite Firestore)
+      const maxSize = 700 * 1024; // 700KB (pour rester sous la limite Firestore de 1MB en base64)
       if (file.size > maxSize) {
-        reject(new Error('Le fichier CV est trop volumineux. Taille maximale: 3MB'));
+        reject(new Error('Le fichier CV est trop volumineux. Taille maximale: 700KB'));
         return;
       }
       
@@ -267,9 +282,9 @@ export class FirestoreService {
       reader.onload = () => {
         const result = reader.result as string;
         
-        // Vérifier la taille du base64 (environ 33% plus grand que le fichier original)
-        if (result.length > 4000000) { // ~4MB en base64
-          reject(new Error('Le fichier CV est trop volumineux après conversion. Taille maximale: 3MB'));
+        // Vérifier la taille du base64 pour Firestore (limite 1MB)
+        if (result.length > 1000000) { // ~1MB en base64 (limite Firestore)
+          reject(new Error('Le fichier CV est trop volumineux pour Firestore. Taille maximale: 700KB'));
           return;
         }
         

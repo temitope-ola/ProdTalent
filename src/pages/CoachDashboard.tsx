@@ -8,6 +8,7 @@ import UniversalAppointmentManager from '../components/UniversalAppointmentManag
 import CoachAvailabilityManager from '../components/CoachAvailabilityManager';
 // import GoogleCalendarManager from '../components/GoogleCalendarManager'; // Désactivé temporairement
 import SimpleRecommendationModal from '../components/SimpleRecommendationModal';
+import ProfileEditModal from '../components/ProfileEditModal.jsx';
 import { useNotifications } from '../components/NotificationManager';
 
 export default function CoachDashboard() {
@@ -18,6 +19,7 @@ export default function CoachDashboard() {
   const [loading, setLoading] = useState(false);
   const [isAppointmentsOpen, setIsAppointmentsOpen] = useState(false);
   const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [selectedJob, setSelectedJob] = useState<any>(null);
   const [showJobDetails, setShowJobDetails] = useState(false);
@@ -236,7 +238,7 @@ export default function CoachDashboard() {
     setShowProfileMenu(false);
     switch (action) {
       case 'profile':
-        navigate('/profile');
+        setIsEditModalOpen(true);
         break;
       case 'logout':
         handleLogout();
@@ -1160,6 +1162,22 @@ export default function CoachDashboard() {
         }}
         job={selectedJob}
       />
+
+      {/* Modal d'édition de profil */}
+      {user && (
+        <ProfileEditModal
+          profile={user}
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false);
+          }}
+          onSave={async (updatedProfile) => {
+            setProfile(updatedProfile);
+            await loadProfile();
+            showNotification('Profil mis à jour avec succès !', 'success');
+          }}
+        />
+      )}
     </div>
   );
 }

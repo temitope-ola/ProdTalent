@@ -145,12 +145,12 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
   const handleCvUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      const maxSize = 3 * 1024 * 1024;
+      const maxSize = 700 * 1024;
       if (file.size > maxSize) {
         showNotification({
           type: 'error',
           title: 'Fichier trop volumineux',
-          message: 'Le fichier CV est trop volumineux. Veuillez choisir un fichier de moins de 3MB.'
+          message: 'Le fichier CV est trop volumineux. Veuillez choisir un fichier de moins de 700KB.'
         });
         e.target.value = '';
         return;
@@ -173,12 +173,12 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
   const handleAvatarUpload = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      const maxSize = 2 * 1024 * 1024; // 2MB pour les images
+      const maxSize = 700 * 1024; // 700KB pour les images (limite Firestore)
       if (file.size > maxSize) {
         showNotification({
           type: 'error',
           title: 'Image trop volumineuse',
-          message: 'L\'image est trop volumineuse. Veuillez choisir un fichier de moins de 2MB.'
+          message: 'L\'image est trop volumineuse. Veuillez choisir un fichier de moins de 700KB.'
         });
         e.target.value = '';
         return;
@@ -396,7 +396,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
               marginBottom: '8px',
               fontWeight: 'bold'
             }}>
-              Photo de profil
+              Photo de profil (max 700KB)
             </label>
             
             {/* Affichage de la photo actuelle */}
@@ -418,7 +418,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                     {avatarFile ? '🆕 Nouvelle photo' : '📸 Photo actuelle'}
                   </p>
                   <p style={{ color: '#888', fontSize: '12px', margin: 0 }}>
-                    Format recommandé: JPG, PNG (max 2MB)
+                    Format recommandé: JPG, PNG (max 700KB)
                   </p>
                 </div>
               </div>
@@ -440,7 +440,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
               }}
             />
             <p style={{ color: '#888', fontSize: '12px', marginTop: '4px', margin: '4px 0 0 0' }}>
-              Formats acceptés : JPG, PNG, WebP, etc. Taille maximale : 2MB
+              Formats acceptés : JPG, PNG, WebP, etc. Taille maximale : 700KB
             </p>
           </div>
 
@@ -936,7 +936,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
               marginBottom: '8px',
               fontWeight: 'bold'
             }}>
-              CV (PDF - max 3MB)
+              CV (PDF - max 700KB)
             </label>
             <input
               type="file"
