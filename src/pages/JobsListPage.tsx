@@ -48,10 +48,15 @@ export default function JobsListPage() {
       try {
         setIsLoading(true);
         const activeJobs = await FirestoreService.getAllActiveJobs();
-        setJobs(activeJobs);
+        if (activeJobs.success && activeJobs.data) {
+          setJobs(activeJobs.data);
+        } else {
+          setJobs([]);
+        }
       } catch (error) {
         console.error('Erreur lors du chargement des annonces:', error);
         setError('Erreur lors du chargement des annonces');
+        setJobs([]);
       } finally {
         setIsLoading(false);
       }
@@ -59,6 +64,11 @@ export default function JobsListPage() {
 
     loadJobs();
   }, []);
+
+  // Track page view
+  React.useEffect(() => {
+    trackPageView('Jobs List');
+  }, [trackPageView]);
 
   const handleJobClick = async (job: Job) => {
     setSelectedJob(job);
@@ -140,11 +150,6 @@ export default function JobsListPage() {
       </div>
     );
   }
-
-  // Track page view
-  React.useEffect(() => {
-    trackPageView('Jobs List');
-  }, [trackPageView]);
 
   return (
     <>

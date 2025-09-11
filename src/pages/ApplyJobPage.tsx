@@ -46,8 +46,12 @@ export default function ApplyJobPage() {
   const loadJob = async () => {
     try {
       setIsLoading(true);
-      const jobData = await FirestoreService.getJobById(jobId!);
-      setJob(jobData);
+      const jobResult = await FirestoreService.getJobById(jobId!);
+      if (jobResult.success && jobResult.data) {
+        setJob(jobResult.data);
+      } else {
+        setError('Offre d\'emploi introuvable');
+      }
     } catch (error) {
       console.error('Erreur lors du chargement de l\'annonce:', error);
       setError('Erreur lors du chargement de l\'annonce');

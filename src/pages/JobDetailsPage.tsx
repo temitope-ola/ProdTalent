@@ -48,11 +48,11 @@ export default function JobDetailsPage() {
 
       const { FirestoreService } = await import('../services/firestoreService');
       
-      const jobData = await FirestoreService.getJobById(jobId);
+      const jobResult = await FirestoreService.getJobById(jobId);
       
-      if (jobData) {
-        console.log('✅ Offre trouvée:', jobData.title, jobData.company);
-        setJob(jobData);
+      if (jobResult.success && jobResult.data) {
+        console.log('✅ Offre trouvée:', jobResult.data.title, jobResult.data.company);
+        setJob(jobResult.data);
       } else {
         console.error('❌ Offre non trouvée pour ID:', jobId);
         showNotification({
@@ -148,7 +148,7 @@ export default function JobDetailsPage() {
           paddingBottom: '16px',
           borderBottom: '1px solid #333'
         }}>
-          <h1 style={{ color: '#ffcc00', margin: 0 }}>📋 Détails de l'offre</h1>
+          <h1 style={{ color: '#ffcc00', margin: 0 }}>Détails de l'offre</h1>
           <div style={{ display: 'flex', gap: '12px' }}>
             <button
               onClick={() => navigate(-1)}
@@ -202,20 +202,20 @@ export default function JobDetailsPage() {
               fontSize: '16px'
             }}>
               <div style={{ color: '#61bfac' }}>
-                🏢 <strong>{job.company}</strong>
+                <strong>{job.company}</strong>
               </div>
               <div style={{ color: '#f5f5f7' }}>
-                📍 {job.location}
+                {job.location}
               </div>
               {job.salary && (
                 <div style={{ color: '#f5f5f7' }}>
-                  💰 {typeof job.salary === 'object' 
+                  {typeof job.salary === 'object' 
                     ? `${job.salary.min || 0}-${job.salary.max || 0} ${job.salary.currency || 'EUR'}`
                     : job.salary}
                 </div>
               )}
               <div style={{ color: '#888' }}>
-                📅 Publié le {formatDate(job.createdAt)}
+                Publié le {formatDate(job.createdAt)}
               </div>
             </div>
           </div>
@@ -260,7 +260,7 @@ export default function JobDetailsPage() {
           {/* Description */}
           <div style={{ marginBottom: '32px' }}>
             <h2 style={{ color: '#ffcc00', fontSize: '24px', marginBottom: '16px' }}>
-              📝 Description du poste
+              Description du poste
             </h2>
             <div style={{
               color: '#f5f5f7',
@@ -293,7 +293,7 @@ export default function JobDetailsPage() {
           {job.benefits && (
             <div style={{ marginBottom: '32px' }}>
               <h2 style={{ color: '#ffcc00', fontSize: '24px', marginBottom: '16px' }}>
-                🎯 Avantages
+                Avantages
               </h2>
               <div style={{
                 color: '#f5f5f7',
@@ -343,7 +343,7 @@ export default function JobDetailsPage() {
                 fontSize: '16px'
               }}
             >
-              👤 Voir le recruteur
+              Voir le recruteur
             </button>
           </div>
         </div>
