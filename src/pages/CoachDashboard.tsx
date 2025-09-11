@@ -4,7 +4,7 @@ import useAuth from '../contexts/AuthContext';
 import { FirestoreService, UserProfile } from '../services/firestoreService';
 // JobService methods are now in FirestoreService
 import Avatar from '../components/Avatar';
-import CoachAppointmentManager from '../components/CoachAppointmentManager';
+import UniversalAppointmentManager from '../components/UniversalAppointmentManager';
 import CoachAvailabilityManager from '../components/CoachAvailabilityManager';
 // import GoogleCalendarManager from '../components/GoogleCalendarManager'; // Désactivé temporairement
 import SimpleRecommendationModal from '../components/SimpleRecommendationModal';
@@ -980,7 +980,7 @@ export default function CoachDashboard() {
 
       {/* Modals */}
       {isAppointmentsOpen && (
-        <CoachAppointmentManager onClose={() => setIsAppointmentsOpen(false)} />
+        <UniversalAppointmentManager onClose={() => setIsAppointmentsOpen(false)} />
       )}
 
       {isAvailabilityOpen && (
