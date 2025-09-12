@@ -44,7 +44,7 @@ class GoogleCalendarGISService {
       // Charger Google Identity Services
       await this.loadGoogleIdentityServices();
       
-      // Charger aussi GAPI pour l'API Calendar
+      // Charger GAPI pour l'API Calendar seulement
       await this.loadGoogleApi();
       
       await new Promise<void>((resolve, reject) => {
@@ -54,7 +54,7 @@ class GoogleCalendarGISService {
         });
       });
 
-      // Initialiser le client GAPI pour l'API Calendar
+      // Initialiser seulement le client API (sans auth2)
       await window.gapi.client.init({
         apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
         discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest']
@@ -106,34 +106,86 @@ class GoogleCalendarGISService {
         if (!initialized) return false;
       }
 
-      return new Promise<boolean>((resolve) => {
-        const client = window.google.accounts.oauth2.initTokenClient({
-          client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-          scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events',
-          callback: (response: any) => {
-            if (response.error) {
-              console.error('❌ Erreur d\'authentification:', response.error);
-              resolve(false);
-              return;
-            }
-            
-            this.accessToken = response.access_token;
-            console.log('✅ Connexion Google réussie !');
-            
-            // Configurer le token pour les requêtes GAPI
-            window.gapi.client.setToken({
-              access_token: this.accessToken
-            });
-            
-            resolve(true);
-          },
-        });
+      // Vérifier d'abord si nous avons déjà un token dans le localStorage
+      const storedToken = localStorage.getItem('google_calendar_token');
+      const tokenExpiry = localStorage.getItem('google_calendar_token_expiry');
+      
+      if (storedToken && tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
+        this.accessToken = storedToken;
+        window.gapi.client.setToken({ access_token: this.accessToken });
+        console.log('✅ Token existant valide récupéré du localStorage');
+        return true;
+      }
 
-        // Démarrer le processus d'authentification
-        client.requestAccessToken();
-      });
+      console.log('🔑 Authentification via Google Identity Services (mode redirection)...');
+      
+      // Sauvegarder l'URL actuelle pour le retour
+      sessionStorage.setItem('google_auth_return_url', window.location.pathname);
+      
+      console.log('🔄 Utilisation directe de l\'OAuth avec redirection...');
+      
+      // Passer directement à l'OAuth avec redirection pour éviter les problèmes de popup
+      return this.tryOAuthFallback();
     } catch (error) {
       console.error('❌ Erreur lors de l\'authentification:', error);
+      return false;
+    }
+  }
+
+  private handleCallback(): void {
+    // Traiter le callback de l'authentification Google
+    const urlParams = new URLSearchParams(window.location.search);
+    const fragment = new URLSearchParams(window.location.hash.substring(1));
+    
+    const accessToken = urlParams.get('access_token') || fragment.get('access_token');
+    const expiresIn = urlParams.get('expires_in') || fragment.get('expires_in');
+    
+    if (accessToken) {
+      this.accessToken = accessToken;
+      
+      // Stocker le token
+      const expiryTime = Date.now() + (expiresIn ? parseInt(expiresIn) * 1000 : 3600000);
+      localStorage.setItem('google_calendar_token', accessToken);
+      localStorage.setItem('google_calendar_token_expiry', expiryTime.toString());
+      
+      // Configurer le token
+      window.gapi.client.setToken({ access_token: accessToken });
+      
+      // Rediriger vers la page d'origine
+      const returnUrl = sessionStorage.getItem('google_auth_return_url') || '/';
+      sessionStorage.removeItem('google_auth_return_url');
+      window.location.replace(returnUrl);
+    }
+  }
+
+  private async tryOAuthFallback(): Promise<boolean> {
+    try {
+      console.log('🔄 Tentative d\'authentification OAuth classique...');
+      
+      // Construire l'URL d'authentification OAuth2 avec les bons paramètres
+      const params = new URLSearchParams({
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+        redirect_uri: window.location.origin + '/calendar-callback',
+        response_type: 'token',
+        scope: 'https://www.googleapis.com/auth/calendar',
+        include_granted_scopes: 'true',
+        state: Math.random().toString(36).substr(2, 16)
+      });
+      
+      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+      
+      console.log('🌐 Redirection vers Google OAuth:', authUrl);
+      
+      // Sauvegarder l'état et l'URL de retour
+      sessionStorage.setItem('oauth_state', params.get('state') || '');
+      sessionStorage.setItem('google_auth_return_url', window.location.pathname);
+      
+      // Faire une redirection complète
+      window.location.assign(authUrl);
+      
+      return true;
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'OAuth fallback:', error);
       return false;
     }
   }
@@ -143,12 +195,19 @@ class GoogleCalendarGISService {
       window.google.accounts.oauth2.revoke(this.accessToken);
     }
     this.accessToken = null;
+    
+    // Nettoyer le localStorage
+    localStorage.removeItem('google_calendar_token');
+    localStorage.removeItem('google_calendar_token_expiry');
+    
     window.gapi.client.setToken(null);
     console.log('✅ Déconnexion réussie');
   }
 
   isUserAuthenticated(): boolean {
-    return !!this.accessToken;
+    const hasToken = !!this.accessToken;
+    console.log('📊 Vérification authentification - hasToken:', hasToken);
+    return hasToken;
   }
 
   async createEvent(event: CalendarEvent): Promise<string | null> {

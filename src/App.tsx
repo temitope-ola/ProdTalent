@@ -41,12 +41,9 @@ import TalentCoachesPage from './pages/TalentCoachesPage';
 import TalentCoachProfilePage from './pages/TalentCoachProfilePage';
 import AdminDashboard from './pages/AdminDashboard';
 import GoogleConfigPage from './pages/GoogleConfigPage';
-import SimpleGoogleTest from './pages/SimpleGoogleTest';
-import WorkingGoogleTest from './pages/WorkingGoogleTest';
+import GoogleCalendarCallbackPage from './pages/GoogleCalendarCallbackPage';
 import SendGridSetup from './pages/SendGridSetup';
 import SendGridAdminPage from './pages/SendGridAdminPage';
-import CalendarMeetTest from './pages/CalendarMeetTest';
-import ModernCalendarTest from './pages/ModernCalendarTest';
 import SendGridTemplateTestPage from './pages/SendGridTemplateTestPage';
 import Footer from './components/Footer';
 import LegalPage from './pages/LegalPage';
@@ -438,12 +435,9 @@ export default function App() {
             
             {/* Route de configuration Google */}
             <Route path="/google-config" element={<GoogleConfigPage />} />
-            <Route path="/google-test" element={<SimpleGoogleTest />} />
-            <Route path="/google-working" element={<WorkingGoogleTest />} />
+            <Route path="/calendar-callback" element={<GoogleCalendarCallbackPage />} />
             <Route path="/sendgrid-setup" element={<SendGridSetup />} />
             <Route path="/sendgrid-admin" element={<SendGridAdminPage />} />
-            <Route path="/calendar-meet-test" element={<CalendarMeetTest />} />
-            <Route path="/modern-calendar-test" element={<ModernCalendarTest />} />
             <Route path="/sendgrid-template-test" element={<SendGridTemplateTestPage />} />
 
             {/* Pages légales */}
