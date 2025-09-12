@@ -39,6 +39,7 @@ export default function CoachDashboard() {
     talentsCount: 0,
     recruteursCount: 0,
     messagesCount: 0,
+    unreadMessagesCount: 0,
     appointmentsCount: 0
   });
   
@@ -73,6 +74,9 @@ export default function CoachDashboard() {
     try {
       // Charger les messages
       const userMessages = await FirestoreService.getUserMessages(user.id);
+      const unreadMessages = userMessages.filter(message => 
+        message.type === 'received' && !message.read
+      );
       
       // Charger les recommandations
       const { collection, query, where, getDocs } = await import('firebase/firestore');
@@ -92,6 +96,7 @@ export default function CoachDashboard() {
         talentsCount: allTalents.length,
         recruteursCount: allRecruiters.length,
         messagesCount: userMessages.length,
+        unreadMessagesCount: unreadMessages.length,
         appointmentsCount: appointmentsData.length
       });
     } catch (error) {
@@ -101,6 +106,7 @@ export default function CoachDashboard() {
         talentsCount: 0,
         recruteursCount: 0,
         messagesCount: 0,
+        unreadMessagesCount: 0,
         appointmentsCount: 0
       });
     }
@@ -513,7 +519,9 @@ export default function CoachDashboard() {
             cursor: 'pointer',
             transition: 'transform 0.2s'
           }} onClick={handleOpenMessages}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Messages ({Number(stats.messagesCount) || 0})</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>
+              Messages {stats.unreadMessagesCount > 0 ? `(${stats.unreadMessagesCount} non lu${stats.unreadMessagesCount > 1 ? 's' : ''})` : ''}
+            </h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
               Communiquez avec les recruteurs et coaches
             </p>

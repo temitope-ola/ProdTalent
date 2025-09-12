@@ -27,6 +27,7 @@ export default function RecruiterDashboard() {
     pendingApplications: 0
   });
   const [messagesCount, setMessagesCount] = useState(0);
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
 
   // Redirection si l'utilisateur n'est pas un recruteur
   useEffect(() => {
@@ -157,13 +158,19 @@ export default function RecruiterDashboard() {
       
       // Charger les messages de l'utilisateur
       const userMessages = await FirestoreService.getUserMessages(user.id);
+      const unreadMessages = userMessages.filter(message => 
+        message.type === 'received' && !message.read
+      );
+      
       setMessagesCount(userMessages.length);
+      setUnreadMessagesCount(unreadMessages.length);
       
       console.log('✅ Nombre de messages chargé (données réelles)');
     } catch (error) {
       console.error('❌ Erreur lors du chargement des messages:', error);
       // En cas d'erreur, utiliser une valeur par défaut
       setMessagesCount(0);
+      setUnreadMessagesCount(0);
     }
   };
 
@@ -497,7 +504,9 @@ export default function RecruiterDashboard() {
               color: '#ffcc00',
               fontSize: screenWidth <= 480 ? '14px' : '16px',
               textAlign: screenWidth <= 480 ? 'center' : 'left'
-            }}>Messages ({messagesCount || 0})</h3>
+            }}>
+              Messages {unreadMessagesCount > 0 ? `(${unreadMessagesCount} non lu${unreadMessagesCount > 1 ? 's' : ''})` : ''}
+            </h3>
             <p style={{ 
               margin: 0, 
               color: '#888', 

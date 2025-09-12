@@ -37,6 +37,8 @@ import CoachJobDetailsPage from './pages/CoachJobDetailsPage';
 import CoachJobViewPage from './pages/CoachJobViewPage';
 import BookingPage from './pages/BookingPage';
 import TalentRecommendationsPage from './pages/TalentRecommendationsPage';
+import TalentCoachesPage from './pages/TalentCoachesPage';
+import TalentCoachProfilePage from './pages/TalentCoachProfilePage';
 import AdminDashboard from './pages/AdminDashboard';
 import GoogleConfigPage from './pages/GoogleConfigPage';
 import SimpleGoogleTest from './pages/SimpleGoogleTest';
@@ -407,6 +409,26 @@ export default function App() {
               element={
                 <ProtectedRoute>
                   <TalentRecommendationsPage />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Route des coaches pour talent */}
+            <Route
+              path="/talent/coaches"
+              element={
+                <ProtectedRoute>
+                  <TalentCoachesPage />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Route du profil détaillé d'un coach */}
+            <Route
+              path="/talent/coach/:coachId"
+              element={
+                <ProtectedRoute>
+                  <TalentCoachProfilePage />
                 </ProtectedRoute>
               }
             />

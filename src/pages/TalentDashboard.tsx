@@ -34,6 +34,7 @@ export default function TalentDashboard() {
   const [stats, setStats] = useState({
     applicationsCount: 0,
     messagesCount: 0,
+    unreadMessagesCount: 0,
     recommendationsCount: 0,
     appointmentsCount: 0
   });
@@ -122,6 +123,9 @@ export default function TalentDashboard() {
       
       // Charger les messages
       const userMessages = await FirestoreService.getUserMessages(user.id);
+      const unreadMessages = userMessages.filter(message => 
+        message.type === 'received' && !message.read
+      );
       
       // Charger les recommandations
       const { collection, query, where, getDocs } = await import('firebase/firestore');
@@ -142,6 +146,7 @@ export default function TalentDashboard() {
       setStats({
         applicationsCount: applications.length,
         messagesCount: userMessages.length,
+        unreadMessagesCount: unreadMessages.length,
         recommendationsCount: recommendationsSnapshot.size,
         appointmentsCount: appointmentsData.length
       });
@@ -151,6 +156,7 @@ export default function TalentDashboard() {
       setStats({
         applicationsCount: 0,
         messagesCount: 0,
+        unreadMessagesCount: 0,
         recommendationsCount: 0,
         appointmentsCount: 0
       });
@@ -351,6 +357,10 @@ export default function TalentDashboard() {
 
   const handleViewMessages = () => {
     navigate('/talent/messages');
+  };
+
+  const handleViewCoaches = () => {
+    navigate('/talent/coaches');
   };
 
   const handleOpenMessages = () => {
@@ -580,9 +590,24 @@ export default function TalentDashboard() {
             cursor: 'pointer',
             transition: 'transform 0.2s'
           }} onClick={handleViewMessages}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Messages ({stats.messagesCount})</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>
+              Messages {stats.unreadMessagesCount > 0 ? `(${stats.unreadMessagesCount} non lu${stats.unreadMessagesCount > 1 ? 's' : ''})` : ''}
+            </h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
               Communiquez avec les recruteurs et coaches
+            </p>
+          </div>
+
+          <div style={{
+            padding: '20px',
+            backgroundColor: '#1a1a1a',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            transition: 'transform 0.2s'
+          }} onClick={handleViewCoaches}>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Profils des Coaches</h3>
+            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
+              Découvrez nos coaches et leurs spécialités
             </p>
           </div>
 

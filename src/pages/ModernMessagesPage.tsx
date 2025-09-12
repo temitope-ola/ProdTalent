@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../contexts/AuthContext';
 import { useNotifications } from '../components/NotificationManager';
 import Avatar from '../components/Avatar';
@@ -36,6 +36,7 @@ interface Conversation {
 export default function ModernMessagesPage() {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const { showNotification } = useNotifications();
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
@@ -50,6 +51,22 @@ export default function ModernMessagesPage() {
       loadConversations();
     }
   }, [user]);
+
+  // Gestion du coach présélectionné depuis la navigation
+  useEffect(() => {
+    const selectedCoach = location.state?.selectedContact;
+    if (selectedCoach && conversations.length > 0) {
+      // Chercher s'il y a déjà une conversation avec ce coach
+      const existingConv = conversations.find(conv => conv.contactId === selectedCoach.id);
+      if (existingConv) {
+        setSelectedConversation(selectedCoach.id);
+        markConversationAsRead(selectedCoach.id);
+      } else {
+        // Créer une nouvelle conversation
+        createNewConversationWithCoach(selectedCoach);
+      }
+    }
+  }, [conversations, location.state]);
 
   useEffect(() => {
     // Scroll vers le bas quand de nouveaux messages arrivent
@@ -177,6 +194,28 @@ export default function ModernMessagesPage() {
     }
   };
 
+  const createNewConversationWithCoach = async (coach: User) => {
+    if (!user) return;
+
+    try {
+      // Créer une nouvelle conversation vide avec le coach
+      const newConversation: Conversation = {
+        contactId: coach.id,
+        contact: coach,
+        unreadCount: 0,
+        messages: []
+      };
+
+      // Ajouter la conversation à la liste
+      setConversations(prev => [newConversation, ...prev]);
+      setSelectedConversation(coach.id);
+
+      console.log('✅ Nouvelle conversation créée avec:', coach.displayName);
+    } catch (error) {
+      console.error('❌ Erreur création conversation:', error);
+    }
+  };
+
   const sendMessage = async () => {
     if (!user || !selectedConversation || !newMessage.trim()) return;
 
@@ -291,6 +330,46 @@ export default function ModernMessagesPage() {
     return conversations.find(c => c.contactId === selectedConversation);
   };
 
+  const markConversationAsRead = async (conversationId: string) => {
+    if (!user) return;
+    
+    try {
+      const { FirestoreService } = await import('../services/firestoreService');
+      
+      // Trouver la conversation
+      const conversation = conversations.find(c => c.contactId === conversationId);
+      if (!conversation) return;
+      
+      // Marquer tous les messages non lus de cette conversation comme lus
+      const unreadMessages = conversation.messages.filter(msg => 
+        msg.to === user.id && !msg.read
+      );
+      
+      console.log('📖 Marquage de', unreadMessages.length, 'messages comme lus pour conversation:', conversationId);
+      
+      for (const message of unreadMessages) {
+        await FirestoreService.markMessageAsRead(message.id);
+      }
+      
+      // Mettre à jour l'état local
+      setConversations(prev => prev.map(conv => {
+        if (conv.contactId === conversationId) {
+          return {
+            ...conv,
+            messages: conv.messages.map(msg => 
+              msg.to === user.id && !msg.read ? { ...msg, read: true } : msg
+            ),
+            unreadCount: 0
+          };
+        }
+        return conv;
+      }));
+      
+    } catch (error) {
+      console.error('❌ Erreur marquage messages comme lus:', error);
+    }
+  };
+
   if (!user) return null;
 
   return (
@@ -328,7 +407,14 @@ export default function ModernMessagesPage() {
           }}>
             <h2 style={{ color: '#ffcc00', margin: 0, fontSize: '20px' }}>💬 Messages</h2>
             <button
-              onClick={() => navigate(-1)}
+              onClick={() => {
+                // Si l'utilisateur vient de la page des profils coaches, retourner là-bas
+                if (location.state?.selectedContact) {
+                  navigate('/talent/coaches');
+                } else {
+                  navigate(-1);
+                }
+              }}
               style={{
                 background: 'transparent',
                 border: '1px solid #ffcc00',
@@ -383,7 +469,10 @@ export default function ModernMessagesPage() {
               return (
                 <div
                   key={conversation.contactId}
-                  onClick={() => setSelectedConversation(conversation.contactId)}
+                  onClick={() => {
+                    setSelectedConversation(conversation.contactId);
+                    markConversationAsRead(conversation.contactId);
+                  }}
                   style={{
                     padding: '16px 20px',
                     borderBottom: '1px solid #333',
