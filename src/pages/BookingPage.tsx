@@ -90,7 +90,7 @@ const BookingPage: React.FC = () => {
     
     try {
       // Intégration avec l'API Google Calendar pour récupérer les créneaux disponibles
-      const { googleCalendarGISService } = await import('../services/googleCalendarGISService.ts');
+      const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
       
       // Vérifier si le service est authentifié
       if (!googleCalendarGISService.isUserAuthenticated()) {
@@ -182,7 +182,7 @@ const BookingPage: React.FC = () => {
 
     try {
       // Intégration avec l'API Google Calendar
-      const { googleCalendarGISService } = await import('../services/googleCalendarGISService.ts');
+      const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
       
       // Convertir l'heure sélectionnée en format attendu
       const [hours, minutes] = selectedTime.split(':');

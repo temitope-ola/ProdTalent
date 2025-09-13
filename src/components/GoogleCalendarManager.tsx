@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import googleCalendarGISService, { CalendarEvent } from '../services/googleCalendarGISService';
+import { CalendarEvent } from '../services/googleCalendarGISService';
 import { AppointmentService } from '../services/appointmentService';
 import { AvailabilityService } from '../services/availabilityService';
 import { Appointment } from '../types';
@@ -158,6 +158,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
     try {
       setLoading(true);
       setError(null);
+      const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
       const success = await googleCalendarGISService.authenticate();
       if (success) {
         setIsAuthenticated(true);
@@ -176,6 +177,8 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
     try {
       setLoading(true);
       setError(null);
+      
+      const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
       
       // Vérifier si l'utilisateur est encore authentifié
       if (!googleCalendarGISService.isUserAuthenticated()) {
@@ -233,6 +236,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
     try {
       setLoading(true);
       setError(null);
+      const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
       const eventId = await googleCalendarGISService.createCoachingSession(
         talentName,
         talentEmail,
@@ -261,11 +265,13 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
   // Effet pour initialiser l'API Google au montage du composant
   useEffect(() => {
     if (isOpen) {
-      googleCalendarGISService.initializeGIS().then((initialized) => {
+      (async () => {
+        const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
+        const initialized = await googleCalendarGISService.initializeGIS();
         if (initialized) {
           setIsAuthenticated(googleCalendarGISService.isUserAuthenticated());
         }
-      });
+      })();
     }
   }, [isOpen]);
 
@@ -314,6 +320,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
 
     setLoading(true);
     try {
+      const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
       const result = await googleCalendarGISService.syncAppointmentToCalendar(appointment);
       
       if (result.success && result.googleEventId && appointment.id) {
@@ -346,6 +353,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
 
     setLoading(true);
     try {
+      const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
       const result = await googleCalendarGISService.syncAllAppointments(user.id);
       
       if (result.success) {
