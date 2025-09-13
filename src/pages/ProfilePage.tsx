@@ -61,8 +61,8 @@ const ProfilePage: React.FC = () => {
       if (profile && profile.role === 'recruteur') {
         setLoadingJobs(true);
         try {
-          const { JobService } = await import('../services/jobService');
-          const jobsResult = await JobService.getAllActiveJobs();
+          const { FirestoreService } = await import('../services/firestoreService');
+          const jobsResult = await FirestoreService.getAllActiveJobs();
           if (jobsResult.success && jobsResult.data) {
             // Filter jobs by recruiter
             const recruiterJobs = jobsResult.data.filter(job => 

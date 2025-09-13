@@ -25,12 +25,14 @@ const UniversalAppointmentManager: React.FC<UniversalAppointmentManagerProps> = 
 
   const initializeGoogleCalendar = async () => {
     try {
-      const { googleCalendarGISService } = await import('../services/googleCalendarGISService.ts');
+      console.log('🚀 Initialisation Google Calendar...');
+      const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
       
       const initialized = await googleCalendarGISService.initializeGIS();
       if (initialized) {
         const authenticated = googleCalendarGISService.isUserAuthenticated();
         setIsGoogleAuthenticated(authenticated);
+        console.log('📊 État authentification:', authenticated);
         
         if (authenticated) {
           await loadAppointments();
@@ -44,13 +46,19 @@ const UniversalAppointmentManager: React.FC<UniversalAppointmentManagerProps> = 
 
   const handleGoogleAuth = async () => {
     try {
-      const { googleCalendarGISService } = await import('../services/googleCalendarGISService.ts');
+      console.log('🔑 Authentification Google Calendar...');
+      const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
       
-      const success = await googleCalendarGISService.authenticateUser();
+      console.log('📦 Service chargé, version:', googleCalendarGISService.version);
+      console.log('📝 Méthodes disponibles:', Object.getOwnPropertyNames(Object.getPrototypeOf(googleCalendarGISService)));
+      
+      const success = await googleCalendarGISService.authenticate();
       if (success) {
         setIsGoogleAuthenticated(true);
         await loadAppointments();
         showNotification('Connexion Google Calendar réussie !', 'success');
+      } else {
+        showNotification('Échec de l\'authentification Google Calendar', 'error');
       }
     } catch (error) {
       console.error('❌ Erreur authentification Google:', error);
@@ -63,18 +71,20 @@ const UniversalAppointmentManager: React.FC<UniversalAppointmentManagerProps> = 
     
     setLoading(true);
     try {
-      const { googleCalendarGISService } = await import('../services/googleCalendarGISService.ts');
+      console.log('📅 Chargement rendez-vous pour', selectedDate);
+      const { googleCalendarGISService } = await import('../services/googleCalendarGISService');
       
-      const startTime = new Date(selectedDate + 'T00:00:00');
-      const endTime = new Date(selectedDate + 'T23:59:59');
+      const startTime = selectedDate + 'T00:00:00';
+      const endTime = selectedDate + 'T23:59:59';
       
       const events = await googleCalendarGISService.getEvents(startTime, endTime);
-      setAppointments(events);
+      setAppointments(events || []);
       
-      console.log('📅 Rendez-vous chargés pour', selectedDate, ':', events.length);
+      console.log('📅 Rendez-vous chargés pour', selectedDate, ':', events?.length || 0);
     } catch (error) {
       console.error('❌ Erreur chargement rendez-vous:', error);
       showNotification('Erreur lors du chargement des rendez-vous', 'error');
+      setAppointments([]);
     } finally {
       setLoading(false);
     }

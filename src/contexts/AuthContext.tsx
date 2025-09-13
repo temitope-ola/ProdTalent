@@ -124,7 +124,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         
         console.log('✅ Email de bienvenue envoyé (Gmail API ou SendGrid fallback)');
-      }
       } catch (emailError) {
         console.error('❌ Erreur lors de l\'envoi de l\'email de bienvenue:', emailError);
         // Ne pas faire échouer l'inscription si l'email échoue

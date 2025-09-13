@@ -38,6 +38,9 @@ import { Appointment } from '../types';
 class GoogleCalendarGISService {
   private accessToken: string | null = null;
   private isInitialized = false;
+  
+  // Version mise à jour pour forcer le rechargement du cache
+  public version = "2.0.0";
 
   async initializeGIS(): Promise<boolean> {
     try {
