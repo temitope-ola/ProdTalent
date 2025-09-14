@@ -6,7 +6,7 @@ import { FirestoreService, UserProfile } from '../services/firestoreService';
 import Avatar from '../components/Avatar';
 import ProfileEditModal from '../components/ProfileEditModal.jsx';
 import TalentAgendaView from '../components/TalentAgendaView';
-import UniversalAppointmentManager from '../components/UniversalAppointmentManager';
+import TalentAppointmentViewer from '../components/TalentAppointmentViewer';
 import { useNotifications } from '../components/NotificationManager';
 
 export default function TalentDashboard() {
@@ -1003,7 +1003,7 @@ export default function TalentDashboard() {
 
       {/* Mes rendez-vous */}
       {isAppointmentsOpen && (
-        <UniversalAppointmentManager onClose={() => setIsAppointmentsOpen(false)} />
+        <TalentAppointmentViewer onClose={() => setIsAppointmentsOpen(false)} />
       )}
     </div>
   );

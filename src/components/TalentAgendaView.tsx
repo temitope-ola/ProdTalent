@@ -21,17 +21,15 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
   const [reason, setReason] = useState<string>('');
   const [selectedSlot, setSelectedSlot] = useState<string>('');
   const [showReasonModal, setShowReasonModal] = useState(false);
+  const [userTimeZone, setUserTimeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
-  // Créneaux horaires disponibles
+  console.log('🌍 TalentAgendaView - Fuseau horaire talent détecté:', userTimeZone);
+
+  // Créneaux horaires disponibles (heures de travail réalistes)
   const timeSlots = [
     '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
     '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
-    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30',
-    '18:00', '18:30', '19:00', '19:30', '20:00', '20:30',
-    '21:00', '21:30', '22:00', '22:30', '23:00', '23:30',
-    '00:00', '00:30', '01:00', '01:30', '02:00', '02:30',
-    '03:00', '03:30', '04:00', '04:30', '05:00', '05:30',
-    '06:00', '06:30', '07:00', '07:30', '08:00', '08:30'
+    '15:00', '15:30', '16:00', '16:30', '17:00', '17:30'
   ];
 
   // Charger les coachs disponibles au montage
@@ -101,12 +99,23 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
   };
 
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
-    // Format j/m/a (français)
+    const date = new Date(dateStr + 'T12:00:00');
     return date.toLocaleDateString('fr-FR', {
+      timeZone: userTimeZone,
+      weekday: 'long',
       day: '2-digit',
-      month: '2-digit',
+      month: 'long',
       year: 'numeric'
+    });
+  };
+
+  const formatTimeInUserZone = (time: string) => {
+    const today = new Date().toISOString().split('T')[0];
+    const dateTime = new Date(`${today}T${time}:00`);
+    return dateTime.toLocaleTimeString('fr-FR', {
+      timeZone: userTimeZone,
+      hour: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -262,6 +271,35 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
           </button>
         </div>
 
+        {/* Fuseau horaire info */}
+        <div style={{
+          backgroundColor: '#2a2a2a',
+          padding: '12px',
+          borderRadius: '8px',
+          marginBottom: '20px',
+          textAlign: 'center'
+        }}>
+          <span style={{ fontSize: '14px', color: '#ffcc00' }}>
+            🕐 Horaires affichés dans votre fuseau : {userTimeZone}
+          </span>
+        </div>
+
+        {/* Mode développement info */}
+        {(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && (
+          <div style={{
+            backgroundColor: '#1a4d1a',
+            border: '1px solid #4caf50',
+            padding: '12px',
+            borderRadius: '8px',
+            marginBottom: '20px',
+            textAlign: 'center'
+          }}>
+            <span style={{ fontSize: '14px', color: '#4caf50' }}>
+              🛠️ Mode développement : Les fonctionnalités Google Calendar sont simulées
+            </span>
+          </div>
+        )}
+
         {/* Sélection du coach */}
         <div style={{ marginBottom: 20 }}>
           <label style={{ color: '#f5f5f7', display: 'block', marginBottom: 8 }}>
@@ -381,7 +419,7 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
                         }
                       }}
                     >
-                      {slot}
+                      {formatTimeInUserZone(slot)}
                     </button>
                   );
                 })}
@@ -398,11 +436,12 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
           border: 'none'
         }}>
           <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>Instructions :</h4>
-          <ul style={{ color: '#f5f5f7', margin: 0, paddingLeft: 20 }}>
+          <ul style={{ color: '#f5f5f7', margin: 0, paddingLeft: 20, fontSize: '14px' }}>
             <li>Sélectionnez d'abord un coach disponible</li>
             <li>Choisissez ensuite une date disponible</li>
             <li>Cliquez sur un créneau jaune pour réserver</li>
             <li>Les créneaux gris ne sont pas disponibles</li>
+            <li>Les horaires sont convertis dans votre fuseau horaire ({userTimeZone})</li>
             <li>Vous devrez indiquer la raison de votre demande</li>
           </ul>
         </div>

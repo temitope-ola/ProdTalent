@@ -181,7 +181,7 @@ export class AppointmentService {
   }
 
   // Mettre à jour le statut d'un rendez-vous
-  static async updateAppointmentStatus(appointmentId: string, status: Appointment['status']): Promise<void> {
+  static async updateAppointmentStatus(appointmentId: string, status: Appointment['status']): Promise<boolean> {
     try {
       const appointmentRef = doc(db, 'Appointments', appointmentId);
       
@@ -330,9 +330,10 @@ export class AppointmentService {
         // Ne pas faire échouer la mise à jour si l'email échoue
       }
 
+      return true;
     } catch (error) {
       console.error('Erreur lors de la mise à jour du statut:', error);
-      throw new Error('Impossible de mettre à jour le statut');
+      return false;
     }
   }
 
@@ -432,6 +433,18 @@ export class AppointmentService {
     } catch (error) {
       console.error('❌ Erreur lors de la mise à jour des liens Meet/Calendar:', error);
       throw new Error('Impossible de mettre à jour les liens Meet/Calendar');
+    }
+  }
+
+  // Mettre à jour le lien Meet d'un rendez-vous
+  static async updateAppointmentMeetLink(appointmentId: string, meetLink: string): Promise<void> {
+    try {
+      const appointmentRef = doc(db, 'Appointments', appointmentId);
+      await updateDoc(appointmentRef, { meetLink });
+      console.log('✅ Lien Meet mis à jour pour le rendez-vous:', appointmentId);
+    } catch (error) {
+      console.error('❌ Erreur lors de la mise à jour du lien Meet:', error);
+      throw new Error('Impossible de mettre à jour le lien Meet');
     }
   }
 

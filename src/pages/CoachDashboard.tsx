@@ -4,8 +4,8 @@ import useAuth from '../contexts/AuthContext';
 import { FirestoreService, UserProfile } from '../services/firestoreService';
 // JobService methods are now in FirestoreService
 import Avatar from '../components/Avatar';
-import UniversalAppointmentManager from '../components/UniversalAppointmentManager';
-import CoachAvailabilityManager from '../components/CoachAvailabilityManager';
+import TimezoneAppointmentManager from '../components/TimezoneAppointmentManager';
+import TimezoneAvailabilityManager from '../components/TimezoneAvailabilityManager';
 // import GoogleCalendarManager from '../components/GoogleCalendarManager'; // Désactivé temporairement
 import SimpleRecommendationModal from '../components/SimpleRecommendationModal';
 import ProfileEditModal from '../components/ProfileEditModal.jsx';
@@ -465,9 +465,9 @@ export default function CoachDashboard() {
             cursor: 'pointer',
             transition: 'transform 0.2s'
           }} onClick={() => setIsAvailabilityOpen(true)}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Agenda de Coaching</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>📅 Prise de Rendez-vous</h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Consultez l'agenda et réservez votre créneau
+              Publiez vos créneaux disponibles avec fuseaux horaires
             </p>
           </div>
 
@@ -493,9 +493,9 @@ export default function CoachDashboard() {
             cursor: 'pointer',
             transition: 'transform 0.2s'
           }} onClick={() => setIsAppointmentsOpen(true)}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Mes Rendez-vous ({Number(stats.appointmentsCount) || 0})</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>📋 Mes Rendez-vous ({Number(stats.appointmentsCount) || 0})</h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Consultez vos rendez-vous et leur statut
+              Gérez vos rendez-vous avec fuseaux horaires et Google Calendar
             </p>
           </div>
 
@@ -990,11 +990,11 @@ export default function CoachDashboard() {
 
       {/* Modals */}
       {isAppointmentsOpen && (
-        <UniversalAppointmentManager onClose={() => setIsAppointmentsOpen(false)} />
+        <TimezoneAppointmentManager onClose={() => setIsAppointmentsOpen(false)} />
       )}
 
       {isAvailabilityOpen && (
-        <CoachAvailabilityManager onClose={() => setIsAvailabilityOpen(false)} />
+        <TimezoneAvailabilityManager onClose={() => setIsAvailabilityOpen(false)} />
       )}
 
       {/* GoogleCalendarManager désactivé temporairement pour éviter l'authentification client-side

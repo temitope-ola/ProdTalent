@@ -104,6 +104,13 @@ class GoogleCalendarGISService {
 
   async authenticate(): Promise<boolean> {
     try {
+      // En mode développement (localhost), simuler l'authentification réussie
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('🛠️ Mode développement détecté - simulation authentification Google');
+        this.accessToken = 'dev_token_simulation';
+        return true;
+      }
+
       if (!this.isInitialized) {
         const initialized = await this.initializeGIS();
         if (!initialized) return false;
@@ -208,6 +215,12 @@ class GoogleCalendarGISService {
   }
 
   isUserAuthenticated(): boolean {
+    // En mode développement, toujours retourner true
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      console.log('🛠️ Mode développement - authentification simulée');
+      return true;
+    }
+
     const hasToken = !!this.accessToken;
     console.log('📊 Vérification authentification - hasToken:', hasToken);
     return hasToken;
@@ -215,6 +228,23 @@ class GoogleCalendarGISService {
 
   async createEvent(event: CalendarEvent): Promise<string | null> {
     try {
+      // En mode développement, simuler la création d'événement
+      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('🛠️ Mode développement - simulation création événement Google Calendar');
+        console.log('📅 Événement simulé:', event);
+        
+        // Retourner un événement fictif avec un lien Meet simulé
+        return JSON.stringify({
+          id: `dev_event_${Date.now()}`,
+          hangoutLink: 'https://meet.google.com/dev-simulation-link',
+          conferenceData: {
+            entryPoints: [{
+              uri: 'https://meet.google.com/dev-simulation-link'
+            }]
+          }
+        });
+      }
+
       if (!this.accessToken) {
         throw new Error('Utilisateur non authentifié');
       }
