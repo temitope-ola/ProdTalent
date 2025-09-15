@@ -266,7 +266,7 @@ export default function TalentRecommendationsPage() {
                       fontWeight: 'bold', 
                       marginBottom: 12 
                     }}>
-                      📋 {recommendation.jobTitle}
+                      📋 {typeof recommendation.jobTitle === 'string' ? recommendation.jobTitle : 'Poste'}
                     </div>
                     <div style={{ 
                       color: '#61bfac', 
@@ -277,11 +277,11 @@ export default function TalentRecommendationsPage() {
                       borderRadius: '6px',
                       display: 'inline-block'
                     }}>
-                      🏢 {recommendation.jobCompany || 'Entreprise'} 
-                      • 👤 Recommandé à {recommendation.recruiterName}
+                      🏢 {typeof recommendation.jobCompany === 'string' ? recommendation.jobCompany : 'Entreprise'} 
+                      • 👤 Recommandé à {typeof recommendation.recruiterName === 'string' ? recommendation.recruiterName : 'Recruteur'}
                     </div>
                     <div style={{ color: '#f5f5f7', fontSize: '14px', marginBottom: 4, marginTop: 12 }}>
-                      👨‍💼 Par <strong>{recommendation.coachName}</strong>
+                      👨‍💼 Par <strong>{typeof recommendation.coachName === 'string' ? recommendation.coachName : 'Coach'}</strong>
                     </div>
                     <div style={{ color: '#888', fontSize: '12px' }}>
                       📅 {formatDate(recommendation.createdAt)}
@@ -312,7 +312,7 @@ export default function TalentRecommendationsPage() {
                   border: '1px solid #222'
                 }}>
                   <strong>💬 Message du coach :</strong><br />
-                  <span style={{ fontStyle: 'italic' }}>"{recommendation.message}"</span>
+                  <span style={{ fontStyle: 'italic' }}>"{typeof recommendation.message === 'string' ? recommendation.message : 'Message'}"</span>
                 </div>
 
                 {/* BOUTON PRINCIPAL - VOIR L'OFFRE */}
