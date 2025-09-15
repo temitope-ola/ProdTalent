@@ -34,13 +34,13 @@ const ProfilePage: React.FC = () => {
         let userProfile: UserProfile | null = null;
 
         if (userId && userId !== user.id) {
-          // Charger le profil d'un autre utilisateur
-          userProfile = await FirestoreService.getProfileById(userId);
+          // Charger le profil d'un autre utilisateur (version optimisée)
+          userProfile = await FirestoreService.getUserProfileOptimized(userId);
           setIsOwnProfile(false);
         } else {
-          // Charger son propre profil en utilisant getProfileById
-          const userId = user.id;
-          userProfile = await FirestoreService.getProfileById(userId);
+          // Charger son propre profil (version optimisée)
+          const currentUserId = user.id;
+          userProfile = await FirestoreService.getUserProfileOptimized(currentUserId);
           setIsOwnProfile(true);
         }
 
@@ -96,6 +96,78 @@ const ProfilePage: React.FC = () => {
       githubUrl: updatedProfile.githubUrl,
       cvUrl: updatedProfile.cvUrl
     });
+  };
+
+  const handleViewCV = (cvUrl: string) => {
+    try {
+      console.log('🔍 Ouverture du CV:', cvUrl.substring(0, 50) + '...');
+      
+      // Vérifier que l'URL est valide
+      if (!cvUrl || cvUrl.trim() === '') {
+        showNotification({
+          type: 'error',
+          title: 'Erreur',
+          message: 'URL du CV invalide'
+        });
+        return;
+      }
+
+      // Vérifier si c'est une data URL (PDF en base64)
+      if (cvUrl.startsWith('data:application/pdf;base64,')) {
+        console.log('📄 Détection d\'un PDF en base64, téléchargement forcé...');
+        
+        // Créer un blob à partir de la data URL
+        const response = fetch(cvUrl);
+        response.then(res => res.blob()).then(blob => {
+          // Créer un URL temporaire pour le blob
+          const blobUrl = URL.createObjectURL(blob);
+          
+          // Créer un lien de téléchargement
+          const link = document.createElement('a');
+          link.href = blobUrl;
+          link.download = 'CV.pdf';
+          link.target = '_blank';
+          link.rel = 'noopener noreferrer';
+          
+          // Déclencher le téléchargement
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          
+          // Nettoyer l'URL temporaire après un délai
+          setTimeout(() => {
+            URL.revokeObjectURL(blobUrl);
+          }, 1000);
+          
+          console.log('✅ PDF téléchargé avec succès');
+        }).catch(error => {
+          console.error('❌ Erreur lors du traitement du PDF:', error);
+          // Fallback: essayer d'ouvrir quand même
+          window.open(cvUrl, '_blank');
+        });
+      } else {
+        // URL normale - utiliser la méthode standard
+        console.log('🔗 URL normale détectée, ouverture dans nouvel onglet...');
+        
+        const link = document.createElement('a');
+        link.href = cvUrl;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        console.log('✅ CV ouvert avec succès');
+      }
+    } catch (error) {
+      console.error('❌ Erreur lors de l\'ouverture du CV:', error);
+      showNotification({
+        type: 'error',
+        title: 'Erreur',
+        message: 'Impossible d\'ouvrir le CV. Veuillez réessayer.'
+      });
+    }
   };
 
   const handleLogout = async () => {
@@ -190,15 +262,47 @@ const ProfilePage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div style={{ 
-        minHeight: '100vh', 
-        backgroundColor: '#000', 
-        color: '#f5f5f7',
+      <div style={{
+        minHeight: '100vh',
+        backgroundColor: '#0a0a0a',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        color: '#f5f5f7'
       }}>
-        Chargement du profil...
+        <div style={{
+          width: '60px',
+          height: '60px',
+          border: '3px solid #333',
+          borderTop: '3px solid #ffcc00',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite',
+          marginBottom: '20px'
+        }} />
+        <h2 style={{ 
+          color: '#ffcc00', 
+          margin: '0 0 8px 0',
+          fontSize: '24px',
+          fontWeight: '600'
+        }}>
+          ProdTalent
+        </h2>
+        <p style={{ 
+          color: '#888', 
+          margin: 0,
+          fontSize: '14px'
+        }}>
+          Chargement du profil...
+        </p>
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `
+        }} />
       </div>
     );
   }
@@ -432,22 +536,30 @@ const ProfilePage: React.FC = () => {
                 {profile.cvUrl && (
                   <div>
                     <h3 style={{ color: '#ffcc00', margin: '0 0 8px 0', fontSize: '16px' }}>CV</h3>
-                    <a
-                      href={profile.cvUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      onClick={() => handleViewCV(profile.cvUrl!)}
                       style={{
                         color: '#ffcc00',
-                        textDecoration: 'none',
+                        backgroundColor: 'transparent',
                         fontSize: '14px',
-                        padding: '4px 8px',
+                        padding: '8px 12px',
                         border: '1px solid #ffcc00',
                         borderRadius: '4px',
-                        display: 'inline-block'
+                        display: 'inline-block',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = '#ffcc00';
+                        e.currentTarget.style.color = '#000';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                        e.currentTarget.style.color = '#ffcc00';
                       }}
                     >
                       📄 Voir le CV
-                    </a>
+                    </button>
                   </div>
                 )}
               </div>

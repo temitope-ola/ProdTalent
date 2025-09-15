@@ -13,6 +13,7 @@ interface Appointment {
   status: 'pending' | 'confirmed' | 'rejected' | 'completed';
   createdAt: Date;
   meetLink?: string;
+  calendarLink?: string;
   talentTimeZone?: string;
   coachTimeZone?: string;
   notes?: string;
@@ -175,12 +176,26 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
       
       if (event) {
         console.log('✅ Événement Google Calendar créé:', event);
-        // Sauvegarder le lien Meet dans l'appointment
-        const meetLink = event.hangoutLink || event.conferenceData?.entryPoints?.[0]?.uri;
+        
+        // Parser l'événement (en mode dev c'est un JSON string)
+        let eventObject = event;
+        if (typeof event === 'string') {
+          try {
+            eventObject = JSON.parse(event);
+          } catch (e) {
+            eventObject = event;
+          }
+        }
+        
+        // Extraire le lien Meet
+        const meetLink = eventObject.hangoutLink || eventObject.conferenceData?.entryPoints?.[0]?.uri;
+        const calendarLink = `https://calendar.google.com/calendar/event?eid=${eventObject.id}`;
+        
         if (meetLink) {
-          // Mettre à jour l'appointment avec le lien Meet
+          // Mettre à jour l'appointment avec les liens Meet et Calendar
           const { AppointmentService } = await import('../services/appointmentService');
-          await AppointmentService.updateAppointmentMeetLink(appointmentId, meetLink);
+          await AppointmentService.updateAppointmentLinks(appointmentId, meetLink, calendarLink);
+          console.log('✅ Liens Meet et Calendar sauvegardés:', { meetLink, calendarLink });
         }
       }
     } catch (error) {
@@ -444,20 +459,44 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                         </div>
                       )}
                       
-                      {appointment.meetLink && (
-                        <div style={{ marginBottom: '8px' }}>
-                          <a
-                            href={appointment.meetLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              color: '#4285f4',
-                              textDecoration: 'none',
-                              fontSize: '14px'
-                            }}
-                          >
-                            🎥 Rejoindre le meeting
-                          </a>
+                      {(appointment.meetLink || appointment.calendarLink) && (
+                        <div style={{ marginBottom: '8px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                          {appointment.meetLink && (
+                            <a
+                              href={appointment.meetLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                textDecoration: 'none',
+                                fontSize: '14px',
+                                padding: '6px 12px',
+                                backgroundColor: '#1a73e8',
+                                color: 'white',
+                                borderRadius: '6px',
+                                fontWeight: 'bold'
+                              }}
+                            >
+                              🎥 Rejoindre Meet
+                            </a>
+                          )}
+                          {appointment.calendarLink && (
+                            <a
+                              href={appointment.calendarLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                textDecoration: 'none',
+                                fontSize: '14px',
+                                padding: '6px 12px',
+                                backgroundColor: '#34a853',
+                                color: 'white',
+                                borderRadius: '6px',
+                                fontWeight: 'bold'
+                              }}
+                            >
+                              📅 Voir dans Google Calendar
+                            </a>
+                          )}
                         </div>
                       )}
                     </div>

@@ -99,6 +99,47 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
     }));
   };
 
+  const validateUrlField = (name, value) => {
+    if (!value.trim()) return true; // Champ vide autorisé
+    
+    if (name === 'linkedinUrl' || name === 'companyLinkedin') {
+      const linkedinPattern = /^https?:\/\/(www\.)?linkedin\.com\//i;
+      if (!linkedinPattern.test(value)) {
+        showNotification({
+          type: 'error',
+          title: 'Lien LinkedIn invalide',
+          message: 'Seuls les liens LinkedIn sont acceptés (ex: https://linkedin.com/in/votre-profil)'
+        });
+        return false;
+      }
+    }
+    
+    if (name === 'githubUrl') {
+      const githubPattern = /^https?:\/\/(www\.)?github\.com\//i;
+      if (!githubPattern.test(value)) {
+        showNotification({
+          type: 'error',
+          title: 'Lien GitHub invalide',
+          message: 'Seuls les liens GitHub sont acceptés (ex: https://github.com/votre-username)'
+        });
+        return false;
+      }
+    }
+    
+    return true;
+  };
+
+  const handleUrlBlur = (e) => {
+    const { name, value } = e.target;
+    if (!validateUrlField(name, value)) {
+      // Remettre le champ à vide si invalide
+      setFormData(prev => ({
+        ...prev,
+        [name]: ''
+      }));
+    }
+  };
+
   // Gestion des compétences
   const addSkill = (skill) => {
     if (skill && !formData.skills.includes(skill)) {
@@ -679,13 +720,14 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                     marginBottom: '8px',
                     fontWeight: 'bold'
                   }}>
-                    LinkedIn Entreprise
+                    LinkedIn Entreprise (linkedin.com uniquement)
                   </label>
                   <input
                     type="url"
                     name="companyLinkedin"
                     value={formData.companyLinkedin}
                     onChange={handleInputChange}
+                    onBlur={handleUrlBlur}
                     style={{
                       width: '100%',
                       padding: '12px',
@@ -697,6 +739,9 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                     }}
                     placeholder="https://linkedin.com/company/votre-entreprise"
                   />
+                  <p style={{ color: '#888', fontSize: '12px', marginTop: '4px', margin: '4px 0 0 0' }}>
+                    Seuls les liens LinkedIn entreprise sont acceptés (linkedin.com/company/)
+                  </p>
                 </div>
 
                 {/* Description de l'entreprise */}
@@ -880,13 +925,14 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
               marginBottom: '8px',
               fontWeight: 'bold'
             }}>
-              LinkedIn
+              LinkedIn personnel (linkedin.com uniquement)
             </label>
             <input
               type="url"
               name="linkedinUrl"
               value={formData.linkedinUrl}
               onChange={handleInputChange}
+              onBlur={handleUrlBlur}
               style={{
                 width: '100%',
                 padding: '12px',
@@ -898,6 +944,9 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
               }}
               placeholder="https://linkedin.com/in/votre-profil"
             />
+            <p style={{ color: '#888', fontSize: '12px', marginTop: '4px', margin: '4px 0 0 0' }}>
+              Seuls les liens LinkedIn sont acceptés (linkedin.com)
+            </p>
           </div>
 
           {/* GitHub */}
@@ -908,13 +957,14 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
               marginBottom: '8px',
               fontWeight: 'bold'
             }}>
-              GitHub
+              GitHub (github.com uniquement)
             </label>
             <input
               type="url"
               name="githubUrl"
               value={formData.githubUrl}
               onChange={handleInputChange}
+              onBlur={handleUrlBlur}
               style={{
                 width: '100%',
                 padding: '12px',
@@ -926,6 +976,9 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
               }}
               placeholder="https://github.com/votre-username"
             />
+            <p style={{ color: '#888', fontSize: '12px', marginTop: '4px', margin: '4px 0 0 0' }}>
+              Seuls les liens GitHub sont acceptés (github.com)
+            </p>
           </div>
 
           {/* CV Upload */}

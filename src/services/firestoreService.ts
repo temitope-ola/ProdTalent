@@ -109,6 +109,55 @@ export class FirestoreService {
     }
   }
 
+  // Version optimisée pour AuthContext - Recherche parallèle dans toutes les collections
+  static async getUserProfileOptimized(userId: string): Promise<UserProfile | null> {
+    try {
+      console.log('🚀 FirestoreService: Recherche parallèle du profil pour', userId);
+      
+      // Faire les 3 appels en parallèle au lieu de séquentiellement
+      const [talentDoc, recruteurDoc, coachDoc] = await Promise.all([
+        getDoc(doc(db, 'Talent', userId)),
+        getDoc(doc(db, 'Recruteur', userId)),
+        getDoc(doc(db, 'Coach', userId))
+      ]);
+      
+      // Traiter le premier document trouvé
+      const docs = [
+        { doc: talentDoc, role: 'talent' as const, collection: 'Talent' },
+        { doc: recruteurDoc, role: 'recruteur' as const, collection: 'Recruteur' },  
+        { doc: coachDoc, role: 'coach' as const, collection: 'Coach' }
+      ];
+      
+      for (const { doc, role } of docs) {
+        if (doc.exists()) {
+          const data = doc.data();
+          console.log('✅ FirestoreService: Profil trouvé dans collection', role);
+          
+          return {
+            id: doc.id,
+            email: data.email || '',
+            role: role,
+            avatarUrl: data.avatarUrl || undefined,
+            displayName: data.displayName || (data.email && typeof data.email === 'string' ? data.email.split('@')[0] : 'Utilisateur'),
+            bio: data.bio || '',
+            skills: data.skills || '',
+            linkedinUrl: data.linkedinUrl || undefined,
+            githubUrl: data.githubUrl || undefined,
+            cvUrl: data.cvUrl || undefined,
+            createdAt: data.createdAt?.toDate() || new Date(),
+            updatedAt: data.updatedAt?.toDate() || new Date()
+          };
+        }
+      }
+      
+      console.log('⚠️ FirestoreService: Aucun profil trouvé');
+      return null;
+    } catch (error) {
+      console.error('❌ FirestoreService: Erreur lors de la recherche optimisée:', error);
+      return null;
+    }
+  }
+
   // Récupérer tous les profils d'un rôle spécifique
   static async getProfilesByRole(role: 'talent' | 'recruteur' | 'coach'): Promise<UserProfile[]> {
     try {

@@ -29,28 +29,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
 
       if (firebaseUser) {
-        // Récupérer le profil utilisateur depuis Firestore
+        // Récupérer le profil utilisateur depuis Firestore de façon optimisée
         try {
-          // Essayer de trouver le profil dans les différentes collections
-          let userProfile = null;
-          const roles: UserRole[] = ['talent', 'recruteur', 'coach'];
+          console.log('🔄 AuthContext: Chargement du profil pour', firebaseUser.uid);
           
-          for (const role of roles) {
-            try {
-              const result = await FirestoreService.getCurrentProfile(firebaseUser.uid, role);
-              if (result) {
-                userProfile = result;
-                break;
-              }
-            } catch (error) {
-              // Continuer avec le prochain rôle
-            }
-          }
+          // Utiliser la nouvelle méthode optimisée de FirestoreService
+          const userProfile = await FirestoreService.getUserProfileOptimized(firebaseUser.uid);
           
           if (userProfile) {
+            console.log('✅ AuthContext: Profil trouvé', userProfile.role);
             setUser(userProfile);
           } else {
-            console.log('Aucun profil trouvé, création d\'un profil par défaut...');
+            console.log('⚠️ AuthContext: Aucun profil trouvé, création d\'un profil par défaut...');
             // Créer un profil par défaut
             const createResult = await FirestoreService.createProfile(firebaseUser.uid, firebaseUser.email!, 'talent');
             
@@ -65,10 +55,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 updatedAt: new Date()
               };
               setUser(defaultProfile);
+              console.log('✅ AuthContext: Profil par défaut créé');
             }
           }
         } catch (error) {
-          console.error('Erreur lors de la récupération/création du profil:', error);
+          console.error('❌ AuthContext: Erreur lors de la récupération/création du profil:', error);
         }
       } else {
         setUser(null);

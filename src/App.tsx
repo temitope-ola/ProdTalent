@@ -192,7 +192,54 @@ function AdminLogin() {
 
 function ProtectedRoute({ children }: { children: React.ReactElement }) {
   const { user, loading } = useAuth();
-  if (loading) return null;                 // tu peux mettre un spinner ici
+  
+  if (loading) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        backgroundColor: '#0a0a0a',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#f5f5f7'
+      }}>
+        <div style={{
+          width: '60px',
+          height: '60px',
+          border: '3px solid #333',
+          borderTop: '3px solid #ffcc00',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite',
+          marginBottom: '20px'
+        }} />
+        <h2 style={{ 
+          color: '#ffcc00', 
+          margin: '0 0 8px 0',
+          fontSize: '24px',
+          fontWeight: '600'
+        }}>
+          ProdTalent
+        </h2>
+        <p style={{ 
+          color: '#888', 
+          margin: 0,
+          fontSize: '14px'
+        }}>
+          Connexion en cours...
+        </p>
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `
+        }} />
+      </div>
+    );
+  }
+  
   if (!user) return <Navigate to="/" replace />;
   return children;
 }

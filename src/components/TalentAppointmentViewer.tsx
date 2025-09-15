@@ -14,6 +14,7 @@ interface Appointment {
   status: 'pending' | 'confirmed' | 'rejected' | 'completed' | 'en_attente' | 'confirmé' | 'refusé' | 'terminé';
   createdAt: Date;
   meetLink?: string;
+  calendarLink?: string;
   talentTimeZone?: string;
   coachTimeZone?: string;
   notes?: string;
@@ -322,21 +323,44 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
                         </div>
                       )}
                       
-                      {appointment.meetLink && (appointment.status === 'confirmed' || appointment.status === 'confirmé') && (
-                        <div style={{ marginBottom: '8px' }}>
-                          <a
-                            href={appointment.meetLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              color: '#4285f4',
-                              textDecoration: 'none',
-                              fontSize: '14px',
-                              fontWeight: 'bold'
-                            }}
-                          >
-                            🎥 Rejoindre le meeting
-                          </a>
+                      {(appointment.meetLink || appointment.calendarLink) && (appointment.status === 'confirmed' || appointment.status === 'confirmé') && (
+                        <div style={{ marginBottom: '8px', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                          {appointment.meetLink && (
+                            <a
+                              href={appointment.meetLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                color: 'white',
+                                textDecoration: 'none',
+                                fontSize: '14px',
+                                padding: '8px 16px',
+                                backgroundColor: '#1a73e8',
+                                borderRadius: '6px',
+                                fontWeight: 'bold'
+                              }}
+                            >
+                              🎥 Rejoindre Meet
+                            </a>
+                          )}
+                          {appointment.calendarLink && (
+                            <a
+                              href={appointment.calendarLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                color: 'white',
+                                textDecoration: 'none',
+                                fontSize: '14px',
+                                padding: '8px 16px',
+                                backgroundColor: '#34a853',
+                                borderRadius: '6px',
+                                fontWeight: 'bold'
+                              }}
+                            >
+                              📅 Ajouter au calendrier
+                            </a>
+                          )}
                         </div>
                       )}
                     </div>
