@@ -31,8 +31,11 @@ const CoachRecruteursPage: React.FC = () => {
         setIsLoading(true);
         const recruteursList = await FirestoreService.getAllRecruteurs();
         setRecruteurs(recruteursList);
+        setFilteredRecruteurs(recruteursList); // Initialize filtered list
       } catch (error) {
         console.error('Erreur lors du chargement des recruteurs:', error);
+        setRecruteurs([]);
+        setFilteredRecruteurs([]);
       } finally {
         setIsLoading(false);
       }

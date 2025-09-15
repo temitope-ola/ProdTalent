@@ -6,8 +6,8 @@ import { FirestoreService, UserProfile } from '../services/firestoreService';
 import Avatar from '../components/Avatar';
 import TimezoneAppointmentManager from '../components/TimezoneAppointmentManager';
 import TimezoneAvailabilityManager from '../components/TimezoneAvailabilityManager';
-// import GoogleCalendarManager from '../components/GoogleCalendarManager'; // Désactivé temporairement
 import SimpleRecommendationModal from '../components/SimpleRecommendationModal';
+import RecommendationsHistory from '../components/RecommendationsHistory';
 import ProfileEditModal from '../components/ProfileEditModal.jsx';
 import { useNotifications } from '../components/NotificationManager';
 
@@ -24,7 +24,7 @@ export default function CoachDashboard() {
   const [selectedJob, setSelectedJob] = useState<any>(null);
   const [showJobDetails, setShowJobDetails] = useState(false);
   const [showRecommendationModal, setShowRecommendationModal] = useState(false);
-  const [showGoogleCalendar, setShowGoogleCalendar] = useState(false);
+  const [showRecommendationsHistory, setShowRecommendationsHistory] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [activeFilters, setActiveFilters] = useState({
     skills: '',
@@ -505,10 +505,10 @@ export default function CoachDashboard() {
             borderRadius: '4px',
             cursor: 'pointer',
             transition: 'transform 0.2s'
-          }} onClick={() => console.log('Card recommandations cliquée - fonctionnalité à implémenter')}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Recommandations</h3>
+          }} onClick={() => setShowRecommendationsHistory(true)}>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>📋 Historique Recommandations</h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Créez et gérez vos recommandations
+              Consultez l'historique de vos recommandations
             </p>
           </div>
 
@@ -527,32 +527,6 @@ export default function CoachDashboard() {
             </p>
           </div>
 
-        </div>
-
-        {/* Troisième ligne - 1 carte à gauche */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: screenWidth <= 480 
-            ? '1fr' 
-            : screenWidth <= 768 
-              ? 'repeat(2, 1fr)' 
-              : 'repeat(3, 1fr)',
-          gap: screenWidth <= 480 ? '12px' : '20px',
-          marginBottom: '30px',
-          padding: screenWidth <= 480 ? '0 10px' : '0'
-        }}>
-          <div style={{
-            padding: screenWidth <= 480 ? '15px' : '20px',
-            backgroundColor: '#1a1a1a',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            transition: 'transform 0.2s'
-          }} onClick={() => setShowGoogleCalendar(true)}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Google Calendar</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Synchroniser avec Google Calendar et Meet
-            </p>
-          </div>
         </div>
 
         {/* Section Offres d'emploi avec filtres */}
@@ -997,15 +971,6 @@ export default function CoachDashboard() {
         <TimezoneAvailabilityManager onClose={() => setIsAvailabilityOpen(false)} />
       )}
 
-      {/* GoogleCalendarManager désactivé temporairement pour éviter l'authentification client-side
-      {showGoogleCalendar && (
-        <GoogleCalendarManager 
-          isOpen={showGoogleCalendar}
-          onClose={() => setShowGoogleCalendar(false)} 
-          coachId={user?.id || ''}
-        />
-      )}
-      */}
 
       {/* Modal des détails d'offre */}
       {showJobDetails && selectedJob && (
@@ -1170,6 +1135,13 @@ export default function CoachDashboard() {
         }}
         job={selectedJob}
       />
+
+      {/* Modal Historique des Recommandations */}
+      {showRecommendationsHistory && (
+        <RecommendationsHistory 
+          onClose={() => setShowRecommendationsHistory(false)}
+        />
+      )}
 
       {/* Modal d'édition de profil */}
       {user && (
