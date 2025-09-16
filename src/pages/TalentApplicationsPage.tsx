@@ -35,9 +35,11 @@ export default function TalentApplicationsPage() {
   const loadApplications = async () => {
     try {
       setIsLoading(true);
-      
+      console.log('🔍 Chargement candidatures pour user:', user!.id);
+
       // Charger toutes les candidatures du talent
       const userApplications = await FirestoreService.getUserApplications(user!.id);
+      console.log('🔍 Applications récupérées:', userApplications);
       
       // Enrichir avec les détails des annonces
       const enrichedApplications = await Promise.all(
@@ -64,6 +66,7 @@ export default function TalentApplicationsPage() {
       // Trier par date de candidature (plus récentes en premier)
       enrichedApplications.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
       
+      console.log('🔍 Applications chargées:', enrichedApplications);
       setApplications(enrichedApplications);
       
     } catch (error) {
@@ -75,7 +78,8 @@ export default function TalentApplicationsPage() {
   };
 
   const handleViewJob = (jobId: string) => {
-    navigate(`/jobs`);
+    console.log('🔍 Navigation vers:', `/jobs/${jobId}`, 'jobId:', jobId);
+    navigate(`/jobs/${jobId}`);
   };
 
   const formatDate = (date: Date) => {
