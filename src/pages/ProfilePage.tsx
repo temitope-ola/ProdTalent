@@ -682,14 +682,14 @@ const ProfilePage: React.FC = () => {
                           {job.title}
                         </h4>
                         <span style={{
-                          backgroundColor: job.isActive ? '#61bfac' : '#ff6b6b',
+                          backgroundColor: job.status === 'active' ? '#61bfac' : '#ff6b6b',
                           color: '#000',
                           padding: '4px 8px',
                           borderRadius: '4px',
                           fontSize: '12px',
                           fontWeight: 'bold'
                         }}>
-                          {job.isActive ? 'Active' : 'Inactive'}
+                          {job.status === 'active' ? 'Active' : 'Inactive'}
                         </span>
                       </div>
                       <div style={{ color: '#888', fontSize: '14px', marginBottom: '4px' }}>
