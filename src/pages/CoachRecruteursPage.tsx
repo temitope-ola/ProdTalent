@@ -802,16 +802,13 @@ const CoachRecruteursPage: React.FC = () => {
                       padding: '20px',
                       backgroundColor: '#111',
                       borderRadius: '4px',
-                      border: '1px solid #333',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.borderColor = '#ffcc00';
                       e.currentTarget.style.transform = 'translateY(-2px)';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.borderColor = '#333';
                       e.currentTarget.style.transform = 'translateY(0)';
                     }}
                     onClick={() => handleViewProfile(recruteur.id)}

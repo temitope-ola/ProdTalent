@@ -320,8 +320,7 @@ const TalentsListPage: React.FC = () => {
           <div key={talent.id} style={{
             backgroundColor: '#111',
             borderRadius: 8,
-            padding: 20,
-            border: '1px solid #333'
+            padding: 20
           }}>
             {/* Talent Header */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 16 }}>
