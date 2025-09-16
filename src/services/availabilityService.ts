@@ -6,13 +6,14 @@ export interface CoachAvailability {
   coachId: string;
   date: string; // Format: "2024-08-20"
   timeSlots: string[]; // Format: ["09:00", "10:00", "14:30"]
+  timezone: string; // Timezone du coach (ex: "America/Toronto")
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
 
 export class AvailabilityService {
   // Sauvegarder les disponibilités d'un coach pour une date
-  static async saveAvailability(coachId: string, date: string, timeSlots: string[]): Promise<boolean> {
+  static async saveAvailability(coachId: string, date: string, timeSlots: string[], timezone?: string): Promise<boolean> {
     try {
       console.log('Sauvegarde des disponibilités:', { coachId, date, timeSlots });
       
@@ -20,6 +21,7 @@ export class AvailabilityService {
         coachId,
         date,
         timeSlots,
+        timezone: timezone || Intl.DateTimeFormat().resolvedOptions().timeZone,
         createdAt: Timestamp.now(),
         updatedAt: Timestamp.now()
       };
@@ -40,16 +42,37 @@ export class AvailabilityService {
     try {
       const docRef = doc(db, 'CoachAvailabilities', `${coachId}_${date}`);
       const docSnap = await getDoc(docRef);
-      
+
       if (docSnap.exists()) {
         const data = docSnap.data() as CoachAvailability;
         return data.timeSlots || [];
       }
-      
+
       return [];
     } catch (error) {
       console.error('Erreur lors de la récupération des disponibilités:', error);
       return [];
+    }
+  }
+
+  // Récupérer les disponibilités complètes d'un coach pour une date (avec timezone)
+  static async getAvailabilityWithTimezone(coachId: string, date: string): Promise<CoachAvailability | null> {
+    try {
+      const docRef = doc(db, 'CoachAvailabilities', `${coachId}_${date}`);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data() as CoachAvailability;
+        return {
+          id: docSnap.id,
+          ...data
+        };
+      }
+
+      return null;
+    } catch (error) {
+      console.error('Erreur lors de la récupération des disponibilités avec timezone:', error);
+      return null;
     }
   }
 

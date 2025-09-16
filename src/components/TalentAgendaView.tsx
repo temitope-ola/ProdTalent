@@ -3,6 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { FirestoreService } from '../services/firestoreService';
 import { AvailabilityService } from '../services/availabilityService';
 import { AppointmentService } from '../services/appointmentService';
+import { TimezoneService } from '../services/timezoneService';
 import { useNotifications } from './NotificationManager';
 
 interface TalentAgendaViewProps {
@@ -22,6 +23,7 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
   const [selectedSlot, setSelectedSlot] = useState<string>('');
   const [showReasonModal, setShowReasonModal] = useState(false);
   const [userTimeZone, setUserTimeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const [coachTimeZone, setCoachTimeZone] = useState<string>('America/Toronto'); // Default timezone
 
   console.log('🌍 TalentAgendaView - Fuseau horaire talent détecté:', userTimeZone);
 
@@ -87,9 +89,19 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
   const loadCoachAvailabilities = async () => {
     setIsLoading(true);
     try {
-      // Charger les vraies disponibilités depuis le service
-      const availableSlots = await AvailabilityService.getAvailableSlots(selectedCoach, selectedDate);
-      setAvailableSlots(availableSlots);
+      // Charger les vraies disponibilités depuis le service avec timezone
+      const availabilityData = await AvailabilityService.getAvailabilityWithTimezone(selectedCoach, selectedDate);
+
+      if (availabilityData) {
+        setAvailableSlots(availabilityData.timeSlots || []);
+        setCoachTimeZone(availabilityData.timezone || 'America/Toronto');
+        console.log('🌍 Timezone du coach chargée:', availabilityData.timezone);
+      } else {
+        // Fallback sur l'ancienne méthode si pas de data avec timezone
+        const availableSlots = await AvailabilityService.getAvailableSlots(selectedCoach, selectedDate);
+        setAvailableSlots(availableSlots);
+        // Garder la timezone par défaut
+      }
     } catch (error) {
       console.error('Erreur lors du chargement des disponibilités:', error);
       setAvailableSlots([]);
@@ -109,14 +121,18 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
     });
   };
 
-  const formatTimeInUserZone = (time: string) => {
-    const today = new Date().toISOString().split('T')[0];
-    const dateTime = new Date(`${today}T${time}:00`);
-    return dateTime.toLocaleTimeString('fr-FR', {
-      timeZone: userTimeZone,
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+  const formatTimeInUserZone = (time: string, originalTimezone?: string) => {
+    const targetTimezone = originalTimezone || coachTimeZone;
+    const convertedTime = TimezoneService.convertTime(
+      time,
+      selectedDate || new Date().toISOString().split('T')[0],
+      targetTimezone,
+      userTimeZone
+    );
+
+    // Ajouter l'indication de timezone pour la clarté
+    const timezoneLabel = TimezoneService.formatTimeWithTimezone(convertedTime, userTimeZone);
+    return timezoneLabel;
   };
 
   const handleSlotClick = async (slot: string) => {
@@ -376,9 +392,22 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
         {/* Créneaux disponibles */}
         {selectedDate && (
           <div style={{ marginBottom: 20 }}>
-            <h3 style={{ color: '#ffcc00', marginBottom: 16 }}>
+            <h3 style={{ color: '#ffcc00', marginBottom: 8 }}>
               Créneaux disponibles *
             </h3>
+            <div style={{
+              color: '#888',
+              fontSize: '12px',
+              marginBottom: 16,
+              padding: '8px 12px',
+              backgroundColor: '#1a1a1a',
+              borderRadius: 4,
+              border: '1px solid #333'
+            }}>
+              🌍 Heures affichées dans votre fuseau: {TimezoneService.getUserTimezone()}
+              <br />
+              📍 Coach situé en: {coachTimeZone}
+            </div>
             
             {isLoading ? (
               <div style={{ color: '#f5f5f7', textAlign: 'center', padding: 20 }}>

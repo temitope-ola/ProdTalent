@@ -4,6 +4,7 @@ import useAuth from '../contexts/AuthContext';
 import { FeaturedTalentsService, FeaturedTalent } from '../services/featuredTalentsService';
 import SEOHead from '../components/SEOHead';
 import { seoData } from '../utils/seoData';
+import PasswordInput from '../components/PasswordInput';
 
 type Mode = 'login' | 'signup';
 type Role = 'talent' | 'recruteur' | 'coach';
@@ -1199,16 +1200,12 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
                 <label style={{ color: '#f5f5f7', display: 'block', marginBottom: 8 }}>
                   Mot de passe *
                 </label>
-                <input
-                  type="password"
+                <PasswordInput
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={setPassword}
                   required
                   style={{
-                    width: '100%',
-                    padding: 12,
                     backgroundColor: '#333',
-                    color: '#f5f5f7',
                     border: 'none',
                     borderRadius: 8,
                     fontSize: '14px'

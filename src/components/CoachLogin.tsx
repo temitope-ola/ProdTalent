@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import PasswordInput from './PasswordInput';
 
 const CoachLogin: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -108,22 +109,18 @@ const CoachLogin: React.FC = () => {
             }}>
               Mot de passe *
             </label>
-            <input
-              type="password"
+            <PasswordInput
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={setPassword}
               required
+              placeholder="••••••••"
               style={{
-                width: '100%',
-                padding: '12px 16px',
                 backgroundColor: '#333',
-                color: '#f5f5f7',
                 border: '1px solid #555',
                 borderRadius: 8,
                 fontSize: '16px',
-                boxSizing: 'border-box'
+                padding: '12px 45px 12px 16px'
               }}
-              placeholder="••••••••"
             />
           </div>
 

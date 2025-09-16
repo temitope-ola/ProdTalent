@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../contexts/AuthContext';
+import PasswordInput from '../components/PasswordInput';
 
 type Role = 'talent' | 'recruteur' | 'coach';
 
@@ -174,16 +175,12 @@ export default function RegisterPage() {
             <label style={{ color: '#f5f5f7', display: 'block', marginBottom: '8px' }}>
               Mot de passe *
             </label>
-            <input
-              type="password"
+            <PasswordInput
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={setPassword}
               required
               style={{
-                width: '100%',
-                padding: '12px',
                 backgroundColor: '#333',
-                color: '#f5f5f7',
                 border: 'none',
                 borderRadius: '8px',
                 fontSize: '14px'
@@ -195,16 +192,13 @@ export default function RegisterPage() {
             <label style={{ color: '#f5f5f7', display: 'block', marginBottom: '8px' }}>
               Confirmer le mot de passe *
             </label>
-            <input
-              type="password"
+            <PasswordInput
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={setConfirmPassword}
+              placeholder="Confirmer le mot de passe"
               required
               style={{
-                width: '100%',
-                padding: '12px',
                 backgroundColor: '#333',
-                color: '#f5f5f7',
                 border: 'none',
                 borderRadius: '8px',
                 fontSize: '14px'
