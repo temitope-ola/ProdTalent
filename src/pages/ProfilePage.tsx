@@ -7,6 +7,22 @@ import Avatar from '../components/Avatar';
 import ProfileEditModal from '../components/ProfileEditModal';
 import ContactModal from '../components/ContactModal';
 
+// Helper function to format salary object
+const formatSalary = (salary: any): string => {
+  if (!salary) return 'Salaire non communiqué';
+  if (typeof salary === 'string') return salary;
+  if (typeof salary === 'object' && salary.min && salary.max && salary.currency) {
+    return `${salary.min} - ${salary.max} ${salary.currency}`;
+  }
+  if (typeof salary === 'object' && salary.min && salary.currency) {
+    return `À partir de ${salary.min} ${salary.currency}`;
+  }
+  if (typeof salary === 'object' && salary.max && salary.currency) {
+    return `Jusqu'à ${salary.max} ${salary.currency}`;
+  }
+  return 'Salaire non communiqué';
+};
+
 const ProfilePage: React.FC = () => {
   const { user } = useAuth();
   const { userId } = useParams<{ userId?: string }>();
@@ -680,7 +696,7 @@ const ProfilePage: React.FC = () => {
                         🏢 {job.company || 'Entreprise'} • 📍 {job.location || 'Non spécifié'}
                       </div>
                       <div style={{ color: '#ccc', fontSize: '13px' }}>
-                        💰 {job.salary || 'Salaire non communiqué'}
+                        💰 {formatSalary(job.salary)}
                       </div>
                     </div>
                   ))}
