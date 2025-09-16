@@ -64,6 +64,8 @@ export interface Appointment {
   talentId: string;
   talentName: string;
   talentEmail: string;
+  talentTimeZone?: string; // Timezone du talent pour conversions email
+  coachTimeZone?: string; // Timezone du coach pour référence
   date: string; // Keep as string for compatibility
   time: string;
   duration: number; // en minutes

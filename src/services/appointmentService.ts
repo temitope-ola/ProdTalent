@@ -6,6 +6,8 @@ import { handleServiceError, createApiResponse } from '../utils/errorHandler';
 import sendGridTemplateService from './sendGridTemplateService';
 import { googleIntegratedService } from './googleIntegratedService';
 import { BackendEmailService } from './backendEmailService';
+import { TimezoneService } from './timezoneService';
+import { AvailabilityService } from './availabilityService';
 
 // Export for backward compatibility
 export type { Appointment } from '../types';
@@ -52,11 +54,13 @@ export class AppointmentService {
           recipientEmail: appointmentData.talentEmail,
           recipientName: appointmentData.talentName,
           coachName: appointmentData.coachName,
+          coachId: appointmentData.coachId,
           appointmentDate: appointmentData.date,
           appointmentTime: appointmentData.time,
           appointmentType: 'Réservation de session de coaching',
           meetLink: '',
-          calendarLink: ''
+          calendarLink: '',
+          recipientTimezone: appointmentData.talentTimeZone
         });
 
         if (!gmailSent) {
@@ -89,6 +93,7 @@ export class AppointmentService {
             recipientEmail: coachProfile.email,
             recipientName: appointmentData.coachName,
             coachName: appointmentData.coachName,
+            coachId: appointmentData.coachId,
             appointmentDate: appointmentData.date,
             appointmentTime: appointmentData.time,
             meetingType: `NOUVEAU RENDEZ-VOUS À CONFIRMER - ${appointmentData.talentName}`,
@@ -219,6 +224,7 @@ export class AppointmentService {
               recipientEmail: coachProfile.email,
               recipientName: updatedAppointmentData.coachName,
               coachName: updatedAppointmentData.coachName,
+              coachId: updatedAppointmentData.coachId,
               appointmentDate: updatedAppointmentData.date,
               appointmentTime: updatedAppointmentData.time,
               appointmentType: `RENDEZ-VOUS CONFIRMÉ avec ${updatedAppointmentData.talentName}`,
@@ -245,6 +251,7 @@ export class AppointmentService {
               recipientEmail: coachProfile.email,
               recipientName: appointmentData.coachName,
               coachName: appointmentData.coachName,
+              coachId: appointmentData.coachId,
               appointmentDate: appointmentData.date,
               appointmentTime: appointmentData.time,
               meetingType: `Rendez-vous ${status} avec ${appointmentData.talentName}`,
@@ -280,11 +287,13 @@ export class AppointmentService {
             recipientEmail: updatedAppointmentData.talentEmail,
             recipientName: updatedAppointmentData.talentName,
             coachName: updatedAppointmentData.coachName,
+            coachId: updatedAppointmentData.coachId,
             appointmentDate: updatedAppointmentData.date,
             appointmentTime: updatedAppointmentData.time,
             appointmentType: 'RENDEZ-VOUS CONFIRMÉ - Session de coaching',
             meetLink: updatedAppointmentData.meetLink || 'https://meet.google.com/lien-a-generer',
-            calendarLink: updatedAppointmentData.calendarLink || 'https://calendar.google.com/calendar/'
+            calendarLink: updatedAppointmentData.calendarLink || 'https://calendar.google.com/calendar/',
+            recipientTimezone: updatedAppointmentData.talentTimeZone
           });
 
           if (!gmailSent) {
@@ -306,11 +315,13 @@ export class AppointmentService {
             recipientEmail: appointmentData.talentEmail,
             recipientName: appointmentData.talentName,
             coachName: appointmentData.coachName,
+            coachId: appointmentData.coachId,
             appointmentDate: appointmentData.date,
             appointmentTime: appointmentData.time,
             meetingType: `Session ${status}`,
             meetLink: appointmentData.meetLink || '',
-            calendarLink: appointmentData.calendarLink || ''
+            calendarLink: appointmentData.calendarLink || '',
+            recipientTimezone: appointmentData.talentTimeZone
           });
 
           if (!gmailSent) {
@@ -448,28 +459,65 @@ export class AppointmentService {
     }
   }
 
+  // Fonction helper pour formatter les heures avec timezone pour les emails
+  private static async formatAppointmentTimeForEmail(
+    coachId: string,
+    date: string,
+    time: string,
+    recipientTimezone?: string
+  ): Promise<string> {
+    try {
+      // Récupérer la timezone du coach depuis ses disponibilités
+      const availability = await AvailabilityService.getAvailabilityWithTimezone(coachId, date);
+      const coachTimezone = availability?.timezone || 'America/Toronto';
+
+      // Déterminer la timezone du destinataire (par défaut celle du coach)
+      const targetTimezone = recipientTimezone || coachTimezone;
+
+      // Convertir l'heure si nécessaire
+      const convertedTime = TimezoneService.convertTime(time, date, coachTimezone, targetTimezone);
+
+      // Formatter avec indication de timezone
+      if (coachTimezone === targetTimezone) {
+        return `${time} (${TimezoneService.formatTimeWithTimezone(time, coachTimezone)})`;
+      } else {
+        return `${convertedTime} dans votre fuseau horaire (${time} heure du coach - ${TimezoneService.formatTimeWithTimezone(time, coachTimezone)})`;
+      }
+    } catch (error) {
+      console.error('Erreur formatage heure email:', error);
+      return `${time} (vérifiez votre fuseau horaire)`;
+    }
+  }
+
   // Fonction helper pour envoyer emails via Firebase Functions backend avec fallback SendGrid
   private static async sendEmailWithGmail(type: 'confirmation' | 'new', data: {
     recipientEmail: string;
     recipientName: string;
     coachName: string;
+    coachId?: string;
     appointmentDate: string;
     appointmentTime: string;
     appointmentType?: string;
     meetingType?: string;
     meetLink?: string;
     calendarLink?: string;
+    recipientTimezone?: string;
   }): Promise<boolean> {
     try {
       console.log('📧 Envoi via Firebase Functions backend...');
-      
+
+      // Formatter l'heure avec les bonnes timezones
+      const formattedTime = data.coachId
+        ? await this.formatAppointmentTimeForEmail(data.coachId, data.appointmentDate, data.appointmentTime, data.recipientTimezone)
+        : data.appointmentTime;
+
       if (type === 'confirmation') {
         return await BackendEmailService.sendAppointmentConfirmation({
           recipientEmail: data.recipientEmail,
           recipientName: data.recipientName,
           coachName: data.coachName,
           appointmentDate: data.appointmentDate,
-          appointmentTime: data.appointmentTime,
+          appointmentTime: formattedTime,
           appointmentType: data.appointmentType || 'Session de coaching',
           meetLink: data.meetLink,
           calendarLink: data.calendarLink
@@ -480,7 +528,7 @@ export class AppointmentService {
           recipientName: data.recipientName,
           coachName: data.coachName,
           appointmentDate: data.appointmentDate,
-          appointmentTime: data.appointmentTime,
+          appointmentTime: formattedTime,
           meetingType: data.meetingType || 'Session de coaching',
           meetLink: data.meetLink,
           calendarLink: data.calendarLink
