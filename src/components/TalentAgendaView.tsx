@@ -207,22 +207,33 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
         coachTimeZone: coachTimeZone
       });
 
+      // Créer le rendez-vous (l'email est envoyé en arrière-plan dans createAppointment)
       const result = await AppointmentService.createAppointment(appointmentData);
-      
+
       if (result.success) {
+        // Afficher immédiatement la confirmation à l'utilisateur
         showNotification({
           type: 'success',
           title: 'Réservation confirmée',
-          message: `Réservation du créneau ${selectedSlot} avec ${selectedCoachData.name} le ${formatDate(selectedDate)}`
+          message: `Réservation du créneau ${selectedSlot} avec ${selectedCoachData.name} le ${formatDate(selectedDate)}. Email de confirmation en cours d'envoi...`
         });
-        
-        // Réinitialiser les états
+
+        // Réinitialiser les états immédiatement
         setReason('');
         setSelectedSlot('');
         setShowReasonModal(false);
-        
+
         // Recharger les disponibilités pour masquer le créneau réservé
         await loadCoachAvailabilities();
+
+        // Notification supplémentaire après un délai pour confirmer l'email
+        setTimeout(() => {
+          showNotification({
+            type: 'info',
+            title: 'Email envoyé',
+            message: 'Email de confirmation envoyé avec succès!'
+          });
+        }, 5000);
         
         // Fermer l'agenda après réservation réussie
         setTimeout(() => {

@@ -40,6 +40,7 @@ export class BackendEmailService {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(emailData),
+        signal: AbortSignal.timeout(8000) // Timeout à 8 secondes au lieu d'attendre indéfiniment
       });
 
       if (!response.ok) {
