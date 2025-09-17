@@ -106,11 +106,17 @@ const TimezoneBookingInterface: React.FC = () => {
         let bookedSlots: string[] = [];
         if (result.success && result.data) {
           bookedSlots = result.data
-            .filter(appointment => 
-              appointment.date === selectedDate && 
-              (appointment.status === 'pending' || appointment.status === 'confirmed')
+            .filter(appointment =>
+              appointment.date === selectedDate &&
+              (appointment.status === 'en_attente' || appointment.status === 'confirmé')
             )
             .map(appointment => appointment.time);
+
+          console.log('🔍 Rendez-vous pour cette date:', result.data
+            .filter(appointment => appointment.date === selectedDate)
+            .map(apt => ({ time: apt.time, status: apt.status }))
+          );
+          console.log('❌ Créneaux réservés à exclure:', bookedSlots);
         }
         
         // Filtrer les créneaux disponibles (publiés par le coach - réservés)
@@ -205,7 +211,7 @@ const TimezoneBookingInterface: React.FC = () => {
         talentEmail: formData.email.trim(),
         date: selectedDate,
         time: selectedTime,
-        status: 'pending',
+        status: 'en_attente',
         notes: formData.message.trim(),
         talentTimeZone: userTimeZone,
         coachTimeZone: 'Europe/Paris' // À récupérer du profil coach si disponible
@@ -220,7 +226,7 @@ const TimezoneBookingInterface: React.FC = () => {
         talentEmail: formData.email.trim(),
         date: selectedDate,
         time: selectedTime,
-        status: 'pending',
+        status: 'en_attente',
         notes: formData.message.trim() || null,
         talentTimeZone: userTimeZone,
         coachTimeZone: 'Europe/Paris'

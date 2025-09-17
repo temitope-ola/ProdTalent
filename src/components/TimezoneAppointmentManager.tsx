@@ -10,7 +10,7 @@ interface Appointment {
   coachId: string;
   date: string;
   time: string;
-  status: 'pending' | 'confirmed' | 'rejected' | 'completed';
+  status: 'pending' | 'confirmed' | 'rejected' | 'completed' | 'en_attente' | 'confirmé' | 'refusé' | 'terminé';
   createdAt: Date;
   meetLink?: string;
   calendarLink?: string;
@@ -77,10 +77,10 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
       
       const { AppointmentService } = await import('../services/appointmentService');
       let newStatus: string;
-      if (action === 'confirm') newStatus = 'confirmed';
-      else if (action === 'reject') newStatus = 'rejected';
-      else if (action === 'complete') newStatus = 'completed';
-      else newStatus = 'pending';
+      if (action === 'confirm') newStatus = 'confirmé';
+      else if (action === 'reject') newStatus = 'refusé';
+      else if (action === 'complete') newStatus = 'terminé';
+      else newStatus = 'en_attente';
       
       const success = await AppointmentService.updateAppointmentStatus(appointmentId, newStatus as any);
       
