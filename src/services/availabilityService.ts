@@ -169,17 +169,27 @@ export class AvailabilityService {
       let bookedSlots: string[] = [];
       if (appointmentsResult.success && appointmentsResult.data) {
         bookedSlots = appointmentsResult.data
-          .filter(appointment => 
-            appointment.date === date && 
-            appointment.status !== 'annulé'
+          .filter(appointment =>
+            appointment.date === date &&
+            (appointment.status === 'en_attente' || appointment.status === 'confirmé')
           )
           .map(appointment => appointment.time);
+
+        console.log('🔍 AvailabilityService - Rendez-vous pour cette date:', appointmentsResult.data
+          .filter(appointment => appointment.date === date)
+          .map(apt => ({ time: apt.time, status: apt.status }))
+        );
+        console.log('❌ AvailabilityService - Créneaux réservés à exclure:', bookedSlots);
       }
 
       // 3. Filtrer les créneaux disponibles
       const availableSlots = coachAvailableSlots.filter(slot => !bookedSlots.includes(slot));
-      
-      console.log(`Créneaux disponibles pour ${date}:`, availableSlots);
+
+      console.log('📊 AvailabilityService - Résumé du filtrage:');
+      console.log('  - Créneaux publiés par le coach:', coachAvailableSlots);
+      console.log('  - Créneaux réservés (à exclure):', bookedSlots);
+      console.log('  - Créneaux finalement disponibles:', availableSlots);
+
       return availableSlots;
     } catch (error) {
       console.error('Erreur lors de la récupération des créneaux disponibles:', error);

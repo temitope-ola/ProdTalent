@@ -124,6 +124,10 @@ const TimezoneBookingInterface: React.FC = () => {
         setAvailableSlots(availableSlots);
         
         console.log('✅ Créneaux disponibles:', availableSlots);
+        console.log('📊 Résumé du filtrage:');
+        console.log('  - Créneaux publiés par le coach:', coachSlots);
+        console.log('  - Créneaux réservés (à exclure):', bookedSlots);
+        console.log('  - Créneaux finalement disponibles:', availableSlots);
       } else {
         console.log('⚠️ Aucun créneau publié par le coach pour cette date');
         setAvailableSlots([]);

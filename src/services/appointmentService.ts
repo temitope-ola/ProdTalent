@@ -108,15 +108,25 @@ export class AppointmentService {
 
   static async getCoachAppointments(coachId: string): Promise<ApiResponse<Appointment[]>> {
     try {
+      console.log(`🔍 Récupération des appointments pour le coach: ${coachId}`);
+
       const q = query(
         collection(db, 'Appointments'),
         where('coachId', '==', coachId)
       );
       const querySnapshot = await getDocs(q);
       const appointments: Appointment[] = [];
-      
+
       querySnapshot.forEach((doc) => {
         const data = doc.data();
+        console.log(`📋 Appointment trouvé:`, {
+          id: doc.id,
+          date: data.date,
+          time: data.time,
+          status: data.status,
+          talentName: data.talentName
+        });
+
         appointments.push({
           id: doc.id,
           ...data,
