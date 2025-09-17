@@ -207,7 +207,7 @@ export default function JobsListPage() {
             padding: '12px',
             backgroundColor: 'rgba(255, 107, 107, 0.1)',
             color: '#ff6b6b',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '16px'
           }}>
             {error}
@@ -217,7 +217,7 @@ export default function JobsListPage() {
         {/* Filtres */}
         <div style={{
           backgroundColor: '#111',
-          borderRadius: '8px',
+          borderRadius: '4px',
           padding: '20px',
           marginBottom: '24px'
         }}>
@@ -277,7 +277,7 @@ export default function JobsListPage() {
             textAlign: 'center',
             padding: '60px 20px',
             backgroundColor: '#111',
-            borderRadius: '8px'
+            borderRadius: '4px'
           }}>
             <h3 style={{ color: '#ffcc00', marginBottom: '16px' }}>
               Aucune annonce trouvée
@@ -295,7 +295,7 @@ export default function JobsListPage() {
             <div style={{ flex: 1 }}>
               <div style={{
                 backgroundColor: '#111',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 overflow: 'hidden'
               }}>
                 <div style={{ padding: '20px', borderBottom: '1px solid #333' }}>
@@ -361,7 +361,7 @@ export default function JobsListPage() {
               <div style={{ flex: 1 }}>
                 <div style={{
                   backgroundColor: '#111',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   padding: '24px'
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }}>

@@ -34,7 +34,7 @@ export default function GoogleConfigPage() {
         'admin@prodtalent.com', // Email existant qui fonctionne
         'Test ProdTalent - Gmail API Fonctionnel 🎉',
         `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px;">
+          <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 4px;">
             <h1 style="color: white; margin: 0;">🎉 Test Gmail API Réussi!</h1>
             <p style="color: #f0f0f0; margin: 10px 0 0 0;">ProdTalent - Gmail API fonctionne parfaitement</p>
           </div>
@@ -138,7 +138,7 @@ export default function GoogleConfigPage() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px',
           textAlign: 'center'
         }}>
@@ -167,7 +167,7 @@ export default function GoogleConfigPage() {
                 color: '#000',
                 padding: '12px 24px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading ? 'not-allowed' : 'pointer',
                 fontSize: '16px',
                 fontWeight: 'bold'
@@ -183,7 +183,7 @@ export default function GoogleConfigPage() {
           <div style={{
             backgroundColor: '#111',
             padding: '24px',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '24px'
           }}>
             <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -202,7 +202,7 @@ export default function GoogleConfigPage() {
                   color: '#f5f5f7',
                   padding: '12px 16px',
                   border: '1px solid #555',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
@@ -216,7 +216,7 @@ export default function GoogleConfigPage() {
                   color: '#f5f5f7',
                   padding: '12px 16px',
                   border: '1px solid #555',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
@@ -230,7 +230,7 @@ export default function GoogleConfigPage() {
                   color: '#f5f5f7',
                   padding: '12px 16px',
                   border: '1px solid #555',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
@@ -244,7 +244,7 @@ export default function GoogleConfigPage() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -282,7 +282,7 @@ export default function GoogleConfigPage() {
           <div style={{
             backgroundColor: '#111',
             padding: '24px',
-            borderRadius: '8px'
+            borderRadius: '4px'
           }}>
             <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
               📝 Journal des tests

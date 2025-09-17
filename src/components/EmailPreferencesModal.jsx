@@ -170,7 +170,7 @@ const EmailPreferencesModal = ({ isOpen, onClose, userId }) => {
       <div style={{
         backgroundColor: '#111',
         padding: '32px',
-        borderRadius: '8px',
+        borderRadius: '4px',
         maxWidth: '600px',
         width: '90%',
         maxHeight: '90vh',
@@ -264,7 +264,7 @@ const EmailPreferencesModal = ({ isOpen, onClose, userId }) => {
                     gap: '16px',
                     padding: '16px',
                     backgroundColor: preferences[key] ? 'rgba(97, 191, 172, 0.1)' : '#1a1a1a',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     marginBottom: '12px',
                     border: `2px solid ${preferences[key] ? '#61bfac' : '#333'}`,
                     cursor: 'pointer',
@@ -320,7 +320,7 @@ const EmailPreferencesModal = ({ isOpen, onClose, userId }) => {
                         fontSize: '10px',
                         fontWeight: 'bold',
                         padding: '2px 6px',
-                        borderRadius: '12px',
+                        borderRadius: '4px',
                         marginTop: '6px'
                       }}>
                         RECOMMANDÉ
@@ -335,7 +335,7 @@ const EmailPreferencesModal = ({ isOpen, onClose, userId }) => {
             <div style={{
               padding: '16px',
               backgroundColor: '#1a1a1a',
-              borderRadius: '8px',
+              borderRadius: '4px',
               marginBottom: '24px',
               border: '1px solid #333'
             }}>

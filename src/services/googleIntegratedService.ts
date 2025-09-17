@@ -220,7 +220,7 @@ class GoogleIntegratedService {
     const htmlBody = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f5f5f7;">
         <!-- Header ProdTalent -->
-        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 4px 10px 0 0;">
           <h1 style="color: #0a0a0a; margin: 0; font-size: 28px; font-weight: bold;">ProdTalent</h1>
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Nouveau message recu</p>
         </div>
@@ -228,11 +228,11 @@ class GoogleIntegratedService {
         <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
-          <div style="background: #f5f5f7; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcc00; margin: 20px 0;">
+          <div style="background: #f5f5f7; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0;">
             <p style="margin: 0; color: #1a1a1a; font-size: 16px;">
               <strong style="color: #0a0a0a;">${data.senderName}</strong> ${data.senderRole ? `<span style="color: #ffcc00;">(${data.senderRole})</span>` : ''} vous a envoyé un message :
             </p>
-            ${data.messagePreview ? `<p style="margin: 15px 0 0 0; color: #555; font-style: italic; background: #ffffff; padding: 12px; border-radius: 6px;">"${data.messagePreview.substring(0, 100)}${data.messagePreview.length > 100 ? '...' : ''}"</p>` : ''}
+            ${data.messagePreview ? `<p style="margin: 15px 0 0 0; color: #555; font-style: italic; background: #ffffff; padding: 12px; border-radius: 4px;">"${data.messagePreview.substring(0, 100)}${data.messagePreview.length > 100 ? '...' : ''}"</p>` : ''}
           </div>
           
           <div style="text-align: center; margin: 30px 0;">
@@ -241,7 +241,7 @@ class GoogleIntegratedService {
                       color: #0a0a0a; 
                       padding: 15px 30px; 
                       text-decoration: none; 
-                      border-radius: 25px; 
+                      border-radius: 4px; 
                       font-weight: bold; 
                       display: inline-block;
                       transition: transform 0.2s;
@@ -282,7 +282,7 @@ class GoogleIntegratedService {
     const htmlBody = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f5f5f7;">
         <!-- Header succès -->
-        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 4px 10px 0 0;">
           <h1 style="color: #0a0a0a; margin: 0; font-size: 28px; font-weight: bold;">Rendez-vous Confirme</h1>
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Votre session de coaching est confirmee</p>
         </div>
@@ -291,7 +291,7 @@ class GoogleIntegratedService {
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <!-- Détails appointment -->
-          <div style="background: #f5f5f7; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcc00; margin: 20px 0;">
+          <div style="background: #f5f5f7; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0;">
             <h3 style="color: #ffcc00; margin-top: 0; font-weight: bold;">Details de votre rendez-vous</h3>
             <p style="margin: 10px 0; color: #1a1a1a;"><strong style="color: #0a0a0a;">Coach :</strong> ${data.coachName}</p>
             <p style="margin: 10px 0; color: #1a1a1a;"><strong style="color: #0a0a0a;">Date :</strong> ${new Date(data.appointmentDate).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
@@ -301,7 +301,7 @@ class GoogleIntegratedService {
           
           ${data.meetLink ? `
           <!-- Lien Meet -->
-          <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 20px; border-radius: 8px; margin: 20px 0;">
+          <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 20px; border-radius: 4px; margin: 20px 0;">
             <h3 style="color: #0a0a0a; margin-top: 0; font-weight: bold;">Lien de reunion</h3>
             <p style="margin: 10px 0; color: #1a1a1a;">Cliquez sur le lien ci-dessous pour rejoindre la session :</p>
             <div style="text-align: center; margin: 15px 0;">
@@ -310,7 +310,7 @@ class GoogleIntegratedService {
                         color: #ffcc00; 
                         padding: 15px 30px; 
                         text-decoration: none; 
-                        border-radius: 25px; 
+                        border-radius: 4px; 
                         font-weight: bold; 
                         display: inline-block;
                         box-shadow: 0 2px 4px rgba(10, 10, 10, 0.3);">
@@ -332,7 +332,7 @@ class GoogleIntegratedService {
                       color: #0a0a0a; 
                       padding: 10px 20px; 
                       text-decoration: none; 
-                      border-radius: 20px; 
+                      border-radius: 4px; 
                       font-weight: bold; 
                       display: inline-block;
                       margin-top: 15px;
@@ -373,7 +373,7 @@ class GoogleIntegratedService {
     const htmlBody = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f5f5f7;">
         <!-- Header nouveau RDV -->
-        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 4px 10px 0 0;">
           <h1 style="color: #0a0a0a; margin: 0; font-size: 28px; font-weight: bold;">Nouveau Rendez-vous</h1>
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Votre session de coaching a ete programmee</p>
         </div>
@@ -382,7 +382,7 @@ class GoogleIntegratedService {
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <!-- Détails RDV -->
-          <div style="background: #f5f5f7; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcc00; margin: 20px 0;">
+          <div style="background: #f5f5f7; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0;">
             <h3 style="color: #ffcc00; margin-top: 0; font-weight: bold;">Details de votre rendez-vous</h3>
             <p style="margin: 10px 0; color: #1a1a1a;"><strong style="color: #0a0a0a;">Coach :</strong> ${data.coachName}</p>
             <p style="margin: 10px 0; color: #1a1a1a;"><strong style="color: #0a0a0a;">Date :</strong> ${new Date(data.appointmentDate).toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</p>
@@ -391,7 +391,7 @@ class GoogleIntegratedService {
           </div>
           
           <!-- En attente -->
-          <div style="background: #fff8e1; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcc00; margin: 20px 0; border: 1px solid #ffcc00;">
+          <div style="background: #fff8e1; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0; border: 1px solid #ffcc00;">
             <h3 style="color: #0a0a0a; margin-top: 0; font-weight: bold;">En attente de confirmation</h3>
             <p style="margin: 0; color: #1a1a1a;">
               Votre coach va examiner votre demande et la confirmer sous peu. 
@@ -401,7 +401,7 @@ class GoogleIntegratedService {
           
           ${data.meetLink ? `
           <!-- Lien Meet -->
-          <div style="background: #f5f5f7; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcc00; margin: 20px 0; opacity: 0.7;">
+          <div style="background: #f5f5f7; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0; opacity: 0.7;">
             <h3 style="color: #ffcc00; margin-top: 0; font-weight: bold;">Lien de reunion (Une fois confirme)</h3>
             <p style="margin: 10px 0; color: #1a1a1a;">Votre lien Meet sera disponible :</p>
             <p style="margin: 0; color: #666; font-size: 12px; text-align: center;">
@@ -416,7 +416,7 @@ class GoogleIntegratedService {
                       color: #0a0a0a; 
                       padding: 15px 30px; 
                       text-decoration: none; 
-                      border-radius: 25px; 
+                      border-radius: 4px; 
                       font-weight: bold; 
                       display: inline-block;
                       box-shadow: 0 2px 4px rgba(255, 204, 0, 0.3);">
@@ -532,7 +532,7 @@ class GoogleIntegratedService {
     const htmlBody = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f5f5f7;">
         <!-- Header offre emploi -->
-        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 4px 10px 0 0;">
           <h1 style="color: #0a0a0a; margin: 0; font-size: 28px; font-weight: bold;">Nouvelle Offre d'Emploi</h1>
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Une opportunité qui pourrait vous intéresser</p>
         </div>
@@ -541,7 +541,7 @@ class GoogleIntegratedService {
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <!-- Détails offre -->
-          <div style="background: #f5f5f7; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcc00; margin: 20px 0;">
+          <div style="background: #f5f5f7; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0;">
             <h3 style="color: #ffcc00; margin-top: 0; font-weight: bold;">${data.jobTitle}</h3>
             <p style="margin: 10px 0; color: #1a1a1a;"><strong style="color: #0a0a0a;">Entreprise :</strong> ${data.companyName}</p>
             <p style="margin: 10px 0; color: #1a1a1a;"><strong style="color: #0a0a0a;">Localisation :</strong> ${data.jobLocation}</p>
@@ -550,7 +550,7 @@ class GoogleIntegratedService {
           
           <!-- Description -->
           ${data.jobDescription ? `
-          <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #f5f5f7; margin: 20px 0;">
+          <div style="background: #ffffff; padding: 20px; border-radius: 4px; border: 1px solid #f5f5f7; margin: 20px 0;">
             <h3 style="color: #1a1a1a; margin-top: 0;">Description du poste</h3>
             <p style="margin: 0; color: #1a1a1a; line-height: 1.6;">${data.jobDescription.substring(0, 200)}${data.jobDescription.length > 200 ? '...' : ''}</p>
           </div>
@@ -562,7 +562,7 @@ class GoogleIntegratedService {
                       color: #0a0a0a; 
                       padding: 15px 30px; 
                       text-decoration: none; 
-                      border-radius: 25px; 
+                      border-radius: 4px; 
                       font-weight: bold; 
                       display: inline-block;
                       box-shadow: 0 2px 4px rgba(255, 204, 0, 0.3);">
@@ -599,7 +599,7 @@ class GoogleIntegratedService {
     const htmlBody = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f5f5f7;">
         <!-- Header bienvenue -->
-        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 4px 10px 0 0;">
           <h1 style="color: #0a0a0a; margin: 0; font-size: 28px; font-weight: bold;">Bienvenue sur ProdTalent</h1>
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Votre compte ${data.userRole} a ete cree avec succes</p>
         </div>
@@ -612,7 +612,7 @@ class GoogleIntegratedService {
           </p>
           
           <!-- Message selon le rôle -->
-          <div style="background: #f5f5f7; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcc00; margin: 20px 0;">
+          <div style="background: #f5f5f7; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0;">
             ${data.userRole === 'Talent' ? `
               <h3 style="color: #ffcc00; margin-top: 0; font-weight: bold;">Prochaines etapes pour les talents</h3>
               <ul style="color: #1a1a1a; line-height: 1.6;">
@@ -646,7 +646,7 @@ class GoogleIntegratedService {
                       color: #0a0a0a; 
                       padding: 15px 30px; 
                       text-decoration: none; 
-                      border-radius: 25px; 
+                      border-radius: 4px; 
                       font-weight: bold; 
                       display: inline-block;
                       box-shadow: 0 2px 4px rgba(255, 204, 0, 0.3);">
@@ -654,7 +654,7 @@ class GoogleIntegratedService {
             </a>
           </div>
           
-          <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #f5f5f7; margin: 20px 0;">
+          <div style="background: #ffffff; padding: 20px; border-radius: 4px; border: 1px solid #f5f5f7; margin: 20px 0;">
             <h3 style="color: #1a1a1a; margin-top: 0;">Besoin d'aide ?</h3>
             <p style="margin: 0; color: #1a1a1a; line-height: 1.6;">
               Notre equipe est la pour vous accompagner. N'hesitez pas a nous contacter si vous avez des questions.
@@ -691,7 +691,7 @@ class GoogleIntegratedService {
     const htmlBody = `
       <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; max-width: 600px; margin: 0 auto; background-color: #f5f5f7;">
         <!-- Header nouveau talent -->
-        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <div style="background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%); padding: 30px; text-align: center; border-radius: 4px 10px 0 0;">
           <h1 style="color: #0a0a0a; margin: 0; font-size: 28px; font-weight: bold;">Nouveau Talent Disponible</h1>
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Un profil qui pourrait vous interesser</p>
         </div>
@@ -704,13 +704,13 @@ class GoogleIntegratedService {
           </p>
           
           <!-- Profil talent -->
-          <div style="background: #f5f5f7; padding: 20px; border-radius: 8px; border-left: 4px solid #ffcc00; margin: 20px 0;">
+          <div style="background: #f5f5f7; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0;">
             <h3 style="color: #ffcc00; margin-top: 0; font-weight: bold;">${data.talentName}</h3>
             <p style="margin: 10px 0; color: #1a1a1a;"><strong style="color: #0a0a0a;">Competences :</strong> ${data.talentSkills}</p>
             <p style="margin: 10px 0; color: #1a1a1a;"><strong style="color: #0a0a0a;">Experience :</strong> ${data.talentExperience}</p>
           </div>
           
-          <div style="background: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #f5f5f7; margin: 20px 0;">
+          <div style="background: #ffffff; padding: 20px; border-radius: 4px; border: 1px solid #f5f5f7; margin: 20px 0;">
             <h3 style="color: #1a1a1a; margin-top: 0;">Prochaines etapes</h3>
             <ul style="color: #1a1a1a; line-height: 1.6; margin: 0; padding-left: 20px;">
               <li>Consultez le profil complet du talent</li>
@@ -726,7 +726,7 @@ class GoogleIntegratedService {
                       color: #0a0a0a; 
                       padding: 15px 30px; 
                       text-decoration: none; 
-                      border-radius: 25px; 
+                      border-radius: 4px; 
                       font-weight: bold; 
                       display: inline-block;
                       box-shadow: 0 2px 4px rgba(255, 204, 0, 0.3);">

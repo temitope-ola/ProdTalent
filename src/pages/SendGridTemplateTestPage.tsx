@@ -141,7 +141,7 @@ export default function SendGridTemplateTestPage() {
             <div key={template.id} style={{
               backgroundColor: '#111',
               padding: '24px',
-              borderRadius: '8px',
+              borderRadius: '4px',
               border: '1px solid #333'
             }}>
               <h3 style={{ color: '#ffcc00', margin: '0 0 12px 0', fontSize: '18px' }}>
@@ -175,7 +175,7 @@ export default function SendGridTemplateTestPage() {
                   color: '#fff',
                   padding: '12px 16px',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer',
                   fontSize: '14px',
                   fontWeight: 'bold',
@@ -193,7 +193,7 @@ export default function SendGridTemplateTestPage() {
           backgroundColor: '#111',
           border: '1px solid #444',
           padding: '20px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px'
         }}>
           <h3 style={{ color: '#ffcc00', margin: '0 0 16px 0' }}>
@@ -217,7 +217,7 @@ export default function SendGridTemplateTestPage() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           fontSize: '14px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -236,7 +236,7 @@ export default function SendGridTemplateTestPage() {
             marginTop: '20px', 
             padding: '15px', 
             backgroundColor: '#1a4d3a', 
-            borderRadius: '5px',
+            borderRadius: '4px',
             border: '1px solid #4CAF50'
           }}>
             <strong style={{ color: '#4CAF50' }}>✅ Système complet (6/6 templates) :</strong>
@@ -254,7 +254,7 @@ export default function SendGridTemplateTestPage() {
             marginTop: '15px', 
             padding: '15px', 
             backgroundColor: '#2c1810', 
-            borderRadius: '5px',
+            borderRadius: '4px',
             border: '1px solid #FF9800'
           }}>
             <strong style={{ color: '#FF9800' }}>🚀 Prochaines étapes :</strong>

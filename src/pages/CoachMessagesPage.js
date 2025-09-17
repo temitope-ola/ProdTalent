@@ -161,7 +161,7 @@ const CoachMessagesPage = () => {
                             }, children: "Se d\u00E9connecter" })] }), _jsxs("div", { style: { display: 'flex', gap: 24, height: 'calc(100vh - 140px)' }, children: [_jsxs("div", { style: {
                                 width: '400px',
                                 backgroundColor: '#111',
-                                borderRadius: 8,
+                                borderRadius: 4,
                                 overflow: 'hidden'
                             }, children: [_jsx("div", { style: {
                                         padding: 16,
@@ -205,7 +205,7 @@ const CoachMessagesPage = () => {
                                                 }, children: message.message })] }, message.id)))) })] }), selectedMessage && (_jsxs("div", { style: {
                                 flex: 1,
                                 backgroundColor: '#111',
-                                borderRadius: 8,
+                                borderRadius: 4,
                                 padding: 20
                             }, children: [_jsxs("div", { style: { marginBottom: 20 }, children: [_jsx("h2", { style: { color: '#ffcc00', margin: '0 0 16px 0' }, children: selectedMessage.subject }), _jsxs("div", { style: { marginBottom: 16 }, children: [_jsxs("p", { style: { color: '#888', margin: '0 0 4px 0' }, children: [_jsx("strong", { children: "De:" }), " ", selectedMessage.from.name] }), _jsxs("p", { style: { color: '#888', margin: '0 0 4px 0' }, children: [_jsx("strong", { children: "Email:" }), " ", selectedMessage.from.email] }), _jsxs("p", { style: { color: '#888', margin: '0 0 8px 0' }, children: [_jsx("strong", { children: "R\u00F4le:" }), " ", selectedMessage.from.role] }), _jsxs("p", { style: { color: '#888', margin: 0 }, children: [_jsx("strong", { children: "Date:" }), " ", selectedMessage.timestamp.toLocaleString()] })] })] }), _jsx("div", { style: {
                                         backgroundColor: '#222',
@@ -238,7 +238,7 @@ const CoachMessagesPage = () => {
                         zIndex: 1000
                     }, children: _jsxs("div", { style: {
                             backgroundColor: '#111',
-                            borderRadius: 8,
+                            borderRadius: 4,
                             padding: 24,
                             width: '500px',
                             maxWidth: '90%',

@@ -313,7 +313,7 @@ export default function RecruiterApplicationsPage() {
                       padding: '4px 12px',
                       backgroundColor: getStatusColor(application.status),
                       color: '#000',
-                      borderRadius: 12,
+                      borderRadius: 4,
                       fontSize: 12,
                       fontWeight: 'bold'
                     }}>

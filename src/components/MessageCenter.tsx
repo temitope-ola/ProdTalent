@@ -394,7 +394,7 @@ const MessageCenter: React.FC<MessageCenterProps> = ({ userRole, onBack }) => {
                 backgroundColor: '#ffcc00',
                 color: '#000',
                 border: 'none',
-                borderRadius: '20px',
+                borderRadius: '4px',
                 width: '40px',
                 height: '40px',
                 cursor: 'pointer',
@@ -495,7 +495,7 @@ const MessageCenter: React.FC<MessageCenterProps> = ({ userRole, onBack }) => {
                   <div style={{
                     backgroundColor: '#ffcc00',
                     color: '#000',
-                    borderRadius: '12px',
+                    borderRadius: '4px',
                     minWidth: '20px',
                     height: '20px',
                     display: 'flex',

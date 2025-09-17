@@ -328,7 +328,7 @@ const TimezoneBookingInterface: React.FC = () => {
         <div style={{
           backgroundColor: '#1a1a1a',
           padding: '24px',
-          borderRadius: '12px',
+          borderRadius: '4px',
           marginBottom: '24px',
           textAlign: 'center'
         }}>
@@ -383,7 +383,7 @@ const TimezoneBookingInterface: React.FC = () => {
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '12px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px',
           textAlign: 'center'
         }}>
@@ -396,7 +396,7 @@ const TimezoneBookingInterface: React.FC = () => {
           <div style={{
             backgroundColor: '#1a1a1a',
             padding: '24px',
-            borderRadius: '12px',
+            borderRadius: '4px',
             marginBottom: '24px'
           }}>
             {/* Informations personnelles */}
@@ -424,7 +424,7 @@ const TimezoneBookingInterface: React.FC = () => {
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   border: '1px solid #555',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   fontSize: '14px'
                 }}
                 placeholder="Votre nom et prénom"
@@ -451,7 +451,7 @@ const TimezoneBookingInterface: React.FC = () => {
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   border: '1px solid #555',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   fontSize: '14px'
                 }}
                 placeholder="votre@email.com"
@@ -477,7 +477,7 @@ const TimezoneBookingInterface: React.FC = () => {
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   border: '1px solid #555',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   fontSize: '14px',
                   resize: 'vertical'
                 }}
@@ -490,7 +490,7 @@ const TimezoneBookingInterface: React.FC = () => {
           <div style={{
             backgroundColor: '#1a1a1a',
             padding: '24px',
-            borderRadius: '12px',
+            borderRadius: '4px',
             marginBottom: '24px'
           }}>
             <h3 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -522,7 +522,7 @@ const TimezoneBookingInterface: React.FC = () => {
                       backgroundColor: selectedDate === date ? '#ffcc00' : '#333',
                       color: selectedDate === date ? '#000' : '#f5f5f7',
                       border: 'none',
-                      borderRadius: '8px',
+                      borderRadius: '4px',
                       cursor: 'pointer',
                       fontSize: '12px',
                       fontWeight: selectedDate === date ? 'bold' : 'normal',
@@ -578,7 +578,7 @@ const TimezoneBookingInterface: React.FC = () => {
                           backgroundColor: selectedTime === slot ? '#ffcc00' : '#333',
                           color: selectedTime === slot ? '#000' : '#f5f5f7',
                           border: 'none',
-                          borderRadius: '8px',
+                          borderRadius: '4px',
                           cursor: 'pointer',
                           fontSize: '13px',
                           fontWeight: selectedTime === slot ? 'bold' : 'normal'
@@ -598,7 +598,7 @@ const TimezoneBookingInterface: React.FC = () => {
             <div style={{
               backgroundColor: '#2a2a2a',
               padding: '20px',
-              borderRadius: '8px',
+              borderRadius: '4px',
               marginBottom: '24px',
               border: '1px solid #ffcc00'
             }}>
@@ -629,7 +629,7 @@ const TimezoneBookingInterface: React.FC = () => {
                   ? '#ccc' 
                   : '#000',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 cursor: submitting || !selectedDate || !selectedTime || !formData.name.trim() || !formData.email.trim() 
                   ? 'not-allowed' 
                   : 'pointer',
@@ -647,7 +647,7 @@ const TimezoneBookingInterface: React.FC = () => {
               marginTop: '20px',
               padding: '16px',
               backgroundColor: '#2a2a2a',
-              borderRadius: '8px',
+              borderRadius: '4px',
               fontSize: '14px',
               color: '#f5f5f7'
             }}>

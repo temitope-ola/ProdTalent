@@ -139,13 +139,13 @@ export default function MyJobsPage() {
                         padding: '12px',
                         backgroundColor: 'rgba(255, 107, 107, 0.1)',
                         color: '#ff6b6b',
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                         marginBottom: '16px'
                     }, children: error })), jobs.length === 0 ? (_jsxs("div", { style: {
                         textAlign: 'center',
                         padding: '60px 20px',
                         backgroundColor: '#111',
-                        borderRadius: '8px'
+                        borderRadius: '4px'
                     }, children: [_jsx("h3", { style: { color: '#ffcc00', marginBottom: '16px' }, children: "Aucune annonce publi\u00E9e" }), _jsx("p", { style: { color: '#888', marginBottom: '24px' }, children: "Commencez par cr\u00E9er votre premi\u00E8re annonce pour attirer les talents" }), _jsx("button", { onClick: () => navigate('/create-job'), style: {
                                 padding: '12px 24px',
                                 backgroundColor: '#ffcc00',
@@ -156,7 +156,7 @@ export default function MyJobsPage() {
                                 fontWeight: 'bold'
                             }, children: "Cr\u00E9er ma premi\u00E8re annonce" })] })) : (_jsxs("div", { style: { display: 'flex', gap: '24px' }, children: [_jsx("div", { style: { flex: 1 }, children: _jsxs("div", { style: {
                                     backgroundColor: '#111',
-                                    borderRadius: '8px',
+                                    borderRadius: '4px',
                                     overflow: 'hidden'
                                 }, children: [_jsx("div", { style: { padding: '20px', borderBottom: '1px solid #333' }, children: _jsx("h2", { style: { color: '#ffcc00', margin: 0 }, children: "Vos annonces" }) }), _jsx("div", { style: { maxHeight: '600px', overflow: 'auto' }, children: jobs.map(job => (_jsxs("div", { onClick: () => setSelectedJob(job), style: {
                                                 padding: '20px',
@@ -178,7 +178,7 @@ export default function MyJobsPage() {
                                                                 borderRadius: '4px'
                                                             }, children: getStatusText(job.status) })] }), _jsxs("p", { style: { color: '#888', margin: '0 0 8px 0', fontSize: '14px' }, children: [job.company, " \u2022 ", job.location] }), _jsxs("div", { style: { display: 'flex', gap: '16px', fontSize: '12px', color: '#888' }, children: [_jsxs("span", { children: ["\uD83D\uDCC5 ", formatDate(job.createdAt)] }), _jsxs("span", { children: ["\uD83D\uDC41\uFE0F ", job.views, " vues"] }), _jsxs("span", { children: ["\uD83D\uDCDD ", job.applications.length, " candidatures"] })] })] }, job.id))) })] }) }), selectedJob && (_jsx("div", { style: { flex: 1 }, children: _jsxs("div", { style: {
                                     backgroundColor: '#111',
-                                    borderRadius: '8px',
+                                    borderRadius: '4px',
                                     padding: '24px'
                                 }, children: [_jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }, children: [_jsx("h2", { style: { color: '#ffcc00', margin: 0 }, children: selectedJob.title }), _jsx("span", { style: {
                                                     color: getStatusColor(selectedJob.status),

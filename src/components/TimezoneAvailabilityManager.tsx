@@ -153,7 +153,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
     }}>
       <div style={{
         backgroundColor: '#1a1a1a',
-        borderRadius: '12px',
+        borderRadius: '4px',
         padding: '24px',
         width: '90%',
         maxWidth: '900px',
@@ -195,7 +195,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '12px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '20px',
           textAlign: 'center'
         }}>
@@ -210,7 +210,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
             backgroundColor: '#1a4d1a',
             border: '1px solid #4caf50',
             padding: '12px',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '20px',
             textAlign: 'center'
           }}>
@@ -224,7 +224,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '16px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '20px'
         }}>
           <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>📋 Comment ça marche :</h4>
@@ -261,7 +261,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
                   backgroundColor: selectedDate === date ? '#ffcc00' : '#333',
                   color: selectedDate === date ? '#000' : '#f5f5f7',
                   border: 'none',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '12px',
                   fontWeight: selectedDate === date ? 'bold' : 'normal',
@@ -308,7 +308,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
                   backgroundColor: '#ffcc00',
                   color: '#000',
                   border: 'none',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   cursor: loading ? 'not-allowed' : 'pointer',
                   fontSize: '14px',
                   fontWeight: 'bold',
@@ -348,7 +348,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
                           backgroundColor: isSelected ? '#ffcc00' : '#333',
                           color: isSelected ? '#000' : '#f5f5f7',
                           border: 'none',
-                          borderRadius: '8px',
+                          borderRadius: '4px',
                           cursor: 'pointer',
                           fontSize: '13px',
                           fontWeight: isSelected ? 'bold' : 'normal',
@@ -381,7 +381,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
                   <div style={{
                     backgroundColor: '#2a2a2a',
                     padding: '16px',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     border: '1px solid #333'
                   }}>
                     <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>
@@ -419,7 +419,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '16px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginTop: '20px'
         }}>
           <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>ℹ️ Informations importantes :</h4>

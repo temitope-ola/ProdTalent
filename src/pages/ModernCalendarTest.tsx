@@ -141,7 +141,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px',
           textAlign: 'center'
         }}>
@@ -167,7 +167,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                 color: '#000',
                 padding: '12px 24px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading ? 'not-allowed' : 'pointer',
                 fontSize: '16px',
                 fontWeight: 'bold',
@@ -184,7 +184,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
           <div style={{
             backgroundColor: '#111',
             padding: '24px',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '24px'
           }}>
             <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -199,7 +199,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                   color: '#fff',
                   padding: '12px 20px',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
@@ -214,7 +214,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                   color: '#fff',
                   padding: '12px 20px',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
@@ -229,7 +229,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
           <div style={{
             backgroundColor: '#111',
             padding: '24px',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '24px'
           }}>
             <h2 style={{ color: '#ffcc00', marginBottom: '20px' }}>
@@ -308,7 +308,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                 color: '#fff',
                 padding: '12px 24px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading ? 'not-allowed' : 'pointer',
                 fontSize: '16px',
                 fontWeight: 'bold'
@@ -325,7 +325,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
             backgroundColor: '#1a4d3a',
             border: '1px solid #4CAF50',
             padding: '20px',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '24px'
           }}>
             <h3 style={{ color: '#4CAF50', margin: '0 0 16px 0' }}>
@@ -356,7 +356,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
           <div style={{
             backgroundColor: '#111',
             padding: '24px',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '24px'
           }}>
             <h3 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -393,7 +393,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px'
+          borderRadius: '4px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
             📝 Console moderne

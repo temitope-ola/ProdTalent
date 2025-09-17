@@ -151,7 +151,7 @@ export default function JobApplicationsPage() {
                                                 padding: '4px 12px',
                                                 backgroundColor: getStatusColor(application.status),
                                                 color: '#000',
-                                                borderRadius: 12,
+                                                borderRadius: 4,
                                                 fontSize: 12,
                                                 fontWeight: 'bold'
                                             }, children: getStatusText(application.status) }) })] }), application.talentProfile && (_jsxs("div", { style: { marginBottom: 16 }, children: [_jsxs("p", { style: { color: '#f5f5f7', margin: '4px 0' }, children: [_jsx("strong", { children: "Comp\u00E9tences:" }), " ", application.talentProfile.skills || 'Non renseignées'] }), application.talentProfile.bio && (_jsxs("p", { style: { color: '#f5f5f7', margin: '4px 0' }, children: [_jsx("strong", { children: "Bio:" }), " ", application.talentProfile.bio] }))] })), application.coverLetter && (_jsxs("div", { style: { marginBottom: 16 }, children: [_jsx("h4", { style: { color: '#ffcc00', marginBottom: 8 }, children: "Lettre de motivation" }), _jsx("div", { style: {

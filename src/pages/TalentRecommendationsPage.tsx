@@ -170,7 +170,7 @@ export default function TalentRecommendationsPage() {
           <div style={{
             backgroundColor: '#111',
             padding: 20,
-            borderRadius: 8,
+            borderRadius: 4,
             textAlign: 'center'
           }}>
             <div style={{ color: '#ffcc00', fontSize: '28px', fontWeight: 'bold' }}>
@@ -183,7 +183,7 @@ export default function TalentRecommendationsPage() {
           <div style={{
             backgroundColor: '#111',
             padding: 20,
-            borderRadius: 8,
+            borderRadius: 4,
             textAlign: 'center'
           }}>
             <div style={{ color: '#ffcc00', fontSize: '28px', fontWeight: 'bold' }}>
@@ -196,7 +196,7 @@ export default function TalentRecommendationsPage() {
           <div style={{
             backgroundColor: '#111',
             padding: 20,
-            borderRadius: 8,
+            borderRadius: 4,
             textAlign: 'center'
           }}>
             <div style={{ color: '#61bfac', fontSize: '28px', fontWeight: 'bold' }}>
@@ -209,7 +209,7 @@ export default function TalentRecommendationsPage() {
           <div style={{
             backgroundColor: '#111',
             padding: 20,
-            borderRadius: 8,
+            borderRadius: 4,
             textAlign: 'center'
           }}>
             <div style={{ color: '#ff6b6b', fontSize: '28px', fontWeight: 'bold' }}>
@@ -230,7 +230,7 @@ export default function TalentRecommendationsPage() {
           <div style={{
             backgroundColor: '#111',
             padding: 40,
-            borderRadius: 8,
+            borderRadius: 4,
             textAlign: 'center'
           }}>
             <div style={{ fontSize: '48px', marginBottom: 16 }}>📭</div>
@@ -249,7 +249,7 @@ export default function TalentRecommendationsPage() {
                 style={{
                   backgroundColor: '#111',
                   padding: 24,
-                  borderRadius: 8,
+                  borderRadius: 4,
                   border: '1px solid #333'
                 }}
               >
@@ -274,7 +274,7 @@ export default function TalentRecommendationsPage() {
                       marginBottom: 8,
                       padding: '6px 12px',
                       backgroundColor: '#0a2a24',
-                      borderRadius: '6px',
+                      borderRadius: '4px',
                       display: 'inline-block'
                     }}>
                       🏢 {typeof recommendation.jobCompany === 'string' ? recommendation.jobCompany : 'Entreprise'} 
@@ -292,7 +292,7 @@ export default function TalentRecommendationsPage() {
                       padding: '8px 16px',
                       backgroundColor: getStatusColor(recommendation.status),
                       color: '#000',
-                      borderRadius: 6,
+                      borderRadius: 4,
                       fontSize: '14px',
                       fontWeight: 'bold'
                     }}>
@@ -308,7 +308,7 @@ export default function TalentRecommendationsPage() {
                   marginBottom: 20,
                   padding: '16px',
                   backgroundColor: '#0a0a0a',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   border: '1px solid #222'
                 }}>
                   <strong>💬 Message du coach :</strong><br />
@@ -334,7 +334,7 @@ export default function TalentRecommendationsPage() {
                         backgroundColor: '#ffcc00',
                         color: '#000',
                         border: 'none',
-                        borderRadius: 8,
+                        borderRadius: 4,
                         cursor: 'pointer',
                         fontSize: '16px',
                         fontWeight: 'bold',
@@ -360,7 +360,7 @@ export default function TalentRecommendationsPage() {
                         backgroundColor: 'transparent',
                         color: '#ffcc00',
                         border: '2px solid #ffcc00',
-                        borderRadius: 8,
+                        borderRadius: 4,
                         cursor: 'pointer',
                         fontSize: '14px'
                       }}

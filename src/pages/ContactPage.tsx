@@ -35,7 +35,7 @@ const ContactPage: React.FC = () => {
               border: '1px solid #61bfac',
               color: '#61bfac',
               padding: '12px 24px',
-              borderRadius: '8px',
+              borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '14px',
               display: 'flex',
@@ -82,7 +82,7 @@ const ContactPage: React.FC = () => {
               <h2 style={{ color: '#61bfac', fontSize: '24px', marginBottom: '15px' }}>
                 Informations générales
               </h2>
-              <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '8px' }}>
+              <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px' }}>
                 <p style={{ marginBottom: '12px' }}>
                   <strong style={{ color: '#ffcc00' }}>📧 Email principal :</strong><br />
                   admin@prodtalent.com
@@ -108,7 +108,7 @@ const ContactPage: React.FC = () => {
               <h2 style={{ color: '#61bfac', fontSize: '24px', marginBottom: '15px' }}>
                 Support spécialisé
               </h2>
-              <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '8px' }}>
+              <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px' }}>
                 <p style={{ marginBottom: '12px' }}>
                   <strong style={{ color: '#ffcc00' }}>🛠️ Support technique :</strong><br />
                   admin@prodtalent.com
@@ -135,7 +135,7 @@ const ContactPage: React.FC = () => {
             </h2>
             
             <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
-              <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '8px', borderLeft: '4px solid #61bfac' }}>
+              <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px', borderLeft: '4px solid #61bfac' }}>
                 <h3 style={{ color: '#ffcc00', fontSize: '18px', marginBottom: '10px' }}>
                   🎯 Pour les Talents
                 </h3>
@@ -147,7 +147,7 @@ const ContactPage: React.FC = () => {
                 </ul>
               </div>
 
-              <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '8px', borderLeft: '4px solid #ffcc00' }}>
+              <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px', borderLeft: '4px solid #ffcc00' }}>
                 <h3 style={{ color: '#61bfac', fontSize: '18px', marginBottom: '10px' }}>
                   🏢 Pour les Recruteurs
                 </h3>
@@ -168,7 +168,7 @@ const ContactPage: React.FC = () => {
             <div style={{ 
               backgroundColor: '#020202', 
               padding: '20px', 
-              borderRadius: '8px',
+              borderRadius: '4px',
               borderLeft: '4px solid #61bfac'
             }}>
               <p style={{ margin: '0 0 10px 0' }}>
@@ -197,7 +197,7 @@ const ContactPage: React.FC = () => {
                 textDecoration: 'none',
                 padding: '8px 16px',
                 backgroundColor: '#020202',
-                borderRadius: '20px',
+                borderRadius: '4px',
                 fontSize: '14px'
               }}>
                 📘 LinkedIn
@@ -207,7 +207,7 @@ const ContactPage: React.FC = () => {
                 textDecoration: 'none',
                 padding: '8px 16px',
                 backgroundColor: '#020202',
-                borderRadius: '20px',
+                borderRadius: '4px',
                 fontSize: '14px'
               }}>
                 🐦 Twitter
@@ -217,7 +217,7 @@ const ContactPage: React.FC = () => {
                 textDecoration: 'none',
                 padding: '8px 16px',
                 backgroundColor: '#020202',
-                borderRadius: '20px',
+                borderRadius: '4px',
                 fontSize: '14px'
               }}>
                 📷 Instagram
@@ -230,7 +230,7 @@ const ContactPage: React.FC = () => {
           marginTop: '40px', 
           padding: '20px',
           backgroundColor: '#020202',
-          borderRadius: '8px',
+          borderRadius: '4px',
           borderLeft: '4px solid #61bfac'
         }}>
           <p style={{ margin: 0, fontSize: '14px', color: '#888' }}>

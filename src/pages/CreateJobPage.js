@@ -106,19 +106,19 @@ export default function CreateJobPage() {
                         maxWidth: '800px',
                         margin: '0 auto',
                         backgroundColor: '#111',
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                         padding: '32px'
                     }, children: [error && (_jsx("div", { style: {
                                 padding: '12px',
                                 backgroundColor: 'rgba(255, 107, 107, 0.1)',
                                 color: '#ff6b6b',
-                                borderRadius: '8px',
+                                borderRadius: '4px',
                                 marginBottom: '16px'
                             }, children: error })), success && (_jsx("div", { style: {
                                 padding: '12px',
                                 backgroundColor: 'rgba(97, 191, 172, 0.1)',
                                 color: '#61bfac',
-                                borderRadius: '8px',
+                                borderRadius: '4px',
                                 marginBottom: '16px'
                             }, children: success })), _jsxs("form", { onSubmit: handleSubmit, children: [_jsxs("div", { style: { marginBottom: '32px' }, children: [_jsx("h3", { style: { color: '#ffcc00', marginBottom: '16px' }, children: "Informations de base" }), _jsxs("div", { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }, children: [_jsxs("div", { children: [_jsx("label", { style: { display: 'block', marginBottom: '8px', color: '#f5f5f7' }, children: "Titre du poste *" }), _jsx("input", { type: "text", value: formData.title, onChange: (e) => handleInputChange('title', e.target.value), required: true, style: {
                                                                 width: '100%',

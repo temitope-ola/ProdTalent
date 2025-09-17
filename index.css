@@ -21,9 +21,9 @@
   .row { display: flex; gap: 12px; flex-wrap: wrap; }
   .btn {
     appearance: none; border: 1px solid var(--border); background: var(--card);
-    color: var(--fg); padding: 10px 14px; border-radius: 10px; cursor: pointer;
+    color: var(--fg); padding: 10px 14px; border-radius: 4px; cursor: pointer;
   }
   .btn:hover { border-color: #333; }
   .btn-primary { background: var(--primary); color: #000; border-color: var(--primary); }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 4px; padding: 16px; }
   

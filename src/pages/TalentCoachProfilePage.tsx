@@ -207,7 +207,7 @@ const TalentCoachProfilePage: React.FC = () => {
         <div style={{
           backgroundColor: '#1a1a1a',
           border: '1px solid #333',
-          borderRadius: '12px',
+          borderRadius: '4px',
           padding: screenWidth <= 768 ? '20px' : '32px',
           marginBottom: '24px'
         }}>
@@ -308,7 +308,7 @@ const TalentCoachProfilePage: React.FC = () => {
                       backgroundColor: '#333',
                       color: '#f5f5f7',
                       padding: '6px 12px',
-                      borderRadius: '6px',
+                      borderRadius: '4px',
                       fontSize: '14px'
                     }}
                   >
@@ -345,7 +345,7 @@ const TalentCoachProfilePage: React.FC = () => {
         <div style={{
           backgroundColor: '#1a1a1a',
           border: '1px solid #333',
-          borderRadius: '12px',
+          borderRadius: '4px',
           padding: screenWidth <= 768 ? '20px' : '32px'
         }}>
           <h3 style={{
@@ -368,7 +368,7 @@ const TalentCoachProfilePage: React.FC = () => {
                 backgroundColor: '#333',
                 color: '#f5f5f7',
                 border: '1px solid #555',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 fontSize: '14px',
                 resize: 'vertical',
                 fontFamily: 'inherit'
@@ -385,7 +385,7 @@ const TalentCoachProfilePage: React.FC = () => {
                 backgroundColor: message.trim() && !isSending ? '#ffcc00' : '#555',
                 color: message.trim() && !isSending ? '#0a0a0a' : '#888',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 cursor: message.trim() && !isSending ? 'pointer' : 'not-allowed',
                 fontSize: '16px',
                 fontWeight: 'bold'

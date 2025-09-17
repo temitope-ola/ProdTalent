@@ -229,7 +229,7 @@ const TalentCoachesPage: React.FC = () => {
                 style={{
                   backgroundColor: '#1a1a1a',
                   border: '1px solid #333',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   padding: '20px',
                   transition: 'border-color 0.2s ease'
                 }}

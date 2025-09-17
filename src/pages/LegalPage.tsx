@@ -34,7 +34,7 @@ const LegalPage: React.FC = () => {
               border: '1px solid #61bfac',
               color: '#61bfac',
               padding: '12px 24px',
-              borderRadius: '8px',
+              borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '14px',
               display: 'flex',
@@ -69,7 +69,7 @@ const LegalPage: React.FC = () => {
             <h2 style={{ color: '#61bfac', fontSize: '24px', marginBottom: '15px' }}>
               Éditeur du site
             </h2>
-            <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '8px' }}>
+            <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px' }}>
               <p><strong>Dénomination sociale :</strong> Edacy</p>
               <p><strong>Produit :</strong> ProdTalent</p>
               <p><strong>Siège social :</strong> Dakar, Sénégal</p>
@@ -91,7 +91,7 @@ const LegalPage: React.FC = () => {
             <h2 style={{ color: '#61bfac', fontSize: '24px', marginBottom: '15px' }}>
               Hébergement
             </h2>
-            <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '8px' }}>
+            <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px' }}>
               <p><strong>Hébergeur :</strong> Vercel Inc.</p>
               <p><strong>Adresse :</strong> 340 S Lemon Ave #4133, Walnut, CA 91789, USA</p>
               <p><strong>Site web :</strong> https://vercel.com</p>
@@ -150,7 +150,7 @@ const LegalPage: React.FC = () => {
           marginTop: '40px', 
           padding: '20px',
           backgroundColor: '#020202',
-          borderRadius: '8px',
+          borderRadius: '4px',
           borderLeft: '4px solid #61bfac'
         }}>
           <p style={{ margin: 0, fontSize: '14px', color: '#888' }}>

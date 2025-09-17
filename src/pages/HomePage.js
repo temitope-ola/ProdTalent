@@ -137,7 +137,7 @@ export default function HomePage() {
                                         backgroundColor: 'rgba(255, 255, 255, 0.1)',
                                         color: '#f5f5f7',
                                         border: 'none',
-                                        borderRadius: '8px',
+                                        borderRadius: '4px',
                                         cursor: 'pointer',
                                         fontSize: '15px',
                                         fontWeight: '500',
@@ -153,7 +153,7 @@ export default function HomePage() {
                                         backgroundColor: '#ffcc00',
                                         color: '#000',
                                         border: 'none',
-                                        borderRadius: '8px',
+                                        borderRadius: '4px',
                                         cursor: 'pointer',
                                         fontSize: '15px',
                                         fontWeight: '600',
@@ -221,7 +221,7 @@ export default function HomePage() {
                                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
                                 color: '#f5f5f7',
                                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                                borderRadius: '12px',
+                                borderRadius: '4px',
                                 cursor: 'pointer',
                                 fontSize: '18px',
                                 fontWeight: '500',
@@ -237,7 +237,7 @@ export default function HomePage() {
                                 backgroundColor: '#ffcc00',
                                 color: '#000',
                                 border: '1px solid #ffcc00',
-                                borderRadius: '12px',
+                                borderRadius: '4px',
                                 cursor: 'pointer',
                                 fontSize: '18px',
                                 fontWeight: '600',
@@ -248,7 +248,7 @@ export default function HomePage() {
                                 backgroundColor: 'transparent',
                                 color: '#888',
                                 border: '1px solid #333',
-                                borderRadius: '12px',
+                                borderRadius: '4px',
                                 cursor: 'pointer',
                                 fontSize: '16px',
                                 marginTop: '20px'
@@ -372,7 +372,7 @@ export default function HomePage() {
                                     marginBottom: '30px'
                                 }, children: featuredTalents.slice(0, 2).map((talent, index) => (_jsxs("div", { style: {
                                         background: '#ffffff',
-                                        borderRadius: '16px',
+                                        borderRadius: '4px',
                                         overflow: 'hidden',
                                         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                                         transition: 'all 0.3s ease',
@@ -423,7 +423,7 @@ export default function HomePage() {
                                     const talent = featuredTalents[2];
                                     return (_jsxs("div", { style: {
                                             background: '#ffffff',
-                                            borderRadius: '16px',
+                                            borderRadius: '4px',
                                             overflow: 'hidden',
                                             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                                             transition: 'all 0.3s ease',
@@ -476,7 +476,7 @@ export default function HomePage() {
                                     backgroundColor: '#ffcc00',
                                     color: '#000',
                                     border: 'none',
-                                    borderRadius: '12px',
+                                    borderRadius: '4px',
                                     cursor: 'pointer',
                                     fontSize: '1.1rem',
                                     fontWeight: '700',
@@ -504,7 +504,7 @@ export default function HomePage() {
                         }, children: [_jsxs("div", { style: {
                                     background: '#1a1a1a',
                                     padding: isMobile ? '30px' : '50px',
-                                    borderRadius: '16px',
+                                    borderRadius: '4px',
                                     position: 'relative',
                                     overflow: 'hidden',
                                     transition: 'all 0.3s ease',
@@ -528,7 +528,7 @@ export default function HomePage() {
                                                     width: '70px',
                                                     height: '70px',
                                                     background: '#ffcc00',
-                                                    borderRadius: '12px',
+                                                    borderRadius: '4px',
                                                     fontWeight: '800',
                                                     color: '#303030',
                                                     display: 'flex',
@@ -557,7 +557,7 @@ export default function HomePage() {
                                                     backgroundColor: '#ffcc00',
                                                     color: '#000',
                                                     border: 'none',
-                                                    borderRadius: '12px',
+                                                    borderRadius: '4px',
                                                     cursor: 'pointer',
                                                     fontSize: '16px',
                                                     fontWeight: '600',
@@ -569,7 +569,7 @@ export default function HomePage() {
                                                 }, children: "Rejoindre comme Talent" })] })] }), _jsxs("div", { style: {
                                     background: '#1a1a1a',
                                     padding: '50px',
-                                    borderRadius: '16px',
+                                    borderRadius: '4px',
                                     position: 'relative',
                                     overflow: 'hidden',
                                     transition: 'all 0.3s ease',
@@ -593,7 +593,7 @@ export default function HomePage() {
                                                     width: '70px',
                                                     height: '70px',
                                                     background: '#61bfac',
-                                                    borderRadius: '12px',
+                                                    borderRadius: '4px',
                                                     fontWeight: '800',
                                                     color: '#303030',
                                                     display: 'flex',
@@ -623,7 +623,7 @@ export default function HomePage() {
                                                     backgroundColor: '#61bfac',
                                                     color: '#000',
                                                     border: 'none',
-                                                    borderRadius: '12px',
+                                                    borderRadius: '4px',
                                                     cursor: 'pointer',
                                                     fontSize: '16px',
                                                     fontWeight: '600',
@@ -635,7 +635,7 @@ export default function HomePage() {
                                                 }, children: "Rejoindre comme Recruteur" })] })] })] }), _jsxs("div", { style: {
                             background: '#1a1a1a',
                             padding: '60px',
-                            borderRadius: '16px',
+                            borderRadius: '4px',
                             position: 'relative',
                             overflow: 'hidden',
                             transition: 'all 0.3s ease',
@@ -662,7 +662,7 @@ export default function HomePage() {
                                             width: '70px',
                                             height: '70px',
                                             background: '#ffcc00',
-                                            borderRadius: '12px',
+                                            borderRadius: '4px',
                                             fontWeight: '800',
                                             color: '#303030',
                                             display: 'flex',
@@ -687,7 +687,7 @@ export default function HomePage() {
                                         }, children: "Chez ProdTalent, la coach est bien plus qu\u2019une accompagnatrice. Elle est celle qui croit en vos capacit\u00E9s, m\u00EAme quand vous doutez. Celle qui \u00E9claire votre chemin, vous pousse \u00E0 sortir de votre zone de confort et transforme chaque \u00E9tape en une opportunit\u00E9 de grandir. " }), _jsx("div", { style: {
                                             background: 'rgba(255, 204, 0, 0.1)',
                                             padding: '32px',
-                                            borderRadius: '12px',
+                                            borderRadius: '4px',
                                             marginBottom: '40px'
                                         }, children: _jsx("p", { style: {
                                                 color: '#ffcc00',
@@ -708,7 +708,7 @@ export default function HomePage() {
                 }, children: _jsxs("div", { onClick: (e) => e.stopPropagation(), style: {
                         backgroundColor: '#1a1a1a',
                         padding: 32,
-                        borderRadius: 16,
+                        borderRadius: 4,
                         maxWidth: 400,
                         width: '90%'
                     }, children: [_jsx("div", { style: {
@@ -720,13 +720,13 @@ export default function HomePage() {
                                 padding: 12,
                                 backgroundColor: 'rgba(255, 107, 107, 0.1)',
                                 color: '#ff6b6b',
-                                borderRadius: 8,
+                                borderRadius: 4,
                                 marginBottom: 16
                             }, children: error })), success && (_jsx("div", { style: {
                                 padding: 12,
                                 backgroundColor: 'rgba(97, 191, 172, 0.1)',
                                 color: '#61bfac',
-                                borderRadius: 8,
+                                borderRadius: 4,
                                 marginBottom: 16
                             }, children: success })), _jsxs("form", { onSubmit: onSubmit, children: [mode === 'signup' && (_jsxs("div", { style: { marginBottom: '16px' }, children: [_jsx("label", { style: { color: '#f5f5f7', display: 'block', marginBottom: '8px' }, children: "R\u00F4le *" }), _jsx("select", { value: role, onChange: (e) => setRole(e.target.value), required: true, style: {
                                                 width: '100%',
@@ -734,7 +734,7 @@ export default function HomePage() {
                                                 backgroundColor: '#333',
                                                 color: '#f5f5f7',
                                                 border: 'none',
-                                                borderRadius: 8,
+                                                borderRadius: 4,
                                                 fontSize: '14px'
                                             }, children: _jsx("option", { value: "recruteur", children: "Recruteur" }) }), _jsx("p", { style: {
                                                 color: '#61bfac',
@@ -747,7 +747,7 @@ export default function HomePage() {
                                                 backgroundColor: '#333',
                                                 color: '#f5f5f7',
                                                 border: 'none',
-                                                borderRadius: 8,
+                                                borderRadius: 4,
                                                 fontSize: '14px'
                                             } })] }), _jsxs("div", { style: { marginBottom: 24 }, children: [_jsx("label", { style: { color: '#f5f5f7', display: 'block', marginBottom: 8 }, children: "Mot de passe *" }), _jsx("input", { type: "password", value: password, onChange: (e) => setPassword(e.target.value), required: true, style: {
                                                 width: '100%',
@@ -755,7 +755,7 @@ export default function HomePage() {
                                                 backgroundColor: '#333',
                                                 color: '#f5f5f7',
                                                 border: 'none',
-                                                borderRadius: 8,
+                                                borderRadius: 4,
                                                 fontSize: '14px'
                                             } })] }), _jsx("button", { type: "submit", disabled: busy, style: {
                                         width: '100%',
@@ -763,7 +763,7 @@ export default function HomePage() {
                                         backgroundColor: busy ? '#666' : '#ffcc00',
                                         color: '#000',
                                         border: 'none',
-                                        borderRadius: 8,
+                                        borderRadius: 4,
                                         fontSize: '16px',
                                         fontWeight: 'bold',
                                         cursor: busy ? 'not-allowed' : 'pointer'

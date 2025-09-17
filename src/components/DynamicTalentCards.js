@@ -31,7 +31,7 @@ const DynamicTalentCards = ({ isMobile }) => {
             gap: '30px'
         }, children: featuredTalents.map((talent, index) => (_jsxs("div", { style: {
                 background: '#ffffff',
-                borderRadius: '16px',
+                borderRadius: '4px',
                 overflow: 'hidden',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                 transition: 'all 0.3s ease',

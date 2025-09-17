@@ -153,7 +153,7 @@ class SendGridService {
         </div>
         ${data.calendarLink ? `
         <p style="text-align: center; margin: 20px 0;">
-          <a href="${data.calendarLink}" style="background: #4285f4; color: white; padding: 12px 20px; text-decoration: none; border-radius: 6px; display: inline-block; margin: 0 10px;">
+          <a href="${data.calendarLink}" style="background: #4285f4; color: white; padding: 12px 20px; text-decoration: none; border-radius: 4px; display: inline-block; margin: 0 10px;">
             📅 Ajouter au calendrier
           </a>
         </p>` : ''}
@@ -238,7 +238,7 @@ class SendGridService {
             
             ${data.actionButton ? `
             <div style="text-align: center; margin: 30px 0;">
-              <a href="${data.actionButton.url}" style="background: linear-gradient(135deg, #ffcc00 0%, #ffb300 100%); color: #000; padding: 15px 30px; text-decoration: none; border-radius: 8px; display: inline-block; font-weight: bold; font-size: 16px; box-shadow: 0 2px 10px rgba(255,204,0,0.3);">
+              <a href="${data.actionButton.url}" style="background: linear-gradient(135deg, #ffcc00 0%, #ffb300 100%); color: #000; padding: 15px 30px; text-decoration: none; border-radius: 4px; display: inline-block; font-weight: bold; font-size: 16px; box-shadow: 0 2px 10px rgba(255,204,0,0.3);">
                 ${data.actionButton.text}
               </a>
             </div>

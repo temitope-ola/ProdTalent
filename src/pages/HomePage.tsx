@@ -165,7 +165,7 @@ export default function HomePage() {
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
                 color: '#f5f5f7',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '15px',
                 fontWeight: '500',
@@ -189,7 +189,7 @@ export default function HomePage() {
                 backgroundColor: '#ffcc00',
                 color: '#000',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '15px',
                 fontWeight: '600',
@@ -284,7 +284,7 @@ export default function HomePage() {
                 backgroundColor: 'rgba(255, 255, 255, 0.1)',
                 color: '#f5f5f7',
                 border: '1px solid rgba(255, 255, 255, 0.2)',
-                borderRadius: '12px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '18px',
                 fontWeight: '500',
@@ -306,7 +306,7 @@ export default function HomePage() {
                 backgroundColor: '#ffcc00',
                 color: '#000',
                 border: '1px solid #ffcc00',
-                borderRadius: '12px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '18px',
                 fontWeight: '600',
@@ -323,7 +323,7 @@ export default function HomePage() {
                 backgroundColor: 'transparent',
                 color: '#888',
                 border: '1px solid #333',
-                borderRadius: '12px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '16px',
                 marginTop: '20px'
@@ -546,7 +546,7 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
               {featuredTalents.slice(0, 2).map((talent, index) => (
                 <div key={talent.id} style={{
                   background: '#ffffff',
-                  borderRadius: '16px',
+                  borderRadius: '4px',
                   overflow: 'hidden',
                   boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                   transition: 'all 0.3s ease',
@@ -630,7 +630,7 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
                   return (
                     <div style={{
                       background: '#ffffff',
-                      borderRadius: '16px',
+                      borderRadius: '4px',
                       overflow: 'hidden',
                       boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
                       transition: 'all 0.3s ease',
@@ -718,7 +718,7 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
               backgroundColor: '#ffcc00',
               color: '#000',
               border: 'none',
-              borderRadius: '12px',
+              borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '1.1rem',
               fontWeight: '700',
@@ -763,7 +763,7 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
           <div style={{
             background: '#1a1a1a',
             padding: isMobile ? '30px' : '50px',
-            borderRadius: '16px',
+            borderRadius: '4px',
             position: 'relative',
             overflow: 'hidden',
             transition: 'all 0.3s ease',
@@ -794,7 +794,7 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
                 width: '70px',
                 height: '70px',
                 background: '#ffcc00',
-                borderRadius: '12px',
+                borderRadius: '4px',
                 fontWeight: '800',
                 color: '#303030',
                 display: 'flex',
@@ -847,7 +847,7 @@ Et notre mission, c'est de transformer ces possibles en réalités.
                   backgroundColor: '#ffcc00',
                   color: '#000',
                   border: 'none',
-                  borderRadius: '12px',
+                  borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '16px',
                   fontWeight: '600',
@@ -869,7 +869,7 @@ Et notre mission, c'est de transformer ces possibles en réalités.
           <div style={{
             background: '#1a1a1a',
             padding: '50px',
-            borderRadius: '16px',
+            borderRadius: '4px',
             position: 'relative',
             overflow: 'hidden',
             transition: 'all 0.3s ease',
@@ -900,7 +900,7 @@ Et notre mission, c'est de transformer ces possibles en réalités.
                 width: '70px',
                 height: '70px',
                 background: '#61bfac',
-                borderRadius: '12px',
+                borderRadius: '4px',
                 fontWeight: '800',
                 color: '#303030',
                 display: 'flex',
@@ -964,7 +964,7 @@ Nous simplifions vos recrutementspour vous permettre de vous concentrer sur l'es
                   backgroundColor: '#61bfac',
                   color: '#000',
                   border: 'none',
-                  borderRadius: '12px',
+                  borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '16px',
                   fontWeight: '600',
@@ -987,7 +987,7 @@ Nous simplifions vos recrutementspour vous permettre de vous concentrer sur l'es
         <div style={{
           background: '#1a1a1a',
           padding: '60px',
-          borderRadius: '16px',
+          borderRadius: '4px',
           position: 'relative',
           overflow: 'hidden',
           transition: 'all 0.3s ease',
@@ -1021,7 +1021,7 @@ Nous simplifions vos recrutementspour vous permettre de vous concentrer sur l'es
                 width: '70px',
                 height: '70px',
                 background: '#ffcc00',
-                borderRadius: '12px',
+                borderRadius: '4px',
                 fontWeight: '800',
                 color: '#303030',
                 display: 'flex',
@@ -1102,7 +1102,7 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
             style={{
               backgroundColor: '#1a1a1a',
               padding: 32,
-              borderRadius: 16,
+              borderRadius: 4,
               maxWidth: 400,
               width: '90%'
             }}
@@ -1123,7 +1123,7 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
                 padding: 12,
                 backgroundColor: 'rgba(255, 107, 107, 0.1)',
                 color: '#ff6b6b',
-                borderRadius: 8,
+                borderRadius: 4,
                 marginBottom: 16
               }}>
                 {error}
@@ -1135,7 +1135,7 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
                 padding: 12,
                 backgroundColor: 'rgba(97, 191, 172, 0.1)',
                 color: '#61bfac',
-                borderRadius: 8,
+                borderRadius: 4,
                 marginBottom: 16
               }}>
                 {success}
@@ -1158,7 +1158,7 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
                       backgroundColor: '#333',
                       color: '#f5f5f7',
                       border: 'none',
-                      borderRadius: 8,
+                      borderRadius: 4,
                       fontSize: '14px'
                     }}
                   >
@@ -1190,7 +1190,7 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
                     backgroundColor: '#333',
                     color: '#f5f5f7',
                     border: 'none',
-                    borderRadius: 8,
+                    borderRadius: 4,
                     fontSize: '14px'
                   }}
                 />
@@ -1207,7 +1207,7 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
                   style={{
                     backgroundColor: '#333',
                     border: 'none',
-                    borderRadius: 8,
+                    borderRadius: 4,
                     fontSize: '14px'
                   }}
                 />
@@ -1222,7 +1222,7 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
                   backgroundColor: busy ? '#666' : '#ffcc00',
                   color: '#000',
                   border: 'none',
-                  borderRadius: 8,
+                  borderRadius: 4,
                   fontSize: '16px',
                   fontWeight: 'bold',
                   cursor: busy ? 'not-allowed' : 'pointer'

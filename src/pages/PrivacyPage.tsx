@@ -34,7 +34,7 @@ const PrivacyPage: React.FC = () => {
               border: '1px solid #61bfac',
               color: '#61bfac',
               padding: '12px 24px',
-              borderRadius: '8px',
+              borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '14px',
               display: 'flex',
@@ -148,7 +148,7 @@ const PrivacyPage: React.FC = () => {
           marginTop: '40px', 
           padding: '20px',
           backgroundColor: '#020202',
-          borderRadius: '8px',
+          borderRadius: '4px',
           borderLeft: '4px solid #61bfac'
         }}>
           <p style={{ margin: 0, fontSize: '14px', color: '#888' }}>

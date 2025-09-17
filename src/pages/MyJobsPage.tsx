@@ -230,7 +230,7 @@ export default function MyJobsPage() {
             padding: '12px',
             backgroundColor: 'rgba(255, 107, 107, 0.1)',
             color: '#ff6b6b',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '16px'
           }}>
             {error}
@@ -243,7 +243,7 @@ export default function MyJobsPage() {
             textAlign: 'center',
             padding: '60px 20px',
             backgroundColor: '#111',
-            borderRadius: '8px'
+            borderRadius: '4px'
           }}>
             <h3 style={{ color: '#ffcc00', marginBottom: '16px' }}>
               Aucune annonce publiée
@@ -279,7 +279,7 @@ export default function MyJobsPage() {
             }}>
               <div style={{
                 backgroundColor: '#111',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 overflow: 'hidden'
               }}>
                 <div style={{ 
@@ -374,7 +374,7 @@ export default function MyJobsPage() {
               }}>
                 <div style={{
                   backgroundColor: '#111',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   padding: window.innerWidth <= 480 ? '16px' : '24px'
                 }}>
                   <div style={{ 

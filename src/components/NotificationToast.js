@@ -67,7 +67,7 @@ const NotificationToast = ({ id, type, title, message, duration = 5000, onClose 
             maxWidth: '400px',
             backgroundColor: '#111',
             border: `1px solid ${colors.border}`,
-            borderRadius: '8px',
+            borderRadius: '4px',
             padding: '16px',
             boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
             transform: isVisible ? 'translateX(0)' : 'translateX(100%)',

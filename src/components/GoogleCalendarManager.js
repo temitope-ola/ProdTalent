@@ -527,7 +527,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
             }
         }, role: "dialog", "aria-modal": "true", "aria-labelledby": "calendar-manager-title", children: _jsxs("div", { style: {
                 backgroundColor: '#111',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 padding: '24px',
                 maxWidth: '1000px',
                 width: '95%',
@@ -793,7 +793,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                     }, children: ["\uD83D\uDD0D Debug: Calendrier charg\u00E9 - ", calendarEvents.length, " \u00E9v\u00E9nements trouv\u00E9s"] }), _jsxs("div", { style: {
                                         backgroundColor: '#1a1a1a',
                                         border: '2px solid #ffcc00',
-                                        borderRadius: '8px',
+                                        borderRadius: '4px',
                                         padding: '20px',
                                         marginTop: '16px'
                                     }, children: [_jsx("h3", { style: { color: '#ffcc00', margin: '0 0 16px 0' }, children: "\uD83C\uDF89 NOUVEAU CALENDRIER VISUEL !" }), _jsx("p", { style: { color: '#f5f5f7' }, children: "Si vous voyez ce message, le nouveau design fonctionne !" }), _jsx(CalendarGrid, { events: calendarEvents, currentDate: currentCalendarDate, onPreviousMonth: goToPreviousMonth, onNextMonth: goToNextMonth, onDateClick: handleDateClick })] })] }))] })), activeTab === 'talents' && (_jsxs("div", { children: [_jsxs("div", { style: {
@@ -827,7 +827,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                 .map((appointment) => (_jsx("div", { style: {
                                     backgroundColor: '#1a1a1a',
                                     padding: '20px',
-                                    borderRadius: '8px',
+                                    borderRadius: '4px',
                                     border: '1px solid #333'
                                 }, children: _jsxs("div", { style: {
                                         display: 'flex',

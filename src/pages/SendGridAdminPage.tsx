@@ -83,7 +83,7 @@ export default function SendGridAdminPage() {
             <div style="background: #fff; padding: 30px;">
               <h2 style="color: #333;">Configuration SendGrid réussie !</h2>
               <p>Ce test confirme que SendGrid est correctement configuré pour ProdTalent.</p>
-              <div style="background: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 5px; margin: 20px 0;">
+              <div style="background: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 4px; margin: 20px 0;">
                 <p style="color: #155724; margin: 0;">
                   ✅ <strong>SendGrid fonctionne parfaitement !</strong><br>
                   Les notifications de l'application utilisent maintenant SendGrid.
@@ -150,7 +150,7 @@ export default function SendGridAdminPage() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -212,7 +212,7 @@ export default function SendGridAdminPage() {
                 color: '#fff',
                 padding: '12px 16px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading || !config.apiKey ? 'not-allowed' : 'pointer'
               }}
             >
@@ -227,7 +227,7 @@ export default function SendGridAdminPage() {
                 color: '#fff',
                 padding: '12px 16px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading || !config.apiKey ? 'not-allowed' : 'pointer'
               }}
             >
@@ -242,7 +242,7 @@ export default function SendGridAdminPage() {
                 color: '#fff',
                 padding: '12px 16px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading ? 'not-allowed' : 'pointer'
               }}
             >
@@ -256,7 +256,7 @@ export default function SendGridAdminPage() {
           backgroundColor: hasExistingConfig ? '#1a4d3a' : '#111',
           border: hasExistingConfig ? '1px solid #4CAF50' : '1px solid #444',
           padding: '20px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px'
         }}>
           <h3 style={{ color: hasExistingConfig ? '#4CAF50' : '#ffcc00', margin: '0 0 16px 0' }}>
@@ -278,7 +278,7 @@ export default function SendGridAdminPage() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           fontSize: '14px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -292,7 +292,7 @@ export default function SendGridAdminPage() {
             <li>Migrer les anciennes configurations EmailJS</li>
           </ol>
           
-          <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#1a4d3a', borderRadius: '5px' }}>
+          <div style={{ marginTop: '20px', padding: '15px', backgroundColor: '#1a4d3a', borderRadius: '4px' }}>
             <strong style={{ color: '#4CAF50' }}>✅ Avantages SendGrid :</strong>
             <ul style={{ marginTop: '10px', paddingLeft: '20px' }}>
               <li>99.9% de délivrabilité</li>

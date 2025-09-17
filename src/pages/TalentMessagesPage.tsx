@@ -248,7 +248,7 @@ const TalentMessagesPage: React.FC = () => {
           <div style={{ 
             flex: 1, 
             backgroundColor: '#111', 
-            borderRadius: 8,
+            borderRadius: 4,
             overflow: 'hidden'
           }}>
             <div style={{ padding: 20, borderBottom: '1px solid #333' }}>
@@ -322,7 +322,7 @@ const TalentMessagesPage: React.FC = () => {
             <div style={{ 
               flex: 1, 
               backgroundColor: '#111', 
-              borderRadius: 8,
+              borderRadius: 4,
               padding: 20
             }}>
               <div style={{ marginBottom: 20 }}>
@@ -415,7 +415,7 @@ const TalentMessagesPage: React.FC = () => {
           }}>
             <div style={{
               backgroundColor: '#111',
-              borderRadius: 8,
+              borderRadius: 4,
               padding: 24,
               width: '500px',
               maxWidth: '90%',

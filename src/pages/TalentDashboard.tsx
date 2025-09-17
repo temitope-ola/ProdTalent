@@ -953,7 +953,7 @@ export default function TalentDashboard() {
                             padding: '2px 6px',
                             backgroundColor: '#333',
                             color: '#ffcc00',
-                            borderRadius: '2px',
+                            borderRadius: '4px',
                             fontSize: '10px'
                           }}
                         >

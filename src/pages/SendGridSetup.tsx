@@ -31,7 +31,7 @@ export default function SendGridSetup() {
             <div style="background: #fff; padding: 30px;">
               <h2 style="color: #333;">Test de configuration réussi !</h2>
               <p>Si vous recevez cet email, SendGrid est correctement configuré pour ProdTalent.</p>
-              <div style="background: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 5px; margin: 20px 0;">
+              <div style="background: #d4edda; border: 1px solid #c3e6cb; padding: 15px; border-radius: 4px; margin: 20px 0;">
                 <p style="color: #155724; margin: 0;">
                   ✅ <strong>SendGrid fonctionne parfaitement !</strong><br>
                   Vous pouvez maintenant envoyer des emails fiables depuis votre application.
@@ -148,7 +148,7 @@ export default function SendGridSetup() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -194,7 +194,7 @@ export default function SendGridSetup() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -235,7 +235,7 @@ export default function SendGridSetup() {
                 color: '#fff',
                 padding: '12px 16px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading || !testEmail ? 'not-allowed' : 'pointer'
               }}
             >
@@ -250,7 +250,7 @@ export default function SendGridSetup() {
                 color: '#fff',
                 padding: '12px 16px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading || !testEmail ? 'not-allowed' : 'pointer'
               }}
             >
@@ -265,7 +265,7 @@ export default function SendGridSetup() {
                 color: '#fff',
                 padding: '12px 16px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading || !testEmail ? 'not-allowed' : 'pointer'
               }}
             >
@@ -280,7 +280,7 @@ export default function SendGridSetup() {
                 color: '#fff',
                 padding: '12px 16px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading || !testEmail ? 'not-allowed' : 'pointer'
               }}
             >
@@ -293,7 +293,7 @@ export default function SendGridSetup() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -315,7 +315,7 @@ export default function SendGridSetup() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           fontSize: '14px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>

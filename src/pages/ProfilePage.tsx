@@ -602,7 +602,7 @@ const ProfilePage: React.FC = () => {
                           backgroundColor: '#333',
                           color: '#ffcc00',
                           padding: '6px 12px',
-                          borderRadius: '15px',
+                          borderRadius: '4px',
                           fontSize: '12px',
                           fontWeight: 'bold',
                           border: '1px solid #555'
@@ -620,7 +620,7 @@ const ProfilePage: React.FC = () => {
                           backgroundColor: '#333',
                           color: '#ffcc00',
                           padding: '6px 12px',
-                          borderRadius: '15px',
+                          borderRadius: '4px',
                           fontSize: '12px',
                           fontWeight: 'bold',
                           border: '1px solid #555'

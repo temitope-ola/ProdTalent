@@ -183,7 +183,7 @@ export default function WorkingGoogleTest() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px',
           textAlign: 'center'
         }}>
@@ -208,7 +208,7 @@ export default function WorkingGoogleTest() {
                 color: '#000',
                 padding: '12px 24px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading ? 'not-allowed' : 'pointer',
                 fontSize: '16px',
                 fontWeight: 'bold'
@@ -224,7 +224,7 @@ export default function WorkingGoogleTest() {
           <div style={{
             backgroundColor: '#111',
             padding: '24px',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '24px'
           }}>
             <h2 style={{ color: '#ffcc00', marginBottom: '24px' }}>
@@ -244,7 +244,7 @@ export default function WorkingGoogleTest() {
                   color: '#f5f5f7',
                   padding: '12px 16px',
                   border: '1px solid #555',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
@@ -259,7 +259,7 @@ export default function WorkingGoogleTest() {
                   color: '#f5f5f7',
                   padding: '12px 16px',
                   border: '1px solid #555',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
@@ -274,7 +274,7 @@ export default function WorkingGoogleTest() {
                   color: '#fff',
                   padding: '12px 16px',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
@@ -289,7 +289,7 @@ export default function WorkingGoogleTest() {
                   color: '#fff',
                   padding: '12px 16px',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
@@ -304,7 +304,7 @@ export default function WorkingGoogleTest() {
                   color: '#fff',
                   padding: '12px 16px',
                   border: 'none',
-                  borderRadius: '6px',
+                  borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
@@ -318,7 +318,7 @@ export default function WorkingGoogleTest() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px'
+          borderRadius: '4px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
             📝 Console de test
@@ -340,7 +340,7 @@ export default function WorkingGoogleTest() {
         <div style={{
           backgroundColor: '#111',
           padding: '16px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginTop: '16px',
           fontSize: '12px'
         }}>

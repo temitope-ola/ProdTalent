@@ -85,7 +85,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
   return (
     <div style={{ 
       backgroundColor: '#1a1a1a', 
-      borderRadius: '8px', 
+      borderRadius: '4px', 
       padding: '20px',
       border: '1px solid #333'
     }}>
@@ -204,7 +204,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
                     color: '#fff',
                     fontSize: '10px',
                     padding: '2px 4px',
-                    borderRadius: '2px',
+                    borderRadius: '4px',
                     marginBottom: '2px',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
@@ -245,7 +245,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
               width: '12px',
               height: '12px',
               backgroundColor: '#4285f4',
-              borderRadius: '2px'
+              borderRadius: '4px'
             }}></div>
             <span style={{ color: '#888' }}>Événements Google Calendar</span>
           </div>
@@ -254,7 +254,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
               width: '12px',
               height: '12px',
               border: '2px solid #ffcc00',
-              borderRadius: '2px'
+              borderRadius: '4px'
             }}></div>
             <span style={{ color: '#888' }}>Aujourd'hui</span>
           </div>

@@ -546,7 +546,7 @@ export default function ModernMessagesPage() {
                         <div style={{
                           backgroundColor: '#ffcc00',
                           color: '#000',
-                          borderRadius: '12px',
+                          borderRadius: '4px',
                           padding: '2px 8px',
                           fontSize: '11px',
                           fontWeight: 'bold',
@@ -741,7 +741,7 @@ export default function ModernMessagesPage() {
                     backgroundColor: '#222',
                     color: '#f5f5f7',
                     border: '1px solid #444',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     fontSize: '14px',
                     resize: 'none',
                     minHeight: '44px',
@@ -757,7 +757,7 @@ export default function ModernMessagesPage() {
                     backgroundColor: newMessage.trim() ? '#ffcc00' : '#444',
                     color: newMessage.trim() ? '#000' : '#888',
                     border: 'none',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     cursor: newMessage.trim() ? 'pointer' : 'not-allowed',
                     fontSize: '14px',
                     fontWeight: 'bold'

@@ -78,7 +78,7 @@ const NotFoundPage: React.FC = () => {
         <div style={{
           backgroundColor: '#111',
           padding: 24,
-          borderRadius: 8,
+          borderRadius: 4,
           marginBottom: 32,
           maxWidth: '500px'
         }}>
@@ -110,7 +110,7 @@ const NotFoundPage: React.FC = () => {
                 backgroundColor: '#ffcc00',
                 color: '#000',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '16px',
                 fontWeight: 'bold'
@@ -127,7 +127,7 @@ const NotFoundPage: React.FC = () => {
               backgroundColor: 'transparent',
               color: '#ffcc00',
               border: '1px solid #ffcc00',
-              borderRadius: '6px',
+              borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '16px'
             }}
@@ -141,7 +141,7 @@ const NotFoundPage: React.FC = () => {
           marginTop: 48,
           padding: 16,
           backgroundColor: '#1a1a1a',
-          borderRadius: 6,
+          borderRadius: 4,
           fontSize: '14px',
           color: '#999',
           maxWidth: '400px'

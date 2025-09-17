@@ -54,7 +54,7 @@ const SimpleCalendarManager: React.FC<SimpleCalendarManagerProps> = ({ isOpen, o
       <div style={{
         backgroundColor: '#1a1a1a',
         padding: '40px',
-        borderRadius: '8px',
+        borderRadius: '4px',
         border: '1px solid #333',
         maxWidth: '600px',
         width: '90%',
@@ -90,7 +90,7 @@ const SimpleCalendarManager: React.FC<SimpleCalendarManagerProps> = ({ isOpen, o
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '20px',
-          borderRadius: '6px',
+          borderRadius: '4px',
           marginBottom: '30px'
         }}>
           <h3 style={{ color: '#61bfac', margin: '0 0 16px 0', fontSize: '18px' }}>
@@ -108,7 +108,7 @@ const SimpleCalendarManager: React.FC<SimpleCalendarManagerProps> = ({ isOpen, o
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '20px',
-          borderRadius: '6px',
+          borderRadius: '4px',
           marginBottom: '30px',
           textAlign: 'center'
         }}>
@@ -125,7 +125,7 @@ const SimpleCalendarManager: React.FC<SimpleCalendarManagerProps> = ({ isOpen, o
               backgroundColor: '#4285f4',
               color: '#fff',
               border: 'none',
-              borderRadius: '6px',
+              borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '16px',
               fontWeight: 'bold',
@@ -140,7 +140,7 @@ const SimpleCalendarManager: React.FC<SimpleCalendarManagerProps> = ({ isOpen, o
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '20px',
-          borderRadius: '6px',
+          borderRadius: '4px',
           marginBottom: '30px'
         }}>
           <h3 style={{ color: '#ffcc00', margin: '0 0 16px 0' }}>
@@ -204,7 +204,7 @@ const SimpleCalendarManager: React.FC<SimpleCalendarManagerProps> = ({ isOpen, o
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '20px',
-          borderRadius: '6px'
+          borderRadius: '4px'
         }}>
           <h3 style={{ color: '#61bfac', margin: '0 0 16px 0' }}>
             📋 Instructions détaillées
@@ -216,7 +216,7 @@ const SimpleCalendarManager: React.FC<SimpleCalendarManagerProps> = ({ isOpen, o
             </h4>
             <ul style={{ color: '#ccc', margin: 0, paddingLeft: '20px', fontSize: '14px', lineHeight: '1.5' }}>
               <li>Allez dans Google Calendar</li>
-              <li>Créez des événements récurrents avec le titre : <code style={{backgroundColor: '#333', padding: '2px 4px', borderRadius: '2px'}}>"DISPONIBLE - Coaching"</code></li>
+              <li>Créez des événements récurrents avec le titre : <code style={{backgroundColor: '#333', padding: '2px 4px', borderRadius: '4px'}}>"DISPONIBLE - Coaching"</code></li>
               <li>Exemple : Lundi 9h-10h, Mercredi 14h-15h, etc.</li>
               <li>Définissez la récurrence (chaque semaine, chaque mois...)</li>
             </ul>

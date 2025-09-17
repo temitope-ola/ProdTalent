@@ -834,7 +834,7 @@ const CoachTalentsPage: React.FC = () => {
                           padding: '2px 6px',
                           backgroundColor: '#333',
                           color: '#ffcc00',
-                          borderRadius: '2px',
+                          borderRadius: '4px',
                           fontSize: '10px'
                         }}>
                           {typeof talent.skills === 'string' 
@@ -847,7 +847,7 @@ const CoachTalentsPage: React.FC = () => {
                           padding: '2px 6px',
                           backgroundColor: '#333',
                           color: '#888',
-                          borderRadius: '2px',
+                          borderRadius: '4px',
                           fontSize: '10px'
                         }}>
                           {talent.availability}

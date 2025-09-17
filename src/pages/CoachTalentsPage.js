@@ -358,7 +358,7 @@ const CoachTalentsPage = () => {
                                                                     padding: '2px 6px',
                                                                     backgroundColor: '#333',
                                                                     color: '#ffcc00',
-                                                                    borderRadius: '2px',
+                                                                    borderRadius: '4px',
                                                                     fontSize: '10px'
                                                                 }, children: typeof talent.skills === 'string'
                                                                     ? talent.skills.split(',')[0].trim()
@@ -366,7 +366,7 @@ const CoachTalentsPage = () => {
                                                                     padding: '2px 6px',
                                                                     backgroundColor: '#333',
                                                                     color: '#888',
-                                                                    borderRadius: '2px',
+                                                                    borderRadius: '4px',
                                                                     fontSize: '10px'
                                                                 }, children: talent.availability }))] })] }, talent.id || index))) }), filteredTalents.length === 0 && (_jsxs("div", { style: {
                                                 textAlign: 'center',

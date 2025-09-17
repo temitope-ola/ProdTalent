@@ -109,7 +109,7 @@ export default function SimpleGoogleTest() {
         <div style={{
           backgroundColor: '#111',
           padding: '24px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '24px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
@@ -125,7 +125,7 @@ export default function SimpleGoogleTest() {
                 color: '#000',
                 padding: '12px 24px',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading ? 'not-allowed' : 'pointer',
                 fontSize: '14px'
               }}
@@ -141,7 +141,7 @@ export default function SimpleGoogleTest() {
                 color: '#f5f5f7',
                 padding: '12px 24px',
                 border: '1px solid #555',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: isLoading ? 'not-allowed' : 'pointer',
                 fontSize: '14px'
               }}
@@ -165,7 +165,7 @@ export default function SimpleGoogleTest() {
         <div style={{
           backgroundColor: '#111',
           padding: '16px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           fontSize: '14px'
         }}>
           <h3 style={{ color: '#61bfac', margin: '0 0 12px 0' }}>Informations</h3>

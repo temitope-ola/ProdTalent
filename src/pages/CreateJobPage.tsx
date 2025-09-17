@@ -152,7 +152,7 @@ export default function CreateJobPage() {
           maxWidth: '800px',
           margin: '0 auto',
           backgroundColor: '#111',
-          borderRadius: '8px',
+          borderRadius: '4px',
           padding: '32px'
         }}>
           {error && (
@@ -160,7 +160,7 @@ export default function CreateJobPage() {
               padding: '12px',
               backgroundColor: 'rgba(255, 107, 107, 0.1)',
               color: '#ff6b6b',
-              borderRadius: '8px',
+              borderRadius: '4px',
               marginBottom: '16px'
             }}>
               {error}
@@ -172,7 +172,7 @@ export default function CreateJobPage() {
               padding: '12px',
               backgroundColor: 'rgba(97, 191, 172, 0.1)',
               color: '#61bfac',
-              borderRadius: '8px',
+              borderRadius: '4px',
               marginBottom: '16px'
             }}>
               {success}

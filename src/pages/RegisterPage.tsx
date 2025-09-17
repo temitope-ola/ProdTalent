@@ -67,7 +67,7 @@ export default function RegisterPage() {
       <div style={{
         backgroundColor: '#1a1a1a',
         padding: '40px',
-        borderRadius: '16px',
+        borderRadius: '4px',
         maxWidth: '500px',
         width: '100%',
         boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)'
@@ -106,7 +106,7 @@ export default function RegisterPage() {
             padding: '12px',
             backgroundColor: 'rgba(255, 107, 107, 0.1)',
             color: '#ff6b6b',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '16px'
           }}>
             {error}
@@ -118,7 +118,7 @@ export default function RegisterPage() {
             padding: '12px',
             backgroundColor: 'rgba(97, 191, 172, 0.1)',
             color: '#61bfac',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '16px'
           }}>
             {success}
@@ -140,7 +140,7 @@ export default function RegisterPage() {
                 backgroundColor: '#333',
                 color: '#f5f5f7',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 fontSize: '14px'
               }}
             >
@@ -165,7 +165,7 @@ export default function RegisterPage() {
                 backgroundColor: '#333',
                 color: '#f5f5f7',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 fontSize: '14px'
               }}
             />
@@ -182,7 +182,7 @@ export default function RegisterPage() {
               style={{
                 backgroundColor: '#333',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 fontSize: '14px'
               }}
             />
@@ -200,7 +200,7 @@ export default function RegisterPage() {
               style={{
                 backgroundColor: '#333',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 fontSize: '14px'
               }}
             />
@@ -215,7 +215,7 @@ export default function RegisterPage() {
               backgroundColor: busy ? '#666' : '#ffcc00',
               color: '#000',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '4px',
               fontSize: '16px',
               fontWeight: 'bold',
               cursor: busy ? 'not-allowed' : 'pointer',

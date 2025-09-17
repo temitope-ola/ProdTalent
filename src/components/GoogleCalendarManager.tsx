@@ -644,7 +644,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
     >
       <div style={{
         backgroundColor: '#111',
-        borderRadius: '8px',
+        borderRadius: '4px',
         padding: '24px',
         maxWidth: '1000px',
         width: '95%',
@@ -1213,7 +1213,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                 <div style={{
                   backgroundColor: '#1a1a1a',
                   border: '2px solid #ffcc00',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   padding: '20px',
                   marginTop: '16px'
                 }}>
@@ -1307,7 +1307,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                       style={{
                         backgroundColor: '#1a1a1a',
                         padding: '20px',
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                         border: '1px solid #333'
                       }}
                     >

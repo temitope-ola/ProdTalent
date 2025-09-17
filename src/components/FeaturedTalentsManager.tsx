@@ -155,7 +155,7 @@ const FeaturedTalentsManager: React.FC = () => {
             padding: '12px',
             backgroundColor: message.includes('succès') ? 'rgba(97, 191, 172, 0.1)' : 'rgba(255, 107, 107, 0.1)',
             color: message.includes('succès') ? '#61bfac' : '#ff6b6b',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '20px'
           }}>
             {message}
@@ -166,7 +166,7 @@ const FeaturedTalentsManager: React.FC = () => {
         <div style={{
           background: '#1a1a1a',
           padding: '30px',
-          borderRadius: '12px',
+          borderRadius: '4px',
           marginBottom: '40px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '20px' }}>Ajouter un nouveau talent</h2>
@@ -186,7 +186,7 @@ const FeaturedTalentsManager: React.FC = () => {
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   border: 'none',
-                  borderRadius: '8px'
+                  borderRadius: '4px'
                 }}
               />
             </div>
@@ -205,7 +205,7 @@ const FeaturedTalentsManager: React.FC = () => {
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   border: 'none',
-                  borderRadius: '8px'
+                  borderRadius: '4px'
                 }}
               />
             </div>
@@ -225,7 +225,7 @@ const FeaturedTalentsManager: React.FC = () => {
                 backgroundColor: '#333',
                 color: '#f5f5f7',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 resize: 'vertical'
               }}
             />
@@ -260,7 +260,7 @@ const FeaturedTalentsManager: React.FC = () => {
                   backgroundColor: '#61bfac',
                   color: '#000',
                   border: 'none',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '14px',
                   fontWeight: 'bold',
@@ -286,7 +286,7 @@ const FeaturedTalentsManager: React.FC = () => {
                 backgroundColor: '#333',
                 color: '#f5f5f7',
                 border: 'none',
-                borderRadius: '8px'
+                borderRadius: '4px'
               }}
             />
             
@@ -303,7 +303,7 @@ const FeaturedTalentsManager: React.FC = () => {
                       backgroundColor: newTalent.photoUrl === `/images/talents/${photo}` ? '#ffcc00' : '#333',
                       color: newTalent.photoUrl === `/images/talents/${photo}` ? '#000' : '#f5f5f7',
                       border: 'none',
-                      borderRadius: '6px',
+                      borderRadius: '4px',
                       cursor: 'pointer',
                       fontSize: '12px'
                     }}
@@ -324,7 +324,7 @@ const FeaturedTalentsManager: React.FC = () => {
                       backgroundColor: newTalent.photoUrl.includes('unsplash.com') ? '#ffcc00' : '#333',
                       color: newTalent.photoUrl.includes('unsplash.com') ? '#000' : '#f5f5f7',
                       border: 'none',
-                      borderRadius: '6px',
+                      borderRadius: '4px',
                       cursor: 'pointer',
                       fontSize: '12px'
                     }}
@@ -338,7 +338,7 @@ const FeaturedTalentsManager: React.FC = () => {
                       backgroundColor: newTalent.photoUrl.includes('unsplash.com') ? '#ffcc00' : '#333',
                       color: newTalent.photoUrl.includes('unsplash.com') ? '#000' : '#f5f5f7',
                       border: 'none',
-                      borderRadius: '6px',
+                      borderRadius: '4px',
                       cursor: 'pointer',
                       fontSize: '12px'
                     }}
@@ -360,7 +360,7 @@ const FeaturedTalentsManager: React.FC = () => {
                 <div style={{
                   width: '100px',
                   height: '100px',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   overflow: 'hidden',
                   background: '#333',
                   border: '2px solid #ffcc00'
@@ -395,7 +395,7 @@ const FeaturedTalentsManager: React.FC = () => {
                 backgroundColor: '#333',
                 color: '#f5f5f7',
                 border: 'none',
-                borderRadius: '8px'
+                borderRadius: '4px'
               }}
             />
           </div>
@@ -407,7 +407,7 @@ const FeaturedTalentsManager: React.FC = () => {
               backgroundColor: '#ffcc00',
               color: '#000',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '4px',
               cursor: 'pointer',
               fontWeight: 'bold'
             }}
@@ -430,7 +430,7 @@ const FeaturedTalentsManager: React.FC = () => {
                 <div key={talent.id} style={{
                   background: '#1a1a1a',
                   padding: '20px',
-                  borderRadius: '12px',
+                  borderRadius: '4px',
                   display: 'flex',
                   gap: '20px',
                   alignItems: 'flex-start'
@@ -439,7 +439,7 @@ const FeaturedTalentsManager: React.FC = () => {
                   <div style={{
                     width: '100px',
                     height: '100px',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     overflow: 'hidden',
                     flexShrink: 0,
                     background: '#333'
@@ -482,7 +482,7 @@ const FeaturedTalentsManager: React.FC = () => {
                         backgroundColor: '#ffcc00',
                         color: '#000',
                         border: 'none',
-                        borderRadius: '6px',
+                        borderRadius: '4px',
                         cursor: 'pointer',
                         fontSize: '14px'
                       }}
@@ -496,7 +496,7 @@ const FeaturedTalentsManager: React.FC = () => {
                         backgroundColor: '#ff6b6b',
                         color: '#fff',
                         border: 'none',
-                        borderRadius: '6px',
+                        borderRadius: '4px',
                         cursor: 'pointer',
                         fontSize: '14px'
                       }}
@@ -527,7 +527,7 @@ const FeaturedTalentsManager: React.FC = () => {
             <div style={{
               background: '#1a1a1a',
               padding: '30px',
-              borderRadius: '12px',
+              borderRadius: '4px',
               maxWidth: '500px',
               width: '90%',
               maxHeight: '80vh',
@@ -549,7 +549,7 @@ const FeaturedTalentsManager: React.FC = () => {
                     backgroundColor: '#333',
                     color: '#f5f5f7',
                     border: 'none',
-                    borderRadius: '8px'
+                    borderRadius: '4px'
                   }}
                 />
               </div>
@@ -568,7 +568,7 @@ const FeaturedTalentsManager: React.FC = () => {
                     backgroundColor: '#333',
                     color: '#f5f5f7',
                     border: 'none',
-                    borderRadius: '8px'
+                    borderRadius: '4px'
                   }}
                 />
               </div>
@@ -587,7 +587,7 @@ const FeaturedTalentsManager: React.FC = () => {
                     backgroundColor: '#333',
                     color: '#f5f5f7',
                     border: 'none',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     resize: 'vertical'
                   }}
                 />
@@ -622,7 +622,7 @@ const FeaturedTalentsManager: React.FC = () => {
                       backgroundColor: '#61bfac',
                       color: '#000',
                       border: 'none',
-                      borderRadius: '8px',
+                      borderRadius: '4px',
                       cursor: 'pointer',
                       fontSize: '14px',
                       fontWeight: 'bold',
@@ -648,7 +648,7 @@ const FeaturedTalentsManager: React.FC = () => {
                     backgroundColor: '#333',
                     color: '#f5f5f7',
                     border: 'none',
-                    borderRadius: '8px'
+                    borderRadius: '4px'
                   }}
                 />
                 
@@ -665,7 +665,7 @@ const FeaturedTalentsManager: React.FC = () => {
                           backgroundColor: editingTalent.photoUrl === `/images/talents/${photo}` ? '#ffcc00' : '#333',
                           color: editingTalent.photoUrl === `/images/talents/${photo}` ? '#000' : '#f5f5f7',
                           border: 'none',
-                          borderRadius: '6px',
+                          borderRadius: '4px',
                           cursor: 'pointer',
                           fontSize: '12px'
                         }}
@@ -683,7 +683,7 @@ const FeaturedTalentsManager: React.FC = () => {
                     <div style={{
                       width: '100px',
                       height: '100px',
-                      borderRadius: '8px',
+                      borderRadius: '4px',
                       overflow: 'hidden',
                       background: '#333',
                       border: '2px solid #ffcc00'
@@ -718,7 +718,7 @@ const FeaturedTalentsManager: React.FC = () => {
                     backgroundColor: '#333',
                     color: '#f5f5f7',
                     border: 'none',
-                    borderRadius: '8px'
+                    borderRadius: '4px'
                   }}
                 />
               </div>
@@ -731,7 +731,7 @@ const FeaturedTalentsManager: React.FC = () => {
                     backgroundColor: '#ffcc00',
                     color: '#000',
                     border: 'none',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     cursor: 'pointer',
                     fontWeight: 'bold'
                   }}
@@ -745,7 +745,7 @@ const FeaturedTalentsManager: React.FC = () => {
                     backgroundColor: '#666',
                     color: '#fff',
                     border: 'none',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     cursor: 'pointer'
                   }}
                 >

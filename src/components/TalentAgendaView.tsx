@@ -309,7 +309,7 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '12px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '20px',
           textAlign: 'center'
         }}>
@@ -324,7 +324,7 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
             backgroundColor: '#1a4d1a',
             border: '1px solid #4caf50',
             padding: '12px',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '20px',
             textAlign: 'center'
           }}>

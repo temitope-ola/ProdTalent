@@ -220,7 +220,7 @@ export default function SimpleRecommendationModal({ isOpen, onClose, job }: Simp
     }}>
       <div style={{
         backgroundColor: '#1a1a1a',
-        borderRadius: '8px',
+        borderRadius: '4px',
         padding: '30px',
         width: '90%',
         maxWidth: '600px',

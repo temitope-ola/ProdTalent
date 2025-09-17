@@ -33,7 +33,7 @@ export default function AdminDashboard() {
                 backgroundColor: '#ffcc00',
                 color: '#000',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '16px',
                 fontWeight: 'bold'
@@ -55,7 +55,7 @@ export default function AdminDashboard() {
                 backgroundColor: '#61bfac',
                 color: '#000',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '16px',
                 fontWeight: 'bold'
@@ -93,7 +93,7 @@ export default function AdminDashboard() {
             backgroundColor: '#333',
             color: '#f5f5f7',
             border: '1px solid #555',
-            borderRadius: '6px',
+            borderRadius: '4px',
             cursor: 'pointer'
           }}
         >
@@ -117,7 +117,7 @@ export default function AdminDashboard() {
                 padding: '16px',
                 marginBottom: '8px',
                 backgroundColor: activeSection === item.id ? '#333' : 'transparent',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 transition: 'background-color 0.2s',
                 border: activeSection === item.id ? '1px solid #ffcc00' : '1px solid transparent'

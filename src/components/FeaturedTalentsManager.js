@@ -133,12 +133,12 @@ const FeaturedTalentsManager = () => {
                         padding: '12px',
                         backgroundColor: message.includes('succès') ? 'rgba(97, 191, 172, 0.1)' : 'rgba(255, 107, 107, 0.1)',
                         color: message.includes('succès') ? '#61bfac' : '#ff6b6b',
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                         marginBottom: '20px'
                     }, children: message })), _jsxs("div", { style: {
                         background: '#1a1a1a',
                         padding: '30px',
-                        borderRadius: '12px',
+                        borderRadius: '4px',
                         marginBottom: '40px'
                     }, children: [_jsx("h2", { style: { color: '#ffcc00', marginBottom: '20px' }, children: "Ajouter un nouveau talent" }), _jsxs("div", { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '20px' }, children: [_jsxs("div", { children: [_jsx("label", { style: { display: 'block', marginBottom: '8px', color: '#f5f5f7' }, children: "Nom *" }), _jsx("input", { type: "text", value: newTalent.name, onChange: (e) => setNewTalent({ ...newTalent, name: e.target.value }), style: {
                                                 width: '100%',
@@ -146,21 +146,21 @@ const FeaturedTalentsManager = () => {
                                                 backgroundColor: '#333',
                                                 color: '#f5f5f7',
                                                 border: 'none',
-                                                borderRadius: '8px'
+                                                borderRadius: '4px'
                                             } })] }), _jsxs("div", { children: [_jsx("label", { style: { display: 'block', marginBottom: '8px', color: '#f5f5f7' }, children: "R\u00F4le *" }), _jsx("input", { type: "text", value: newTalent.role, onChange: (e) => setNewTalent({ ...newTalent, role: e.target.value }), style: {
                                                 width: '100%',
                                                 padding: '12px',
                                                 backgroundColor: '#333',
                                                 color: '#f5f5f7',
                                                 border: 'none',
-                                                borderRadius: '8px'
+                                                borderRadius: '4px'
                                             } })] })] }), _jsxs("div", { style: { marginBottom: '20px' }, children: [_jsx("label", { style: { display: 'block', marginBottom: '8px', color: '#f5f5f7' }, children: "Citation/Quote *" }), _jsx("textarea", { value: newTalent.quote, onChange: (e) => setNewTalent({ ...newTalent, quote: e.target.value }), rows: 3, style: {
                                         width: '100%',
                                         padding: '12px',
                                         backgroundColor: '#333',
                                         color: '#f5f5f7',
                                         border: 'none',
-                                        borderRadius: '8px',
+                                        borderRadius: '4px',
                                         resize: 'vertical'
                                     } })] }), _jsxs("div", { style: { marginBottom: '20px' }, children: [_jsx("label", { style: { display: 'block', marginBottom: '8px', color: '#f5f5f7' }, children: "Photo du talent" }), _jsxs("div", { style: { marginBottom: '10px' }, children: [_jsx("input", { type: "file", accept: "image/*", onChange: (e) => {
                                                 const file = e.target.files?.[0];
@@ -175,7 +175,7 @@ const FeaturedTalentsManager = () => {
                                                 backgroundColor: '#61bfac',
                                                 color: '#000',
                                                 border: 'none',
-                                                borderRadius: '8px',
+                                                borderRadius: '4px',
                                                 cursor: 'pointer',
                                                 fontSize: '14px',
                                                 fontWeight: 'bold',
@@ -186,13 +186,13 @@ const FeaturedTalentsManager = () => {
                                         backgroundColor: '#333',
                                         color: '#f5f5f7',
                                         border: 'none',
-                                        borderRadius: '8px'
+                                        borderRadius: '4px'
                                     } }), _jsxs("div", { style: { marginTop: '10px' }, children: [_jsx("p", { style: { fontSize: '12px', color: '#888', marginBottom: '8px' }, children: "Photos disponibles :" }), _jsx("div", { style: { display: 'flex', gap: '10px', flexWrap: 'wrap' }, children: ['talent1.jpg', 'talent2.jpg', 'talent3.jpg'].map((photo) => (_jsx("button", { onClick: () => setNewTalent({ ...newTalent, photoUrl: `/images/talents/${photo}` }), style: {
                                                     padding: '8px 12px',
                                                     backgroundColor: newTalent.photoUrl === `/images/talents/${photo}` ? '#ffcc00' : '#333',
                                                     color: newTalent.photoUrl === `/images/talents/${photo}` ? '#000' : '#f5f5f7',
                                                     border: 'none',
-                                                    borderRadius: '6px',
+                                                    borderRadius: '4px',
                                                     cursor: 'pointer',
                                                     fontSize: '12px'
                                                 }, children: photo }, photo))) }), _jsxs("div", { style: { marginTop: '10px' }, children: [_jsx("p", { style: { fontSize: '12px', color: '#888', marginBottom: '8px' }, children: "Photos de test (URLs externes) :" }), _jsxs("div", { style: { display: 'flex', gap: '10px', flexWrap: 'wrap' }, children: [_jsx("button", { onClick: () => setNewTalent({ ...newTalent, photoUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop' }), style: {
@@ -200,7 +200,7 @@ const FeaturedTalentsManager = () => {
                                                                 backgroundColor: newTalent.photoUrl.includes('unsplash.com') ? '#ffcc00' : '#333',
                                                                 color: newTalent.photoUrl.includes('unsplash.com') ? '#000' : '#f5f5f7',
                                                                 border: 'none',
-                                                                borderRadius: '6px',
+                                                                borderRadius: '4px',
                                                                 cursor: 'pointer',
                                                                 fontSize: '12px'
                                                             }, children: "Photo Test 1" }), _jsx("button", { onClick: () => setNewTalent({ ...newTalent, photoUrl: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=200&h=200&fit=crop' }), style: {
@@ -208,13 +208,13 @@ const FeaturedTalentsManager = () => {
                                                                 backgroundColor: newTalent.photoUrl.includes('unsplash.com') ? '#ffcc00' : '#333',
                                                                 color: newTalent.photoUrl.includes('unsplash.com') ? '#000' : '#f5f5f7',
                                                                 border: 'none',
-                                                                borderRadius: '6px',
+                                                                borderRadius: '4px',
                                                                 cursor: 'pointer',
                                                                 fontSize: '12px'
                                                             }, children: "Photo Test 2" })] })] })] }), _jsx("p", { style: { fontSize: '12px', color: '#888', marginTop: '4px' }, children: "Utilisez une URL externe, un chemin local, ou uploader un fichier" }), newTalent.photoUrl && (_jsxs("div", { style: { marginTop: '10px' }, children: [_jsx("p", { style: { fontSize: '12px', color: '#888', marginBottom: '5px' }, children: "Aper\u00E7u :" }), _jsx("div", { style: {
                                                 width: '100px',
                                                 height: '100px',
-                                                borderRadius: '8px',
+                                                borderRadius: '4px',
                                                 overflow: 'hidden',
                                                 background: '#333',
                                                 border: '2px solid #ffcc00'
@@ -228,26 +228,26 @@ const FeaturedTalentsManager = () => {
                                         backgroundColor: '#333',
                                         color: '#f5f5f7',
                                         border: 'none',
-                                        borderRadius: '8px'
+                                        borderRadius: '4px'
                                     } })] }), _jsx("button", { onClick: handleAddTalent, style: {
                                 padding: '12px 24px',
                                 backgroundColor: '#ffcc00',
                                 color: '#000',
                                 border: 'none',
-                                borderRadius: '8px',
+                                borderRadius: '4px',
                                 cursor: 'pointer',
                                 fontWeight: 'bold'
                             }, children: "Ajouter le talent" })] }), _jsxs("div", { children: [_jsx("h2", { style: { color: '#ffcc00', marginBottom: '20px' }, children: "Talents existants" }), talents.length === 0 ? (_jsx("p", { style: { color: '#888', textAlign: 'center', padding: '40px' }, children: "Aucun talent mis en avant pour le moment." })) : (_jsx("div", { style: { display: 'grid', gap: '20px' }, children: talents.map((talent) => (_jsxs("div", { style: {
                                     background: '#1a1a1a',
                                     padding: '20px',
-                                    borderRadius: '12px',
+                                    borderRadius: '4px',
                                     display: 'flex',
                                     gap: '20px',
                                     alignItems: 'flex-start'
                                 }, children: [_jsx("div", { style: {
                                             width: '100px',
                                             height: '100px',
-                                            borderRadius: '8px',
+                                            borderRadius: '4px',
                                             overflow: 'hidden',
                                             flexShrink: 0,
                                             background: '#333'
@@ -260,7 +260,7 @@ const FeaturedTalentsManager = () => {
                                                     backgroundColor: '#ffcc00',
                                                     color: '#000',
                                                     border: 'none',
-                                                    borderRadius: '6px',
+                                                    borderRadius: '4px',
                                                     cursor: 'pointer',
                                                     fontSize: '14px'
                                                 }, children: "Modifier" }), _jsx("button", { onClick: () => talent.id && handleDeleteTalent(talent.id), style: {
@@ -268,7 +268,7 @@ const FeaturedTalentsManager = () => {
                                                     backgroundColor: '#ff6b6b',
                                                     color: '#fff',
                                                     border: 'none',
-                                                    borderRadius: '6px',
+                                                    borderRadius: '4px',
                                                     cursor: 'pointer',
                                                     fontSize: '14px'
                                                 }, children: "Supprimer" })] })] }, talent.id))) }))] }), editingTalent && (_jsx("div", { style: {
@@ -285,7 +285,7 @@ const FeaturedTalentsManager = () => {
                     }, children: _jsxs("div", { style: {
                             background: '#1a1a1a',
                             padding: '30px',
-                            borderRadius: '12px',
+                            borderRadius: '4px',
                             maxWidth: '500px',
                             width: '90%',
                             maxHeight: '80vh',
@@ -296,21 +296,21 @@ const FeaturedTalentsManager = () => {
                                             backgroundColor: '#333',
                                             color: '#f5f5f7',
                                             border: 'none',
-                                            borderRadius: '8px'
+                                            borderRadius: '4px'
                                         } })] }), _jsxs("div", { style: { marginBottom: '15px' }, children: [_jsx("label", { style: { display: 'block', marginBottom: '8px', color: '#f5f5f7' }, children: "R\u00F4le" }), _jsx("input", { type: "text", value: editingTalent.role, onChange: (e) => setEditingTalent({ ...editingTalent, role: e.target.value }), style: {
                                             width: '100%',
                                             padding: '12px',
                                             backgroundColor: '#333',
                                             color: '#f5f5f7',
                                             border: 'none',
-                                            borderRadius: '8px'
+                                            borderRadius: '4px'
                                         } })] }), _jsxs("div", { style: { marginBottom: '15px' }, children: [_jsx("label", { style: { display: 'block', marginBottom: '8px', color: '#f5f5f7' }, children: "Citation" }), _jsx("textarea", { value: editingTalent.quote, onChange: (e) => setEditingTalent({ ...editingTalent, quote: e.target.value }), rows: 3, style: {
                                             width: '100%',
                                             padding: '12px',
                                             backgroundColor: '#333',
                                             color: '#f5f5f7',
                                             border: 'none',
-                                            borderRadius: '8px',
+                                            borderRadius: '4px',
                                             resize: 'vertical'
                                         } })] }), _jsxs("div", { style: { marginBottom: '15px' }, children: [_jsx("label", { style: { display: 'block', marginBottom: '8px', color: '#f5f5f7' }, children: "Photo du talent" }), _jsxs("div", { style: { marginBottom: '10px' }, children: [_jsx("input", { type: "file", accept: "image/*", onChange: (e) => {
                                                     const file = e.target.files?.[0];
@@ -325,7 +325,7 @@ const FeaturedTalentsManager = () => {
                                                     backgroundColor: '#61bfac',
                                                     color: '#000',
                                                     border: 'none',
-                                                    borderRadius: '8px',
+                                                    borderRadius: '4px',
                                                     cursor: 'pointer',
                                                     fontSize: '14px',
                                                     fontWeight: 'bold',
@@ -336,19 +336,19 @@ const FeaturedTalentsManager = () => {
                                             backgroundColor: '#333',
                                             color: '#f5f5f7',
                                             border: 'none',
-                                            borderRadius: '8px'
+                                            borderRadius: '4px'
                                         } }), _jsxs("div", { style: { marginTop: '10px' }, children: [_jsx("p", { style: { fontSize: '12px', color: '#888', marginBottom: '8px' }, children: "Photos disponibles :" }), _jsx("div", { style: { display: 'flex', gap: '10px', flexWrap: 'wrap' }, children: ['talent1.jpg', 'talent2.jpg', 'talent3.jpg'].map((photo) => (_jsx("button", { onClick: () => setEditingTalent({ ...editingTalent, photoUrl: `/images/talents/${photo}` }), style: {
                                                         padding: '8px 12px',
                                                         backgroundColor: editingTalent.photoUrl === `/images/talents/${photo}` ? '#ffcc00' : '#333',
                                                         color: editingTalent.photoUrl === `/images/talents/${photo}` ? '#000' : '#f5f5f7',
                                                         border: 'none',
-                                                        borderRadius: '6px',
+                                                        borderRadius: '4px',
                                                         cursor: 'pointer',
                                                         fontSize: '12px'
                                                     }, children: photo }, photo))) })] }), editingTalent.photoUrl && (_jsxs("div", { style: { marginTop: '10px' }, children: [_jsx("p", { style: { fontSize: '12px', color: '#888', marginBottom: '5px' }, children: "Aper\u00E7u :" }), _jsx("div", { style: {
                                                     width: '100px',
                                                     height: '100px',
-                                                    borderRadius: '8px',
+                                                    borderRadius: '4px',
                                                     overflow: 'hidden',
                                                     background: '#333',
                                                     border: '2px solid #ffcc00'
@@ -362,13 +362,13 @@ const FeaturedTalentsManager = () => {
                                             backgroundColor: '#333',
                                             color: '#f5f5f7',
                                             border: 'none',
-                                            borderRadius: '8px'
+                                            borderRadius: '4px'
                                         } })] }), _jsxs("div", { style: { display: 'flex', gap: '10px' }, children: [_jsx("button", { onClick: handleUpdateTalent, style: {
                                             padding: '12px 24px',
                                             backgroundColor: '#ffcc00',
                                             color: '#000',
                                             border: 'none',
-                                            borderRadius: '8px',
+                                            borderRadius: '4px',
                                             cursor: 'pointer',
                                             fontWeight: 'bold'
                                         }, children: "Sauvegarder" }), _jsx("button", { onClick: () => setEditingTalent(null), style: {
@@ -376,7 +376,7 @@ const FeaturedTalentsManager = () => {
                                             backgroundColor: '#666',
                                             color: '#fff',
                                             border: 'none',
-                                            borderRadius: '8px',
+                                            borderRadius: '4px',
                                             cursor: 'pointer'
                                         }, children: "Annuler" })] })] }) }))] }) }));
 };

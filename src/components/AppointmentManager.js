@@ -80,12 +80,12 @@ const AppointmentManager = ({ onClose }) => {
                         backgroundColor: 'rgba(244, 67, 54, 0.1)',
                         color: '#F44336',
                         padding: '12px',
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                         marginBottom: '20px'
                     }, children: error })), _jsxs("div", { style: { marginBottom: '32px' }, children: [_jsxs("h3", { style: { color: '#ffcc00', marginBottom: '16px' }, children: ["Rendez-vous \u00E0 venir (", upcomingAppointments.length, ")"] }), upcomingAppointments.length === 0 ? (_jsx("p", { style: { color: '#888', fontStyle: 'italic' }, children: "Aucun rendez-vous \u00E0 venir" })) : (_jsx("div", { style: { display: 'flex', flexDirection: 'column', gap: '12px' }, children: upcomingAppointments.map(appointment => (_jsx("div", { style: {
                                     backgroundColor: '#111',
                                     padding: '16px',
-                                    borderRadius: '8px',
+                                    borderRadius: '4px',
                                     border: '1px solid #333'
                                 }, children: _jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }, children: [_jsxs("div", { style: { flex: 1 }, children: [_jsxs("h4", { style: { color: '#f5f5f7', margin: '0 0 8px 0' }, children: [appointment.talentName, " - ", appointment.type] }), _jsxs("p", { style: { color: '#888', margin: '0 0 4px 0' }, children: ["\uD83D\uDCC5 ", formatDate(appointment.date), " \u00E0 ", appointment.time] }), appointment.notes && (_jsxs("p", { style: { color: '#f5f5f7', margin: '8px 0 0 0', fontSize: '14px' }, children: ["\uD83D\uDCDD ", appointment.notes] }))] }), _jsxs("div", { style: { display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-end' }, children: [_jsx("span", { style: {
                                                         backgroundColor: getStatusColor(appointment.status),
@@ -113,7 +113,7 @@ const AppointmentManager = ({ onClose }) => {
                                                             }, children: "Annuler" })] }))] })] }) }, appointment.id))) }))] }), _jsxs("div", { children: [_jsxs("h3", { style: { color: '#ffcc00', marginBottom: '16px' }, children: ["Rendez-vous pass\u00E9s (", pastAppointments.length, ")"] }), pastAppointments.length === 0 ? (_jsx("p", { style: { color: '#888', fontStyle: 'italic' }, children: "Aucun rendez-vous pass\u00E9" })) : (_jsxs("div", { style: { display: 'flex', flexDirection: 'column', gap: '12px' }, children: [pastAppointments.slice(0, 5).map(appointment => (_jsx("div", { style: {
                                         backgroundColor: '#111',
                                         padding: '16px',
-                                        borderRadius: '8px',
+                                        borderRadius: '4px',
                                         border: '1px solid #333',
                                         opacity: 0.7
                                     }, children: _jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }, children: [_jsxs("div", { style: { flex: 1 }, children: [_jsxs("h4", { style: { color: '#f5f5f7', margin: '0 0 8px 0' }, children: [appointment.talentName, " - ", appointment.type] }), _jsxs("p", { style: { color: '#888', margin: '0 0 4px 0' }, children: ["\uD83D\uDCC5 ", formatDate(appointment.date), " \u00E0 ", appointment.time] }), appointment.notes && (_jsxs("p", { style: { color: '#f5f5f7', margin: '8px 0 0 0', fontSize: '14px' }, children: ["\uD83D\uDCDD ", appointment.notes] }))] }), _jsx("span", { style: {
@@ -133,7 +133,7 @@ const AppointmentManager = ({ onClose }) => {
                             backgroundColor: '#ffcc00',
                             color: '#000',
                             border: 'none',
-                            borderRadius: '8px',
+                            borderRadius: '4px',
                             cursor: 'pointer',
                             fontWeight: 'bold'
                         }, children: "Fermer" }) })] }) }));

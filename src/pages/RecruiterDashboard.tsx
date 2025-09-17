@@ -824,7 +824,7 @@ export default function RecruiterDashboard() {
                         padding: screenWidth <= 480 ? '2px 6px' : '2px 8px',
                         backgroundColor: '#ffcc00',
                         color: '#1a1a1a',
-                        borderRadius: '12px',
+                        borderRadius: '4px',
                         fontSize: screenWidth <= 480 ? '9px' : '10px',
                         fontWeight: 'bold',
                         whiteSpace: 'nowrap'

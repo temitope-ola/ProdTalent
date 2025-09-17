@@ -120,7 +120,7 @@ const AppointmentManager: React.FC<AppointmentManagerProps> = ({ onClose }) => {
             backgroundColor: 'rgba(244, 67, 54, 0.1)',
             color: '#F44336',
             padding: '12px',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '20px'
           }}>
             {error}
@@ -143,7 +143,7 @@ const AppointmentManager: React.FC<AppointmentManagerProps> = ({ onClose }) => {
                 <div key={appointment.id} style={{
                   backgroundColor: '#111',
                   padding: '16px',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   border: '1px solid #333'
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -228,7 +228,7 @@ const AppointmentManager: React.FC<AppointmentManagerProps> = ({ onClose }) => {
                 <div key={appointment.id} style={{
                   backgroundColor: '#111',
                   padding: '16px',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   border: '1px solid #333',
                   opacity: 0.7
                 }}>
@@ -283,7 +283,7 @@ const AppointmentManager: React.FC<AppointmentManagerProps> = ({ onClose }) => {
               backgroundColor: '#ffcc00',
               color: '#000',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '4px',
               cursor: 'pointer',
               fontWeight: 'bold'
             }}

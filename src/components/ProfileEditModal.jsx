@@ -474,7 +474,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                 padding: '12px',
                 backgroundColor: '#222',
                 border: '2px dashed #555',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 color: '#f5f5f7',
                 fontSize: '14px',
                 cursor: 'pointer'
@@ -794,7 +794,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                     backgroundColor: '#333',
                     color: '#ffcc00',
                     padding: '6px 12px',
-                    borderRadius: '15px',
+                    borderRadius: '4px',
                     fontSize: '12px',
                     fontWeight: 'bold',
                     display: 'flex',
@@ -892,7 +892,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                           backgroundColor: formData.skills.includes(skill) ? '#444' : '#333',
                           color: formData.skills.includes(skill) ? '#666' : '#f5f5f7',
                           border: '1px solid #555',
-                          borderRadius: '12px',
+                          borderRadius: '4px',
                           fontSize: '11px',
                           cursor: formData.skills.includes(skill) ? 'not-allowed' : 'pointer',
                           transition: 'all 0.2s ease'

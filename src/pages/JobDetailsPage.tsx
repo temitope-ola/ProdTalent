@@ -183,7 +183,7 @@ export default function JobDetailsPage() {
         <div style={{
           backgroundColor: '#111',
           padding: '32px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           border: '1px solid #333'
         }}>
           {/* Titre et entreprise */}
@@ -231,7 +231,7 @@ export default function JobDetailsPage() {
               <div style={{
                 padding: '12px 16px',
                 backgroundColor: '#0a0a0a',
-                borderRadius: '6px'
+                borderRadius: '4px'
               }}>
                 <div style={{ color: '#888', fontSize: '12px', marginBottom: '4px' }}>
                   TYPE DE CONTRAT
@@ -245,7 +245,7 @@ export default function JobDetailsPage() {
               <div style={{
                 padding: '12px 16px',
                 backgroundColor: '#0a0a0a',
-                borderRadius: '6px'
+                borderRadius: '4px'
               }}>
                 <div style={{ color: '#888', fontSize: '12px', marginBottom: '4px' }}>
                   EXPÉRIENCE
@@ -322,7 +322,7 @@ export default function JobDetailsPage() {
                   backgroundColor: '#ffcc00',
                   color: '#000',
                   border: 'none',
-                  borderRadius: '8px',
+                  borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '16px',
                   fontWeight: 'bold'
@@ -338,7 +338,7 @@ export default function JobDetailsPage() {
                 backgroundColor: 'transparent',
                 color: '#ffcc00',
                 border: '2px solid #ffcc00',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '16px'
               }}

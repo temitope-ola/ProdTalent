@@ -220,7 +220,7 @@ const BookingPage = () => {
                 }, children: [_jsxs("div", { style: {
                             backgroundColor: '#1a1a1a',
                             padding: '30px',
-                            borderRadius: '8px',
+                            borderRadius: '4px',
                             marginBottom: '30px',
                             display: 'flex',
                             alignItems: 'center',
@@ -239,7 +239,7 @@ const BookingPage = () => {
                                 }, children: coach.displayName[0].toUpperCase() }), _jsxs("div", { style: { flex: 1 }, children: [_jsx("h2", { style: { color: '#f5f5f7', margin: '0 0 8px 0', fontSize: '24px' }, children: coach.displayName }), _jsx("p", { style: { color: '#61bfac', margin: '0 0 8px 0', fontSize: '16px' }, children: "Coach Professionnel" }), coach.bio && (_jsx("p", { style: { color: '#ccc', margin: 0, fontSize: '14px', lineHeight: '1.4' }, children: coach.bio }))] })] }), _jsxs("form", { onSubmit: handleSubmit, style: {
                             backgroundColor: '#1a1a1a',
                             padding: '30px',
-                            borderRadius: '8px'
+                            borderRadius: '4px'
                         }, children: [_jsx("h3", { style: { color: '#ffcc00', margin: '0 0 30px 0', fontSize: '20px' }, children: "\uD83D\uDCC5 R\u00E9server votre cr\u00E9neau" }), _jsxs("div", { style: { display: 'grid', gap: '20px', marginBottom: '30px' }, children: [_jsxs("div", { children: [_jsx("label", { style: {
                                                     display: 'block',
                                                     color: '#f5f5f7',
@@ -331,7 +331,7 @@ const BookingPage = () => {
                                         : '#61bfac',
                                     color: '#fff',
                                     border: 'none',
-                                    borderRadius: '6px',
+                                    borderRadius: '4px',
                                     fontSize: '16px',
                                     fontWeight: 'bold',
                                     cursor: submitting || !formData.name || !formData.email || !selectedDate || !selectedTime
@@ -341,13 +341,13 @@ const BookingPage = () => {
                             marginTop: '30px',
                             padding: '20px',
                             backgroundColor: '#2a2a2a',
-                            borderRadius: '6px',
+                            borderRadius: '4px',
                             borderLeft: '4px solid #61bfac'
                         }, children: [_jsx("h4", { style: { color: '#61bfac', margin: '0 0 10px 0' }, children: "\u2139\uFE0F Apr\u00E8s votre r\u00E9servation" }), _jsxs("ul", { style: { color: '#ccc', margin: 0, paddingLeft: '20px', fontSize: '14px', lineHeight: '1.6' }, children: [_jsx("li", { children: "L'\u00E9v\u00E9nement sera automatiquement ajout\u00E9 \u00E0 l'agenda Google du coach" }), _jsx("li", { children: "Vous recevrez une invitation Google Calendar par email" }), _jsxs("li", { children: ["Le cr\u00E9neau \"DISPONIBLE\" sera transform\u00E9 en \"Coaching avec ", formData.name || '[Votre nom]', "\""] }), _jsx("li", { children: "Google Calendar enverra automatiquement les rappels configur\u00E9s" }), _jsx("li", { children: "Vous pouvez g\u00E9rer votre rendez-vous directement dans Google Calendar" })] })] }), _jsxs("div", { style: {
                             marginTop: '20px',
                             padding: '15px',
                             backgroundColor: '#1a1a1a',
-                            borderRadius: '6px',
+                            borderRadius: '4px',
                             borderLeft: '4px solid #ffcc00'
                         }, children: [_jsx("h5", { style: { color: '#ffcc00', margin: '0 0 8px 0', fontSize: '14px' }, children: "\uD83D\uDCDD Pour le coach" }), _jsx("p", { style: { color: '#ccc', margin: 0, fontSize: '12px', lineHeight: '1.4' }, children: "Assurez-vous d'avoir des cr\u00E9neaux \"DISPONIBLE - Coaching\" dans votre Google Calendar pour que les talents puissent les r\u00E9server." })] })] })] }));
 };

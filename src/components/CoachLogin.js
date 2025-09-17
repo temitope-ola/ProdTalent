@@ -36,7 +36,7 @@ const CoachLogin = () => {
             padding: '20px'
         }, children: _jsxs("div", { style: {
                 backgroundColor: '#111',
-                borderRadius: 12,
+                borderRadius: 4,
                 padding: '40px',
                 width: '100%',
                 maxWidth: '400px',
@@ -63,7 +63,7 @@ const CoachLogin = () => {
                                         backgroundColor: '#333',
                                         color: '#f5f5f7',
                                         border: '1px solid #555',
-                                        borderRadius: 8,
+                                        borderRadius: 4,
                                         fontSize: '16px',
                                         boxSizing: 'border-box'
                                     }, placeholder: "votre@email.com" })] }), _jsxs("div", { style: { marginBottom: '24px' }, children: [_jsx("label", { style: {
@@ -78,14 +78,14 @@ const CoachLogin = () => {
                                         backgroundColor: '#333',
                                         color: '#f5f5f7',
                                         border: '1px solid #555',
-                                        borderRadius: 8,
+                                        borderRadius: 4,
                                         fontSize: '16px',
                                         boxSizing: 'border-box'
                                     }, placeholder: "\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" })] }), error && (_jsx("div", { style: {
                                 backgroundColor: 'rgba(255, 107, 107, 0.1)',
                                 color: '#ff6b6b',
                                 padding: '12px',
-                                borderRadius: 8,
+                                borderRadius: 4,
                                 marginBottom: '20px',
                                 fontSize: '14px',
                                 textAlign: 'center'
@@ -95,7 +95,7 @@ const CoachLogin = () => {
                                 backgroundColor: '#ffcc00',
                                 color: '#000',
                                 border: 'none',
-                                borderRadius: 8,
+                                borderRadius: 4,
                                 fontSize: '16px',
                                 fontWeight: 'bold',
                                 cursor: loading ? 'not-allowed' : 'pointer',
@@ -122,7 +122,7 @@ const CoachLogin = () => {
                                 backgroundColor: 'transparent',
                                 color: '#ffcc00',
                                 border: '1px solid #ffcc00',
-                                borderRadius: 8,
+                                borderRadius: 4,
                                 padding: '10px 20px',
                                 fontSize: '14px',
                                 cursor: 'pointer',

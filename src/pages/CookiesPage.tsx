@@ -34,7 +34,7 @@ const CookiesPage: React.FC = () => {
               border: '1px solid #61bfac',
               color: '#61bfac',
               padding: '12px 24px',
-              borderRadius: '8px',
+              borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '14px',
               display: 'flex',
@@ -81,7 +81,7 @@ const CookiesPage: React.FC = () => {
             <h2 style={{ color: '#61bfac', fontSize: '24px', marginBottom: '15px' }}>
               Types de cookies utilisés
             </h2>
-            <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
+            <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px', marginBottom: '20px' }}>
               <h3 style={{ color: '#ffcc00', fontSize: '18px', marginBottom: '10px' }}>
                 Cookies essentiels
               </h3>
@@ -92,7 +92,7 @@ const CookiesPage: React.FC = () => {
               </p>
             </div>
 
-            <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '8px', marginBottom: '20px' }}>
+            <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px', marginBottom: '20px' }}>
               <h3 style={{ color: '#ffcc00', fontSize: '18px', marginBottom: '10px' }}>
                 Cookies fonctionnels
               </h3>
@@ -102,7 +102,7 @@ const CookiesPage: React.FC = () => {
               </p>
             </div>
 
-            <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '8px' }}>
+            <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px' }}>
               <h3 style={{ color: '#ffcc00', fontSize: '18px', marginBottom: '10px' }}>
                 Cookies d'analyse
               </h3>
@@ -145,7 +145,7 @@ const CookiesPage: React.FC = () => {
             <div style={{ 
               backgroundColor: '#020202', 
               padding: '15px', 
-              borderRadius: '8px', 
+              borderRadius: '4px', 
               marginTop: '20px',
               borderLeft: '4px solid #61bfac'
             }}>
@@ -172,7 +172,7 @@ const CookiesPage: React.FC = () => {
           marginTop: '40px', 
           padding: '20px',
           backgroundColor: '#020202',
-          borderRadius: '8px',
+          borderRadius: '4px',
           borderLeft: '4px solid #ffcc00'
         }}>
           <p style={{ margin: 0, fontSize: '14px', color: '#888' }}>

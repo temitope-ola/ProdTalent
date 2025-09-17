@@ -722,7 +722,7 @@ export default function RecruiterDashboard() {
                                                                 padding: '2px 8px',
                                                                 backgroundColor: '#ffcc00',
                                                                 color: '#1a1a1a',
-                                                                borderRadius: '12px',
+                                                                borderRadius: '4px',
                                                                 fontSize: '10px',
                                                                 fontWeight: 'bold',
                                                                 whiteSpace: 'nowrap'

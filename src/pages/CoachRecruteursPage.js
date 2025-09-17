@@ -331,13 +331,13 @@ const CoachRecruteursPage = () => {
                                                                     padding: '2px 6px',
                                                                     backgroundColor: '#333',
                                                                     color: '#ffcc00',
-                                                                    borderRadius: '2px',
+                                                                    borderRadius: '4px',
                                                                     fontSize: '10px'
                                                                 }, children: recruteur.industry })), recruteur.company && (_jsx("span", { style: {
                                                                     padding: '2px 6px',
                                                                     backgroundColor: '#333',
                                                                     color: '#888',
-                                                                    borderRadius: '2px',
+                                                                    borderRadius: '4px',
                                                                     fontSize: '10px'
                                                                 }, children: recruteur.company }))] })] }, recruteur.id || index))) }), filteredRecruteurs.length === 0 && (_jsxs("div", { style: {
                                                 textAlign: 'center',

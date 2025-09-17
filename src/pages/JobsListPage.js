@@ -127,11 +127,11 @@ export default function JobsListPage() {
                         padding: '12px',
                         backgroundColor: 'rgba(255, 107, 107, 0.1)',
                         color: '#ff6b6b',
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                         marginBottom: '16px'
                     }, children: error })), _jsx("div", { style: {
                         backgroundColor: '#111',
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                         padding: '20px',
                         marginBottom: '24px'
                     }, children: _jsxs("div", { style: { display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center' }, children: [_jsx("div", { style: { flex: 1, minWidth: '200px' }, children: _jsx("input", { type: "text", placeholder: "Rechercher par titre, entreprise, localisation...", value: searchTerm, onChange: (e) => setSearchTerm(e.target.value), style: {
@@ -153,12 +153,12 @@ export default function JobsListPage() {
                         textAlign: 'center',
                         padding: '60px 20px',
                         backgroundColor: '#111',
-                        borderRadius: '8px'
+                        borderRadius: '4px'
                     }, children: [_jsx("h3", { style: { color: '#ffcc00', marginBottom: '16px' }, children: "Aucune annonce trouv\u00E9e" }), _jsx("p", { style: { color: '#888' }, children: searchTerm || filterType !== 'all' || filterRemote
                                 ? 'Essayez de modifier vos critères de recherche'
                                 : 'Aucune offre d\'emploi disponible pour le moment' })] })) : (_jsxs("div", { style: { display: 'flex', gap: '24px' }, children: [_jsx("div", { style: { flex: 1 }, children: _jsxs("div", { style: {
                                     backgroundColor: '#111',
-                                    borderRadius: '8px',
+                                    borderRadius: '4px',
                                     overflow: 'hidden'
                                 }, children: [_jsx("div", { style: { padding: '20px', borderBottom: '1px solid #333' }, children: _jsx("h2", { style: { color: '#ffcc00', margin: 0 }, children: "Annonces disponibles" }) }), _jsx("div", { style: { maxHeight: '600px', overflow: 'auto' }, children: filteredJobs.map(job => (_jsxs("div", { onClick: () => handleJobClick(job), style: {
                                                 padding: '20px',
@@ -180,7 +180,7 @@ export default function JobsListPage() {
                                                                 borderRadius: '4px'
                                                             }, children: getTypeText(job.type) })] }), _jsxs("p", { style: { color: '#888', margin: '0 0 8px 0', fontSize: '14px' }, children: [job.company, " \u2022 ", job.location, " ", job.remote && '• 🌐 Télétravail'] }), job.salary.min && job.salary.max && (_jsxs("p", { style: { color: '#ffcc00', margin: '0 0 8px 0', fontSize: '14px', fontWeight: '500' }, children: ["\uD83D\uDCB0 ", job.salary.min, " - ", job.salary.max, " ", formatCurrency(job.salary.currency)] })), _jsxs("div", { style: { display: 'flex', gap: '16px', fontSize: '12px', color: '#888' }, children: [_jsxs("span", { children: ["\uD83D\uDCC5 ", formatDate(job.createdAt)] }), _jsxs("span", { children: ["\uD83D\uDC41\uFE0F ", job.views, " vues"] })] })] }, job.id))) })] }) }), selectedJob && (_jsx("div", { style: { flex: 1 }, children: _jsxs("div", { style: {
                                     backgroundColor: '#111',
-                                    borderRadius: '8px',
+                                    borderRadius: '4px',
                                     padding: '24px'
                                 }, children: [_jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '20px' }, children: [_jsx("h2", { style: { color: '#ffcc00', margin: 0 }, children: selectedJob.title }), _jsx("span", { style: {
                                                     color: '#61bfac',

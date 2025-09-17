@@ -53,7 +53,7 @@ const NotFoundPage = () => {
                     }, children: "La page que vous recherchez n'existe pas ou a \u00E9t\u00E9 d\u00E9plac\u00E9e." }), _jsxs("div", { style: {
                         backgroundColor: '#111',
                         padding: 24,
-                        borderRadius: 8,
+                        borderRadius: 4,
                         marginBottom: 32,
                         maxWidth: '500px'
                     }, children: [_jsx("h3", { style: { color: '#ffcc00', marginBottom: 16 }, children: "Essayez ces solutions :" }), _jsxs("ul", { style: {
@@ -71,7 +71,7 @@ const NotFoundPage = () => {
                                 backgroundColor: '#ffcc00',
                                 color: '#000',
                                 border: 'none',
-                                borderRadius: '6px',
+                                borderRadius: '4px',
                                 cursor: 'pointer',
                                 fontSize: '16px',
                                 fontWeight: 'bold'
@@ -80,14 +80,14 @@ const NotFoundPage = () => {
                                 backgroundColor: 'transparent',
                                 color: '#ffcc00',
                                 border: '1px solid #ffcc00',
-                                borderRadius: '6px',
+                                borderRadius: '4px',
                                 cursor: 'pointer',
                                 fontSize: '16px'
                             }, children: "\uD83C\uDFE0 Page d'accueil" })] }), _jsxs("div", { style: {
                         marginTop: 48,
                         padding: 16,
                         backgroundColor: '#1a1a1a',
-                        borderRadius: 6,
+                        borderRadius: 4,
                         fontSize: '14px',
                         color: '#999',
                         maxWidth: '400px'

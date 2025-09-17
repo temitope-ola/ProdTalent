@@ -282,7 +282,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
     }}>
       <div style={{
         backgroundColor: '#1a1a1a',
-        borderRadius: '12px',
+        borderRadius: '4px',
         padding: '24px',
         width: '90%',
         maxWidth: '1000px',
@@ -323,7 +323,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '12px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginBottom: '20px',
           textAlign: 'center'
         }}>
@@ -338,7 +338,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
             backgroundColor: '#1a4d1a',
             border: '1px solid #4caf50',
             padding: '12px',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '20px',
             textAlign: 'center'
           }}>
@@ -370,7 +370,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                 backgroundColor: selectedFilter === filter.key ? '#ffcc00' : '#333',
                 color: selectedFilter === filter.key ? '#000' : '#f5f5f7',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '14px',
                 fontWeight: selectedFilter === filter.key ? 'bold' : 'normal',
@@ -408,7 +408,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                   style={{
                     backgroundColor: '#2a2a2a',
                     padding: '20px',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     marginBottom: '16px',
                     border: '1px solid #333'
                   }}
@@ -472,7 +472,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                                 padding: '6px 12px',
                                 backgroundColor: '#1a73e8',
                                 color: 'white',
-                                borderRadius: '6px',
+                                borderRadius: '4px',
                                 fontWeight: 'bold'
                               }}
                             >
@@ -490,7 +490,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                                 padding: '6px 12px',
                                 backgroundColor: '#34a853',
                                 color: 'white',
-                                borderRadius: '6px',
+                                borderRadius: '4px',
                                 fontWeight: 'bold'
                               }}
                             >
@@ -511,7 +511,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                         backgroundColor: getStatusColor(appointment.status),
                         color: (appointment.status === 'pending' || appointment.status === 'en_attente') ? '#000' : 'white',
                         padding: '4px 12px',
-                        borderRadius: '12px',
+                        borderRadius: '4px',
                         fontSize: '12px',
                         fontWeight: 'bold'
                       }}>
@@ -601,7 +601,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
               backgroundColor: '#333',
               color: '#f5f5f7',
               border: '1px solid #555',
-              borderRadius: '8px',
+              borderRadius: '4px',
               cursor: loading ? 'not-allowed' : 'pointer',
               fontSize: '14px',
               marginRight: '12px',
@@ -621,7 +621,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
               backgroundColor: '#ffcc00',
               color: '#000',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '14px',
               fontWeight: 'bold'
@@ -635,7 +635,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
         <div style={{
           backgroundColor: '#2a2a2a',
           padding: '16px',
-          borderRadius: '8px',
+          borderRadius: '4px',
           marginTop: '20px'
         }}>
           <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>ℹ️ Informations :</h4>

@@ -246,7 +246,7 @@ const CoachMessagesPage: React.FC = () => {
           <div style={{ 
             width: '400px', 
             backgroundColor: '#111', 
-            borderRadius: 8,
+            borderRadius: 4,
             overflow: 'hidden'
           }}>
             <div style={{
@@ -338,7 +338,7 @@ const CoachMessagesPage: React.FC = () => {
             <div style={{ 
               flex: 1, 
               backgroundColor: '#111', 
-              borderRadius: 8,
+              borderRadius: 4,
               padding: 20
             }}>
               <div style={{ marginBottom: 20 }}>
@@ -431,7 +431,7 @@ const CoachMessagesPage: React.FC = () => {
           }}>
             <div style={{
               backgroundColor: '#111',
-              borderRadius: 8,
+              borderRadius: 4,
               padding: 24,
               width: '500px',
               maxWidth: '90%',

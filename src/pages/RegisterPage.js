@@ -59,7 +59,7 @@ export default function RegisterPage() {
         }, children: _jsxs("div", { style: {
                 backgroundColor: '#1a1a1a',
                 padding: '40px',
-                borderRadius: '16px',
+                borderRadius: '4px',
                 maxWidth: '500px',
                 width: '100%',
                 boxShadow: '0 20px 40px rgba(0, 0, 0, 0.3)'
@@ -82,13 +82,13 @@ export default function RegisterPage() {
                         padding: '12px',
                         backgroundColor: 'rgba(255, 107, 107, 0.1)',
                         color: '#ff6b6b',
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                         marginBottom: '16px'
                     }, children: error })), success && (_jsx("div", { style: {
                         padding: '12px',
                         backgroundColor: 'rgba(97, 191, 172, 0.1)',
                         color: '#61bfac',
-                        borderRadius: '8px',
+                        borderRadius: '4px',
                         marginBottom: '16px'
                     }, children: success })), _jsxs("form", { onSubmit: onSubmit, children: [_jsxs("div", { style: { marginBottom: '16px' }, children: [_jsx("label", { style: { color: '#f5f5f7', display: 'block', marginBottom: '8px' }, children: "R\u00F4le *" }), _jsxs("select", { value: role, onChange: (e) => setRole(e.target.value), required: true, style: {
                                         width: '100%',
@@ -96,7 +96,7 @@ export default function RegisterPage() {
                                         backgroundColor: '#333',
                                         color: '#f5f5f7',
                                         border: 'none',
-                                        borderRadius: '8px',
+                                        borderRadius: '4px',
                                         fontSize: '14px'
                                     }, children: [_jsx("option", { value: "talent", children: "Talent" }), _jsx("option", { value: "recruteur", children: "Recruteur" }), _jsx("option", { value: "coach", children: "Coach" })] })] }), _jsxs("div", { style: { marginBottom: '16px' }, children: [_jsx("label", { style: { color: '#f5f5f7', display: 'block', marginBottom: '8px' }, children: "Email *" }), _jsx("input", { type: "email", value: email, onChange: (e) => setEmail(e.target.value), required: true, style: {
                                         width: '100%',
@@ -104,7 +104,7 @@ export default function RegisterPage() {
                                         backgroundColor: '#333',
                                         color: '#f5f5f7',
                                         border: 'none',
-                                        borderRadius: '8px',
+                                        borderRadius: '4px',
                                         fontSize: '14px'
                                     } })] }), _jsxs("div", { style: { marginBottom: '16px' }, children: [_jsx("label", { style: { color: '#f5f5f7', display: 'block', marginBottom: '8px' }, children: "Mot de passe *" }), _jsx("input", { type: "password", value: password, onChange: (e) => setPassword(e.target.value), required: true, style: {
                                         width: '100%',
@@ -112,7 +112,7 @@ export default function RegisterPage() {
                                         backgroundColor: '#333',
                                         color: '#f5f5f7',
                                         border: 'none',
-                                        borderRadius: '8px',
+                                        borderRadius: '4px',
                                         fontSize: '14px'
                                     } })] }), _jsxs("div", { style: { marginBottom: '24px' }, children: [_jsx("label", { style: { color: '#f5f5f7', display: 'block', marginBottom: '8px' }, children: "Confirmer le mot de passe *" }), _jsx("input", { type: "password", value: confirmPassword, onChange: (e) => setConfirmPassword(e.target.value), required: true, style: {
                                         width: '100%',
@@ -120,7 +120,7 @@ export default function RegisterPage() {
                                         backgroundColor: '#333',
                                         color: '#f5f5f7',
                                         border: 'none',
-                                        borderRadius: '8px',
+                                        borderRadius: '4px',
                                         fontSize: '14px'
                                     } })] }), _jsx("button", { type: "submit", disabled: busy, style: {
                                 width: '100%',
@@ -128,7 +128,7 @@ export default function RegisterPage() {
                                 backgroundColor: busy ? '#666' : '#ffcc00',
                                 color: '#000',
                                 border: 'none',
-                                borderRadius: '8px',
+                                borderRadius: '4px',
                                 fontSize: '16px',
                                 fontWeight: 'bold',
                                 cursor: busy ? 'not-allowed' : 'pointer',

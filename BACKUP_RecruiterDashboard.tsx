@@ -191,7 +191,7 @@ export default function RecruiterDashboard() {
         backgroundColor: 'red',
         color: 'white',
         padding: '15px',
-        borderRadius: '8px',
+        borderRadius: '4px',
         zIndex: 9999,
         fontSize: '16px',
         fontWeight: 'bold',
@@ -230,7 +230,7 @@ export default function RecruiterDashboard() {
               gap: 12,
               padding: '8px 16px',
               backgroundColor: '#111',
-              borderRadius: '8px',
+              borderRadius: '4px',
               border: '1px solid #333',
               transition: 'all 0.2s ease',
               cursor: 'pointer'

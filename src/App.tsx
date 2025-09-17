@@ -87,7 +87,7 @@ function AdminLogin() {
       <div style={{
         background: '#1a1a1a',
         padding: '40px',
-        borderRadius: '16px',
+        borderRadius: '4px',
         maxWidth: '400px',
         width: '100%',
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
@@ -106,7 +106,7 @@ function AdminLogin() {
             padding: '12px',
             backgroundColor: 'rgba(255, 107, 107, 0.1)',
             color: '#ff6b6b',
-            borderRadius: '8px',
+            borderRadius: '4px',
             marginBottom: '16px'
           }}>
             {error}
@@ -129,7 +129,7 @@ function AdminLogin() {
                 backgroundColor: '#333',
                 color: '#f5f5f7',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 fontSize: '14px'
               }}
             />
@@ -150,7 +150,7 @@ function AdminLogin() {
                 backgroundColor: '#333',
                 color: '#f5f5f7',
                 border: 'none',
-                borderRadius: '8px',
+                borderRadius: '4px',
                 fontSize: '14px'
               }}
             />
@@ -164,7 +164,7 @@ function AdminLogin() {
               backgroundColor: '#ffcc00',
               color: '#000',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '4px',
               fontSize: '16px',
               fontWeight: 'bold',
               cursor: 'pointer'

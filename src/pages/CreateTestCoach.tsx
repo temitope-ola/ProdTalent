@@ -82,7 +82,7 @@ export default function CreateTestCoach() {
       <div style={{
         backgroundColor: '#1a1a1a',
         padding: '20px',
-        borderRadius: '8px',
+        borderRadius: '4px',
         marginBottom: '20px'
       }}>
         <h2>Coach à créer:</h2>
@@ -103,7 +103,7 @@ export default function CreateTestCoach() {
           backgroundColor: loading ? '#666' : '#0066cc',
           color: 'white',
           border: 'none',
-          borderRadius: '6px',
+          borderRadius: '4px',
           fontSize: '16px',
           cursor: loading ? 'not-allowed' : 'pointer',
           marginBottom: '20px'
@@ -116,7 +116,7 @@ export default function CreateTestCoach() {
         <div style={{
           padding: '15px',
           backgroundColor: message.includes('❌') ? '#660000' : '#006600',
-          borderRadius: '6px',
+          borderRadius: '4px',
           whiteSpace: 'pre-line',
           fontFamily: 'monospace'
         }}>
@@ -128,7 +128,7 @@ export default function CreateTestCoach() {
         marginTop: '30px',
         padding: '20px',
         backgroundColor: '#1a1a1a',
-        borderRadius: '8px'
+        borderRadius: '4px'
       }}>
         <h3>ℹ️ Test de timezone</h3>
         <p>Ce coach permettra de tester:</p>

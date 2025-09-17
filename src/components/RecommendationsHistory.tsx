@@ -154,7 +154,7 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
     }}>
       <div style={{
         backgroundColor: '#1a1a1a',
-        borderRadius: '8px',
+        borderRadius: '4px',
         width: '90%',
         maxWidth: '1000px',
         height: '90vh',
@@ -207,7 +207,7 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
                 backgroundColor: selectedFilter === filter.key ? '#ffcc00' : '#333',
                 color: selectedFilter === filter.key ? '#000' : '#f5f5f7',
                 border: 'none',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '14px',
                 fontWeight: selectedFilter === filter.key ? 'bold' : 'normal',
@@ -255,7 +255,7 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
                   style={{
                     backgroundColor: '#2a2a2a',
                     padding: '20px',
-                    borderRadius: '8px',
+                    borderRadius: '4px',
                     border: '1px solid #333'
                   }}
                 >
@@ -296,7 +296,7 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
                       backgroundColor: getStatusColor(recommendation.status),
                       color: recommendation.status === 'pending' ? '#000' : 'white',
                       padding: '4px 12px',
-                      borderRadius: '12px',
+                      borderRadius: '4px',
                       fontSize: '12px',
                       fontWeight: 'bold'
                     }}>

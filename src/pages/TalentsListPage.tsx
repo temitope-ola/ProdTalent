@@ -319,7 +319,7 @@ const TalentsListPage: React.FC = () => {
         {filteredTalents.map(talent => (
           <div key={talent.id} style={{
             backgroundColor: '#111',
-            borderRadius: 8,
+            borderRadius: 4,
             padding: 20
           }}>
             {/* Talent Header */}
