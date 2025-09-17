@@ -63,18 +63,7 @@ export class AppointmentService {
           recipientTimezone: appointmentData.talentTimeZone
         });
 
-        if (!gmailSent) {
-          await sendGridTemplateService.sendAppointmentConfirmation({
-            recipientEmail: appointmentData.talentEmail,
-            recipientName: appointmentData.talentName,
-            coachName: appointmentData.coachName,
-            appointmentDate: appointmentData.date,
-            appointmentTime: appointmentData.time,
-            meetingType: 'Réservation de session de coaching',
-            meetLink: '',
-            calendarLink: ''
-          });
-        }
+        // Le fallback SendGrid est maintenant automatique dans sendEmailWithGmail
         console.log('✅ Email de confirmation de réservation envoyé au talent (Gmail API ou SendGrid)');
       } catch (emailError) {
         console.error('❌ Erreur envoi email confirmation talent:', emailError);
@@ -101,17 +90,7 @@ export class AppointmentService {
             calendarLink: ''
           });
 
-          if (!gmailSentToCoach) {
-            // Fallback SendGrid si Gmail échoue
-            await sendGridTemplateService.sendNewAppointment({
-              recipientEmail: coachProfile.email,
-              recipientName: appointmentData.talentName,
-              coachName: appointmentData.coachName,
-              appointmentDate: appointmentData.date,
-              appointmentTime: appointmentData.time,
-              meetingType: `NOUVEAU RENDEZ-VOUS À CONFIRMER - ${appointmentData.talentName}`
-            });
-          }
+          // Le fallback SendGrid est maintenant automatique dans sendEmailWithGmail
           console.log('✅ Email de notification (à confirmer) envoyé au coach (Gmail API ou SendGrid fallback)');
         } else {
           console.warn('⚠️ Impossible de récupérer l\'email du coach');
@@ -232,18 +211,7 @@ export class AppointmentService {
               calendarLink: updatedAppointmentData.calendarLink || 'https://calendar.google.com/calendar/'
             });
 
-            if (!gmailSentToCoach) {
-              await sendGridTemplateService.sendAppointmentConfirmation({
-                recipientEmail: coachProfile.email,
-                recipientName: updatedAppointmentData.talentName,
-                coachName: updatedAppointmentData.coachName,
-                appointmentDate: updatedAppointmentData.date,
-                appointmentTime: updatedAppointmentData.time,
-                meetingType: `RENDEZ-VOUS CONFIRMÉ avec ${updatedAppointmentData.talentName}`,
-                meetLink: updatedAppointmentData.meetLink || 'https://meet.google.com/lien-a-generer',
-                calendarLink: updatedAppointmentData.calendarLink || 'https://calendar.google.com/calendar/'
-              });
-            }
+            // Le fallback SendGrid est maintenant automatique dans sendEmailWithGmail
             console.log('✅ 1️⃣ Email de confirmation envoyé au COACH (Gmail API ou SendGrid)');
           } else {
             // Pour les autres statuts (annulé, reprogrammé)
@@ -259,16 +227,7 @@ export class AppointmentService {
               calendarLink: appointmentData.calendarLink || ''
             });
 
-            if (!gmailSentToCoach) {
-              await sendGridTemplateService.sendNewAppointment({
-                recipientEmail: coachProfile.email,
-                recipientName: appointmentData.coachName,
-                coachName: appointmentData.coachName,
-                appointmentDate: appointmentData.date,
-                appointmentTime: appointmentData.time,
-                meetingType: `Rendez-vous ${status} avec ${appointmentData.talentName}`
-              });
-            }
+            // Le fallback SendGrid est maintenant automatique dans sendEmailWithGmail
             console.log(`✅ Email ${status} envoyé au coach (Gmail API ou SendGrid)`);
           }
         } else {
@@ -296,18 +255,7 @@ export class AppointmentService {
             recipientTimezone: updatedAppointmentData.talentTimeZone
           });
 
-          if (!gmailSent) {
-            await sendGridTemplateService.sendAppointmentConfirmation({
-              recipientEmail: updatedAppointmentData.talentEmail,
-              recipientName: updatedAppointmentData.talentName,
-              coachName: updatedAppointmentData.coachName,
-              appointmentDate: updatedAppointmentData.date,
-              appointmentTime: updatedAppointmentData.time,
-              meetingType: 'RENDEZ-VOUS CONFIRMÉ - Session de coaching',
-              meetLink: updatedAppointmentData.meetLink || 'https://meet.google.com/lien-a-generer',
-              calendarLink: updatedAppointmentData.calendarLink || 'https://calendar.google.com/calendar/'
-            });
-          }
+          // Le fallback SendGrid est maintenant automatique dans sendEmailWithGmail
           console.log('✅ 2️⃣ Email de confirmation finale envoyé au TALENT avec liens agenda/meet (Gmail API ou SendGrid)');
         } else {
           // Pour les autres statuts, notifier le talent
@@ -324,16 +272,7 @@ export class AppointmentService {
             recipientTimezone: appointmentData.talentTimeZone
           });
 
-          if (!gmailSent) {
-            await sendGridTemplateService.sendNewAppointment({
-              recipientEmail: appointmentData.talentEmail,
-              recipientName: appointmentData.talentName,
-              coachName: appointmentData.coachName,
-              appointmentDate: appointmentData.date,
-              appointmentTime: appointmentData.time,
-              meetingType: `Session ${status}`
-            });
-          }
+          // Le fallback SendGrid est maintenant automatique dans sendEmailWithGmail
           console.log(`✅ Email ${status} envoyé au talent (Gmail API ou SendGrid)`);
         }
       } catch (emailError) {
@@ -536,7 +475,41 @@ export class AppointmentService {
       }
     } catch (error) {
       console.warn('⚠️ Firebase Functions backend échoué, utilisation SendGrid fallback:', error);
-      return false;
+
+      // Fallback automatique vers SendGrid avec formatage timezone correct
+      try {
+        const formattedTime = data.coachId
+          ? await this.formatAppointmentTimeForEmail(data.coachId, data.appointmentDate, data.appointmentTime, data.recipientTimezone)
+          : data.appointmentTime;
+
+        if (type === 'confirmation') {
+          await sendGridTemplateService.sendAppointmentConfirmation({
+            recipientEmail: data.recipientEmail,
+            recipientName: data.recipientName,
+            coachName: data.coachName,
+            appointmentDate: data.appointmentDate,
+            appointmentTime: formattedTime,
+            meetingType: data.appointmentType || 'Session de coaching',
+            meetLink: data.meetLink,
+            calendarLink: data.calendarLink
+          });
+        } else {
+          await sendGridTemplateService.sendNewAppointment({
+            recipientEmail: data.recipientEmail,
+            recipientName: data.recipientName,
+            coachName: data.coachName,
+            appointmentDate: data.appointmentDate,
+            appointmentTime: formattedTime,
+            meetingType: data.meetingType || 'Session de coaching'
+          });
+        }
+
+        console.log('✅ SendGrid fallback réussi avec timezone correcte');
+        return true;
+      } catch (sendGridError) {
+        console.error('❌ SendGrid fallback échoué également:', sendGridError);
+        return false;
+      }
     }
   }
 
