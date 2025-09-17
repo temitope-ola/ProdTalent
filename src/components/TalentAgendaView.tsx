@@ -197,8 +197,15 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
         duration: 30, // 30 minutes par défaut
         type: 'Autre' as const, // Type par défaut pour coaching
         status: 'en_attente' as const,
-        notes: reason.trim()
+        notes: reason.trim(),
+        talentTimeZone: userTimeZone, // Timezone du talent pour l'email
+        coachTimeZone: coachTimeZone   // Timezone du coach pour l'email
       };
+
+      console.log('📧 TalentAgendaView - Données appointment avec timezones:', {
+        talentTimeZone: userTimeZone,
+        coachTimeZone: coachTimeZone
+      });
 
       const result = await AppointmentService.createAppointment(appointmentData);
       
