@@ -279,4 +279,9 @@ export class AvailabilityService {
     const mins = minutes % 60;
     return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
   }
+
+  // Alias pour saveAvailability avec timezone explicite
+  static async saveAvailabilityWithTimezone(coachId: string, date: string, timeSlots: string[], timezone: string): Promise<boolean> {
+    return this.saveAvailability(coachId, date, timeSlots, timezone);
+  }
 }

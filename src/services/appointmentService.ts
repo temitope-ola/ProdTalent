@@ -410,17 +410,21 @@ export class AppointmentService {
       const availability = await AvailabilityService.getAvailabilityWithTimezone(coachId, date);
       const coachTimezone = availability?.timezone || 'America/Toronto';
 
-      // Déterminer la timezone du destinataire (par défaut celle du coach)
-      const targetTimezone = recipientTimezone || coachTimezone;
+      // Déterminer la timezone du destinataire (par défaut celle du browser)
+      const targetTimezone = recipientTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+      console.log(`📧 Email formatting - Coach: ${coachTimezone}, Recipient: ${recipientTimezone}, Target: ${targetTimezone}`);
 
       // Convertir l'heure si nécessaire
       const convertedTime = TimezoneService.convertTime(time, date, coachTimezone, targetTimezone);
 
-      // Formatter avec indication de timezone
+      // Formatter avec indication de timezone - TOUJOURS utiliser l'heure convertie
+      console.log(`🔄 Conversion email: ${time} (${coachTimezone}) → ${convertedTime} (${targetTimezone})`);
+
       if (coachTimezone === targetTimezone) {
-        return `${time} (${TimezoneService.formatTimeWithTimezone(time, coachTimezone)})`;
+        return `${convertedTime} (${TimezoneService.formatTimeWithTimezone(convertedTime, targetTimezone)})`;
       } else {
-        return `${convertedTime} dans votre fuseau horaire (${time} heure du coach - ${TimezoneService.formatTimeWithTimezone(time, coachTimezone)})`;
+        return `${convertedTime} dans votre fuseau horaire (${TimezoneService.formatTimeWithTimezone(convertedTime, targetTimezone)})`;
       }
     } catch (error) {
       console.error('Erreur formatage heure email:', error);

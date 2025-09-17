@@ -51,6 +51,7 @@ import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 import CookiesPage from './pages/CookiesPage';
 import ContactPage from './pages/ContactPage';
+import CreateTestCoach from './pages/CreateTestCoach';
 
 // Composant de login admin simple
 function AdminLogin() {
@@ -482,6 +483,8 @@ export default function App() {
             
             {/* Route de configuration Google */}
             <Route path="/google-config" element={<GoogleConfigPage />} />
+            {/* Route temporaire pour créer un coach de test */}
+            <Route path="/create-test-coach" element={<CreateTestCoach />} />
             <Route path="/calendar-callback" element={<GoogleCalendarCallbackPage />} />
             <Route path="/sendgrid-setup" element={<SendGridSetup />} />
             <Route path="/sendgrid-admin" element={<SendGridAdminPage />} />
