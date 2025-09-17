@@ -503,7 +503,7 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
             </h3>
             
             <p style={{ color: '#f5f5f7', marginBottom: 16, fontSize: '14px' }}>
-              Créneau sélectionné : {selectedSlot} le {formatDate(selectedDate)}
+              Créneau sélectionné : {formatTimeInUserZone(selectedSlot, coachTimeZone)} le {formatDate(selectedDate)}
             </p>
             
             <div style={{ marginBottom: 20 }}>
