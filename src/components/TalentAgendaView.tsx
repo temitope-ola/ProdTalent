@@ -89,19 +89,19 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
   const loadCoachAvailabilities = async () => {
     setIsLoading(true);
     try {
-      // Charger les vraies disponibilités depuis le service avec timezone
+      // Charger d'abord les informations de timezone du coach
       const availabilityData = await AvailabilityService.getAvailabilityWithTimezone(selectedCoach, selectedDate);
 
       if (availabilityData) {
-        setAvailableSlots(availabilityData.timeSlots || []);
         setCoachTimeZone(availabilityData.timezone || 'America/Toronto');
         console.log('🌍 Timezone du coach chargée:', availabilityData.timezone);
-      } else {
-        // Fallback sur l'ancienne méthode si pas de data avec timezone
-        const availableSlots = await AvailabilityService.getAvailableSlots(selectedCoach, selectedDate);
-        setAvailableSlots(availableSlots);
-        // Garder la timezone par défaut
       }
+
+      // TOUJOURS utiliser getAvailableSlots qui filtre les créneaux occupés
+      const availableSlots = await AvailabilityService.getAvailableSlots(selectedCoach, selectedDate);
+      setAvailableSlots(availableSlots);
+
+      console.log('✅ TalentAgendaView - Créneaux finalement affichés:', availableSlots);
     } catch (error) {
       console.error('Erreur lors du chargement des disponibilités:', error);
       setAvailableSlots([]);
