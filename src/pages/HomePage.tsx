@@ -1213,6 +1213,30 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
                 />
               </div>
 
+              {/* Lien mot de passe oublié - seulement en mode login */}
+              {mode === 'login' && (
+                <div style={{ marginBottom: 16, textAlign: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpen(false);
+                      navigate('/forgot-password');
+                    }}
+                    style={{
+                      backgroundColor: 'transparent',
+                      color: '#ffcc00',
+                      border: 'none',
+                      fontSize: '14px',
+                      cursor: 'pointer',
+                      textDecoration: 'underline',
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    🔐 Mot de passe oublié ?
+                  </button>
+                </div>
+              )}
+
               <button
                 type="submit"
                 disabled={busy}
@@ -1245,6 +1269,7 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
               >
                 {mode === 'login' ? 'Pas encore de compte ? S\'inscrire' : 'Déjà un compte ? Se connecter'}
               </button>
+
             </div>
           </div>
         </div>

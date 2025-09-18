@@ -8,6 +8,7 @@ import { googleIntegratedService } from './googleIntegratedService';
 import { BackendEmailService } from './backendEmailService';
 import { TimezoneService } from './timezoneService';
 import { AvailabilityService } from './availabilityService';
+import { CalendarLinkService } from './calendarLinkService';
 
 // Export for backward compatibility
 export type { Appointment } from '../types';
@@ -39,14 +40,23 @@ export class AppointmentService {
         ...appointmentData,
         createdAt: Timestamp.now(),
         timestamp: Timestamp.now(),
-        notes: appointmentData.notes?.trim() || null
+        notes: appointmentData.notes?.trim() || null,
+        status: 'confirmé' // 🚀 AUTO-CONFIRMATION pour voir les liens calendrier immédiatement
       };
       
       console.log('Données nettoyées à sauvegarder:', cleanAppointmentData);
       
       const docRef = await addDoc(collection(db, 'Appointments'), cleanAppointmentData);
-      
+
       console.log('Rendez-vous créé avec succès, ID:', docRef.id);
+
+      // 🔗 GÉNÉRATION AUTOMATIQUE des liens Meet et Calendar (puisque auto-confirmé)
+      try {
+        await this.createMeetAndSync(docRef.id, { ...cleanAppointmentData, id: docRef.id });
+        console.log('✅ Liens Meet et Calendar générés automatiquement');
+      } catch (linkError) {
+        console.warn('⚠️ Erreur génération des liens:', linkError);
+      }
 
       // EMAIL DE CONFIRMATION au talent (il vient de réserver)
       try {
@@ -77,9 +87,9 @@ export class AppointmentService {
         const coachProfile = await FirestoreService.getCurrentProfile(appointmentData.coachId, 'coach');
         
         if (coachProfile && coachProfile.email) {
-          // Utiliser Gmail API pour le coach
+          // 🔄 REDIRECTION TEMPORAIRE : Envoyer les emails coach vers votre email pour test
           const gmailSentToCoach = await this.sendEmailWithGmail('new', {
-            recipientEmail: coachProfile.email,
+            recipientEmail: 'france@franceola.com', // ← Votre email au lieu de celui du coach
             recipientName: appointmentData.coachName,
             coachName: appointmentData.coachName,
             coachId: appointmentData.coachId,
@@ -210,7 +220,7 @@ export class AppointmentService {
           if (status === 'confirmé') {
             // Le coach vient de confirmer → Email de CONFIRMATION au coach
             const gmailSentToCoach = await this.sendEmailWithGmail('confirmation', {
-              recipientEmail: coachProfile.email,
+              recipientEmail: 'france@franceola.com', // ← Redirection vers votre email
               recipientName: updatedAppointmentData.coachName,
               coachName: updatedAppointmentData.coachName,
               coachId: updatedAppointmentData.coachId,
@@ -226,7 +236,7 @@ export class AppointmentService {
           } else {
             // Pour les autres statuts (annulé, reprogrammé)
             const gmailSentToCoach = await this.sendEmailWithGmail('new', {
-              recipientEmail: coachProfile.email,
+              recipientEmail: 'france@franceola.com', // ← Redirection vers votre email
               recipientName: appointmentData.coachName,
               coachName: appointmentData.coachName,
               coachId: appointmentData.coachId,
@@ -312,9 +322,34 @@ export class AppointmentService {
       
       console.log('🔗 Lien Meet généré:', meetLink);
       
-      // 2. Sauvegarder le lien Meet (Google Calendar désactivé pour éviter l'authentification client-side)
-      console.log('📅 Google Calendar désactivé - utilisation du lien Meet uniquement');
-      await this.updateAppointmentLinks(appointmentId, meetLink, '');
+      // 2. Générer un lien Google Calendar avec l'heure convertie (DIRECTEMENT via TimezoneService)
+      const coachTimezone = appointmentData.coachTimeZone || 'America/New_York';
+      const talentTimezone = appointmentData.talentTimeZone || 'Europe/Zurich';
+
+      const convertedTime = TimezoneService.convertTime(
+        appointmentData.time,
+        appointmentData.date,
+        coachTimezone,
+        talentTimezone
+      );
+
+      console.log(`📅 Calendar Link - Conversion DIRECTE: ${appointmentData.time} (${coachTimezone}) → ${convertedTime} (${talentTimezone})`);
+
+      const calendarLink = CalendarLinkService.generateCalendarLink({
+        date: appointmentData.date,
+        time: convertedTime, // ✅ Utiliser l'heure DÉJÀ CONVERTIE
+        duration: 30,
+        talentName: appointmentData.talentName,
+        coachName: appointmentData.coachName,
+        notes: appointmentData.notes,
+        meetLink: meetLink
+        // ❌ Plus besoin des timezones car l'heure est déjà convertie
+      });
+
+      console.log('📅 Lien Google Calendar généré:', calendarLink);
+
+      // 3. Sauvegarder les liens Meet et Calendar
+      await this.updateAppointmentLinks(appointmentId, meetLink, calendarLink);
       
       console.log('✅ Lien Meet créé et sauvegardé avec succès:', { meetLink, appointmentId });
       

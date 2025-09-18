@@ -43,14 +43,28 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
   const getAvailableDates = () => {
     const dates = [];
     const today = new Date();
+
     for (let i = 1; i <= 28; i++) {
       const date = new Date(today);
       date.setDate(today.getDate() + i);
-      // Exclure les weekends
-      if (date.getDay() !== 0 && date.getDay() !== 6) {
-        dates.push(date.toISOString().split('T')[0]);
+
+      // Exclure les weekends (0=dimanche, 6=samedi)
+      const dayOfWeek = date.getDay();
+      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+        // Utiliser une méthode plus fiable pour le formatage de date
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
+
+        dates.push(dateStr);
+        console.log(`✅ TalentAgendaView - Date ajoutée: ${dateStr} (${date.toLocaleDateString('fr-FR', { weekday: 'long' })})`);
+      } else {
+        console.log(`❌ TalentAgendaView - Weekend exclu: ${date.toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: '2-digit' })}`);
       }
     }
+
+    console.log('📅 TalentAgendaView - Dates disponibles finales:', dates);
     return dates;
   };
 
@@ -211,11 +225,14 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
       const result = await AppointmentService.createAppointment(appointmentData);
 
       if (result.success) {
+        // Convertir l'heure du coach vers le timezone du talent pour l'affichage
+        const convertedTime = TimezoneService.convertTime(selectedSlot, selectedDate, coachTimeZone, userTimeZone);
+
         // Afficher immédiatement la confirmation à l'utilisateur
         showNotification({
           type: 'success',
           title: 'Réservation confirmée',
-          message: `Réservation du créneau ${selectedSlot} avec ${selectedCoachData.name} le ${formatDate(selectedDate)}. Email de confirmation en cours d'envoi...`
+          message: `Réservation du créneau ${convertedTime} avec ${selectedCoachData.name} le ${formatDate(selectedDate)}. Email de confirmation en cours d'envoi...`
         });
 
         // Réinitialiser les états immédiatement

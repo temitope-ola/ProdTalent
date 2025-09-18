@@ -87,7 +87,9 @@ export default function ModernMessagesPage() {
 
       // Grouper les messages par conversation
       const conversationMap = new Map<string, Conversation>();
+      const missingProfiles = new Set<string>(); // IDs des utilisateurs dont on doit charger les profils
 
+      // Première passe : créer les conversations avec les données disponibles
       for (const message of messages) {
         let contactId: string;
         let contact: any;
@@ -97,9 +99,23 @@ export default function ModernMessagesPage() {
           // Message reçu : contact = expéditeur
           isFromMe = false;
           contactId = message.from.id;
+
+          // Améliorer la récupération du nom avec fallbacks
+          const displayName = message.from.name ||
+                              message.from.displayName ||
+                              (message.from.email ? message.from.email.split('@')[0] : 'Utilisateur');
+
+          console.log('🔍 Contact reçu:', {
+            fromId: message.from.id,
+            fromName: message.from.name,
+            fromDisplayName: message.from.displayName,
+            fromEmail: message.from.email,
+            finalDisplayName: displayName
+          });
+
           contact = {
             id: message.from.id,
-            displayName: message.from.name,
+            displayName: displayName,
             email: message.from.email,
             role: message.from.role,
             avatarUrl: message.from.avatarUrl
@@ -111,17 +127,25 @@ export default function ModernMessagesPage() {
           // Pour les messages envoyés, essayons de trouver les infos du destinataire
           const receivedMsg = messages.find(m => m.type === 'received' && m.from.id === message.to);
           if (receivedMsg) {
+            const displayName = receivedMsg.from.name ||
+                                receivedMsg.from.displayName ||
+                                (receivedMsg.from.email ? receivedMsg.from.email.split('@')[0] : 'Destinataire');
+
             contact = {
               id: receivedMsg.from.id,
-              displayName: receivedMsg.from.name,
+              displayName: displayName,
               email: receivedMsg.from.email,
               role: receivedMsg.from.role,
               avatarUrl: receivedMsg.from.avatarUrl
             };
           } else {
+            // Marquer ce profil comme à charger plus tard
+            console.log('⚠️ Pas de message reçu correspondant pour:', message.to, '- À charger...');
+            missingProfiles.add(message.to);
+
             contact = {
               id: message.to,
-              displayName: 'Destinataire',
+              displayName: 'Chargement...',
               email: '',
               role: 'unknown',
               avatarUrl: ''
@@ -163,6 +187,43 @@ export default function ModernMessagesPage() {
         // Compter les messages non lus (reçus et non lus)
         if (!isFromMe && !message.read) {
           conversation.unreadCount++;
+        }
+      }
+
+      // Deuxième passe : charger les profils manquants
+      if (missingProfiles.size > 0) {
+        console.log('🔄 Chargement des profils manquants:', Array.from(missingProfiles));
+
+        for (const userId of missingProfiles) {
+          try {
+            const userProfile = await FirestoreService.getUserProfileOptimized(userId);
+            console.log('✅ Profil chargé pour:', userId, userProfile);
+
+            if (userProfile) {
+              // Mettre à jour les conversations qui utilisent ce contact
+              conversationMap.forEach((conversation, conversationId) => {
+                if (conversation.contactId === userId) {
+                  const displayName = userProfile.displayName ||
+                                      (userProfile.firstName && userProfile.lastName ?
+                                        `${userProfile.firstName} ${userProfile.lastName}` :
+                                        userProfile.email?.split('@')[0] || 'Utilisateur');
+
+                  // Mettre à jour le contact
+                  conversation.contact = {
+                    id: userId,
+                    displayName: displayName,
+                    email: userProfile.email,
+                    role: userProfile.role,
+                    avatarUrl: userProfile.avatarUrl || ''
+                  };
+
+                  console.log('✅ Conversation mise à jour:', conversationId, 'avec nom:', displayName);
+                }
+              });
+            }
+          } catch (error) {
+            console.error('❌ Erreur chargement profil pour:', userId, error);
+          }
         }
       }
 

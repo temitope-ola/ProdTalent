@@ -476,11 +476,24 @@ export class FirestoreService {
         console.log('ID:', doc.id);
         console.log('data.to:', data.to, typeof data.to);
         console.log('data.from:', data.from);
+        console.log('data.from complet:', JSON.stringify(data.from, null, 2));
         console.log('userId cherché:', userId, typeof userId);
         console.log('Égalité data.to === userId:', data.to === userId);
         console.log('data.from existe:', !!data.from);
         console.log('data.from.id:', data.from?.id, typeof data.from?.id);
         console.log('data.from.id === userId:', data.from?.id === userId);
+
+        // Vérifier si c'est un message où l'utilisateur est destinataire direct
+        const isDirectRecipient = data.to === userId;
+        // Vérifier si c'est un message envoyé par l'utilisateur
+        const isDirectSender = data.from && data.from.id === userId;
+        // Vérifier si l'utilisateur est dans la conversation (from ou to)
+        const isInConversation = isDirectRecipient || isDirectSender;
+
+        console.log('💡 ANALYSE LOGIQUE:');
+        console.log('  - Est destinataire direct:', isDirectRecipient);
+        console.log('  - Est expéditeur direct:', isDirectSender);
+        console.log('  - Est dans la conversation:', isInConversation);
         
         // Vérifier si c'est un message reçu
         if (data.to === userId) {
@@ -1279,6 +1292,121 @@ export class FirestoreService {
       // En cas d'erreur, permettre l'envoi des emails critiques seulement
       const criticalEmails = ['accountSecurity', 'adminNotices', 'appointments'];
       return criticalEmails.includes(emailType);
+    }
+  }
+
+  // === GESTION DES DEMANDES DE RÉINITIALISATION ===
+
+  static async createPasswordResetRequest(request: any): Promise<string> {
+    try {
+      const requestData = {
+        ...request,
+        createdAt: Timestamp.now(),
+        status: 'pending'
+      };
+
+      const docRef = await addDoc(collection(db, 'PasswordResetRequests'), requestData);
+      console.log('✅ Demande de réinitialisation créée:', docRef.id);
+      return docRef.id;
+    } catch (error) {
+      console.error('❌ Erreur création demande:', error);
+      throw error;
+    }
+  }
+
+  static async notifyAdminPasswordReset(email: string, message: string): Promise<void> {
+    try {
+      // Pour l'instant, on simule la notification email et on affiche dans la console
+      console.log('🔐 NOUVELLE DEMANDE DE RÉINITIALISATION:');
+      console.log('📧 Email:', email);
+      console.log('💬 Message:', message || 'Aucun message');
+      console.log('📅 Date:', new Date().toLocaleString('fr-FR'));
+      console.log('👉 Allez sur /admin pour traiter cette demande');
+
+      // TODO: Configurer un vrai service email plus tard
+      // await BackendEmailService.sendEmail({...});
+
+      console.log('✅ Demande enregistrée (notification email désactivée temporairement)');
+    } catch (error) {
+      console.error('❌ Erreur notification admin:', error);
+      // Ne pas faire échouer la demande si la notification échoue
+    }
+  }
+
+  static async getPasswordResetRequests(): Promise<any[]> {
+    try {
+      const q = query(
+        collection(db, 'PasswordResetRequests'),
+        orderBy('createdAt', 'desc')
+      );
+
+      const snapshot = await getDocs(q);
+      return snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: doc.data().createdAt?.toDate() || new Date()
+      }));
+    } catch (error) {
+      console.error('❌ Erreur récupération demandes:', error);
+      throw error;
+    }
+  }
+
+  static async updatePasswordResetStatus(requestId: string, status: string): Promise<void> {
+    try {
+      await updateDoc(doc(db, 'PasswordResetRequests', requestId), {
+        status,
+        updatedAt: Timestamp.now()
+      });
+
+      console.log('✅ Statut demande mis à jour:', requestId, status);
+    } catch (error) {
+      console.error('❌ Erreur mise à jour statut:', error);
+      throw error;
+    }
+  }
+
+  static async sendPasswordResetEmail(email: string, tempPassword: string): Promise<void> {
+    try {
+      // Pour l'instant, on affiche le mot de passe dans la console au lieu d'envoyer par email
+      console.log('🔐 NOUVEAU MOT DE PASSE GÉNÉRÉ:');
+      console.log('📧 Pour l\'utilisateur:', email);
+      console.log('🔑 Mot de passe temporaire:', tempPassword);
+      console.log('⚠️ Instructions:');
+      console.log('  1. Utilisez ce mot de passe pour vous connecter');
+      console.log('  2. Changez votre mot de passe après connexion');
+      console.log('  3. Ce mot de passe expire dans 7 jours');
+
+      // TODO: Configurer un vrai service email plus tard
+      // await BackendEmailService.sendEmail({...});
+
+      console.log('✅ Mot de passe affiché (envoi email désactivé temporairement)');
+    } catch (error) {
+      console.error('❌ Erreur affichage mot de passe:', error);
+      throw error;
+    }
+  }
+
+  static async updateUserPassword(email: string, newPassword: string): Promise<void> {
+    try {
+      // Note: Cette fonction nécessite Firebase Admin SDK côté serveur
+      // Pour l'instant, on simule la mise à jour et on stocke le nouveau mot de passe
+      // Dans un vrai environnement, ceci serait fait par une Cloud Function
+
+      console.log('⚠️ Mise à jour mot de passe simulée pour:', email);
+      console.log('⚠️ Nouveau mot de passe:', newPassword);
+      console.log('⚠️ Note: Implémentation Firebase Admin SDK nécessaire côté serveur');
+
+      // TODO: Implémenter avec Firebase Admin SDK via Cloud Function
+      // await admin.auth().getUserByEmail(email).then((userRecord) => {
+      //   return admin.auth().updateUser(userRecord.uid, {
+      //     password: newPassword
+      //   });
+      // });
+
+    } catch (error) {
+      console.error('❌ Erreur mise à jour mot de passe:', error);
+      throw error;
     }
   }
 }

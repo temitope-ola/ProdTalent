@@ -17,6 +17,7 @@ interface Appointment {
   talentTimeZone?: string;
   coachTimeZone?: string;
   notes?: string;
+  googleEventId?: string;
 }
 
 interface TimezoneAppointmentManagerProps {
@@ -178,18 +179,19 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
         console.log('✅ Événement Google Calendar créé:', event);
         
         // Parser l'événement (en mode dev c'est un JSON string)
-        let eventObject = event;
+        let eventObject: any = event;
         if (typeof event === 'string') {
           try {
             eventObject = JSON.parse(event);
           } catch (e) {
-            eventObject = event;
+            console.warn('Impossible de parser l\'événement comme JSON:', event);
+            return; // Sortir si on ne peut pas parser
           }
         }
-        
+
         // Extraire le lien Meet
-        const meetLink = eventObject.hangoutLink || eventObject.conferenceData?.entryPoints?.[0]?.uri;
-        const calendarLink = `https://calendar.google.com/calendar/event?eid=${eventObject.id}`;
+        const meetLink = eventObject?.hangoutLink || eventObject?.conferenceData?.entryPoints?.[0]?.uri;
+        const calendarLink = eventObject?.id ? `https://calendar.google.com/calendar/event?eid=${eventObject.id}` : '';
         
         if (meetLink) {
           // Mettre à jour l'appointment avec les liens Meet et Calendar
@@ -479,7 +481,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                               🎥 Rejoindre Meet
                             </a>
                           )}
-                          {appointment.calendarLink && (
+                          {appointment.calendarLink ? (
                             <a
                               href={appointment.calendarLink}
                               target="_blank"
@@ -496,7 +498,18 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                             >
                               📅 Voir dans Google Calendar
                             </a>
+                          ) : (
+                            <div style={{
+                              fontSize: '12px',
+                              color: '#888',
+                              padding: '6px 12px',
+                              backgroundColor: '#333',
+                              borderRadius: '4px'
+                            }}>
+                              ⚠️ Lien agenda manquant
+                            </div>
                           )}
+
                         </div>
                       )}
                     </div>

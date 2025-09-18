@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
+import {
   User,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  sendPasswordResetEmail
 } from 'firebase/auth';
 import { auth } from '../firebase';
 import { UserRole } from '../types';
@@ -17,6 +18,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, role: UserRole) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -149,12 +151,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const resetPassword = async (email: string) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+      console.log('✅ Email de réinitialisation envoyé à:', email);
+    } catch (error: any) {
+      console.error('❌ Erreur lors de l\'envoi de l\'email de réinitialisation:', error);
+      throw new Error(error.message);
+    }
+  };
+
   const value = {
     user,
     loading,
     signUp,
     login,
     logout,
+    resetPassword,
   };
 
   return (

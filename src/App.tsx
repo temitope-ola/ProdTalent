@@ -32,6 +32,7 @@ import JobDetailsPage from './pages/JobDetailsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import FeaturedTalentsManager from './components/FeaturedTalentsManager';
 import CoachLogin from './components/CoachLogin';
+import ForgotPassword from './components/ForgotPassword';
 import CoachDashboard from './pages/CoachDashboard';
 import CoachJobDetailsPage from './pages/CoachJobDetailsPage';
 import CoachJobViewPage from './pages/CoachJobViewPage';
@@ -52,6 +53,7 @@ import TermsPage from './pages/TermsPage';
 import CookiesPage from './pages/CookiesPage';
 import ContactPage from './pages/ContactPage';
 import CreateTestCoach from './pages/CreateTestCoach';
+import FixCalendarLinks from './pages/FixCalendarLinks';
 
 // Composant de login admin simple
 function AdminLogin() {
@@ -262,6 +264,7 @@ export default function App() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/admin" element={<AdminLogin />} />
             <Route path="/coach/login" element={<CoachLogin />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
 
             <Route
               path="/dashboard/talent"
@@ -485,6 +488,8 @@ export default function App() {
             <Route path="/google-config" element={<GoogleConfigPage />} />
             {/* Route temporaire pour créer un coach de test */}
             <Route path="/create-test-coach" element={<CreateTestCoach />} />
+            {/* Route pour corriger les liens calendar manquants */}
+            <Route path="/fix-calendar-links" element={<FixCalendarLinks />} />
             <Route path="/calendar-callback" element={<GoogleCalendarCallbackPage />} />
             <Route path="/sendgrid-setup" element={<SendGridSetup />} />
             <Route path="/sendgrid-admin" element={<SendGridAdminPage />} />

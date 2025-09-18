@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import useAuth from '../contexts/AuthContext';
 import { useNotifications } from './NotificationManager';
+import { TimezoneService } from '../services/timezoneService';
 
 interface Appointment {
   id: string;
@@ -70,24 +71,32 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
     }
   };
 
-  const formatDateTimeInUserZone = (date: string, time: string) => {
+  const formatDateTimeInUserZone = (date: string, time: string, appointment: Appointment) => {
     try {
-      const dateTime = new Date(`${date}T${time}:00`);
+      // Convertir l'heure du coach vers le timezone du talent si nécessaire
+      let convertedTime = time;
+
+      if (appointment.coachTimeZone && appointment.coachTimeZone !== userTimeZone) {
+        convertedTime = TimezoneService.convertTime(time, date, appointment.coachTimeZone, userTimeZone);
+        console.log(`🔄 Conversion ${appointment.coachName}: ${time} (${appointment.coachTimeZone}) → ${convertedTime} (${userTimeZone})`);
+      }
+
+      // Formatter la date avec le timezone du talent
+      const dateTime = new Date(`${date}T12:00:00`);
+      const formattedDate = dateTime.toLocaleDateString('fr-FR', {
+        timeZone: userTimeZone,
+        weekday: 'long',
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+      });
+
       return {
-        date: dateTime.toLocaleDateString('fr-FR', {
-          timeZone: userTimeZone,
-          weekday: 'long',
-          day: '2-digit',
-          month: 'long',
-          year: 'numeric'
-        }),
-        time: dateTime.toLocaleTimeString('fr-FR', {
-          timeZone: userTimeZone,
-          hour: '2-digit',
-          minute: '2-digit'
-        })
+        date: formattedDate,
+        time: convertedTime
       };
     } catch (error) {
+      console.error('Erreur formatage date/heure:', error);
       return { date: date, time: time };
     }
   };
@@ -267,7 +276,7 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
         ) : (
           <div style={{ maxHeight: '500px', overflow: 'auto' }}>
             {filteredAppointments.map((appointment) => {
-              const formattedDateTime = formatDateTimeInUserZone(appointment.date, appointment.time);
+              const formattedDateTime = formatDateTimeInUserZone(appointment.date, appointment.time, appointment);
               
               return (
                 <div

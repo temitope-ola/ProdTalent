@@ -77,7 +77,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
 
     setLoading(true);
     try {
-      const success = await AvailabilityService.saveAvailability(user.id, selectedDate, availableSlots);
+      const success = await AvailabilityService.saveAvailability(user.id, selectedDate, availableSlots, userTimeZone);
       
       if (success) {
         console.log('✅ Disponibilités sauvegardées:', {

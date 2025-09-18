@@ -10,7 +10,6 @@ interface CoachInfo {
   email: string;
   bio?: string;
   avatarUrl?: string;
-  timezone?: string;
 }
 
 interface BookingForm {
@@ -67,8 +66,7 @@ const TimezoneBookingInterface: React.FC = () => {
           displayName: coachProfile.displayName || coachProfile.email.split('@')[0],
           email: coachProfile.email,
           bio: coachProfile.bio,
-          avatarUrl: coachProfile.avatarUrl,
-          timezone: coachProfile.timezone || 'Europe/Paris'
+          avatarUrl: coachProfile.avatarUrl
         });
       } else {
         showNotification({
@@ -143,28 +141,14 @@ const TimezoneBookingInterface: React.FC = () => {
   const getAvailableDates = () => {
     const dates = [];
     const today = new Date();
-
     for (let i = 1; i <= 14; i++) { // Prochaines 2 semaines
       const date = new Date(today);
       date.setDate(today.getDate() + i);
-
-      // Exclure les weekends (0=dimanche, 6=samedi)
-      const dayOfWeek = date.getDay();
-      if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-        // Utiliser une méthode plus fiable pour le formatage de date
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const dateStr = `${year}-${month}-${day}`;
-
-        dates.push(dateStr);
-        console.log(`✅ Date ajoutée: ${dateStr} (${date.toLocaleDateString('fr-FR', { weekday: 'long' })})`);
-      } else {
-        console.log(`❌ Weekend exclu: ${date.toLocaleDateString('fr-FR', { weekday: 'long', day: '2-digit', month: '2-digit' })}`);
+      // Exclure les weekends
+      if (date.getDay() !== 0 && date.getDay() !== 6) {
+        dates.push(date.toISOString().split('T')[0]);
       }
     }
-
-    console.log('📅 Dates disponibles finales:', dates);
     return dates;
   };
 
@@ -189,18 +173,15 @@ const TimezoneBookingInterface: React.FC = () => {
   };
 
   const formatTimeInUserZone = (time: string) => {
-    // ✅ CONVERSION CORRECTE: du timezone coach vers timezone talent
-    if (!selectedDate || !coach) return time;
-
-    // Récupérer la timezone depuis le profil du coach
-    const coachTimezone = coach.timezone || 'Europe/Paris';
-
-    // Utiliser TimezoneService pour la conversion correcte
-    const { TimezoneService } = require('../services/timezoneService');
-    const convertedTime = TimezoneService.convertTime(time, selectedDate, coachTimezone, userTimeZone);
-
-    console.log(`🔄 Conversion créneau: ${time} (${coachTimezone}) → ${convertedTime} (${userTimeZone})`);
-    return convertedTime;
+    // Créer une date avec l'heure dans le fuseau du coach, puis l'afficher dans le fuseau du talent
+    const today = new Date().toISOString().split('T')[0];
+    const dateTime = new Date(`${today}T${time}:00`);
+    
+    return dateTime.toLocaleTimeString('fr-FR', {
+      timeZone: userTimeZone,
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -237,7 +218,7 @@ const TimezoneBookingInterface: React.FC = () => {
         status: 'en_attente',
         notes: formData.message.trim(),
         talentTimeZone: userTimeZone,
-        coachTimeZone: coach?.timezone || 'Europe/Paris'
+        coachTimeZone: 'Europe/Paris' // À récupérer du profil coach si disponible
       });
 
       const { AppointmentService } = await import('../services/appointmentService');
@@ -252,7 +233,7 @@ const TimezoneBookingInterface: React.FC = () => {
         status: 'en_attente',
         notes: formData.message.trim() || null,
         talentTimeZone: userTimeZone,
-        coachTimeZone: coach?.timezone || 'Europe/Paris'
+        coachTimeZone: 'Europe/Paris'
       });
 
       if (result.success) {

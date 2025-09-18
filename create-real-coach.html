@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 Créer Coach Réel avec Auth</title>
+    <style>
+        body {
+            font-family: system-ui;
+            background: #111;
+            color: #f5f5f7;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        button {
+            background: #ffcc00;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        .success { background: #006600; }
+        .error { background: #660000; }
+        .log {
+            background: #2a2a2a;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            white-space: pre-line;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        input {
+            background: #333;
+            color: #f5f5f7;
+            border: 1px solid #555;
+            padding: 10px;
+            border-radius: 4px;
+            width: 100%;
+            margin: 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Créer un Coach Réel avec Authentification</h1>
+
+        <div class="card">
+            <h2>📝 Informations du Coach</h2>
+            <label>Email du coach :</label>
+            <input type="email" id="coachEmail" value="coach.test@prodtalent.fr" placeholder="coach.test@prodtalent.fr">
+
+            <label>Nom du coach :</label>
+            <input type="text" id="coachName" value="Coach Test NY" placeholder="Coach Test">
+
+            <label>Mot de passe :</label>
+            <input type="password" id="coachPassword" value="test123" placeholder="test123">
+
+            <label>Timezone :</label>
+            <select id="coachTimezone" style="background: #333; color: #f5f5f7; border: 1px solid #555; padding: 10px; border-radius: 4px; width: 100%; margin: 8px 0;">
+                <option value="America/New_York">America/New_York (pour tests timezone)</option>
+                <option value="Europe/Paris">Europe/Paris</option>
+                <option value="Europe/Zurich">Europe/Zurich</option>
+                <option value="America/Toronto">America/Toronto</option>
+            </select>
+
+            <br><br>
+            <button onclick="createRealCoach()" id="createBtn">🚀 Créer Coach + Disponibilités</button>
+        </div>
+
+        <div class="card">
+            <h2>📊 Résultats</h2>
+            <div id="result" class="log">Cliquez sur le bouton pour créer le coach...</div>
+        </div>
+
+        <div class="card">
+            <h2>🔗 Liens Utiles</h2>
+            <p><strong>Connexion Coach :</strong> <a href="/login/coach" style="color: #ffcc00;">http://127.0.0.1:5173/login/coach</a></p>
+            <p><strong>Dashboard Coach :</strong> <a href="/dashboard/coach" style="color: #ffcc00;">http://127.0.0.1:5173/dashboard/coach</a></p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+        import { getFirestore, doc, setDoc, collection, addDoc, Timestamp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+        // Configuration Firebase (votre vraie config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDiUUZ8T_gTAp7LdqPNnuFl9U7Gl7Ecfik",
+            authDomain: "talents-tech-senegal.firebaseapp.com",
+            projectId: "talents-tech-senegal",
+            storageBucket: "talents-tech-senegal.firebasestorage.app",
+            messagingSenderId: "759306069327",
+            appId: "1:759306069327:web:f711a2b907537e9dead13a",
+            measurementId: "G-0KNNCCGGEJ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        window.createRealCoach = async function() {
+            const btn = document.getElementById('createBtn');
+            const result = document.getElementById('result');
+
+            btn.disabled = true;
+            btn.textContent = '⏳ Création en cours...';
+            result.textContent = '🔄 Démarrage de la création du coach...\n';
+
+            try {
+                const email = document.getElementById('coachEmail').value;
+                const name = document.getElementById('coachName').value;
+                const password = document.getElementById('coachPassword').value;
+                const timezone = document.getElementById('coachTimezone').value;
+
+                result.textContent += `📧 Email: ${email}\n`;
+                result.textContent += `👤 Nom: ${name}\n`;
+                result.textContent += `🌍 Timezone: ${timezone}\n\n`;
+
+                // Étape 1: Créer l'utilisateur avec authentication
+                result.textContent += '1️⃣ Création du compte avec authentification Firebase...\n';
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                result.textContent += `✅ Utilisateur créé avec UID: ${user.uid}\n\n`;
+
+                // Étape 2: Créer le profil coach dans Firestore
+                result.textContent += '2️⃣ Création du profil coach dans Firestore...\n';
+                const coachProfile = {
+                    id: user.uid,
+                    email: email,
+                    displayName: name,
+                    role: 'coach',
+                    bio: `Coach spécialisé en développement de carrière - ${timezone}`,
+                    skills: 'Coaching carrière, Entretiens, CV, Négociation salaire',
+                    timezone: timezone,
+                    createdAt: Timestamp.now(),
+                    updatedAt: Timestamp.now()
+                };
+
+                await setDoc(doc(db, 'Users', user.uid), coachProfile);
+                result.textContent += `✅ Profil coach sauvegardé\n\n`;
+
+                // Étape 3: Créer des disponibilités
+                result.textContent += '3️⃣ Création des disponibilités pour les 7 prochains jours...\n';
+
+                const today = new Date();
+                const timeSlots = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'];
+
+                for (let i = 1; i <= 7; i++) {
+                    const date = new Date(today);
+                    date.setDate(today.getDate() + i);
+
+                    // Exclure les weekends
+                    if (date.getDay() !== 0 && date.getDay() !== 6) {
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+                        const dateStr = `${year}-${month}-${day}`;
+
+                        const availabilityData = {
+                            coachId: user.uid,
+                            date: dateStr,
+                            timeSlots: timeSlots,
+                            timezone: timezone,
+                            createdAt: Timestamp.now(),
+                            updatedAt: Timestamp.now()
+                        };
+
+                        await setDoc(doc(db, 'CoachAvailabilities', `${user.uid}_${dateStr}`), availabilityData);
+                        result.textContent += `📅 Disponibilités créées pour ${dateStr} (${timeSlots.length} créneaux)\n`;
+                    }
+                }
+
+                result.textContent += '\n🎉 SUCCÈS ! Coach créé avec succès !\n\n';
+                result.textContent += '🔗 Informations de connexion :\n';
+                result.textContent += `   📧 Email: ${email}\n`;
+                result.textContent += `   🔑 Mot de passe: ${password}\n`;
+                result.textContent += `   🌍 Timezone: ${timezone}\n\n`;
+                result.textContent += '🏠 Accès au dashboard :\n';
+                result.textContent += '   1. Allez sur http://127.0.0.1:5173/login/coach\n';
+                result.textContent += '   2. Connectez-vous avec les infos ci-dessus\n';
+                result.textContent += '   3. Dashboard automatiquement accessible\n\n';
+                result.textContent += '✅ Le coach peut maintenant recevoir des réservations !';
+
+                result.className = 'log success';
+
+            } catch (error) {
+                console.error('Erreur:', error);
+                result.textContent += `\n❌ ERREUR: ${error.message}\n`;
+                result.textContent += '\n💡 Si l\'email existe déjà, essayez un autre email.';
+                result.className = 'log error';
+            } finally {
+                btn.disabled = false;
+                btn.textContent = '🚀 Créer Coach + Disponibilités';
+            }
+        };
+    </script>
+</body>
+</html>
