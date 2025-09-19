@@ -432,11 +432,24 @@ export default function CoachDashboard() {
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
-            transition: 'transform 0.2s'
+            transition: 'transform 0.2s',
+            minHeight: screenWidth <= 480 ? '80px' : 'auto'
           }} onClick={handleViewRecruteurs}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Recruteurs ({Number(stats.recruteursCount) || 0})</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Connectez-vous avec les recruteurs actifs
+            <h3 style={{
+              margin: '0 0 10px 0',
+              color: '#ffcc00',
+              fontSize: screenWidth <= 480 ? '14px' : '16px',
+              lineHeight: '1.3'
+            }}>
+              Recruteurs ({Number(stats.recruteursCount) || 0})
+            </h3>
+            <p style={{
+              margin: 0,
+              color: '#888',
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              lineHeight: '1.4'
+            }}>
+              {screenWidth <= 480 ? 'Voir les recruteurs' : 'Connectez-vous avec les recruteurs actifs'}
             </p>
           </div>
 
@@ -446,24 +459,50 @@ export default function CoachDashboard() {
             borderRadius: '4px',
             cursor: 'pointer',
             transition: 'transform 0.2s',
-            border: 'none'
+            border: 'none',
+            minHeight: screenWidth <= 480 ? '80px' : 'auto'
           }} onClick={handleViewTalents}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Talents ({Number(stats.talentsCount) || 0})</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Accompagnez et gérez vos talents
+            <h3 style={{
+              margin: '0 0 10px 0',
+              color: '#ffcc00',
+              fontSize: screenWidth <= 480 ? '14px' : '16px',
+              lineHeight: '1.3'
+            }}>
+              Talents ({Number(stats.talentsCount) || 0})
+            </h3>
+            <p style={{
+              margin: 0,
+              color: '#888',
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              lineHeight: '1.4'
+            }}>
+              {screenWidth <= 480 ? 'Gérer les talents' : 'Accompagnez et gérez vos talents'}
             </p>
           </div>
 
           <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
-            transition: 'transform 0.2s'
+            transition: 'transform 0.2s',
+            minHeight: screenWidth <= 480 ? '80px' : 'auto'
           }} onClick={() => setIsAvailabilityOpen(true)}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Prise de Rendez-vous</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Publiez vos créneaux disponibles avec fuseaux horaires
+            <h3 style={{
+              margin: '0 0 10px 0',
+              color: '#ffcc00',
+              fontSize: screenWidth <= 480 ? '14px' : '16px',
+              lineHeight: '1.3'
+            }}>
+              Prise de Rendez-vous
+            </h3>
+            <p style={{
+              margin: 0,
+              color: '#888',
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              lineHeight: '1.4'
+            }}>
+              {screenWidth <= 480 ? 'Créneaux disponibles' : 'Publiez vos créneaux disponibles avec fuseaux horaires'}
             </p>
           </div>
 
@@ -483,43 +522,80 @@ export default function CoachDashboard() {
         }}>
 
           <div style={{
-            padding: '20px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
-            transition: 'transform 0.2s'
+            transition: 'transform 0.2s',
+            minHeight: screenWidth <= 480 ? '80px' : 'auto'
           }} onClick={() => setIsAppointmentsOpen(true)}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Mes Rendez-vous ({Number(stats.appointmentsCount) || 0})</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Gérez vos rendez-vous avec fuseaux horaires et Google Calendar
-            </p>
-          </div>
-
-          <div style={{
-            padding: screenWidth <= 480 ? '15px' : '20px',
-            backgroundColor: '#1a1a1a',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            transition: 'transform 0.2s'
-          }} onClick={() => setShowRecommendationsHistory(true)}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Historique Recommandations</h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Consultez l'historique de vos recommandations
-            </p>
-          </div>
-
-          <div style={{
-            padding: screenWidth <= 480 ? '15px' : '20px',
-            backgroundColor: '#1a1a1a',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            transition: 'transform 0.2s'
-          }} onClick={handleOpenMessages}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>
-              Messages {stats.unreadMessagesCount > 0 ? `(${stats.unreadMessagesCount} non lu${stats.unreadMessagesCount > 1 ? 's' : ''})` : ''}
+            <h3 style={{
+              margin: '0 0 10px 0',
+              color: '#ffcc00',
+              fontSize: screenWidth <= 480 ? '14px' : '16px',
+              lineHeight: '1.3'
+            }}>
+              Mes Rendez-vous ({Number(stats.appointmentsCount) || 0})
             </h3>
-            <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
-              Communiquez avec les recruteurs et coaches
+            <p style={{
+              margin: 0,
+              color: '#888',
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              lineHeight: '1.4'
+            }}>
+              {screenWidth <= 480 ? 'Gérer mes RDV' : 'Gérez vos rendez-vous avec fuseaux horaires et Google Calendar'}
+            </p>
+          </div>
+
+          <div style={{
+            padding: screenWidth <= 480 ? '15px' : '20px',
+            backgroundColor: '#1a1a1a',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            transition: 'transform 0.2s',
+            minHeight: screenWidth <= 480 ? '80px' : 'auto'
+          }} onClick={() => setShowRecommendationsHistory(true)}>
+            <h3 style={{
+              margin: '0 0 10px 0',
+              color: '#ffcc00',
+              fontSize: screenWidth <= 480 ? '14px' : '16px',
+              lineHeight: '1.3'
+            }}>
+              Historique Recommandations
+            </h3>
+            <p style={{
+              margin: 0,
+              color: '#888',
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              lineHeight: '1.4'
+            }}>
+              {screenWidth <= 480 ? 'Voir historique' : 'Consultez l\'historique de vos recommandations'}
+            </p>
+          </div>
+
+          <div style={{
+            padding: screenWidth <= 480 ? '15px' : '20px',
+            backgroundColor: '#1a1a1a',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            transition: 'transform 0.2s',
+            minHeight: screenWidth <= 480 ? '80px' : 'auto'
+          }} onClick={handleOpenMessages}>
+            <h3 style={{
+              margin: '0 0 10px 0',
+              color: '#ffcc00',
+              fontSize: screenWidth <= 480 ? '14px' : '16px',
+              lineHeight: '1.3'
+            }}>
+              Messages {stats.unreadMessagesCount > 0 ? `(${stats.unreadMessagesCount})` : ''}
+            </h3>
+            <p style={{
+              margin: 0,
+              color: '#888',
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              lineHeight: '1.4'
+            }}>
+              {screenWidth <= 480 ? 'Voir messages' : 'Communiquez avec les recruteurs et coaches'}
             </p>
           </div>
 
@@ -619,14 +695,15 @@ export default function CoachDashboard() {
                 marginBottom: '20px'
               }}>
                 {/* Filtres en grid sur toute la largeur */}
-                <div style={{ 
+                <div style={{
                   display: 'grid',
-                  gridTemplateColumns: screenWidth <= 480 
-                    ? '1fr' 
-                    : screenWidth <= 768 
-                      ? 'repeat(2, 1fr)' 
+                  gridTemplateColumns: screenWidth <= 480
+                    ? '1fr'
+                    : screenWidth <= 768
+                      ? 'repeat(2, 1fr)'
                       : 'repeat(4, 1fr)',
-                  gap: screenWidth <= 480 ? '12px' : '16px' 
+                  gap: screenWidth <= 480 ? '12px' : '16px',
+                  width: '100%'
                 }}>
                       
                       {/* Filtre par compétences */}
@@ -663,12 +740,13 @@ export default function CoachDashboard() {
                           onChange={(e) => setActiveFilters(prev => ({ ...prev, skills: e.target.value }))}
                           style={{
                             width: '100%',
-                            padding: '8px 12px',
+                            padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
                             backgroundColor: '#1a1a1a',
                             border: 'none',
                             borderRadius: '4px',
                             color: '#f5f5f7',
-                            fontSize: '13px'
+                            fontSize: screenWidth <= 480 ? '14px' : '13px',
+                            boxSizing: 'border-box'
                           }}
                         />
                       </div>
@@ -707,12 +785,13 @@ export default function CoachDashboard() {
                           onChange={(e) => setActiveFilters(prev => ({ ...prev, location: e.target.value }))}
                           style={{
                             width: '100%',
-                            padding: '8px 12px',
+                            padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
                             backgroundColor: '#1a1a1a',
                             border: 'none',
                             borderRadius: '4px',
                             color: '#f5f5f7',
-                            fontSize: '13px'
+                            fontSize: screenWidth <= 480 ? '14px' : '13px',
+                            boxSizing: 'border-box'
                           }}
                         />
                       </div>
@@ -751,12 +830,13 @@ export default function CoachDashboard() {
                           onChange={(e) => setActiveFilters(prev => ({ ...prev, contractType: e.target.value }))}
                           style={{
                             width: '100%',
-                            padding: '8px 12px',
+                            padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
                             backgroundColor: '#1a1a1a',
                             border: 'none',
                             borderRadius: '4px',
                             color: '#f5f5f7',
-                            fontSize: '13px'
+                            fontSize: screenWidth <= 480 ? '14px' : '13px',
+                            boxSizing: 'border-box'
                           }}
                         />
                       </div>
@@ -795,12 +875,13 @@ export default function CoachDashboard() {
                           onChange={(e) => setActiveFilters(prev => ({ ...prev, company: e.target.value }))}
                           style={{
                             width: '100%',
-                            padding: '8px 12px',
+                            padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
                             backgroundColor: '#1a1a1a',
                             border: 'none',
                             borderRadius: '4px',
                             color: '#f5f5f7',
-                            fontSize: '13px'
+                            fontSize: screenWidth <= 480 ? '14px' : '13px',
+                            boxSizing: 'border-box'
                           }}
                         />
                       </div>
@@ -811,15 +892,16 @@ export default function CoachDashboard() {
                       onClick={() => setActiveFilters({ skills: '', location: '', contractType: '', company: '' })}
                       style={{
                         width: '100%',
-                        padding: '8px',
+                        padding: screenWidth <= 480 ? '12px' : '8px',
                         marginTop: '16px',
                         backgroundColor: '#333',
                         color: '#f5f5f7',
                         border: 'none',
                         borderRadius: '4px',
                         cursor: 'pointer',
-                        fontSize: '13px',
-                        transition: 'background-color 0.2s'
+                        fontSize: screenWidth <= 480 ? '14px' : '13px',
+                        transition: 'background-color 0.2s',
+                        boxSizing: 'border-box'
                       }}
                       onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
                       onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}

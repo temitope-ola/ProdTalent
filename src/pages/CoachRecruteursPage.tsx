@@ -326,8 +326,8 @@ const CoachRecruteursPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Filtres mobiles au-dessus - s'ouvrent vers le haut */}
-        {showFilters && screenWidth <= 768 && (
+        {/* Filtres responsives - affichage unifié */}
+        {showFilters && (
           <div style={{
             width: '100%',
             backgroundColor: '#1a1a1a',
@@ -336,14 +336,15 @@ const CoachRecruteursPage: React.FC = () => {
             marginBottom: '20px'
           }}>
             {/* Filtres en grid sur toute la largeur */}
-            <div style={{ 
+            <div style={{
               display: 'grid',
-              gridTemplateColumns: screenWidth <= 480 
-                ? '1fr' 
-                : screenWidth <= 768 
-                  ? 'repeat(2, 1fr)' 
+              gridTemplateColumns: screenWidth <= 480
+                ? '1fr'
+                : screenWidth <= 768
+                  ? 'repeat(2, 1fr)'
                   : 'repeat(4, 1fr)',
-              gap: screenWidth <= 480 ? '12px' : '16px' 
+              gap: screenWidth <= 480 ? '12px' : '16px',
+              width: '100%'
             }}>
 
               {/* Filtre par localisation */}
@@ -380,12 +381,13 @@ const CoachRecruteursPage: React.FC = () => {
                   onChange={(e) => setActiveFilters(prev => ({ ...prev, location: e.target.value }))}
                   style={{
                     width: '100%',
-                    padding: '8px 12px',
+                    padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
                     backgroundColor: '#1a1a1a',
                     border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7',
-                    fontSize: '13px'
+                    fontSize: screenWidth <= 480 ? '14px' : '13px',
+                    boxSizing: 'border-box'
                   }}
                 />
               </div>
@@ -424,12 +426,13 @@ const CoachRecruteursPage: React.FC = () => {
                   onChange={(e) => setActiveFilters(prev => ({ ...prev, company: e.target.value }))}
                   style={{
                     width: '100%',
-                    padding: '8px 12px',
+                    padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
                     backgroundColor: '#1a1a1a',
                     border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7',
-                    fontSize: '13px'
+                    fontSize: screenWidth <= 480 ? '14px' : '13px',
+                    boxSizing: 'border-box'
                   }}
                 />
               </div>
@@ -466,12 +469,13 @@ const CoachRecruteursPage: React.FC = () => {
                   onChange={(e) => setActiveFilters(prev => ({ ...prev, industry: e.target.value }))}
                   style={{
                     width: '100%',
-                    padding: '8px 12px',
+                    padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
                     backgroundColor: '#1a1a1a',
                     border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7',
-                    fontSize: '13px'
+                    fontSize: screenWidth <= 480 ? '14px' : '13px',
+                    boxSizing: 'border-box'
                   }}
                 >
                   <option value="">Tous les secteurs</option>
@@ -518,12 +522,13 @@ const CoachRecruteursPage: React.FC = () => {
                   onChange={(e) => setActiveFilters(prev => ({ ...prev, experience: e.target.value }))}
                   style={{
                     width: '100%',
-                    padding: '8px 12px',
+                    padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
                     backgroundColor: '#1a1a1a',
                     border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7',
-                    fontSize: '13px'
+                    fontSize: screenWidth <= 480 ? '14px' : '13px',
+                    boxSizing: 'border-box'
                   }}
                 >
                   <option value="">Toute expérience</option>
@@ -536,59 +541,68 @@ const CoachRecruteursPage: React.FC = () => {
 
             </div>
 
-            {/* Bouton "Appliquer les filtres" */}
-            <button 
-              onClick={() => setShowFilters(false)}
+            {/* Bouton Reset */}
+            <button
+              onClick={() => setActiveFilters({ location: '', company: '', industry: '', experience: '' })}
               style={{
                 width: '100%',
-                padding: '12px',
+                padding: screenWidth <= 480 ? '12px' : '8px',
                 marginTop: '16px',
                 backgroundColor: '#333',
                 color: '#f5f5f7',
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
-                fontSize: '13px',
-                transition: 'background-color 0.2s'
+                fontSize: screenWidth <= 480 ? '14px' : '13px',
+                transition: 'background-color 0.2s',
+                boxSizing: 'border-box'
               }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
             >
-              Appliquer les filtres
+              Réinitialiser
             </button>
           </div>
         )}
 
-        {/* Section "Tous les recruteurs" avec filtre sidebar */}
+        {/* Section Recruteurs avec filtres */}
         <div style={{
           backgroundColor: '#1a1a1a',
           borderRadius: '4px',
           padding: '20px',
-          paddingLeft: '0px'
+          marginBottom: '20px'
         }}>
-          
-          {/* Header avec bouton filtre et titre */}
+
+          {/* Header avec bouton filtre */}
           <div style={{
             display: 'flex',
+            flexDirection: screenWidth <= 480 ? 'column' : 'row',
             justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '10px',
-            paddingLeft: '20px'
+            alignItems: screenWidth <= 480 ? 'stretch' : 'center',
+            gap: screenWidth <= 480 ? '12px' : '0',
+            marginBottom: screenWidth <= 480 ? '15px' : '20px',
+            paddingLeft: screenWidth <= 480 ? '0' : screenWidth <= 768 ? '10px' : '20px'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: screenWidth <= 480 ? 'column' : 'row',
+              alignItems: screenWidth <= 480 ? 'stretch' : 'center',
+              gap: screenWidth <= 480 ? '8px' : '16px'
+            }}>
               {/* Bouton filtre toggle */}
               <div
                 onClick={() => setShowFilters(!showFilters)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'flex-start',
                   gap: '8px',
-                  padding: '8px 12px',
-                  paddingLeft: '16px',
+                  padding: screenWidth <= 480 ? '10px 16px' : '8px 12px',
                   backgroundColor: '#333',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  transition: 'background-color 0.2s'
+                  transition: 'background-color 0.2s',
+                  minWidth: screenWidth <= 480 ? '140px' : 'auto'
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
@@ -604,193 +618,72 @@ const CoachRecruteursPage: React.FC = () => {
                   <div style={{ width: '75%', height: '2px', backgroundColor: '#ffcc00' }}></div>
                   <div style={{ width: '50%', height: '2px', backgroundColor: '#ffcc00' }}></div>
                 </div>
-                <span style={{ fontSize: '14px', color: '#ffcc00' }}>
+                <span style={{
+                  fontSize: screenWidth <= 480 ? '13px' : '14px',
+                  color: '#ffcc00'
+                }}>
                   {showFilters ? 'Fermer' : 'Filtrer'}
                 </span>
               </div>
-              
-              {/* Titre "Tous les recruteurs" - slide avec les filtres */}
-              <div style={{ 
-                marginLeft: screenWidth <= 768 ? '0px' : (showFilters ? '250px' : '0px'),
-                transition: screenWidth <= 768 ? 'none' : 'margin-left 0.3s ease'
+
+              {/* Titre "Tous les recruteurs" - fixe */}
+              <div style={{
+                textAlign: screenWidth <= 480 ? 'center' : 'left'
               }}>
-                <h2 style={{ margin: 0, color: '#ffcc00' }}>Tous les recruteurs ({filteredRecruteurs.length})</h2>
+                <h2 style={{
+                  margin: 0,
+                  color: '#ffcc00',
+                  fontSize: screenWidth <= 480 ? '16px' : screenWidth <= 768 ? '18px' : '20px'
+                }}>
+                  Tous les recruteurs ({Number(filteredRecruteurs.length) || 0})
+                </h2>
               </div>
             </div>
-            
+
             {/* Pagination */}
-            <span style={{ fontSize: '14px', color: '#888' }}>Page 1</span>
+            <span style={{
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              color: '#888',
+              alignSelf: screenWidth <= 480 ? 'center' : 'auto'
+            }}>Page 1</span>
           </div>
 
 
-          {/* Contenu principal avec sidebar et cartes */}
-          <div style={{ 
-            display: 'flex', 
-            flexDirection: screenWidth <= 768 ? 'column' : 'row',
-            gap: '20px' 
-          }}>
-            
-            {/* Sidebar filtres - seulement sur desktop */}
-            {screenWidth > 768 && showFilters && (
+          <div style={{ width: '100%' }}>
+            {/* Contenu principal avec cartes */}
             <div style={{
-              width: showFilters ? '250px' : '0px',
-              overflow: 'hidden',
-              transition: 'width 0.3s ease',
-              backgroundColor: '#0a0a0a',
-              borderRadius: '4px',
-              padding: showFilters ? '25px' : '0px',
-              height: 'fit-content'
-            }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                    
-                    {/* Filtre par localisation */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Localisation
-                        </span>
-                        {activeFilters.location && (
-                          <button
-                            onClick={() => clearFilter('location')}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#ff6b6b',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Effacer
-                          </button>
-                        )}
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="ex: Paris, Lyon..."
-                        value={activeFilters.location}
-                        onChange={(e) => handleFilterChange('location', e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          backgroundColor: '#333',
-                          color: '#f5f5f7',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontSize: '12px'
-                        }}
-                      />
-                    </div>
-
-                    {/* Filtre par entreprise */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Entreprise
-                        </span>
-                        {activeFilters.company && (
-                          <button
-                            onClick={() => clearFilter('company')}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#ff6b6b',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Effacer
-                          </button>
-                        )}
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="ex: Google, Microsoft..."
-                        value={activeFilters.company}
-                        onChange={(e) => handleFilterChange('company', e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          backgroundColor: '#333',
-                          color: '#f5f5f7',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontSize: '12px'
-                        }}
-                      />
-                    </div>
-
-                    {/* Filtre par secteur */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Secteur
-                        </span>
-                        {activeFilters.industry && (
-                          <button
-                            onClick={() => clearFilter('industry')}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#ff6b6b',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Effacer
-                          </button>
-                        )}
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="ex: Tech, Finance..."
-                        value={activeFilters.industry}
-                        onChange={(e) => handleFilterChange('industry', e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          backgroundColor: '#333',
-                          color: '#f5f5f7',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontSize: '12px'
-                        }}
-                      />
-                    </div>
-                    
-                </div>
-              </div>
-            )}
-
-            {/* Section des cartes recruteurs */}
-            <div style={{ 
-              flex: 1,
-              padding: screenWidth <= 768 
-                ? '0px 10px' 
-                : (showFilters ? '0px' : '0px 20px')
+              width: '100%',
+              padding: screenWidth <= 480 ? '0 5px' : screenWidth <= 768 ? '0 10px' : '0'
             }}>
               
-              {/* Grille des recruteurs */}
+            {filteredRecruteurs.length === 0 ? (
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '200px',
+                color: '#888'
+              }}>
+                <div style={{
+                  fontSize: '48px',
+                  marginBottom: '16px',
+                  opacity: 0.5
+                }}>
+                  👔
+                </div>
+                <h3 style={{ margin: '0 0 8px 0', fontSize: '18px' }}>Aucun recruteur trouvé</h3>
+                <p style={{ margin: 0, textAlign: 'center', fontSize: '14px' }}>
+                  Essayez de modifier vos critères de recherche
+                </p>
+              </div>
+            ) : (
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: screenWidth <= 480 
-                  ? '1fr' 
-                  : screenWidth <= 768 
-                    ? 'repeat(auto-fit, minmax(280px, 1fr))' 
+                gridTemplateColumns: screenWidth <= 480
+                  ? '1fr'
+                  : screenWidth <= 768
+                    ? 'repeat(auto-fit, minmax(280px, 1fr))'
                     : 'repeat(auto-fit, minmax(300px, 1fr))',
                 gap: screenWidth <= 480 ? '12px' : '16px',
                 padding: screenWidth <= 480 ? '0 10px' : '0'
@@ -872,20 +765,8 @@ const CoachRecruteursPage: React.FC = () => {
                   </div>
                 ))}
               </div>
-              
-              {/* Message si aucun recruteur */}
-              {filteredRecruteurs.length === 0 && (
-                <div style={{
-                  textAlign: 'center',
-                  padding: '40px',
-                  color: '#888'
-                }}>
-                  <div style={{ fontSize: '48px', marginBottom: '16px' }}>👔</div>
-                  <h3 style={{ color: '#f5f5f7', marginBottom: '8px' }}>Aucun recruteur trouvé</h3>
-                  <p>Essayez de modifier vos critères de recherche</p>
-                </div>
-              )}
-            </div>
+            )}
+          </div>
           </div>
         </div>
       </div>

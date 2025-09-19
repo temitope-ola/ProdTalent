@@ -334,36 +334,44 @@ const CoachTalentsPage: React.FC = () => {
         </div>
 
 
-        {/* Section "Tous les talents" avec filtre sidebar */}
+        {/* Section Talents avec filtres */}
         <div style={{
           backgroundColor: '#1a1a1a',
           borderRadius: '4px',
           padding: '20px',
-          paddingLeft: '0px'
+          marginBottom: '20px'
         }}>
-          
-          {/* Header avec bouton filtre et titre */}
+
+          {/* Header avec bouton filtre */}
           <div style={{
             display: 'flex',
+            flexDirection: screenWidth <= 480 ? 'column' : 'row',
             justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: '10px',
-            paddingLeft: '20px'
+            alignItems: screenWidth <= 480 ? 'stretch' : 'center',
+            gap: screenWidth <= 480 ? '12px' : '0',
+            marginBottom: screenWidth <= 480 ? '15px' : '20px',
+            paddingLeft: screenWidth <= 480 ? '0' : screenWidth <= 768 ? '10px' : '20px'
           }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div style={{
+              display: 'flex',
+              flexDirection: screenWidth <= 480 ? 'column' : 'row',
+              alignItems: screenWidth <= 480 ? 'stretch' : 'center',
+              gap: screenWidth <= 480 ? '8px' : '16px'
+            }}>
               {/* Bouton filtre toggle */}
               <div
                 onClick={() => setShowFilters(!showFilters)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'flex-start',
                   gap: '8px',
-                  padding: '8px 12px',
-                  paddingLeft: '16px',
+                  padding: screenWidth <= 480 ? '10px 16px' : '8px 12px',
                   backgroundColor: '#333',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  transition: 'background-color 0.2s'
+                  transition: 'background-color 0.2s',
+                  minWidth: screenWidth <= 480 ? '140px' : 'auto'
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
@@ -379,39 +387,57 @@ const CoachTalentsPage: React.FC = () => {
                   <div style={{ width: '75%', height: '2px', backgroundColor: '#ffcc00' }}></div>
                   <div style={{ width: '50%', height: '2px', backgroundColor: '#ffcc00' }}></div>
                 </div>
-                <span style={{ fontSize: '14px', color: '#ffcc00' }}>
+                <span style={{
+                  fontSize: screenWidth <= 480 ? '13px' : '14px',
+                  color: '#ffcc00'
+                }}>
                   {showFilters ? 'Fermer' : 'Filtrer'}
                 </span>
               </div>
-              
-              {/* Titre "Tous les talents" - slide avec les filtres */}
-              <div style={{ 
-                marginLeft: screenWidth <= 768 ? '0px' : (showFilters ? '250px' : '0px'),
-                transition: screenWidth <= 768 ? 'none' : 'margin-left 0.3s ease'
+
+              {/* Titre "Tous les talents" - fixe */}
+              <div style={{
+                textAlign: screenWidth <= 480 ? 'center' : 'left'
               }}>
-                <h2 style={{ margin: 0, color: '#ffcc00' }}>Tous les talents ({filteredTalents.length})</h2>
+                <h2 style={{
+                  margin: 0,
+                  color: '#ffcc00',
+                  fontSize: screenWidth <= 480 ? '16px' : screenWidth <= 768 ? '18px' : '20px'
+                }}>
+                  Tous les talents ({Number(filteredTalents.length) || 0})
+                </h2>
               </div>
             </div>
-            
+
             {/* Pagination */}
-            <span style={{ fontSize: '14px', color: '#888' }}>Page 1</span>
+            <span style={{
+              fontSize: screenWidth <= 480 ? '12px' : '14px',
+              color: '#888',
+              alignSelf: screenWidth <= 480 ? 'center' : 'auto'
+            }}>Page 1</span>
           </div>
 
 
-          {/* Filtres mobiles - seulement pour mobile/tablette */}
-          {showFilters && screenWidth <= 768 && (
+        {/* Filtres responsives - affichage unifié */}
+        {showFilters && (
+          <div style={{
+            width: '100%',
+            backgroundColor: '#1a1a1a',
+            borderRadius: '4px',
+            padding: screenWidth <= 480 ? '15px' : '20px',
+            marginBottom: '20px'
+          }}>
+            {/* Filtres en grid sur toute la largeur */}
             <div style={{
-              width: '100%',
-              backgroundColor: '#0a0a0a',
-              borderRadius: '4px',
-              padding: '20px',
-              marginBottom: '20px'
+              display: 'grid',
+              gridTemplateColumns: screenWidth <= 480
+                ? '1fr'
+                : screenWidth <= 768
+                  ? 'repeat(2, 1fr)'
+                  : 'repeat(4, 1fr)',
+              gap: screenWidth <= 480 ? '12px' : '16px',
+              width: '100%'
             }}>
-              <div style={{ 
-                display: 'grid',
-                gridTemplateColumns: screenWidth <= 480 ? '1fr' : 'repeat(2, 1fr)',
-                gap: '16px' 
-              }}>
                 {/* Compétences */}
                 <div>
                   <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500', marginBottom: '8px', display: 'block' }}>
@@ -424,12 +450,13 @@ const CoachTalentsPage: React.FC = () => {
                     onChange={(e) => handleFilterChange('skills', e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '8px',
-                      backgroundColor: '#333',
+                      padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
+                      backgroundColor: '#1a1a1a',
                       color: '#f5f5f7',
                       border: 'none',
                       borderRadius: '4px',
-                      fontSize: '13px'
+                      fontSize: screenWidth <= 480 ? '14px' : '13px',
+                      boxSizing: 'border-box'
                     }}
                   />
                 </div>
@@ -444,12 +471,13 @@ const CoachTalentsPage: React.FC = () => {
                     onChange={(e) => handleFilterChange('availability', e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '8px',
-                      backgroundColor: '#333',
+                      padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
+                      backgroundColor: '#1a1a1a',
                       color: '#f5f5f7',
                       border: 'none',
                       borderRadius: '4px',
-                      fontSize: '13px'
+                      fontSize: screenWidth <= 480 ? '14px' : '13px',
+                      boxSizing: 'border-box'
                     }}
                   >
                     <option value="">Toutes</option>
@@ -472,12 +500,13 @@ const CoachTalentsPage: React.FC = () => {
                     onChange={(e) => handleFilterChange('location', e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '8px',
-                      backgroundColor: '#333',
+                      padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
+                      backgroundColor: '#1a1a1a',
                       color: '#f5f5f7',
                       border: 'none',
                       borderRadius: '4px',
-                      fontSize: '13px'
+                      fontSize: screenWidth <= 480 ? '14px' : '13px',
+                      boxSizing: 'border-box'
                     }}
                   />
                 </div>
@@ -492,12 +521,13 @@ const CoachTalentsPage: React.FC = () => {
                     onChange={(e) => handleFilterChange('experience', e.target.value)}
                     style={{
                       width: '100%',
-                      padding: '8px',
-                      backgroundColor: '#333',
+                      padding: screenWidth <= 480 ? '10px 12px' : '8px 12px',
+                      backgroundColor: '#1a1a1a',
                       color: '#f5f5f7',
                       border: 'none',
                       borderRadius: '4px',
-                      fontSize: '13px'
+                      fontSize: screenWidth <= 480 ? '14px' : '13px',
+                      boxSizing: 'border-box'
                     }}
                   >
                     <option value="">Tous niveaux</option>
@@ -513,263 +543,60 @@ const CoachTalentsPage: React.FC = () => {
                 onClick={() => setActiveFilters({ skills: '', availability: '', location: '', experience: '' })}
                 style={{
                   width: '100%',
-                  padding: '8px',
+                  padding: screenWidth <= 480 ? '12px' : '8px',
                   marginTop: '16px',
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   border: 'none',
                   borderRadius: '4px',
                   cursor: 'pointer',
-                  fontSize: '13px'
+                  fontSize: screenWidth <= 480 ? '14px' : '13px',
+                  transition: 'background-color 0.2s',
+                  boxSizing: 'border-box'
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
               >
                 Réinitialiser
               </button>
             </div>
           )}
 
-          {/* Contenu principal avec sidebar et cartes */}
-          <div style={{ 
-            display: 'flex', 
-            flexDirection: screenWidth <= 768 ? 'column' : 'row',
-            gap: '20px' 
-          }}>
-            
-            {/* Sidebar filtres - seulement sur desktop */}
-            {screenWidth > 768 && showFilters && (
+          <div style={{ width: '100%' }}>
+            {/* Contenu principal avec cartes */}
             <div style={{
-              width: showFilters ? '250px' : '0px',
-              overflow: 'hidden',
-              transition: 'width 0.3s ease',
-              height: 'fit-content',
-              backgroundColor: '#0a0a0a',
-              borderRadius: '4px',
-              padding: showFilters ? '25px' : '0px'
-            }}>
-                <div style={{ 
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '16px' 
-                }}>
-                    
-                    {/* Filtre par compétences */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Compétences
-                        </span>
-                        {activeFilters.skills && (
-                          <button
-                            onClick={() => clearFilter('skills')}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#ff6b6b',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Effacer
-                          </button>
-                        )}
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="ex: React, Python..."
-                        value={activeFilters.skills}
-                        onChange={(e) => handleFilterChange('skills', e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          backgroundColor: '#333',
-                          color: '#f5f5f7',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontSize: '12px'
-                        }}
-                      />
-                    </div>
-
-                    {/* Filtre par disponibilité */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Disponibilité
-                        </span>
-                        {activeFilters.availability && (
-                          <button
-                            onClick={() => clearFilter('availability')}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#ff6b6b',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Effacer
-                          </button>
-                        )}
-                      </div>
-                      <select
-                        value={activeFilters.availability}
-                        onChange={(e) => handleFilterChange('availability', e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          backgroundColor: '#333',
-                          color: '#f5f5f7',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontSize: '12px'
-                        }}
-                      >
-                        <option value="">Toutes</option>
-                        <option value="immédiate">Immédiate</option>
-                        <option value="1 mois">Dans 1 mois</option>
-                        <option value="2 mois">Dans 2 mois</option>
-                        <option value="3 mois">Dans 3 mois+</option>
-                      </select>
-                    </div>
-
-                    {/* Filtre par localisation */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Localisation
-                        </span>
-                        {activeFilters.location && (
-                          <button
-                            onClick={() => clearFilter('location')}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#ff6b6b',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Effacer
-                          </button>
-                        )}
-                      </div>
-                      <input
-                        type="text"
-                        placeholder="ex: Paris, Lyon..."
-                        value={activeFilters.location}
-                        onChange={(e) => handleFilterChange('location', e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          backgroundColor: '#333',
-                          color: '#f5f5f7',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontSize: '12px'
-                        }}
-                      />
-                    </div>
-
-                    {/* Filtre par expérience */}
-                    <div>
-                      <div style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'space-between',
-                        marginBottom: '8px'
-                      }}>
-                        <span style={{ fontSize: '14px', color: '#f5f5f7', fontWeight: '500' }}>
-                          Expérience
-                        </span>
-                        {activeFilters.experience && (
-                          <button
-                            onClick={() => clearFilter('experience')}
-                            style={{
-                              background: 'none',
-                              border: 'none',
-                              color: '#ff6b6b',
-                              cursor: 'pointer',
-                              fontSize: '12px'
-                            }}
-                          >
-                            Effacer
-                          </button>
-                        )}
-                      </div>
-                      <select
-                        value={activeFilters.experience}
-                        onChange={(e) => handleFilterChange('experience', e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '8px',
-                          backgroundColor: '#333',
-                          color: '#f5f5f7',
-                          border: 'none',
-                          borderRadius: '4px',
-                          fontSize: '12px'
-                        }}
-                      >
-                        <option value="">Tous niveaux</option>
-                        <option value="junior">Junior (0-2 ans)</option>
-                        <option value="confirmé">Confirmé (3-5 ans)</option>
-                        <option value="senior">Senior (5+ ans)</option>
-                      </select>
-                    </div>
-                  </div>
-
-                {/* Bouton Reset */}
-                <button
-                  onClick={() => setActiveFilters({ skills: '', availability: '', location: '', experience: '' })}
-                  style={{
-                    width: '100%',
-                    padding: '8px',
-                    marginTop: '16px',
-                    backgroundColor: '#333',
-                    color: '#f5f5f7',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '13px',
-                    transition: 'background-color 0.2s'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
-                >
-                  Réinitialiser
-                </button>
-              </div>
-            )}
-
-            {/* Section des cartes talents */}
-            <div style={{ 
-              flex: 1,
-              padding: screenWidth <= 768 
-                ? '0px 10px' 
-                : (showFilters ? '0px' : '0px 20px')
+              width: '100%',
+              padding: screenWidth <= 480 ? '0 5px' : screenWidth <= 768 ? '0 10px' : '0'
             }}>
               
-              {/* Grille des talents */}
+            {filteredTalents.length === 0 ? (
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '200px',
+                color: '#888'
+              }}>
+                <div style={{
+                  fontSize: '48px',
+                  marginBottom: '16px',
+                  opacity: 0.5
+                }}>
+                  🎯
+                </div>
+                <h3 style={{ margin: '0 0 8px 0', fontSize: '18px' }}>Aucun talent trouvé</h3>
+                <p style={{ margin: 0, textAlign: 'center', fontSize: '14px' }}>
+                  Essayez de modifier vos critères de recherche
+                </p>
+              </div>
+            ) : (
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: screenWidth <= 480 
-                  ? '1fr' 
-                  : screenWidth <= 768 
-                    ? 'repeat(auto-fit, minmax(280px, 1fr))' 
+                gridTemplateColumns: screenWidth <= 480
+                  ? '1fr'
+                  : screenWidth <= 768
+                    ? 'repeat(auto-fit, minmax(280px, 1fr))'
                     : 'repeat(auto-fit, minmax(300px, 1fr))',
                 gap: screenWidth <= 480 ? '12px' : '16px',
                 padding: screenWidth <= 480 ? '0 10px' : '0'
@@ -857,20 +684,8 @@ const CoachTalentsPage: React.FC = () => {
                   </div>
                 ))}
               </div>
-              
-              {/* Message si aucun talent */}
-              {filteredTalents.length === 0 && (
-                <div style={{
-                  textAlign: 'center',
-                  padding: '40px',
-                  color: '#888'
-                }}>
-                  <div style={{ fontSize: '24px', marginBottom: '16px', fontWeight: 'bold', color: '#ffcc00' }}>Talents</div>
-                  <h3 style={{ color: '#f5f5f7', marginBottom: '8px' }}>Aucun talent trouvé</h3>
-                  <p>Essayez de modifier vos critères de recherche</p>
-                </div>
-              )}
-            </div>
+            )}
+          </div>
           </div>
         </div>
       </div>

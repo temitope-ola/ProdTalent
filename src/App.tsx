@@ -17,8 +17,8 @@ import RecruiterDashboard from './pages/RecruiterDashboard.tsx';
 // CoachDashboard supprimé - fonctionnalité non implémentée
 import ProfilePage from './pages/ProfilePage';
 import TalentsListPage from './pages/TalentsListPage.tsx';
-import CoachTalentsPage from './pages/CoachTalentsPage';
-import CoachRecruteursPage from './pages/CoachRecruteursPage';
+import CoachTalentsPage from './pages/CoachTalentsPage.tsx';
+import CoachRecruteursPage from './pages/CoachRecruteursPage.tsx';
 import ModernMessagesPage from './pages/ModernMessagesPage';
 import CreateJobPage from './pages/CreateJobPage';
 import MyJobsPage from './pages/MyJobsPage';
