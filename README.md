@@ -35,9 +35,10 @@ Une plateforme moderne de mise en relation entre talents tech, recruteurs et coa
 - **Frontend** : React 18 + TypeScript
 - **Build Tool** : Vite
 - **Backend** : Firebase (Firestore, Authentication)
-- **Styling** : CSS-in-JS (inline styles)
+- **Styling** : CSS-in-JS (inline styles) avec design responsive
 - **Routing** : React Router DOM
 - **State Management** : React Context API
+- **Responsive Design** : CSS Grid et Flexbox avec breakpoints optimisés
 
 ## 🚀 Installation
 
@@ -70,6 +71,11 @@ npm run dev
 ```
 
 L'application sera accessible sur `http://localhost:5173`
+
+**Pour un serveur stable (recommandé) :**
+```bash
+npm run dev -- --host 0.0.0.0
+```
 
 ## 📁 Structure du Projet
 
@@ -130,6 +136,13 @@ L'application utilise Firebase Authentication avec trois rôles :
 - **Texte** : Blanc sur fond sombre
 - **Sous-textes** : Gris clair
 
+### Design Responsive
+- **Mobile** : ≤ 480px (1 colonne, interfaces tactiles optimisées)
+- **Tablet** : ≤ 768px (2 colonnes, navigation adaptée)
+- **Desktop** : > 768px (4 colonnes, interface complète)
+- **Grilles CSS** : Système unifié avec `grid-template-columns`
+- **Box Model** : `boxSizing: 'border-box'` pour éviter les débordements
+
 ## 📱 Pages Principales
 
 ### Page d'Accueil (`/`)
@@ -153,11 +166,13 @@ L'application utilise Firebase Authentication avec trois rôles :
 - Statistiques de recrutement
 
 ### Dashboard Coach (`/dashboard/coach`)
-- Gestion des disponibilités
-- Suivi des talents accompagnés
-- Recommandations aux recruteurs
-- Gestion des rendez-vous
-- Outils de coaching
+- **Gestion des disponibilités** et agenda
+- **Suivi des talents** accompagnés avec filtres avancés
+- **Gestion des recruteurs** avec filtres responsives
+- **Recommandations** aux recruteurs
+- **Interface responsive** optimisée mobile et desktop
+- **Filtres unifiés** pour talents et recruteurs
+- Outils de coaching intégrés
 
 ### Administration (`/admin`)
 - Gestion des talents mis en avant
@@ -187,9 +202,26 @@ VITE_FIREBASE_PROJECT_ID=your_project_id
 
 ## 🚀 Déploiement
 
+### Commandes de vérification avant déploiement
+```bash
+# Vérification du build
+npm run build
+
+# Lint et vérifications (si configuré)
+npm run lint
+npm run typecheck
+```
+
 ### Build de production
 ```bash
 npm run build
+```
+
+### Déploiement Git
+```bash
+git add .
+git commit -m "Description des changements"
+git push origin main
 ```
 
 ### Déploiement sur Firebase Hosting
@@ -199,6 +231,11 @@ firebase login
 firebase init hosting
 firebase deploy
 ```
+
+### Notes de déploiement
+- Éviter les fichiers volumineux (> 100MB pour GitHub)
+- Vérifier les conflits .js/.tsx dans les imports
+- Redémarrer le serveur de développement en cas de problèmes
 
 ## 🤝 Contribution
 
@@ -217,6 +254,20 @@ Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
 Pour toute question ou problème :
 - Ouvrir une issue sur GitHub
 - Contacter l'équipe de développement
+
+## 📱 Améliorations Récentes
+
+### ✅ Design Responsive Unifié (v2.1.0)
+- **Filtres coach responsives** : Talents et recruteurs optimisés mobile
+- **Architecture unifiée** : Suppression des sidebars complexes
+- **Breakpoints standardisés** : Mobile (480px), Tablet (768px), Desktop
+- **Grilles CSS optimisées** : Système 1/2/4 colonnes selon l'écran
+- **Touch-friendly** : Boutons et inputs adaptés aux appareils tactiles
+
+### 🔧 Corrections Techniques
+- **Conflits .js/.tsx** : Imports forcés vers fichiers TypeScript
+- **Serveur de développement** : Stabilité améliorée avec `--host 0.0.0.0`
+- **Déploiement** : Gestion des fichiers volumineux et erreurs Git
 
 ---
 

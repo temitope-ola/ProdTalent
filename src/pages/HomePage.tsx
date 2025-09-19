@@ -1229,6 +1229,80 @@ et vous avancez avec l’assurance que vous n’êtes jamais seule dans ce parco
         </div>
       )}
 
+      {/* QR Code et section mobile */}
+      <section style={{
+        padding: '60px 24px',
+        textAlign: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.3)',
+        borderTop: '1px solid #333'
+      }}>
+        <div style={{
+          maxWidth: '600px',
+          margin: '0 auto'
+        }}>
+          <h3 style={{
+            fontSize: '24px',
+            fontWeight: 'bold',
+            marginBottom: '16px',
+            color: '#f5f5f7'
+          }}>
+            Téléchargez l'App Mobile
+          </h3>
+
+          <p style={{
+            color: '#888',
+            marginBottom: '32px',
+            fontSize: '16px'
+          }}>
+            Scannez le QR Code pour installer ProdTalent sur votre téléphone
+          </p>
+
+          <div style={{
+            background: '#f5f5f7',
+            padding: '20px',
+            borderRadius: '4px',
+            display: 'inline-block',
+            marginBottom: '32px'
+          }}>
+            <img
+              src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://prodtalent.com"
+              alt="QR Code ProdTalent"
+              style={{
+                width: '200px',
+                height: '200px',
+                display: 'block'
+              }}
+            />
+          </div>
+
+          <div style={{
+            background: 'rgba(255, 204, 0, 0.1)',
+            border: '1px solid #ffcc00',
+            borderRadius: '4px',
+            padding: '20px',
+            marginTop: '32px'
+          }}>
+            <h4 style={{
+              color: '#ffcc00',
+              fontSize: '18px',
+              fontWeight: 'bold',
+              marginBottom: '12px'
+            }}>
+              Talents Edacy
+            </h4>
+            <p style={{
+              color: '#f5f5f7',
+              fontSize: '14px',
+              lineHeight: '1.5'
+            }}>
+              Pour s'inscrire en tant que talent, vous devez passer par une{' '}
+              <strong style={{ color: '#ffcc00' }}>invitation Edacy</strong>.{' '}
+              Contactez votre formateur ou l'équipe Edacy pour obtenir votre accès.
+            </p>
+          </div>
+        </div>
+      </section>
+
       <style dangerouslySetInnerHTML={{
         __html: `
           @keyframes pulse {

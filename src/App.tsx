@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import useAuth from './contexts/AuthContext';
 import { useEffect } from 'react';
 import NotificationProvider from './components/NotificationManager';
+import PWAInstallPrompt from './components/PWAInstallPrompt';
 
 // 🚀 Services modernes : SendGrid + Google Calendar intégrés
 
@@ -253,6 +254,7 @@ export default function App() {
   return (
     <HelmetProvider>
       <NotificationProvider>
+        <PWAInstallPrompt />
         <div style={{
           minHeight: '100vh',
           display: 'flex',

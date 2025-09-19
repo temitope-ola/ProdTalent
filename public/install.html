@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Télécharger ProdTalent App</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f5f5f7;
+        }
+        .container {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0,0,0,0.6);
+            border-radius: 4px;
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            margin: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            border-radius: 4px;
+        }
+        h1 { margin-bottom: 10px; font-size: 28px; }
+        .subtitle { opacity: 0.9; margin-bottom: 30px; }
+        .download-btn {
+            background: linear-gradient(135deg, #ffcc00 0%, #ffd700 100%);
+            color: #1a1a1a;
+            padding: 15px 30px;
+            border-radius: 4px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(255, 204, 0, 0.3);
+        }
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 204, 0, 0.5);
+        }
+        .qr-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+        .qr-code {
+            background: #f5f5f7;
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin: 10px 0;
+        }
+        .steps {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+        .device-detect { display: none; }
+
+        @media (max-width: 768px) {
+            .container { margin: 10px; padding: 30px 15px; }
+            h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="/favicon.png" alt="ProdTalent Logo" />
+        </div>
+        <h1>ProdTalent</h1>
+        <p class="subtitle">Recrutement Tech en Afrique</p>
+
+        <a href="https://prodtalent.vercel.app" class="download-btn" id="mainBtn">
+            Ouvrir l'App
+        </a>
+
+        <div class="qr-section">
+            <h3>Ou scannez le QR Code :</h3>
+            <div class="qr-code">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://prodtalent.vercel.app" alt="QR Code">
+            </div>
+        </div>
+
+        <div class="steps">
+            <h3>Installation :</h3>
+            <div class="step" id="iosInstructions">
+                <strong>iPhone/iPad :</strong><br>
+                Safari → Partager → "Sur l'écran d'accueil"
+            </div>
+            <div class="step" id="androidInstructions">
+                <strong>Android :</strong><br>
+                Chrome → Menu (3 points) → "Ajouter à l'écran d'accueil"<br>
+                <small style="opacity: 0.8;">Ou banner automatique "Installer l'app"</small>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; padding: 20px; background: rgba(255, 204, 0, 0.1); border: 1px solid #ffcc00; border-radius: 4px;">
+            <h4 style="color: #ffcc00; font-size: 18px; font-weight: bold; margin-bottom: 12px;">
+                Talents Edacy
+            </h4>
+            <p style="color: #f5f5f7; font-size: 14px; line-height: 1.5; margin: 0;">
+                Pour s'inscrire en tant que talent, vous devez passer par une
+                <strong style="color: #ffcc00;"> invitation Edacy</strong>.
+                Contactez votre formateur ou l'équipe Edacy pour obtenir votre accès.
+            </p>
+        </div>
+
+        <p style="margin-top: 20px; opacity: 0.8; font-size: 14px;">
+            S'installe comme une vraie application native
+        </p>
+    </div>
+
+    <script>
+        // Détection de l'appareil
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isAndroid = /Android/.test(navigator.userAgent);
+
+        // On affiche toujours les deux instructions pour que l'utilisateur voie les options
+    </script>
+</body>
+</html>
