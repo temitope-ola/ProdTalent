@@ -228,7 +228,7 @@ const BookingPage = () => {
                         }, children: [_jsx("div", { style: {
                                     width: '80px',
                                     height: '80px',
-                                    borderRadius: '50%',
+                                    borderRadius: 4,
                                     backgroundColor: '#ffcc00',
                                     display: 'flex',
                                     alignItems: 'center',
@@ -250,7 +250,7 @@ const BookingPage = () => {
                                                     padding: '12px',
                                                     backgroundColor: '#333',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: '4px',
                                                     fontSize: '14px'
                                                 }, required: true, children: [_jsx("option", { value: "", children: "S\u00E9lectionnez une date" }), generateDateOptions().map(option => (_jsx("option", { value: option.value, children: option.label }, option.value)))] })] }), selectedDate && (_jsxs("div", { children: [_jsx("label", { style: {
@@ -266,7 +266,7 @@ const BookingPage = () => {
                                                         padding: '10px',
                                                         backgroundColor: selectedTime === time ? '#ffcc00' : '#333',
                                                         color: selectedTime === time ? '#000' : '#f5f5f7',
-                                                        border: '1px solid #555',
+                                                        border: 'none',
                                                         borderRadius: '4px',
                                                         cursor: 'pointer',
                                                         fontWeight: selectedTime === time ? 'bold' : 'normal'
@@ -280,7 +280,7 @@ const BookingPage = () => {
                                                             padding: '12px',
                                                             backgroundColor: '#333',
                                                             color: '#f5f5f7',
-                                                            border: '1px solid #555',
+                                                            border: 'none',
                                                             borderRadius: '4px',
                                                             fontSize: '14px'
                                                         }, required: true })] }), _jsxs("div", { children: [_jsx("label", { style: {
@@ -293,7 +293,7 @@ const BookingPage = () => {
                                                             padding: '12px',
                                                             backgroundColor: '#333',
                                                             color: '#f5f5f7',
-                                                            border: '1px solid #555',
+                                                            border: 'none',
                                                             borderRadius: '4px',
                                                             fontSize: '14px'
                                                         }, required: true })] })] }), _jsxs("div", { children: [_jsx("label", { style: {
@@ -306,7 +306,7 @@ const BookingPage = () => {
                                                     padding: '12px',
                                                     backgroundColor: '#333',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: '4px',
                                                     fontSize: '14px'
                                                 }, placeholder: "Ex: Pr\u00E9paration entretien, conseils CV..." })] }), _jsxs("div", { children: [_jsx("label", { style: {
@@ -319,7 +319,7 @@ const BookingPage = () => {
                                                     padding: '12px',
                                                     backgroundColor: '#333',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: '4px',
                                                     fontSize: '14px',
                                                     resize: 'vertical'

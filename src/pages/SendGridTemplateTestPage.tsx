@@ -142,7 +142,7 @@ export default function SendGridTemplateTestPage() {
               backgroundColor: '#111',
               padding: '24px',
               borderRadius: '4px',
-              border: '1px solid #333'
+              border: 'none'
             }}>
               <h3 style={{ color: '#ffcc00', margin: '0 0 12px 0', fontSize: '18px' }}>
                 {template.title}
@@ -191,7 +191,7 @@ export default function SendGridTemplateTestPage() {
         {/* Status */}
         <div style={{
           backgroundColor: '#111',
-          border: '1px solid #444',
+          border: 'none',
           padding: '20px',
           borderRadius: '4px',
           marginBottom: '24px'
@@ -207,7 +207,7 @@ export default function SendGridTemplateTestPage() {
             fontSize: '14px',
             minHeight: '60px',
             whiteSpace: 'pre-wrap',
-            border: '1px solid #333'
+            border: 'none'
           }}>
             {status || 'Prêt pour les tests... Cliquez sur un bouton de test ci-dessus.'}
           </div>
@@ -237,7 +237,7 @@ export default function SendGridTemplateTestPage() {
             padding: '15px', 
             backgroundColor: '#1a4d3a', 
             borderRadius: '4px',
-            border: '1px solid #4CAF50'
+            border: 'none'
           }}>
             <strong style={{ color: '#4CAF50' }}>✅ Système complet (6/6 templates) :</strong>
             <ul style={{ marginTop: '10px', paddingLeft: '20px', fontSize: '13px' }}>
@@ -255,7 +255,7 @@ export default function SendGridTemplateTestPage() {
             padding: '15px', 
             backgroundColor: '#2c1810', 
             borderRadius: '4px',
-            border: '1px solid #FF9800'
+            border: 'none'
           }}>
             <strong style={{ color: '#FF9800' }}>🚀 Prochaines étapes :</strong>
             <ul style={{ marginTop: '10px', paddingLeft: '20px', fontSize: '13px' }}>

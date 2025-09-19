@@ -7,17 +7,17 @@ import useAuth from '../contexts/AuthContext';
 const EMAIL_TYPES = {
   // Messages et communications
   messages: {
-    name: '💬 Messages privés',
+    name: 'Messages privés',
     description: 'Notifications lorsque vous recevez un nouveau message'
   },
   messageConfirmations: {
-    name: '✅ Confirmations d\'envoi de messages',
+    name: 'Confirmations d\'envoi de messages',
     description: 'Confirmation que votre message a été envoyé'
   },
   
   // Rendez-vous et coaching
   appointments: {
-    name: '📅 Rendez-vous de coaching',
+    name: 'Rendez-vous de coaching',
     description: 'Notifications pour nouveaux RDV, confirmations, modifications'
   },
   appointmentReminders: {
@@ -27,31 +27,31 @@ const EMAIL_TYPES = {
   
   // Recommandations et opportunités
   recommendations: {
-    name: '🎯 Recommandations de talents/jobs',
+    name: 'Recommandations de talents/jobs',
     description: 'Nouvelles recommandations correspondant à votre profil'
   },
   jobAlerts: {
-    name: '💼 Alertes emploi',
+    name: 'Alertes emploi',
     description: 'Nouvelles offres d\'emploi correspondant à vos compétences'
   },
   
   // Marketing et newsletter
   newsletter: {
-    name: '📧 Newsletter ProdTalent',
+    name: 'Newsletter ProdTalent',
     description: 'Actualités, conseils carrière, tendances tech'
   },
   productUpdates: {
-    name: '🚀 Mises à jour produit',
+    name: 'Mises à jour produit',
     description: 'Nouvelles fonctionnalités et améliorations de ProdTalent'
   },
   
   // Administratif et compte
   accountSecurity: {
-    name: '🔐 Sécurité du compte',
+    name: 'Sécurité du compte',
     description: 'Alertes de sécurité, changements de mot de passe (recommandé)'
   },
   adminNotices: {
-    name: '📢 Notices administratives',
+    name: 'Notices administratives',
     description: 'Informations importantes sur votre compte ou le service'
   }
 };
@@ -184,7 +184,7 @@ const EmailPreferencesModal = ({ isOpen, onClose, userId }) => {
           marginBottom: '24px'
         }}>
           <h2 style={{ color: '#ffcc00', margin: 0, fontSize: '24px' }}>
-            📧 Préférences Email
+            Préférences Email
           </h2>
           <button
             onClick={onClose}
@@ -337,10 +337,10 @@ const EmailPreferencesModal = ({ isOpen, onClose, userId }) => {
               backgroundColor: '#1a1a1a',
               borderRadius: '4px',
               marginBottom: '24px',
-              border: '1px solid #333'
+              border: 'none'
             }}>
               <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0', fontSize: '14px' }}>
-                📊 Résumé de vos préférences
+                Résumé de vos préférences
               </h4>
               <p style={{ color: '#ccc', fontSize: '13px', margin: 0 }}>
                 {Object.values(preferences).filter(p => p).length} types d'emails activés sur {Object.keys(EMAIL_TYPES).length} disponibles

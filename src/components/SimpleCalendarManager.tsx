@@ -55,7 +55,7 @@ const SimpleCalendarManager: React.FC<SimpleCalendarManagerProps> = ({ isOpen, o
         backgroundColor: '#1a1a1a',
         padding: '40px',
         borderRadius: '4px',
-        border: '1px solid #333',
+        border: 'none',
         maxWidth: '600px',
         width: '90%',
         maxHeight: '90vh',
@@ -165,7 +165,7 @@ const SimpleCalendarManager: React.FC<SimpleCalendarManagerProps> = ({ isOpen, o
                 padding: '10px',
                 backgroundColor: '#333',
                 color: '#f5f5f7',
-                border: '1px solid #555',
+                border: 'none',
                 borderRadius: '4px',
                 fontSize: '14px'
               }}

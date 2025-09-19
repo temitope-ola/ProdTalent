@@ -254,7 +254,7 @@ const RecruiterMessagesPage: React.FC = () => {
                     style={{
                       padding: '12px',
                       backgroundColor: conversation.unreadCount > 0 ? '#333' : 'transparent',
-                      border: '1px solid #333',
+                      border: 'none',
                       borderRadius: '4px',
                       cursor: 'pointer',
                       transition: 'background-color 0.2s'
@@ -275,7 +275,7 @@ const RecruiterMessagesPage: React.FC = () => {
                             width: '8px',
                             height: '8px',
                             backgroundColor: '#ffcc00',
-                            borderRadius: '50%'
+                            borderRadius: 4
                           }} />
                         </div>
                       )}
@@ -319,7 +319,7 @@ const RecruiterMessagesPage: React.FC = () => {
                     padding: '12px',
                     borderRadius: '4px',
                     marginBottom: '16px',
-                    border: '1px solid #ffcc00'
+                    border: 'none'
                   }}>
                     <p style={{ color: '#f5f5f7', margin: '0 0 4px 0', fontWeight: 'bold' }}>
                       📩 Réponse à: {selectedConversation.interlocutor.name}
@@ -435,7 +435,7 @@ const RecruiterMessagesPage: React.FC = () => {
                         padding: '12px 24px',
                         backgroundColor: 'transparent',
                         color: '#ffcc00',
-                        border: '1px solid #ffcc00',
+                        border: 'none',
                         borderRadius: '4px',
                         cursor: 'pointer'
                       }}
@@ -455,7 +455,7 @@ const RecruiterMessagesPage: React.FC = () => {
                       padding: '12px 24px',
                       backgroundColor: 'transparent',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       cursor: 'pointer'
                     }}

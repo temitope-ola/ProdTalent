@@ -124,7 +124,7 @@ export default function MyJobsPage() {
                                         padding: '8px 16px',
                                         backgroundColor: 'transparent',
                                         color: '#ffcc00',
-                                        border: '1px solid #ffcc00',
+                                        border: 'none',
                                         borderRadius: '4px',
                                         cursor: 'pointer'
                                     }, children: "\u2190 Retour" }), _jsxs("h1", { style: { margin: 0, color: '#ffcc00' }, children: ["Mes Annonces (", jobs.length, ")"] })] }), _jsx("button", { onClick: () => navigate('/create-job'), style: {
@@ -207,14 +207,14 @@ export default function MyJobsPage() {
                                                     padding: '8px 16px',
                                                     backgroundColor: 'transparent',
                                                     color: '#ffcc00',
-                                                    border: '1px solid #ffcc00',
+                                                    border: 'none',
                                                     borderRadius: '4px',
                                                     cursor: 'pointer'
                                                 }, children: "\u270F\uFE0F Modifier" }), _jsx("button", { onClick: () => handleDeleteJob(selectedJob.id), style: {
                                                     padding: '8px 16px',
                                                     backgroundColor: 'transparent',
                                                     color: '#ff6b6b',
-                                                    border: '1px solid #ff6b6b',
+                                                    border: 'none',
                                                     borderRadius: '4px',
                                                     cursor: 'pointer'
                                                 }, children: "\uD83D\uDDD1\uFE0F Supprimer" })] })] }) }))] }))] }) }));

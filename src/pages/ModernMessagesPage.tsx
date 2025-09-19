@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import useAuth from '../contexts/AuthContext';
 import { useNotifications } from '../components/NotificationManager';
 import Avatar from '../components/Avatar';
+import { useResponsive } from '../components/ResponsiveLayout';
 
 interface User {
   id: string;
@@ -43,6 +44,7 @@ export default function ModernMessagesPage() {
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const isMobile = useResponsive(540);
 
   console.log('💬 MESSAGERIE MODERNE - User:', user?.id, user?.email);
 
@@ -438,19 +440,19 @@ export default function ModernMessagesPage() {
       minHeight: '100vh',
       backgroundColor: '#0a0a0a',
       display: 'flex',
-      flexDirection: window.innerWidth <= 768 ? 'column' : 'row'
+      flexDirection: isMobile ? 'column' : 'row'
     }}>
       {/* Colonne de gauche - Liste des conversations */}
       <div style={{
-        width: window.innerWidth <= 768 ? '100%' : '350px',
-        minWidth: window.innerWidth <= 768 ? 'auto' : '300px',
-        maxWidth: window.innerWidth <= 768 ? '100%' : '400px',
+        width: isMobile ? '100%' : '350px',
+        minWidth: isMobile ? 'auto' : '300px',
+        maxWidth: isMobile ? '100%' : '400px',
         backgroundColor: '#1a1a1a',
-        borderRight: window.innerWidth <= 768 ? 'none' : '1px solid #333',
-        borderBottom: window.innerWidth <= 768 ? '1px solid #333' : 'none',
+        borderRight: isMobile ? 'none' : '1px solid #333',
+        borderBottom: isMobile ? '1px solid #333' : 'none',
         display: 'flex',
         flexDirection: 'column',
-        height: window.innerWidth <= 768 ? (selectedConversation ? '0px' : '50vh') : '100vh',
+        height: isMobile ? (selectedConversation ? '0px' : '50vh') : '100vh',
         overflow: 'hidden',
         transition: 'height 0.3s ease'
       }}>
@@ -466,7 +468,7 @@ export default function ModernMessagesPage() {
             alignItems: 'center',
             marginBottom: '16px'
           }}>
-            <h2 style={{ color: '#ffcc00', margin: 0, fontSize: '20px' }}>💬 Messages</h2>
+            <h2 style={{ color: '#ffcc00', margin: 0, fontSize: '20px' }}>Messages</h2>
             <button
               onClick={() => {
                 // Si l'utilisateur vient de la page des profils coaches, retourner là-bas
@@ -478,7 +480,7 @@ export default function ModernMessagesPage() {
               }}
               style={{
                 background: 'transparent',
-                border: '1px solid #ffcc00',
+                border: 'none',
                 color: '#ffcc00',
                 padding: '4px 8px',
                 borderRadius: '4px',
@@ -505,7 +507,7 @@ export default function ModernMessagesPage() {
               textAlign: 'center',
               color: '#888'
             }}>
-              ⏳ Chargement des conversations...
+              Chargement des conversations...
             </div>
           ) : conversations.length === 0 ? (
             <div style={{
@@ -513,7 +515,7 @@ export default function ModernMessagesPage() {
               textAlign: 'center',
               color: '#888'
             }}>
-              <div style={{ fontSize: '48px', marginBottom: '16px' }}>💬</div>
+              <div style={{ fontSize: '18px', marginBottom: '16px', color: '#888' }}>Aucune conversation</div>
               <div>Aucune conversation</div>
               <div style={{ fontSize: '12px', marginTop: '8px' }}>
                 Vos messages apparaîtront ici
@@ -629,11 +631,11 @@ export default function ModernMessagesPage() {
       {/* Colonne de droite - Chat */}
       <div style={{
         flex: 1,
-        display: window.innerWidth <= 768 && !selectedConversation ? 'none' : 'flex',
+        display: isMobile && !selectedConversation ? 'none' : 'flex',
         flexDirection: 'column',
         backgroundColor: '#111',
-        height: window.innerWidth <= 768 ? '50vh' : '100vh',
-        minHeight: window.innerWidth <= 768 ? '400px' : 'auto'
+        height: isMobile ? '50vh' : '100vh',
+        minHeight: isMobile ? '400px' : 'auto'
       }}>
         {selectedConversation ? (
           <>
@@ -654,12 +656,12 @@ export default function ModernMessagesPage() {
                     gap: '12px'
                   }}>
                     {/* Bouton retour pour mobile */}
-                    {window.innerWidth <= 768 && (
+                    {isMobile && (
                       <button
                         onClick={() => setSelectedConversation(null)}
                         style={{
                           background: 'transparent',
-                          border: '1px solid #ffcc00',
+                          border: 'none',
                           color: '#ffcc00',
                           padding: '6px 10px',
                           borderRadius: '4px',
@@ -718,7 +720,7 @@ export default function ModernMessagesPage() {
                       flexDirection: 'column',
                       gap: '16px'
                     }}>
-                      <div style={{ fontSize: '48px' }}>💬</div>
+                      <div style={{ fontSize: '18px', color: '#888' }}>Sélectionnez une conversation</div>
                       <div>Commencez une conversation</div>
                     </div>
                   );
@@ -801,7 +803,7 @@ export default function ModernMessagesPage() {
                     padding: '12px',
                     backgroundColor: '#222',
                     color: '#f5f5f7',
-                    border: '1px solid #444',
+                    border: 'none',
                     borderRadius: '4px',
                     fontSize: '14px',
                     resize: 'none',
@@ -839,7 +841,7 @@ export default function ModernMessagesPage() {
             flexDirection: 'column',
             gap: '16px'
           }}>
-            <div style={{ fontSize: '64px' }}>💬</div>
+            <div style={{ fontSize: '18px', color: '#888' }}>Commencez une conversation</div>
             <div style={{ fontSize: '18px' }}>Sélectionnez une conversation</div>
             <div style={{ fontSize: '14px' }}>
               Choisissez un contact à gauche pour commencer à discuter

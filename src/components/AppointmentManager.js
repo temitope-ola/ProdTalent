@@ -86,7 +86,7 @@ const AppointmentManager = ({ onClose }) => {
                                     backgroundColor: '#111',
                                     padding: '16px',
                                     borderRadius: '4px',
-                                    border: '1px solid #333'
+                                    border: 'none'
                                 }, children: _jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }, children: [_jsxs("div", { style: { flex: 1 }, children: [_jsxs("h4", { style: { color: '#f5f5f7', margin: '0 0 8px 0' }, children: [appointment.talentName, " - ", appointment.type] }), _jsxs("p", { style: { color: '#888', margin: '0 0 4px 0' }, children: ["\uD83D\uDCC5 ", formatDate(appointment.date), " \u00E0 ", appointment.time] }), appointment.notes && (_jsxs("p", { style: { color: '#f5f5f7', margin: '8px 0 0 0', fontSize: '14px' }, children: ["\uD83D\uDCDD ", appointment.notes] }))] }), _jsxs("div", { style: { display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-end' }, children: [_jsx("span", { style: {
                                                         backgroundColor: getStatusColor(appointment.status),
                                                         color: '#fff',
@@ -114,7 +114,7 @@ const AppointmentManager = ({ onClose }) => {
                                         backgroundColor: '#111',
                                         padding: '16px',
                                         borderRadius: '4px',
-                                        border: '1px solid #333',
+                                        border: 'none',
                                         opacity: 0.7
                                     }, children: _jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }, children: [_jsxs("div", { style: { flex: 1 }, children: [_jsxs("h4", { style: { color: '#f5f5f7', margin: '0 0 8px 0' }, children: [appointment.talentName, " - ", appointment.type] }), _jsxs("p", { style: { color: '#888', margin: '0 0 4px 0' }, children: ["\uD83D\uDCC5 ", formatDate(appointment.date), " \u00E0 ", appointment.time] }), appointment.notes && (_jsxs("p", { style: { color: '#f5f5f7', margin: '8px 0 0 0', fontSize: '14px' }, children: ["\uD83D\uDCDD ", appointment.notes] }))] }), _jsx("span", { style: {
                                                     backgroundColor: getStatusColor(appointment.status),

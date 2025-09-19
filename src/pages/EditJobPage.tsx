@@ -179,7 +179,7 @@ export default function EditJobPage() {
               padding: '8px 16px',
               backgroundColor: 'transparent',
               color: '#ffcc00',
-              border: '1px solid #ffcc00',
+              border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
               marginRight: 16
@@ -193,7 +193,7 @@ export default function EditJobPage() {
         {error && (
           <div style={{
             backgroundColor: 'rgba(255, 107, 107, 0.1)',
-            border: '1px solid #ff6b6b',
+            border: 'none',
             color: '#ff6b6b',
             padding: 16,
             borderRadius: 4,
@@ -206,7 +206,7 @@ export default function EditJobPage() {
         {success && (
           <div style={{
             backgroundColor: 'rgba(97, 191, 172, 0.1)',
-            border: '1px solid #61bfac',
+            border: 'none',
             color: '#61bfac',
             padding: 16,
             borderRadius: 4,
@@ -233,7 +233,7 @@ export default function EditJobPage() {
                     padding: 12,
                     backgroundColor: '#333',
                     color: '#f5f5f7',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: 4,
                     fontSize: 14
                   }}
@@ -254,7 +254,7 @@ export default function EditJobPage() {
                     padding: 12,
                     backgroundColor: '#333',
                     color: '#f5f5f7',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: 4,
                     fontSize: 14
                   }}
@@ -277,7 +277,7 @@ export default function EditJobPage() {
                     padding: 12,
                     backgroundColor: '#333',
                     color: '#f5f5f7',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: 4,
                     fontSize: 14
                   }}
@@ -296,7 +296,7 @@ export default function EditJobPage() {
                     padding: 12,
                     backgroundColor: '#333',
                     color: '#f5f5f7',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: 4,
                     fontSize: 14
                   }}
@@ -336,7 +336,7 @@ export default function EditJobPage() {
                     padding: 12,
                     backgroundColor: '#333',
                     color: '#f5f5f7',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: 4,
                     fontSize: 14
                   }}
@@ -356,7 +356,7 @@ export default function EditJobPage() {
                     padding: 12,
                     backgroundColor: '#333',
                     color: '#f5f5f7',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: 4,
                     fontSize: 14
                   }}
@@ -375,7 +375,7 @@ export default function EditJobPage() {
                     padding: 12,
                     backgroundColor: '#333',
                     color: '#f5f5f7',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: 4,
                     fontSize: 14
                   }}
@@ -402,7 +402,7 @@ export default function EditJobPage() {
                   padding: 12,
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: 4,
                   fontSize: 14,
                   resize: 'vertical'
@@ -425,7 +425,7 @@ export default function EditJobPage() {
                   padding: 12,
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: 4,
                   fontSize: 14,
                   resize: 'vertical'
@@ -447,7 +447,7 @@ export default function EditJobPage() {
                   padding: 12,
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: 4,
                   fontSize: 14,
                   resize: 'vertical'
@@ -470,7 +470,7 @@ export default function EditJobPage() {
                   padding: 12,
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: 4,
                   fontSize: 14,
                   resize: 'vertical'
@@ -487,7 +487,7 @@ export default function EditJobPage() {
                   padding: '12px 24px',
                   backgroundColor: 'transparent',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: 4,
                   cursor: 'pointer',
                   fontSize: 14
@@ -502,7 +502,7 @@ export default function EditJobPage() {
                   padding: '12px 24px',
                   backgroundColor: isSaving ? '#555' : '#ffcc00',
                   color: isSaving ? '#888' : '#000',
-                  border: '1px solid #ffcc00',
+                  border: 'none',
                   borderRadius: 4,
                   cursor: isSaving ? 'not-allowed' : 'pointer',
                   fontSize: 14,

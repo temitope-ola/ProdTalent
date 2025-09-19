@@ -15,7 +15,6 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
   const [loading, setLoading] = useState(false);
   const [userTimeZone, setUserTimeZone] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
-  console.log('🌍 TimezoneAvailabilityManager - Fuseau horaire détecté:', userTimeZone);
 
   // Créneaux horaires disponibles (9h-18h par tranches de 30min)
   const timeSlots = [
@@ -53,7 +52,6 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
     try {
       const existingSlots = await AvailabilityService.getAvailability(user.id, selectedDate);
       setAvailableSlots(existingSlots);
-      console.log('📅 Disponibilités chargées pour', selectedDate, ':', existingSlots);
     } catch (error) {
       console.error('❌ Erreur lors du chargement des disponibilités:', error);
       setAvailableSlots([]);
@@ -80,12 +78,6 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
       const success = await AvailabilityService.saveAvailability(user.id, selectedDate, availableSlots, userTimeZone);
       
       if (success) {
-        console.log('✅ Disponibilités sauvegardées:', {
-          coachId: user.id,
-          date: selectedDate,
-          slots: availableSlots,
-          timeZone: userTimeZone
-        });
         showNotification({
           type: 'success',
           title: 'Succès',
@@ -171,7 +163,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
           borderBottom: '1px solid #333'
         }}>
           <div>
-            <h2 style={{ color: '#ffcc00', margin: 0 }}>🗓️ Prise de Rendez-vous</h2>
+            <h2 style={{ color: '#ffcc00', margin: 0 }}>Prise de Rendez-vous</h2>
             <p style={{ color: '#888', margin: '4px 0 0 0', fontSize: '14px' }}>
               Gérez vos créneaux de disponibilité avec support des fuseaux horaires
             </p>
@@ -200,7 +192,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
           textAlign: 'center'
         }}>
           <span style={{ fontSize: '14px', color: '#ffcc00' }}>
-            🕐 Votre fuseau horaire : {userTimeZone}
+            Votre fuseau horaire : {userTimeZone}
           </span>
         </div>
 
@@ -208,14 +200,14 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
         {(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && (
           <div style={{
             backgroundColor: '#1a4d1a',
-            border: '1px solid #4caf50',
+            border: 'none',
             padding: '12px',
             borderRadius: '4px',
             marginBottom: '20px',
             textAlign: 'center'
           }}>
             <span style={{ fontSize: '14px', color: '#4caf50' }}>
-              🛠️ Mode développement : Les fonctionnalités Google Calendar sont simulées pour les tests
+              Mode développement : Les fonctionnalités Google Calendar sont simulées pour les tests
             </span>
           </div>
         )}
@@ -227,7 +219,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
           borderRadius: '4px',
           marginBottom: '20px'
         }}>
-          <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>📋 Comment ça marche :</h4>
+          <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>Comment ça marche :</h4>
           <ul style={{ color: '#f5f5f7', margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
             <li>Sélectionnez une date pour publier vos créneaux</li>
             <li>Activez les créneaux où vous êtes disponible</li>
@@ -245,7 +237,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
             fontSize: '16px',
             fontWeight: '500'
           }}>
-            📅 Sélectionner une date *
+            Sélectionner une date *
           </label>
           <div style={{
             display: 'grid',
@@ -298,7 +290,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
               marginBottom: '16px'
             }}>
               <h3 style={{ color: '#ffcc00', margin: 0 }}>
-                ⏰ Créneaux disponibles - {formatDateInUserZone(selectedDate)}
+                Créneaux disponibles - {formatDateInUserZone(selectedDate)}
               </h3>
               <button
                 onClick={saveAvailabilities}
@@ -316,18 +308,18 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
                   transition: 'opacity 0.2s'
                 }}
               >
-                {loading ? '💾 Sauvegarde...' : '💾 Sauvegarder'}
+                {loading ? 'Sauvegarde...' : 'Sauvegarder'}
               </button>
             </div>
             
             {loading ? (
-              <div style={{ 
-                color: '#f5f5f7', 
-                textAlign: 'center', 
+              <div style={{
+                color: '#f5f5f7',
+                textAlign: 'center',
                 padding: '40px',
                 fontSize: '16px'
               }}>
-                ⏳ Chargement des créneaux...
+                Chargement des créneaux...
               </div>
             ) : (
               <>
@@ -382,10 +374,10 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
                     backgroundColor: '#2a2a2a',
                     padding: '16px',
                     borderRadius: '4px',
-                    border: '1px solid #333'
+                    border: 'none'
                   }}>
                     <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>
-                      ✅ Créneaux sélectionnés ({availableSlots.length})
+                      Créneaux sélectionnés ({availableSlots.length})
                     </h4>
                     <div style={{
                       display: 'flex',
@@ -422,7 +414,7 @@ const TimezoneAvailabilityManager: React.FC<TimezoneAvailabilityManagerProps> = 
           borderRadius: '4px',
           marginTop: '20px'
         }}>
-          <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>ℹ️ Informations importantes :</h4>
+          <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>Informations importantes :</h4>
           <ul style={{ color: '#f5f5f7', margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
             <li>Vos créneaux sont affichés dans votre fuseau horaire ({userTimeZone})</li>
             <li>Les talents verront ces créneaux automatiquement convertis dans leur fuseau</li>

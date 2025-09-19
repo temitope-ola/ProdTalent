@@ -449,7 +449,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                   style={{
                     width: '80px',
                     height: '80px',
-                    borderRadius: '50%',
+                    borderRadius: 4,
                     objectFit: 'cover',
                     border: '2px solid #61bfac'
                   }}
@@ -523,7 +523,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                 padding: '16px',
                 backgroundColor: '#1a1a1a',
                 borderRadius: '4px',
-                border: '1px solid #333'
+                border: 'none'
               }}>
                 <h3 style={{ 
                   color: '#ffcc00', 
@@ -839,7 +839,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                 <div style={{
                   position: 'absolute',
                   backgroundColor: '#222',
-                  border: '1px solid #333',
+                  border: 'none',
                   borderRadius: '4px',
                   maxHeight: '200px',
                   overflowY: 'auto',
@@ -891,7 +891,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                           padding: '4px 8px',
                           backgroundColor: formData.skills.includes(skill) ? '#444' : '#333',
                           color: formData.skills.includes(skill) ? '#666' : '#f5f5f7',
-                          border: '1px solid #555',
+                          border: 'none',
                           borderRadius: '4px',
                           fontSize: '11px',
                           cursor: formData.skills.includes(skill) ? 'not-allowed' : 'pointer',
@@ -1061,7 +1061,7 @@ const ProfileEditModal = ({ profile, isOpen, onClose, onSave }) => {
                 padding: '12px', 
                 backgroundColor: 'rgba(255, 107, 107, 0.1)',
                 borderRadius: '4px',
-                border: '1px solid #ff6b6b'
+                border: 'none'
               }}>
                 <p style={{ 
                   color: '#ff6b6b', 

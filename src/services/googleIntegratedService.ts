@@ -225,7 +225,7 @@ class GoogleIntegratedService {
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Nouveau message recu</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <div style="background: #f5f5f7; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0;">
@@ -287,7 +287,7 @@ class GoogleIntegratedService {
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Votre session de coaching est confirmee</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <!-- Détails appointment -->
@@ -378,7 +378,7 @@ class GoogleIntegratedService {
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Votre session de coaching a ete programmee</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <!-- Détails RDV -->
@@ -391,7 +391,7 @@ class GoogleIntegratedService {
           </div>
           
           <!-- En attente -->
-          <div style="background: #fff8e1; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0; border: 1px solid #ffcc00;">
+          <div style="background: #fff8e1; padding: 20px; border-radius: 4px; border-left: 4px solid #ffcc00; margin: 20px 0; border: "none"
             <h3 style="color: #0a0a0a; margin-top: 0; font-weight: bold;">En attente de confirmation</h3>
             <p style="margin: 0; color: #1a1a1a;">
               Votre coach va examiner votre demande et la confirmer sous peu. 
@@ -537,7 +537,7 @@ class GoogleIntegratedService {
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Une opportunité qui pourrait vous intéresser</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <!-- Détails offre -->
@@ -550,7 +550,7 @@ class GoogleIntegratedService {
           
           <!-- Description -->
           ${data.jobDescription ? `
-          <div style="background: #ffffff; padding: 20px; border-radius: 4px; border: 1px solid #f5f5f7; margin: 20px 0;">
+          <div style="background: #ffffff; padding: 20px; border-radius: 4px; border: "none" margin: 20px 0;">
             <h3 style="color: #1a1a1a; margin-top: 0;">Description du poste</h3>
             <p style="margin: 0; color: #1a1a1a; line-height: 1.6;">${data.jobDescription.substring(0, 200)}${data.jobDescription.length > 200 ? '...' : ''}</p>
           </div>
@@ -604,7 +604,7 @@ class GoogleIntegratedService {
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Votre compte ${data.userRole} a ete cree avec succes</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <p style="color: #1a1a1a; line-height: 1.6;">
@@ -654,7 +654,7 @@ class GoogleIntegratedService {
             </a>
           </div>
           
-          <div style="background: #ffffff; padding: 20px; border-radius: 4px; border: 1px solid #f5f5f7; margin: 20px 0;">
+          <div style="background: #ffffff; padding: 20px; border-radius: 4px; border: "none" margin: 20px 0;">
             <h3 style="color: #1a1a1a; margin-top: 0;">Besoin d'aide ?</h3>
             <p style="margin: 0; color: #1a1a1a; line-height: 1.6;">
               Notre equipe est la pour vous accompagner. N'hesitez pas a nous contacter si vous avez des questions.
@@ -696,7 +696,7 @@ class GoogleIntegratedService {
           <p style="color: #0a0a0a; margin: 10px 0 0 0; font-size: 16px;">Un profil qui pourrait vous interesser</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <p style="color: #1a1a1a; line-height: 1.6;">
@@ -710,7 +710,7 @@ class GoogleIntegratedService {
             <p style="margin: 10px 0; color: #1a1a1a;"><strong style="color: #0a0a0a;">Experience :</strong> ${data.talentExperience}</p>
           </div>
           
-          <div style="background: #ffffff; padding: 20px; border-radius: 4px; border: 1px solid #f5f5f7; margin: 20px 0;">
+          <div style="background: #ffffff; padding: 20px; border-radius: 4px; border: "none" margin: 20px 0;">
             <h3 style="color: #1a1a1a; margin-top: 0;">Prochaines etapes</h3>
             <ul style="color: #1a1a1a; line-height: 1.6; margin: 0; padding-left: 20px;">
               <li>Consultez le profil complet du talent</li>

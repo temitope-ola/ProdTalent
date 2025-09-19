@@ -153,7 +153,7 @@ const TalentsListPage: React.FC = () => {
               padding: '8px 16px',
               backgroundColor: 'transparent',
               color: '#ffcc00',
-              border: '1px solid #ffcc00',
+              border: 'none',
               borderRadius: '4px',
               cursor: 'pointer'
             }}
@@ -401,7 +401,7 @@ const TalentsListPage: React.FC = () => {
                   padding: '8px 16px',
                   backgroundColor: 'transparent',
                   color: '#ffcc00',
-                  border: '1px solid #ffcc00',
+                  border: 'none',
                   borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '14px'
@@ -432,7 +432,7 @@ const TalentsListPage: React.FC = () => {
           padding: '40px',
           color: '#888'
         }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>👨‍💼</div>
+          <div style={{ fontSize: '24px', marginBottom: '16px', fontWeight: 'bold', color: '#ffcc00' }}>Talents</div>
           <h3 style={{ color: '#f5f5f7', marginBottom: '8px' }}>Aucun talent disponible</h3>
           <p>Aucun talent n'est disponible pour le moment</p>
         </div>

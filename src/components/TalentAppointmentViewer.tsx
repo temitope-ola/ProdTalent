@@ -170,7 +170,7 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
         }}>
           <div>
             <h2 style={{ margin: 0, color: '#ffcc00' }}>
-              📋 Mes Rendez-vous
+              Mes Rendez-vous
             </h2>
             <p style={{ color: '#888', margin: '4px 0 0 0', fontSize: '14px' }}>
               Consultez vos rendez-vous de coaching
@@ -199,7 +199,7 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
           textAlign: 'center'
         }}>
           <span style={{ fontSize: '14px', color: '#ffcc00' }}>
-            🕐 Horaires affichés dans votre fuseau : {userTimeZone}
+            Horaires affichés dans votre fuseau : {userTimeZone}
           </span>
         </div>
 
@@ -207,7 +207,7 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
         {(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && (
           <div style={{
             backgroundColor: '#1a4d1a',
-            border: '1px solid #4caf50',
+            border: 'none',
             padding: '12px',
             borderRadius: '4px',
             marginBottom: '20px',
@@ -256,7 +256,6 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
         {/* Liste des rendez-vous */}
         {loading ? (
           <div style={{ textAlign: 'center', padding: '40px' }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>⏳</div>
             <p>Chargement de vos rendez-vous...</p>
           </div>
         ) : filteredAppointments.length === 0 ? (
@@ -265,7 +264,7 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
             padding: '40px',
             color: '#888'
           }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>📅</div>
+            <div style={{ fontSize: '18px', marginBottom: '16px', color: '#888' }}>Aucun rendez-vous</div>
             <h3>Aucun rendez-vous {selectedFilter !== 'all' ? getStatusText(selectedFilter).toLowerCase() : ''}</h3>
             <p style={{ fontSize: '14px', marginTop: '8px' }}>
               {selectedFilter === 'all' 
@@ -286,7 +285,7 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
                     padding: '20px',
                     borderRadius: '4px',
                     marginBottom: '16px',
-                    border: '1px solid #333'
+                    border: 'none'
                   }}
                 >
                   <div style={{
@@ -304,10 +303,10 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
                         🎯 Session avec {appointment.coachName}
                       </h4>
                       <div style={{ color: '#f5f5f7', marginBottom: '4px' }}>
-                        📅 {formattedDateTime.date}
+                        {formattedDateTime.date}
                       </div>
                       <div style={{ color: '#f5f5f7', marginBottom: '8px' }}>
-                        🕐 {formattedDateTime.time}
+                        {formattedDateTime.time}
                       </div>
                       
                       {appointment.coachTimeZone && appointment.coachTimeZone !== userTimeZone && (
@@ -328,7 +327,7 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
                           marginBottom: '8px',
                           fontStyle: 'italic'
                         }}>
-                          💬 Votre message : "{appointment.notes}"
+                          Votre message : "{appointment.notes}"
                         </div>
                       )}
                       
@@ -367,7 +366,7 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
                                 fontWeight: 'bold'
                               }}
                             >
-                              📅 Ajouter au calendrier
+                              Ajouter au calendrier
                             </a>
                           )}
                         </div>
@@ -412,7 +411,7 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
               padding: '12px 24px',
               backgroundColor: '#333',
               color: '#f5f5f7',
-              border: '1px solid #555',
+              border: 'none',
               borderRadius: '4px',
               cursor: loading ? 'not-allowed' : 'pointer',
               fontSize: '14px',
@@ -440,7 +439,7 @@ const TalentAppointmentViewer: React.FC<TalentAppointmentViewerProps> = ({ onClo
               fontWeight: 'bold'
             }}
           >
-            📅 Réserver un nouveau rendez-vous
+            Réserver un nouveau rendez-vous
           </button>
         </div>
 

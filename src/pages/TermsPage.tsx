@@ -31,7 +31,7 @@ const TermsPage: React.FC = () => {
             onClick={() => navigate('/')}
             style={{
               backgroundColor: 'transparent',
-              border: '1px solid #61bfac',
+              border: 'none',
               color: '#61bfac',
               padding: '12px 24px',
               borderRadius: '4px',

@@ -225,7 +225,7 @@ const UniversalAppointmentManager: React.FC<UniversalAppointmentManagerProps> = 
                   padding: '8px',
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px'
                 }}
               />
@@ -261,7 +261,7 @@ const UniversalAppointmentManager: React.FC<UniversalAppointmentManagerProps> = 
                           padding: '16px',
                           borderRadius: '4px',
                           marginBottom: '12px',
-                          border: '1px solid #333'
+                          border: 'none'
                         }}
                       >
                         <div style={{
@@ -345,7 +345,7 @@ const UniversalAppointmentManager: React.FC<UniversalAppointmentManagerProps> = 
                   padding: '12px 24px',
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '14px'

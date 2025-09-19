@@ -184,7 +184,7 @@ export default function JobDetailsPage() {
           backgroundColor: '#111',
           padding: '32px',
           borderRadius: '4px',
-          border: '1px solid #333'
+          border: 'none'
         }}>
           {/* Titre et entreprise */}
           <div style={{ marginBottom: '24px' }}>

@@ -100,7 +100,7 @@ export default function TalentRecommendationsPage() {
     switch (status) {
       case 'accepted': return '✅ Acceptée';
       case 'rejected': return '❌ Refusée';
-      case 'pending': return '⏳ En attente';
+      case 'pending': return 'En attente';
       default: return status;
     }
   };
@@ -140,7 +140,7 @@ export default function TalentRecommendationsPage() {
           borderBottom: '1px solid #333'
         }}>
           <div>
-            <h1 style={{ color: '#ffcc00', margin: 0 }}>🎯 Mes Recommandations</h1>
+            <h1 style={{ color: '#ffcc00', margin: 0 }}>Mes Recommandations</h1>
             <p style={{ color: '#f5f5f7', margin: '8px 0 0 0' }}>
               Recommandations reçues de vos coaches
             </p>
@@ -224,7 +224,7 @@ export default function TalentRecommendationsPage() {
         {/* Liste des recommandations */}
         {loading ? (
           <div style={{ textAlign: 'center', color: '#ffcc00', padding: 40, fontSize: '18px' }}>
-            ⏳ Chargement de vos recommandations...
+            Chargement de vos recommandations...
           </div>
         ) : recommendations.length === 0 ? (
           <div style={{
@@ -250,7 +250,7 @@ export default function TalentRecommendationsPage() {
                   backgroundColor: '#111',
                   padding: 24,
                   borderRadius: 4,
-                  border: '1px solid #333'
+                  border: 'none'
                 }}
               >
                 <div style={{ 
@@ -266,7 +266,7 @@ export default function TalentRecommendationsPage() {
                       fontWeight: 'bold', 
                       marginBottom: 12 
                     }}>
-                      📋 {typeof recommendation.jobTitle === 'string' ? recommendation.jobTitle : 'Poste'}
+                      {typeof recommendation.jobTitle === 'string' ? recommendation.jobTitle : 'Poste'}
                     </div>
                     <div style={{ 
                       color: '#61bfac', 
@@ -277,14 +277,14 @@ export default function TalentRecommendationsPage() {
                       borderRadius: '4px',
                       display: 'inline-block'
                     }}>
-                      🏢 {typeof recommendation.jobCompany === 'string' ? recommendation.jobCompany : 'Entreprise'} 
-                      • 👤 Recommandé à {typeof recommendation.recruiterName === 'string' ? recommendation.recruiterName : 'Recruteur'}
+                      {typeof recommendation.jobCompany === 'string' ? recommendation.jobCompany : 'Entreprise'}
+                      • Recommandé à {typeof recommendation.recruiterName === 'string' ? recommendation.recruiterName : 'Recruteur'}
                     </div>
                     <div style={{ color: '#f5f5f7', fontSize: '14px', marginBottom: 4, marginTop: 12 }}>
-                      👨‍💼 Par <strong>{typeof recommendation.coachName === 'string' ? recommendation.coachName : 'Coach'}</strong>
+                      Par <strong>{typeof recommendation.coachName === 'string' ? recommendation.coachName : 'Coach'}</strong>
                     </div>
                     <div style={{ color: '#888', fontSize: '12px' }}>
-                      📅 {formatDate(recommendation.createdAt)}
+                      {formatDate(recommendation.createdAt)}
                     </div>
                   </div>
                   <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -309,9 +309,9 @@ export default function TalentRecommendationsPage() {
                   padding: '16px',
                   backgroundColor: '#0a0a0a',
                   borderRadius: '4px',
-                  border: '1px solid #222'
+                  border: 'none'
                 }}>
-                  <strong>💬 Message du coach :</strong><br />
+                  <strong>Message du coach :</strong><br />
                   <span style={{ fontStyle: 'italic' }}>"{typeof recommendation.message === 'string' ? recommendation.message : 'Message'}"</span>
                 </div>
 
@@ -350,7 +350,7 @@ export default function TalentRecommendationsPage() {
                         e.currentTarget.style.boxShadow = '0 2px 4px rgba(255, 204, 0, 0.3)';
                       }}
                     >
-                      📋 Voir l'offre d'emploi
+                      Voir l'offre d'emploi
                     </button>
                   ) : (
                     <button
@@ -365,7 +365,7 @@ export default function TalentRecommendationsPage() {
                         fontSize: '14px'
                       }}
                     >
-                      👤 Voir le profil du recruteur
+                      Voir le profil du recruteur
                     </button>
                   )}
                 </div>

@@ -197,7 +197,7 @@ export default function JobApplicationsPage() {
               padding: '8px 16px',
               backgroundColor: 'transparent',
               color: '#ffcc00',
-              border: '1px solid #ffcc00',
+              border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
               marginRight: 16
@@ -211,7 +211,7 @@ export default function JobApplicationsPage() {
         {error && (
           <div style={{
             backgroundColor: 'rgba(255, 107, 107, 0.1)',
-            border: '1px solid #ff6b6b',
+            border: 'none',
             color: '#ff6b6b',
             padding: 16,
             borderRadius: 4,
@@ -262,7 +262,7 @@ export default function JobApplicationsPage() {
                   backgroundColor: '#111',
                   padding: 20,
                   borderRadius: 4,
-                  border: '1px solid #333'
+                  border: 'none'
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
@@ -328,7 +328,7 @@ export default function JobApplicationsPage() {
                       padding: '8px 16px',
                       backgroundColor: 'transparent',
                       color: '#ffcc00',
-                      border: '1px solid #ffcc00',
+                      border: 'none',
                       borderRadius: 4,
                       cursor: 'pointer',
                       fontSize: 14
@@ -345,7 +345,7 @@ export default function JobApplicationsPage() {
                           padding: '8px 16px',
                           backgroundColor: '#61bfac',
                           color: '#000',
-                          border: '1px solid #61bfac',
+                          border: 'none',
                           borderRadius: 4,
                           cursor: 'pointer',
                           fontSize: 14,
@@ -360,7 +360,7 @@ export default function JobApplicationsPage() {
                           padding: '8px 16px',
                           backgroundColor: '#ff6b6b',
                           color: '#fff',
-                          border: '1px solid #ff6b6b',
+                          border: 'none',
                           borderRadius: 4,
                           cursor: 'pointer',
                           fontSize: 14,

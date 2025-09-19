@@ -202,7 +202,7 @@ export class BackendEmailService {
           <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px;">Nouveau talent recommandé</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <div style="background: #f5f5f7; padding: 20px; border-radius: 4px; border-left: 4px solid #61bfac; margin: 20px 0;">
@@ -214,7 +214,7 @@ export class BackendEmailService {
             ${data.companyName ? `<p style="margin: 8px 0; color: #1a1a1a;"><strong>Entreprise :</strong> ${data.companyName}</p>` : ''}
           </div>
           
-          <div style="background: #ffffff; padding: 15px; border-radius: 4px; border: 1px solid #f0f0f0; margin: 20px 0;">
+          <div style="background: #ffffff; padding: 15px; border-radius: 4px; border: "none" margin: 20px 0;">
             <h4 style="margin-top: 0; color: #1a1a1a;">Message du coach :</h4>
             <p style="margin: 0; color: #555; font-style: italic; line-height: 1.6;">"${data.message}"</p>
           </div>
@@ -275,7 +275,7 @@ export class BackendEmailService {
           <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px;">Vous avez été recommandé !</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Félicitations ${data.recipientName} !</h2>
           
           <div style="background: #f0faf8; padding: 20px; border-radius: 4px; border-left: 4px solid #61bfac; margin: 20px 0;">
@@ -286,7 +286,7 @@ export class BackendEmailService {
             ${data.companyName ? `<p style="margin: 8px 0; color: #1a1a1a;"><strong>Entreprise :</strong> ${data.companyName}</p>` : ''}
           </div>
           
-          <div style="background: #ffffff; padding: 15px; border-radius: 4px; border: 1px solid #f0f0f0; margin: 20px 0;">
+          <div style="background: #ffffff; padding: 15px; border-radius: 4px; border: "none" margin: 20px 0;">
             <h4 style="margin-top: 0; color: #1a1a1a;">Message de votre coach :</h4>
             <p style="margin: 0; color: #555; font-style: italic; line-height: 1.6;">"${data.message}"</p>
           </div>
@@ -346,14 +346,14 @@ export class BackendEmailService {
           <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px;">Nouveau message reçu</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <div style="background: #f5f5f7; padding: 20px; border-radius: 4px; border-left: 4px solid #61bfac; margin: 20px 0;">
             <p style="margin: 0; color: #1a1a1a; font-size: 16px;">
               <strong style="color: #0a0a0a;">${data.senderName}</strong> <span style="color: #61bfac;">(${data.senderRole})</span> vous a envoyé un message :
             </p>
-            <div style="background: #ffffff; padding: 15px; border-radius: 4px; margin: 15px 0; border: 1px solid #f0f0f0;">
+            <div style="background: #ffffff; padding: 15px; border-radius: 4px; margin: 15px 0; border: "none"
               <p style="margin: 0; color: #555; font-style: italic; line-height: 1.6;">"${data.messagePreview}"</p>
             </div>
           </div>
@@ -414,7 +414,7 @@ export class BackendEmailService {
           <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px;">Confirmation d'envoi</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.senderName}</h2>
           
           <div style="background: #f0faf8; padding: 20px; border-radius: 4px; border-left: 4px solid #61bfac; margin: 20px 0;">
@@ -424,7 +424,7 @@ export class BackendEmailService {
             <h3 style="color: #61bfac; margin: 15px 0 10px 0; font-weight: bold;">${data.recipientName} <span style="color: #888; font-size: 14px;">(${data.recipientRole})</span></h3>
           </div>
           
-          <div style="background: #ffffff; padding: 15px; border-radius: 4px; border: 1px solid #f0f0f0; margin: 20px 0;">
+          <div style="background: #ffffff; padding: 15px; border-radius: 4px; border: "none" margin: 20px 0;">
             <h4 style="margin-top: 0; color: #1a1a1a;">Sujet : ${data.subject}</h4>
             <h4 style="margin: 10px 0 5px 0; color: #1a1a1a;">Votre message :</h4>
             <p style="margin: 0; color: #555; font-style: italic; line-height: 1.6; background: #f8f9fa; padding: 12px; border-radius: 4px;">"${data.messagePreview}"</p>
@@ -493,7 +493,7 @@ export class BackendEmailService {
           <p style="color: #ffffff; margin: 10px 0 0 0; font-size: 16px;">Nouvelle offre d'emploi</p>
         </div>
         
-        <div style="background: #ffffff; padding: 30px; border-radius: 0 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+        <div style="background: #ffffff; padding: 30px; border-radius: 4px 0 10px 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
           <h2 style="color: #1a1a1a; margin-top: 0;">Bonjour ${data.recipientName}</h2>
           
           <p style="color: #1a1a1a; line-height: 1.6;">
@@ -508,7 +508,7 @@ export class BackendEmailService {
           </div>
           
           ${data.jobDescription ? `
-          <div style="background: #ffffff; padding: 15px; border-radius: 4px; border: 1px solid #f0f0f0; margin: 20px 0;">
+          <div style="background: #ffffff; padding: 15px; border-radius: 4px; border: "none" margin: 20px 0;">
             <h4 style="margin-top: 0; color: #1a1a1a;">Description du poste :</h4>
             <p style="margin: 0; color: #555; line-height: 1.6;">${data.jobDescription.substring(0, 200)}${data.jobDescription.length > 200 ? '...' : ''}</p>
           </div>

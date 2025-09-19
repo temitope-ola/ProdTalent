@@ -89,7 +89,7 @@ const CoachLogin: React.FC = () => {
                 padding: '12px 16px',
                 backgroundColor: '#333',
                 color: '#f5f5f7',
-                border: '1px solid #555',
+                border: 'none',
                 borderRadius: 4,
                 fontSize: '16px',
                 boxSizing: 'border-box'
@@ -116,7 +116,7 @@ const CoachLogin: React.FC = () => {
               placeholder="••••••••"
               style={{
                 backgroundColor: '#333',
-                border: '1px solid #555',
+                border: 'none',
                 borderRadius: 4,
                 fontSize: '16px',
                 padding: '12px 45px 12px 16px'
@@ -208,7 +208,7 @@ const CoachLogin: React.FC = () => {
             style={{
               backgroundColor: 'transparent',
               color: '#ffcc00',
-              border: '1px solid #ffcc00',
+              border: 'none',
               borderRadius: 4,
               padding: '10px 20px',
               fontSize: '14px',

@@ -87,7 +87,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
       backgroundColor: '#1a1a1a', 
       borderRadius: '4px', 
       padding: '20px',
-      border: '1px solid #333'
+      border: 'none'
     }}>
       {/* En-tête du calendrier */}
       <div style={{
@@ -100,7 +100,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
           onClick={onPreviousMonth}
           style={{
             backgroundColor: 'transparent',
-            border: '1px solid #555',
+            border: 'none',
             color: '#f5f5f7',
             borderRadius: '4px',
             padding: '8px 12px',
@@ -124,7 +124,7 @@ const CalendarGrid: React.FC<CalendarGridProps> = ({
           onClick={onNextMonth}
           style={{
             backgroundColor: 'transparent',
-            border: '1px solid #555',
+            border: 'none',
             color: '#f5f5f7',
             borderRadius: '4px',
             padding: '8px 12px',

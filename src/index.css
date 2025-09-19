@@ -43,3 +43,108 @@ code {
   background: #555;
 }
 
+/* Responsive styles for 670px breakpoint */
+@media (max-width: 670px) {
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+    max-width: 200px !important;
+    margin: 0 auto 60px !important;
+    padding: 0 20px !important;
+  }
+
+  .talents-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  .talent-card {
+    flex-direction: row !important;
+    height: auto !important;
+    min-height: 180px !important;
+  }
+
+  .talent-card-image {
+    width: 140px !important;
+    height: auto !important;
+    min-height: 180px !important;
+  }
+
+  .talent-card img {
+    object-position: center top !important;
+  }
+
+  .talent-card-text {
+    padding: 20px !important;
+  }
+
+  .talent-quote {
+    font-size: 0.95rem !important;
+    margin-bottom: 12px !important;
+  }
+
+  .talent-name {
+    font-size: 0.8rem !important;
+  }
+
+  .stats-text {
+    font-size: 1rem !important;
+  }
+
+  .main-title {
+    font-size: 3rem !important;
+    line-height: 1.2 !important;
+    word-break: break-word !important;
+  }
+
+  .main-subtitle {
+    font-size: 2.5rem !important;
+    margin-bottom: 30px !important;
+  }
+
+  .main-description {
+    font-size: 1rem !important;
+    margin-bottom: 40px !important;
+  }
+
+  .section-title {
+    font-size: 2rem !important;
+  }
+
+  .section-subtitle {
+    font-size: 1.1rem !important;
+  }
+
+  .section-padding {
+    padding: 80px 16px !important;
+  }
+
+  .stats-icon {
+    width: 32px !important;
+    height: 32px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .stats-number {
+    font-size: 1.5rem !important;
+    margin-bottom: 4px !important;
+  }
+
+  .header-mobile {
+    padding: 16px 16px !important;
+  }
+
+  .logo-mobile {
+    height: 35px !important;
+    max-width: 150px !important;
+  }
+
+  .nav-desktop {
+    display: none !important;
+  }
+
+  .nav-mobile {
+    display: flex !important;
+  }
+}
+

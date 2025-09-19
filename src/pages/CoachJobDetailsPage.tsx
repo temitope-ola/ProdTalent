@@ -247,7 +247,7 @@ export default function CoachJobDetailsPage() {
               fontWeight: 'bold'
             }}
           >
-            📋 Recommander des talents
+            Recommander des talents
           </button>
         </div>
 
@@ -285,9 +285,9 @@ export default function CoachJobDetailsPage() {
                 color: '#888',
                 fontSize: '16px'
               }}>
-                📍 {String(job.location || 'Localisation non spécifiée')} • 
-                💼 {String(job.contractType || 'Type de contrat non spécifié')} • 
-                💰 {String(job.salary || 'Salaire non spécifié')}
+                {String(job.location || 'Localisation non spécifiée')} •
+                {String(job.contractType || 'Type de contrat non spécifié')} •
+                {String(job.salary || 'Salaire non spécifié')}
               </p>
             </div>
             <div style={{
@@ -440,7 +440,7 @@ export default function CoachJobDetailsPage() {
                   padding: '12px',
                   backgroundColor: '#0a0a0a',
                   color: '#f5f5f7',
-                  border: '1px solid #333',
+                  border: 'none',
                   borderRadius: '4px',
                   fontSize: '14px',
                   resize: 'vertical'

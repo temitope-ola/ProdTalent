@@ -6,18 +6,18 @@ export default function SimpleGoogleTest() {
 
   const testGoogleAPI = async () => {
     setIsLoading(true);
-    setStatus('🔄 Chargement Google API...');
+    setStatus('Chargement Google API...');
     
     try {
       // Méthode simple avec script direct
       const script = document.createElement('script');
       script.src = 'https://apis.google.com/js/api.js';
       script.onload = async () => {
-        setStatus('✅ Google API chargé');
+        setStatus('Google API chargé');
         
         await new Promise<void>((resolve) => {
           (window as any).gapi.load('auth2', () => {
-            setStatus('✅ Auth2 chargé');
+            setStatus('Auth2 chargé');
             resolve();
           });
         });
@@ -27,17 +27,17 @@ export default function SimpleGoogleTest() {
             client_id: '939426446725-cgmd8eudsqmkccv94u2hsrj3idlb7fps.apps.googleusercontent.com'
           });
           
-          setStatus('✅ Auth2 initialisé avec succès!');
+          setStatus('Auth2 initialisé avec succès!');
           
           const authInstance = (window as any).gapi.auth2.getAuthInstance();
           const user = await authInstance.signIn({
             scope: 'https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/gmail.send'
           });
           
-          setStatus('🎉 Connexion Google réussie! Token: ' + user.getAuthResponse().access_token.substring(0, 20) + '...');
+          setStatus('Connexion Google réussie! Token: ' + user.getAuthResponse().access_token.substring(0, 20) + '...');
           
         } catch (error) {
-          setStatus('❌ Erreur Auth2: ' + (error as Error).message);
+          setStatus('Erreur Auth2: ' + (error as Error).message);
         }
       };
       
@@ -56,7 +56,7 @@ export default function SimpleGoogleTest() {
 
   const testExistingCalendar = async () => {
     setIsLoading(true);
-    setStatus('🔄 Test du service Calendar existant...');
+    setStatus('Test du service Calendar existant...');
     
     try {
       // Utiliser le service existant
@@ -66,7 +66,7 @@ export default function SimpleGoogleTest() {
       const initialized = await service.initializeGIS();
       
       if (initialized) {
-        setStatus('✅ Service Calendar existant fonctionne!');
+        setStatus('Service Calendar existant fonctionne!');
         
         // Tenter de créer un événement test
         const event = await service.createEvent({
@@ -83,7 +83,7 @@ export default function SimpleGoogleTest() {
           attendees: [{ email: 'test@example.com' }]
         });
         
-        setStatus('🎉 Événement créé: ' + event?.id || 'Succès');
+        setStatus('Événement créé: ' + event?.id || 'Succès');
       } else {
         setStatus('❌ Impossible d\'initialiser le service Calendar');
       }
@@ -103,7 +103,7 @@ export default function SimpleGoogleTest() {
     }}>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
         <h1 style={{ color: '#ffcc00', textAlign: 'center' }}>
-          🧪 Test Google Simple
+          Test Google Simple
         </h1>
         
         <div style={{
@@ -130,7 +130,7 @@ export default function SimpleGoogleTest() {
                 fontSize: '14px'
               }}
             >
-              🔑 Test API Google
+              Test API Google
             </button>
             
             <button
@@ -140,13 +140,13 @@ export default function SimpleGoogleTest() {
                 backgroundColor: '#333',
                 color: '#f5f5f7',
                 padding: '12px 24px',
-                border: '1px solid #555',
+                border: 'none',
                 borderRadius: '4px',
                 cursor: isLoading ? 'not-allowed' : 'pointer',
                 fontSize: '14px'
               }}
             >
-              📅 Test Calendar Existant
+              Test Calendar Existant
             </button>
           </div>
           
@@ -169,7 +169,7 @@ export default function SimpleGoogleTest() {
           fontSize: '14px'
         }}>
           <h3 style={{ color: '#61bfac', margin: '0 0 12px 0' }}>Informations</h3>
-          <p style={{ margin: '4px 0' }}>CLIENT_ID configuré: ✅</p>
+          <p style={{ margin: '4px 0' }}>CLIENT_ID configuré: Oui</p>
           <p style={{ margin: '4px 0' }}>Domaine autorisé: 127.0.0.1:5173</p>
           <p style={{ margin: '4px 0' }}>Scopes: Calendar + Gmail</p>
         </div>

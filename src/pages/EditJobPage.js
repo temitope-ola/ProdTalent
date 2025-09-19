@@ -139,20 +139,20 @@ export default function EditJobPage() {
                                 padding: '8px 16px',
                                 backgroundColor: 'transparent',
                                 color: '#ffcc00',
-                                border: '1px solid #ffcc00',
+                                border: 'none',
                                 borderRadius: '4px',
                                 cursor: 'pointer',
                                 marginRight: 16
                             }, children: "\u2190 Retour" }), _jsx("h1", { style: { margin: 0, color: '#ffcc00' }, children: "Modifier l'annonce" })] }), error && (_jsx("div", { style: {
                         backgroundColor: 'rgba(255, 107, 107, 0.1)',
-                        border: '1px solid #ff6b6b',
+                        border: 'none',
                         color: '#ff6b6b',
                         padding: 16,
                         borderRadius: 4,
                         marginBottom: 24
                     }, children: error })), success && (_jsx("div", { style: {
                         backgroundColor: 'rgba(97, 191, 172, 0.1)',
-                        border: '1px solid #61bfac',
+                        border: 'none',
                         color: '#61bfac',
                         padding: 16,
                         borderRadius: 4,
@@ -162,7 +162,7 @@ export default function EditJobPage() {
                                                     padding: 12,
                                                     backgroundColor: '#333',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: 4,
                                                     fontSize: 14
                                                 }, required: true })] }), _jsxs("div", { children: [_jsx("label", { style: { display: 'block', marginBottom: 8, color: '#ffcc00' }, children: "Entreprise *" }), _jsx("input", { type: "text", value: formData.company, onChange: (e) => handleInputChange('company', e.target.value), style: {
@@ -170,7 +170,7 @@ export default function EditJobPage() {
                                                     padding: 12,
                                                     backgroundColor: '#333',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: 4,
                                                     fontSize: 14
                                                 }, required: true })] })] }), _jsxs("div", { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }, children: [_jsxs("div", { children: [_jsx("label", { style: { display: 'block', marginBottom: 8, color: '#ffcc00' }, children: "Localisation" }), _jsx("input", { type: "text", value: formData.location, onChange: (e) => handleInputChange('location', e.target.value), style: {
@@ -178,7 +178,7 @@ export default function EditJobPage() {
                                                     padding: 12,
                                                     backgroundColor: '#333',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: 4,
                                                     fontSize: 14
                                                 } })] }), _jsxs("div", { children: [_jsx("label", { style: { display: 'block', marginBottom: 8, color: '#ffcc00' }, children: "Type de contrat" }), _jsxs("select", { value: formData.type, onChange: (e) => handleInputChange('type', e.target.value), style: {
@@ -186,7 +186,7 @@ export default function EditJobPage() {
                                                     padding: 12,
                                                     backgroundColor: '#333',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: 4,
                                                     fontSize: 14
                                                 }, children: [_jsx("option", { value: "full-time", children: "Temps plein" }), _jsx("option", { value: "part-time", children: "Temps partiel" }), _jsx("option", { value: "contract", children: "Contrat" }), _jsx("option", { value: "internship", children: "Stage" })] })] })] }), _jsx("div", { style: { display: 'flex', alignItems: 'center', gap: 16 }, children: _jsxs("label", { style: { display: 'flex', alignItems: 'center', gap: 8, color: '#ffcc00' }, children: [_jsx("input", { type: "checkbox", checked: formData.remote, onChange: (e) => handleInputChange('remote', e.target.checked), style: { margin: 0 } }), "T\u00E9l\u00E9travail possible"] }) }), _jsxs("div", { style: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 16 }, children: [_jsxs("div", { children: [_jsx("label", { style: { display: 'block', marginBottom: 8, color: '#ffcc00' }, children: "Salaire minimum" }), _jsx("input", { type: "number", value: formData.salary.min, onChange: (e) => handleInputChange('salary.min', e.target.value), style: {
@@ -194,7 +194,7 @@ export default function EditJobPage() {
                                                     padding: 12,
                                                     backgroundColor: '#333',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: 4,
                                                     fontSize: 14
                                                 } })] }), _jsxs("div", { children: [_jsx("label", { style: { display: 'block', marginBottom: 8, color: '#ffcc00' }, children: "Salaire maximum" }), _jsx("input", { type: "number", value: formData.salary.max, onChange: (e) => handleInputChange('salary.max', e.target.value), style: {
@@ -202,7 +202,7 @@ export default function EditJobPage() {
                                                     padding: 12,
                                                     backgroundColor: '#333',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: 4,
                                                     fontSize: 14
                                                 } })] }), _jsxs("div", { children: [_jsx("label", { style: { display: 'block', marginBottom: 8, color: '#ffcc00' }, children: "Devise" }), _jsxs("select", { value: formData.salary.currency, onChange: (e) => handleInputChange('salary.currency', e.target.value), style: {
@@ -210,7 +210,7 @@ export default function EditJobPage() {
                                                     padding: 12,
                                                     backgroundColor: '#333',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: 4,
                                                     fontSize: 14
                                                 }, children: [_jsx("option", { value: "EUR", children: "EUR (\u20AC)" }), _jsx("option", { value: "USD", children: "USD ($)" }), _jsx("option", { value: "GBP", children: "GBP (\u00A3)" }), _jsx("option", { value: "XOF", children: "FCFA (XOF)" })] })] })] }), _jsxs("div", { children: [_jsx("label", { style: { display: 'block', marginBottom: 8, color: '#ffcc00' }, children: "Description du poste *" }), _jsx("textarea", { value: formData.description, onChange: (e) => handleInputChange('description', e.target.value), rows: 6, style: {
@@ -218,7 +218,7 @@ export default function EditJobPage() {
                                             padding: 12,
                                             backgroundColor: '#333',
                                             color: '#f5f5f7',
-                                            border: '1px solid #555',
+                                            border: 'none',
                                             borderRadius: 4,
                                             fontSize: 14,
                                             resize: 'vertical'
@@ -227,7 +227,7 @@ export default function EditJobPage() {
                                             padding: 12,
                                             backgroundColor: '#333',
                                             color: '#f5f5f7',
-                                            border: '1px solid #555',
+                                            border: 'none',
                                             borderRadius: 4,
                                             fontSize: 14,
                                             resize: 'vertical'
@@ -236,7 +236,7 @@ export default function EditJobPage() {
                                             padding: 12,
                                             backgroundColor: '#333',
                                             color: '#f5f5f7',
-                                            border: '1px solid #555',
+                                            border: 'none',
                                             borderRadius: 4,
                                             fontSize: 14,
                                             resize: 'vertical'
@@ -245,7 +245,7 @@ export default function EditJobPage() {
                                             padding: 12,
                                             backgroundColor: '#333',
                                             color: '#f5f5f7',
-                                            border: '1px solid #555',
+                                            border: 'none',
                                             borderRadius: 4,
                                             fontSize: 14,
                                             resize: 'vertical'
@@ -253,7 +253,7 @@ export default function EditJobPage() {
                                             padding: '12px 24px',
                                             backgroundColor: 'transparent',
                                             color: '#f5f5f7',
-                                            border: '1px solid #555',
+                                            border: 'none',
                                             borderRadius: 4,
                                             cursor: 'pointer',
                                             fontSize: 14
@@ -261,7 +261,7 @@ export default function EditJobPage() {
                                             padding: '12px 24px',
                                             backgroundColor: isSaving ? '#555' : '#ffcc00',
                                             color: isSaving ? '#888' : '#000',
-                                            border: '1px solid #ffcc00',
+                                            border: 'none',
                                             borderRadius: 4,
                                             cursor: isSaving ? 'not-allowed' : 'pointer',
                                             fontSize: 14,

@@ -339,7 +339,7 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
         {(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && (
           <div style={{
             backgroundColor: '#1a4d1a',
-            border: '1px solid #4caf50',
+            border: 'none',
             padding: '12px',
             borderRadius: '4px',
             marginBottom: '20px',
@@ -437,7 +437,7 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
               padding: '8px 12px',
               backgroundColor: '#1a1a1a',
               borderRadius: 4,
-              border: '1px solid #333'
+              border: 'none'
             }}>
               🌍 Heures affichées dans votre fuseau: {TimezoneService.getUserTimezone()}
               <br />
@@ -574,7 +574,7 @@ const TalentAgendaView: React.FC<TalentAgendaViewProps> = ({ onClose }) => {
                   padding: '10px 20px',
                   backgroundColor: 'transparent',
                   color: '#f5f5f7',
-                  border: '1px solid #333',
+                  border: 'none',
                   borderRadius: 4,
                   cursor: 'pointer',
                   fontSize: '14px'

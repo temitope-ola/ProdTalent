@@ -27,24 +27,12 @@ export default function HomePage() {
   const [loadingTalents, setLoadingTalents] = React.useState(true);
 
 
-  // Fonction pour supprimer les emojis
-  const removeEmojis = (text: string) => {
-    return text.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
-  };
-
   // Charger les talents mis en avant
   React.useEffect(() => {
     const loadFeaturedTalents = async () => {
       try {
         const talents = await FeaturedTalentsService.getFeaturedTalents();
-        // Nettoyer les emojis des données
-        const cleanedTalents = talents.map(talent => ({
-          ...talent,
-          quote: removeEmojis(talent.quote),
-          name: removeEmojis(talent.name),
-          role: removeEmojis(talent.role)
-        }));
-        setFeaturedTalents(cleanedTalents);
+        setFeaturedTalents(talents);
       } catch (error) {
         console.error('Erreur lors du chargement des talents:', error);
       } finally {
@@ -125,7 +113,7 @@ export default function HomePage() {
       }}>
 
         {/* Header avec effet de flou */}
-      <header className="header-mobile" style={{
+      <header style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -150,7 +138,6 @@ export default function HomePage() {
           <img
             src="/prodtalent-logo.png"
             alt="ProdTalent"
-            className="logo-mobile"
             style={{
               height: '50px',
               width: 'auto'
@@ -158,10 +145,9 @@ export default function HomePage() {
           />
           
           {/* Desktop Navigation */}
-          <div className="nav-desktop" style={{
-            display: 'flex',
-            gap: '32px',
-            alignItems: 'center'
+          <div style={{ 
+            display: isMobile ? 'none' : 'flex', 
+            gap: 12
           }}>
             <button 
               onClick={() => { handleModeChange('login'); setOpen(true); }}
@@ -214,9 +200,8 @@ export default function HomePage() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="nav-mobile"
             style={{
-              display: 'none',
+              display: isMobile ? 'flex' : 'none',
               flexDirection: 'column',
               justifyContent: 'center',
               alignItems: 'center',
@@ -344,7 +329,7 @@ export default function HomePage() {
       {/* Hero Section sur toute la largeur */}
       <section style={{ 
         position: 'relative',
-        padding:  '140px 0 100px',
+        padding: isMobile ? '80px 0 60px' : '140px 0 100px',
         textAlign: 'center',
         background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%)',
         width: '100%'
@@ -365,44 +350,44 @@ export default function HomePage() {
           zIndex: 2,
           maxWidth: '1214px',
           margin: '0 auto',
-          padding:  '0 24px',
+          padding: isMobile ? '0 20px' : '0 24px',
           width: '100%',
           boxSizing: 'border-box'
         }}>
-          <h2 className="main-title" style={{
+          <h2 style={{
             fontSize: '4.5rem',
             marginBottom: '16px',
             color: '#ffcc00',
             fontWeight: '800',
-            lineHeight: '1.1',
+            lineHeight: isMobile ? '1.4' : '1.1',
             letterSpacing: '-0.02em',
             maxWidth: '100%',
             margin: '0 auto 16px',
             padding: '0 20px',
             textAlign: 'center',
-            wordBreak: 'normal'
+            wordBreak: isMobile ? 'break-word' : 'normal'
           }}>
             Le talent ne tient pas sur une page
           </h2>
-          <p className="main-subtitle" style={{
-            fontSize: '3.2rem',
+          <p style={{
+            fontSize: isMobile ? '1rem' : '3.2rem',
             color: '#f5f5f7',
-            marginBottom: '60px',
+            marginBottom: isMobile ? '24px' : '60px',
             fontWeight: '700',
-            lineHeight: '1.2',
+            lineHeight: isMobile ? '1.5' : '1.2',
             padding: '0 20px',
             textAlign: 'center',
             maxWidth: '100%'
           }}>
             Rencontrez-le.
           </p>
-          <p className="main-description" style={{
-            fontSize: '1.3rem',
+          <p style={{
+            fontSize: isMobile ? '0.85rem' : '1.3rem',
             color: '#f5f5f7',
-            marginBottom: '80px',
+            marginBottom: isMobile ? '24px' : '80px',
             fontWeight: '400',
             maxWidth: '100%',
-            margin: '0 auto 100px',
+            margin: isMobile ? '0 auto 32px' : '0 auto 100px',
             lineHeight: '1.6',
             opacity: '0.9',
             padding: '0 20px',
@@ -428,16 +413,16 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
                 src="/icons/students.png"
                 alt="Étudiants"
                 style={{
-                  width:  '48px',
-                  height:  '48px',
-                  marginBottom:  '20px'
+                  width: isMobile ? '32px' : '48px',
+                  height: isMobile ? '32px' : '48px',
+                  marginBottom: isMobile ? '8px' : '20px'
                 }}
               />
               <div style={{
-                fontSize:  '3.5rem',
+                fontSize: isMobile ? '1.5rem' : '3.5rem',
                 fontWeight: '900',
                 color: '#ffcc00',
-                marginBottom:  '16px'
+                marginBottom: isMobile ? '4px' : '16px'
               }}>
                 10K+
               </div>
@@ -452,16 +437,16 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
                 src="/icons/companies.png"
                 alt="Entreprises"
                 style={{
-                  width:  '48px',
-                  height:  '48px',
-                  marginBottom:  '20px'
+                  width: isMobile ? '32px' : '48px',
+                  height: isMobile ? '32px' : '48px',
+                  marginBottom: isMobile ? '8px' : '20px'
                 }}
               />
               <div style={{
-                fontSize:  '3.5rem',
+                fontSize: isMobile ? '1.5rem' : '3.5rem',
                 fontWeight: '900',
                 color: '#61bfac',
-                marginBottom:  '16px'
+                marginBottom: isMobile ? '4px' : '16px'
               }}>
                 5K+
               </div>
@@ -476,16 +461,16 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
                 src="/icons/coaches.png"
                 alt="Formateurs"
                 style={{
-                  width:  '48px',
-                  height:  '48px',
-                  marginBottom:  '20px'
+                  width: isMobile ? '32px' : '48px',
+                  height: isMobile ? '32px' : '48px',
+                  marginBottom: isMobile ? '8px' : '20px'
                 }}
               />
               <div style={{
-                fontSize:  '3.5rem',
+                fontSize: isMobile ? '1.5rem' : '3.5rem',
                 fontWeight: '900',
                 color: '#ffcc00',
-                marginBottom:  '16px'
+                marginBottom: isMobile ? '4px' : '16px'
               }}>
                 50+
               </div>
@@ -500,16 +485,16 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
                 src="/icons/countries.png"
                 alt="Pays"
                 style={{
-                  width:  '48px',
-                  height:  '48px',
-                  marginBottom:  '20px'
+                  width: isMobile ? '32px' : '48px',
+                  height: isMobile ? '32px' : '48px',
+                  marginBottom: isMobile ? '8px' : '20px'
                 }}
               />
               <div style={{
-                fontSize:  '3.5rem',
+                fontSize: isMobile ? '1.5rem' : '3.5rem',
                 fontWeight: '900',
                 color: '#61bfac',
-                marginBottom:  '16px'
+                marginBottom: isMobile ? '4px' : '16px'
               }}>
                 8
               </div>
@@ -525,26 +510,26 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
 
       {/* Section Aperçu des Talents */}
       <section style={{ 
-        padding:  '120px 24px',
+        padding: isMobile ? '80px 16px' : '120px 24px',
         background: '#0a0a0a',
         maxWidth: '1214px',
         margin: '0 auto'
       }}>
         <div style={{ 
           textAlign: 'center',
-          marginBottom:  '80px'
+          marginBottom: isMobile ? '60px' : '80px'
         }}>
-          <h2 className="section-title" style={{
+          <h2 style={{ 
             color: '#ffcc00',
-            fontSize: '3rem',
+            fontSize: isMobile ? '2rem' : '3rem',
             fontWeight: '700',
             marginBottom: '16px'
           }}>
             1, 2, 3… jusqu'à 100 profils exceptionnels
           </h2>
-          <p className="section-subtitle" style={{
+          <p style={{ 
             color: '#f5f5f7',
-            fontSize: '1.3rem',
+            fontSize: isMobile ? '1.1rem' : '1.3rem',
             maxWidth: '600px',
             margin: '0 auto',
             lineHeight: '1.6'
@@ -557,7 +542,7 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
         {loadingTalents ? (
           <div style={{
             textAlign: 'center',
-            padding:  '60px 0',
+            padding: isMobile ? '40px 0' : '60px 0',
             color: '#f5f5f7'
           }}>
             Chargement des talents...
@@ -565,7 +550,7 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
         ) : featuredTalents.length === 0 ? (
           <div style={{
             textAlign: 'center',
-            padding:  '60px 0',
+            padding: isMobile ? '40px 0' : '60px 0',
             color: '#f5f5f7'
           }}>
             Aucun talent mis en avant pour le moment.
@@ -702,21 +687,21 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
 
       {/* Section des rôles */}
       <section style={{ 
-        padding:  '100px 24px',
+        padding: isMobile ? '60px 16px' : '100px 24px',
         background: '#transparent',
         maxWidth: '1214px',
         margin: '0 auto'
       }}>
         <div style={{ 
           display: 'grid',
-          gridTemplateColumns:  'repeat(auto-fit, minmax(350px, 1fr))',
-          gap:  '60px'
+          gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(350px, 1fr))',
+          gap: isMobile ? '40px' : '60px'
         }}>
           
           {/* Carte Talent */}
           <div style={{
             background: '#1a1a1a',
-            padding:  '50px',
+            padding: isMobile ? '30px' : '50px',
             borderRadius: '4px',
             position: 'relative',
             overflow: 'hidden',

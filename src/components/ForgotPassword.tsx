@@ -69,7 +69,7 @@ const ForgotPassword: React.FC = () => {
             fontSize: '28px',
             fontWeight: 'bold'
           }}>
-            🔐 Mot de passe oublié
+            Mot de passe oublié
           </h1>
           <p style={{
             color: '#f5f5f7',
@@ -104,7 +104,7 @@ const ForgotPassword: React.FC = () => {
                 padding: '12px 16px',
                 backgroundColor: '#333',
                 color: '#f5f5f7',
-                border: '1px solid #555',
+                border: 'none',
                 borderRadius: 4,
                 fontSize: '16px',
                 boxSizing: 'border-box'
@@ -132,7 +132,7 @@ const ForgotPassword: React.FC = () => {
                 padding: '12px 16px',
                 backgroundColor: '#333',
                 color: '#f5f5f7',
-                border: '1px solid #555',
+                border: 'none',
                 borderRadius: 4,
                 fontSize: '16px',
                 boxSizing: 'border-box',
@@ -213,7 +213,7 @@ const ForgotPassword: React.FC = () => {
           marginBottom: '20px'
         }}>
           <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0', fontSize: '14px' }}>
-            ℹ️ Comment ça fonctionne :
+            Comment ça fonctionne :
           </h4>
           <ul style={{ color: '#f5f5f7', margin: 0, paddingLeft: '20px', fontSize: '13px' }}>
             <li>Entrez l'adresse email de votre compte</li>
@@ -243,7 +243,7 @@ const ForgotPassword: React.FC = () => {
             style={{
               backgroundColor: 'transparent',
               color: '#ffcc00',
-              border: '1px solid #ffcc00',
+              border: 'none',
               borderRadius: 4,
               padding: '10px 20px',
               fontSize: '14px',

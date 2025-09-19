@@ -16,7 +16,6 @@ export default function SimpleRecommendationModal({ isOpen, onClose, job }: Simp
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  console.log('🔥 SIMPLE RECOMMENDATION MODAL - Job:', job?.id, job?.title);
 
   useEffect(() => {
     if (isOpen && job) {
@@ -28,14 +27,11 @@ export default function SimpleRecommendationModal({ isOpen, onClose, job }: Simp
   const loadTalents = async () => {
     try {
       setLoading(true);
-      console.log('🔍 Chargement des talents...');
       
       // Utiliser FirestoreService comme dans les autres parties du code
       const { FirestoreService } = await import('../services/firestoreService');
       const talentsData = await FirestoreService.getUsersByRole('talent');
       
-      console.log('✅ Talents chargés via FirestoreService:', talentsData.length);
-      console.log('📋 Premiers talents:', talentsData.slice(0, 3));
       setTalents(talentsData);
     } catch (error) {
       console.error('❌ Erreur chargement talents:', error);
@@ -105,12 +101,6 @@ export default function SimpleRecommendationModal({ isOpen, onClose, job }: Simp
         type: 'job_recommendation'  // Pour différencier des autres types
       };
 
-      console.log('📝 CRÉATION RECOMMANDATION SIMPLE:', {
-        jobId: recommendation.jobId,
-        jobTitle: recommendation.jobTitle,
-        talentName: recommendation.talentName,
-        hasAllRequiredFields: !!(recommendation.jobId && recommendation.coachId && recommendation.talentId)
-      });
 
       // Sauvegarde directe dans Firestore
       const { collection, addDoc } = await import('firebase/firestore');
@@ -118,7 +108,6 @@ export default function SimpleRecommendationModal({ isOpen, onClose, job }: Simp
       
       const docRef = await addDoc(collection(db, 'recommendations'), recommendation);
       
-      console.log('✅ RECOMMANDATION SAUVEGARDÉE avec ID:', docRef.id);
       
       // Envoyer notifications Gmail API (avec fallback SendGrid)
       try {
@@ -173,7 +162,6 @@ export default function SimpleRecommendationModal({ isOpen, onClose, job }: Simp
           }
         }
         
-        console.log('✅ Notifications recommandations envoyées (Gmail API ou Firebase Functions fallback)');
         
       } catch (emailError) {
         console.error('❌ Erreur notifications recommandations:', emailError);
@@ -251,11 +239,11 @@ export default function SimpleRecommendationModal({ isOpen, onClose, job }: Simp
             padding: '16px',
             backgroundColor: '#0a0a0a',
             borderRadius: '4px',
-            border: '1px solid #333'
+            border: 'none'
           }}>
-            <h3 style={{ color: '#f5f5f7', margin: '0 0 8px 0' }}>📋 {job.title}</h3>
+            <h3 style={{ color: '#f5f5f7', margin: '0 0 8px 0' }}>{job.title}</h3>
             <p style={{ color: '#888', margin: 0 }}>
-              🏢 {job.company} • 📍 {job.location} • 🆔 {job.id}
+              {job.company} • {job.location} • ID: {job.id}
             </p>
           </div>
         </div>
@@ -284,7 +272,7 @@ export default function SimpleRecommendationModal({ isOpen, onClose, job }: Simp
                 padding: '12px',
                 backgroundColor: '#0a0a0a',
                 color: '#f5f5f7',
-                border: '1px solid #333',
+                border: 'none',
                 borderRadius: '4px',
                 fontSize: '14px'
               }}
@@ -324,7 +312,7 @@ export default function SimpleRecommendationModal({ isOpen, onClose, job }: Simp
               padding: '12px',
               backgroundColor: '#0a0a0a',
               color: '#f5f5f7',
-              border: '1px solid #333',
+              border: 'none',
               borderRadius: '4px',
               fontSize: '14px',
               resize: 'vertical'
@@ -360,7 +348,7 @@ export default function SimpleRecommendationModal({ isOpen, onClose, job }: Simp
               fontWeight: 'bold'
             }}
           >
-            {loading ? '⏳ Envoi...' : '📤 Envoyer la recommandation'}
+            {loading ? 'Envoi...' : 'Envoyer la recommandation'}
           </button>
         </div>
       </div>

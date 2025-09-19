@@ -53,7 +53,7 @@ const CalendarGrid = ({ events, currentDate, onPreviousMonth, onNextMonth, onDat
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             padding: '20px',
-            border: '1px solid #333'
+            border: 'none'
         }, children: [_jsxs("div", { style: {
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -61,7 +61,7 @@ const CalendarGrid = ({ events, currentDate, onPreviousMonth, onNextMonth, onDat
                     marginBottom: '20px'
                 }, children: [_jsx("button", { onClick: onPreviousMonth, style: {
                             backgroundColor: 'transparent',
-                            border: '1px solid #555',
+                            border: 'none',
                             color: '#f5f5f7',
                             borderRadius: '4px',
                             padding: '8px 12px',
@@ -74,7 +74,7 @@ const CalendarGrid = ({ events, currentDate, onPreviousMonth, onNextMonth, onDat
                             fontWeight: 'bold'
                         }, children: [monthNames[currentDate.getMonth()], " ", currentDate.getFullYear()] }), _jsx("button", { onClick: onNextMonth, style: {
                             backgroundColor: 'transparent',
-                            border: '1px solid #555',
+                            border: 'none',
                             color: '#f5f5f7',
                             borderRadius: '4px',
                             padding: '8px 12px',

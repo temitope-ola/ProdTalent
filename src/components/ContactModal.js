@@ -67,7 +67,7 @@ const ContactModal = ({ isOpen, onClose, talentName, talentEmail, talentId, from
                 width: '90%',
                 maxHeight: '90vh',
                 overflow: 'auto',
-                border: '1px solid #333'
+                border: 'none'
             }, children: [_jsxs("div", { style: {
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -89,7 +89,7 @@ const ContactModal = ({ isOpen, onClose, talentName, talentEmail, talentId, from
                                         width: '100%',
                                         padding: 12,
                                         backgroundColor: '#222',
-                                        border: '1px solid #333',
+                                        border: 'none',
                                         borderRadius: 4,
                                         color: '#f5f5f7',
                                         fontSize: 14
@@ -102,7 +102,7 @@ const ContactModal = ({ isOpen, onClose, talentName, talentEmail, talentId, from
                                         width: '100%',
                                         padding: 12,
                                         backgroundColor: '#222',
-                                        border: '1px solid #333',
+                                        border: 'none',
                                         borderRadius: 4,
                                         color: '#f5f5f7',
                                         fontSize: 14,
@@ -111,14 +111,14 @@ const ContactModal = ({ isOpen, onClose, talentName, talentEmail, talentId, from
                                         padding: '10px 20px',
                                         backgroundColor: 'transparent',
                                         color: '#888',
-                                        border: '1px solid #333',
+                                        border: 'none',
                                         borderRadius: 4,
                                         cursor: 'pointer'
                                     }, children: "Annuler" }), _jsx("button", { type: "submit", disabled: isSubmitting, style: {
                                         padding: '10px 20px',
                                         backgroundColor: '#ffcc00',
                                         color: '#000',
-                                        border: '1px solid #ffcc00',
+                                        border: 'none',
                                         borderRadius: 4,
                                         cursor: isSubmitting ? 'not-allowed' : 'pointer',
                                         fontWeight: 'bold',

@@ -221,7 +221,7 @@ export default function ApplyJobPage() {
               padding: '8px 16px',
               backgroundColor: 'transparent',
               color: '#ffcc00',
-              border: '1px solid #ffcc00',
+              border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
               marginRight: isMobile ? 0 : 16,
@@ -240,7 +240,7 @@ export default function ApplyJobPage() {
         {error && (
           <div style={{
             backgroundColor: 'rgba(255, 107, 107, 0.1)',
-            border: '1px solid #ff6b6b',
+            border: 'none',
             color: '#ff6b6b',
             padding: 16,
             borderRadius: 4,
@@ -253,7 +253,7 @@ export default function ApplyJobPage() {
         {success && (
           <div style={{
             backgroundColor: 'rgba(97, 191, 172, 0.1)',
-            border: '1px solid #61bfac',
+            border: 'none',
             color: '#61bfac',
             padding: 16,
             borderRadius: 4,
@@ -416,7 +416,7 @@ export default function ApplyJobPage() {
                     padding: isMobile ? 10 : 12,
                     backgroundColor: '#333',
                     color: '#f5f5f7',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: 4,
                     fontSize: isMobile ? 14 : 16,
                     resize: 'vertical',
@@ -447,7 +447,7 @@ export default function ApplyJobPage() {
                     padding: isMobile ? '14px 20px' : '12px 24px',
                     backgroundColor: 'transparent',
                     color: '#f5f5f7',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: 4,
                     cursor: 'pointer',
                     fontSize: isMobile ? 16 : 14,
@@ -463,7 +463,7 @@ export default function ApplyJobPage() {
                     padding: isMobile ? '14px 20px' : '12px 24px',
                     backgroundColor: isSubmitting ? '#555' : '#ffcc00',
                     color: isSubmitting ? '#888' : '#000',
-                    border: '1px solid #ffcc00',
+                    border: 'none',
                     borderRadius: 4,
                     cursor: isSubmitting ? 'not-allowed' : 'pointer',
                     fontSize: isMobile ? 16 : 14,

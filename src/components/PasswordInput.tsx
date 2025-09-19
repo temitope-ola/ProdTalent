@@ -27,7 +27,7 @@ export default function PasswordInput({
     width: '100%',
     padding: '12px 45px 12px 12px',
     fontSize: '14px',
-    border: '1px solid #333',
+    border: 'none',
     borderRadius: '4px',
     backgroundColor: '#111',
     color: '#f5f5f7',

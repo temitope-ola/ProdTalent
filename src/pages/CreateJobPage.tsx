@@ -134,7 +134,7 @@ export default function CreateJobPage() {
                 padding: '8px 16px',
                 backgroundColor: 'transparent',
                 color: '#ffcc00',
-                border: '1px solid #ffcc00',
+                border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer'
               }}
@@ -199,7 +199,7 @@ export default function CreateJobPage() {
                       padding: '12px',
                       backgroundColor: '#333',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       fontSize: '14px'
                     }}
@@ -221,7 +221,7 @@ export default function CreateJobPage() {
                       padding: '12px',
                       backgroundColor: '#333',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       fontSize: '14px'
                     }}
@@ -244,7 +244,7 @@ export default function CreateJobPage() {
                       padding: '12px',
                       backgroundColor: '#333',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       fontSize: '14px'
                     }}
@@ -264,7 +264,7 @@ export default function CreateJobPage() {
                       padding: '12px',
                       backgroundColor: '#333',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       fontSize: '14px'
                     }}
@@ -308,7 +308,7 @@ export default function CreateJobPage() {
                       padding: '12px',
                       backgroundColor: '#333',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       fontSize: '14px'
                     }}
@@ -329,7 +329,7 @@ export default function CreateJobPage() {
                       padding: '12px',
                       backgroundColor: '#333',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       fontSize: '14px'
                     }}
@@ -349,7 +349,7 @@ export default function CreateJobPage() {
                       padding: '12px',
                       backgroundColor: '#333',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       fontSize: '14px'
                     }}
@@ -376,7 +376,7 @@ export default function CreateJobPage() {
                   padding: '12px',
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   fontSize: '14px',
                   resize: 'vertical'
@@ -397,7 +397,7 @@ export default function CreateJobPage() {
                   padding: '12px',
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   fontSize: '14px',
                   resize: 'vertical'
@@ -418,7 +418,7 @@ export default function CreateJobPage() {
                   padding: '12px',
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   fontSize: '14px',
                   resize: 'vertical'
@@ -446,7 +446,7 @@ export default function CreateJobPage() {
                       padding: '12px',
                       backgroundColor: '#333',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       fontSize: '14px'
                     }}
@@ -467,7 +467,7 @@ export default function CreateJobPage() {
                       padding: '12px',
                       backgroundColor: '#333',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       fontSize: '14px'
                     }}
@@ -486,7 +486,7 @@ export default function CreateJobPage() {
                   padding: '12px 24px',
                   backgroundColor: 'transparent',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   cursor: 'pointer',
                   fontSize: '14px'

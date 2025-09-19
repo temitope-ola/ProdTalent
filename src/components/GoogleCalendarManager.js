@@ -533,7 +533,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                 width: '95%',
                 maxHeight: '90vh',
                 overflow: 'auto',
-                border: '1px solid #333'
+                border: 'none'
             }, children: [_jsxs("div", { style: {
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -548,7 +548,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                 padding: '4px'
                             }, "aria-label": "Fermer la gestion des r\u00E9servations", title: "Fermer (\u00C9chap)", children: "\u2715" })] }), error && (_jsxs("div", { style: {
                         backgroundColor: '#2d1b1b',
-                        border: '1px solid #ff6b6b',
+                        border: 'none',
                         borderRadius: '4px',
                         padding: '12px',
                         marginBottom: '16px',
@@ -567,7 +567,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                         padding: '16px',
                         borderRadius: '4px',
                         marginBottom: '20px',
-                        border: '1px solid #333'
+                        border: 'none'
                     }, children: _jsxs("div", { style: { display: 'flex', alignItems: 'center', justifyContent: 'space-between' }, children: [_jsxs("div", { children: [_jsx("h4", { style: { color: '#ffcc00', margin: '0 0 8px 0' }, children: "\uD83D\uDCC5 Int\u00E9gration Google Calendar" }), _jsx("p", { style: { color: '#888', margin: 0, fontSize: '14px' }, children: isAuthenticated
                                             ? '✅ Connecté - Vos événements sont synchronisés'
                                             : '⚠️ Connectez-vous à Google Calendar pour une synchronisation complète' })] }), !isAuthenticated && (_jsx("button", { onClick: handleGoogleAuth, disabled: loading, style: {
@@ -687,19 +687,19 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                             }, children: "\uD83D\uDD04 Sync Talents" })] }), _jsxs("div", { style: { display: 'grid', gap: '12px', gridTemplateColumns: '1fr 1fr 1fr auto' }, children: [_jsx("select", { value: newSlot.day, onChange: (e) => setNewSlot({ ...newSlot, day: e.target.value }), style: {
                                                 padding: '8px 12px',
                                                 backgroundColor: '#333',
-                                                border: '1px solid #555',
+                                                border: 'none',
                                                 borderRadius: '4px',
                                                 color: '#f5f5f7'
                                             }, children: daysOfWeek.map(day => (_jsx("option", { value: day.value, children: day.label }, day.value))) }), _jsx("input", { type: "time", value: newSlot.startTime, onChange: (e) => setNewSlot({ ...newSlot, startTime: e.target.value }), style: {
                                                 padding: '8px 12px',
                                                 backgroundColor: '#333',
-                                                border: '1px solid #555',
+                                                border: 'none',
                                                 borderRadius: '4px',
                                                 color: '#f5f5f7'
                                             } }), _jsx("input", { type: "time", value: newSlot.endTime, onChange: (e) => setNewSlot({ ...newSlot, endTime: e.target.value }), style: {
                                                 padding: '8px 12px',
                                                 backgroundColor: '#333',
-                                                border: '1px solid #555',
+                                                border: 'none',
                                                 borderRadius: '4px',
                                                 color: '#f5f5f7'
                                             } }), _jsx("button", { onClick: addAvailabilitySlot, style: {
@@ -714,7 +714,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                             backgroundColor: '#1a1a1a',
                                             padding: '16px',
                                             borderRadius: '4px',
-                                            border: '1px solid #333',
+                                            border: 'none',
                                             display: 'flex',
                                             justifyContent: 'space-between',
                                             alignItems: 'center'
@@ -730,7 +730,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                                             padding: '4px 8px',
                                                             backgroundColor: 'transparent',
                                                             color: '#ff6b6b',
-                                                            border: '1px solid #ff6b6b',
+                                                            border: 'none',
                                                             borderRadius: '4px',
                                                             cursor: 'pointer',
                                                             fontSize: '12px'
@@ -738,7 +738,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                     backgroundColor: '#1a1a1a',
                                     padding: '16px',
                                     borderRadius: '4px',
-                                    border: '1px solid #333'
+                                    border: 'none'
                                 }, children: _jsxs("div", { style: {
                                         display: 'flex',
                                         justifyContent: 'space-between',
@@ -772,7 +772,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                 padding: '40px 20px',
                                 backgroundColor: '#1a1a1a',
                                 borderRadius: '4px',
-                                border: '1px solid #333'
+                                border: 'none'
                             }, children: [_jsx("p", { style: { color: '#888', marginBottom: '16px' }, children: "Connectez-vous \u00E0 Google Calendar pour voir votre calendrier" }), _jsx("button", { onClick: handleGoogleAuth, disabled: loading, style: {
                                         padding: '12px 24px',
                                         backgroundColor: '#4285f4',
@@ -784,7 +784,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                         opacity: loading ? 0.6 : 1
                                     }, children: loading ? 'Connexion...' : '🔗 Se connecter avec Google' })] })) : (_jsxs("div", { children: [_jsxs("div", { style: {
                                         backgroundColor: '#2d1b1b',
-                                        border: '1px solid #ff6b6b',
+                                        border: 'none',
                                         borderRadius: '4px',
                                         padding: '8px',
                                         marginBottom: '16px',
@@ -812,7 +812,7 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                         opacity: loading ? 0.6 : 1
                                     }, children: loading ? 'Synchronisation...' : '🔄 Synchroniser tous avec Google' }))] }), !isAuthenticated && (_jsx("div", { style: {
                                 backgroundColor: '#2d1b1b',
-                                border: '1px solid #ff6b6b',
+                                border: 'none',
                                 borderRadius: '4px',
                                 padding: '12px',
                                 marginBottom: '20px'
@@ -821,14 +821,14 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                 padding: '40px 20px',
                                 backgroundColor: '#1a1a1a',
                                 borderRadius: '4px',
-                                border: '1px solid #333'
+                                border: 'none'
                             }, children: [_jsx("p", { style: { color: '#888', marginBottom: '16px' }, children: "Aucun rendez-vous talent pour le moment" }), _jsx("p", { style: { color: '#666', fontSize: '14px' }, children: "Les rendez-vous cr\u00E9\u00E9s par les talents appara\u00EEtront ici" })] })) : (_jsx("div", { style: { display: 'flex', flexDirection: 'column', gap: '16px' }, children: appointments
                                 .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
                                 .map((appointment) => (_jsx("div", { style: {
                                     backgroundColor: '#1a1a1a',
                                     padding: '20px',
                                     borderRadius: '4px',
-                                    border: '1px solid #333'
+                                    border: 'none'
                                 }, children: _jsxs("div", { style: {
                                         display: 'flex',
                                         justifyContent: 'space-between',
@@ -870,13 +870,13 @@ const GoogleCalendarManager = ({ isOpen, onClose, coachId }) => {
                                 padding: '16px',
                                 borderRadius: '4px',
                                 marginTop: '20px',
-                                border: '1px solid #333'
+                                border: 'none'
                             }, children: [_jsx("h5", { style: { color: '#ffcc00', margin: '0 0 8px 0' }, children: "\uD83D\uDCA1 Comment \u00E7a marche" }), _jsxs("ul", { style: { color: '#888', fontSize: '14px', margin: '8px 0', paddingLeft: '20px' }, children: [_jsx("li", { children: "Les rendez-vous cr\u00E9\u00E9s par les talents apparaissent automatiquement ici" }), _jsx("li", { children: "Connectez-vous \u00E0 Google Calendar pour synchroniser automatiquement" }), _jsx("li", { children: "Les rendez-vous confirm\u00E9s peuvent \u00EAtre synchronis\u00E9s individuellement" }), _jsx("li", { children: "Utilisez \"Synchroniser tous\" pour synchroniser tous les rendez-vous confirm\u00E9s d'un coup" })] })] })] })), _jsx("div", { style: {
                         backgroundColor: '#1a1a1a',
                         padding: '16px',
                         borderRadius: '4px',
                         marginTop: '20px',
-                        border: '1px solid #333'
+                        border: 'none'
                     }, children: _jsxs("p", { style: { color: '#888', fontSize: '14px', margin: 0 }, children: [_jsx("strong", { children: "Comment \u00E7a marche :" }), " D\u00E9finissez vos disponibilit\u00E9s r\u00E9currentes (ex: tous les lundis 9h-12h). Le syst\u00E8me g\u00E9n\u00E8re automatiquement les cr\u00E9neaux pour les 4 prochaines semaines. Les talents peuvent r\u00E9server des cr\u00E9neaux sp\u00E9cifiques et vous g\u00E9rez les demandes dans l'onglet \"R\u00E9servations\"."] }) })] }) }));
 };
 export default GoogleCalendarManager;

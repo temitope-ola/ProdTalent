@@ -212,7 +212,7 @@ function ProtectedRoute({ children }: { children: React.ReactElement }) {
           height: '60px',
           border: '3px solid #333',
           borderTop: '3px solid #ffcc00',
-          borderRadius: '50%',
+          borderRadius: 4,
           animation: 'spin 1s linear infinite',
           marginBottom: '20px'
         }} />

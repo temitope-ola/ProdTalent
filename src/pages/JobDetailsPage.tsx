@@ -108,7 +108,7 @@ export default function JobDetailsPage() {
         alignItems: 'center'
       }}>
         <div style={{ color: '#f5f5f7', textAlign: 'center' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>❌</div>
+          <div style={{ fontSize: '18px', marginBottom: '16px', color: '#ff6b6b' }}>Erreur</div>
           <div style={{ fontSize: '20px', marginBottom: '16px' }}>Offre non trouvée</div>
           <button 
             onClick={() => navigate('/jobs')}
@@ -184,7 +184,7 @@ export default function JobDetailsPage() {
           backgroundColor: '#111',
           padding: '32px',
           borderRadius: '4px',
-          border: '1px solid #333'
+          border: 'none'
         }}>
           {/* Titre et entreprise */}
           <div style={{ marginBottom: '24px' }}>
@@ -276,7 +276,7 @@ export default function JobDetailsPage() {
           {job.requirements && (
             <div style={{ marginBottom: '32px' }}>
               <h2 style={{ color: '#ffcc00', fontSize: '24px', marginBottom: '16px' }}>
-                ✅ Exigences
+                Exigences
               </h2>
               <div style={{
                 color: '#f5f5f7',
@@ -328,7 +328,7 @@ export default function JobDetailsPage() {
                   fontWeight: 'bold'
                 }}
               >
-                📤 Postuler à cette offre
+                Postuler à cette offre
               </button>
             )}
             <button

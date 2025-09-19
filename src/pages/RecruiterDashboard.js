@@ -408,7 +408,7 @@ export default function RecruiterDashboard() {
                                         backgroundColor: '#1a1a1a',
                                         borderRadius: '4px',
                                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                                        border: '1px solid #333',
+                                        border: 'none',
                                         minWidth: '180px',
                                         zIndex: 1000
                                     }, children: [_jsxs("div", { onClick: () => handleProfileAction('profile'), style: {
@@ -520,7 +520,7 @@ export default function RecruiterDashboard() {
                                                                             fontSize: '10px',
                                                                             color: '#1a1a1a',
                                                                             backgroundColor: '#ffcc00',
-                                                                            borderRadius: '50%',
+                                                                            borderRadius: 4,
                                                                             width: '16px',
                                                                             height: '16px',
                                                                             display: 'flex',
@@ -569,7 +569,7 @@ export default function RecruiterDashboard() {
                                                                             fontSize: '10px',
                                                                             color: '#1a1a1a',
                                                                             backgroundColor: '#ffcc00',
-                                                                            borderRadius: '50%',
+                                                                            borderRadius: 4,
                                                                             width: '16px',
                                                                             height: '16px',
                                                                             display: 'flex',

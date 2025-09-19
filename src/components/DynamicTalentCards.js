@@ -84,7 +84,7 @@ const DynamicTalentCards = ({ isMobile }) => {
                                 right: '16px',
                                 width: '32px',
                                 height: '32px',
-                                borderRadius: '50%',
+                                borderRadius: 4,
                                 background: '#ffffff',
                                 display: 'flex',
                                 alignItems: 'center',

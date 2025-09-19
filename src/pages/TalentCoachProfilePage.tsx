@@ -206,7 +206,7 @@ const TalentCoachProfilePage: React.FC = () => {
         {/* Profile Section */}
         <div style={{
           backgroundColor: '#1a1a1a',
-          border: '1px solid #333',
+          border: 'none',
           borderRadius: '4px',
           padding: screenWidth <= 768 ? '20px' : '32px',
           marginBottom: '24px'
@@ -344,7 +344,7 @@ const TalentCoachProfilePage: React.FC = () => {
         {/* Message Section */}
         <div style={{
           backgroundColor: '#1a1a1a',
-          border: '1px solid #333',
+          border: 'none',
           borderRadius: '4px',
           padding: screenWidth <= 768 ? '20px' : '32px'
         }}>
@@ -367,7 +367,7 @@ const TalentCoachProfilePage: React.FC = () => {
                 padding: '12px',
                 backgroundColor: '#333',
                 color: '#f5f5f7',
-                border: '1px solid #555',
+                border: 'none',
                 borderRadius: '4px',
                 fontSize: '14px',
                 resize: 'vertical',

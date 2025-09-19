@@ -650,7 +650,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
         width: '95%',
         maxHeight: '90vh',
         overflow: 'auto',
-        border: '1px solid #333'
+        border: 'none'
       }}>
         <div style={{
           display: 'flex',
@@ -680,7 +680,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
         {error && (
           <div style={{
             backgroundColor: '#2d1b1b',
-            border: '1px solid #ff6b6b',
+            border: 'none',
             borderRadius: '4px',
             padding: '12px',
             marginBottom: '16px',
@@ -711,7 +711,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
           padding: '16px',
           borderRadius: '4px',
           marginBottom: '20px',
-          border: '1px solid #333'
+          border: 'none'
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
@@ -955,7 +955,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                   style={{
                     padding: '8px 12px',
                     backgroundColor: '#333',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7'
                   }}
@@ -971,7 +971,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                   style={{
                     padding: '8px 12px',
                     backgroundColor: '#333',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7'
                   }}
@@ -983,7 +983,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                   style={{
                     padding: '8px 12px',
                     backgroundColor: '#333',
-                    border: '1px solid #555',
+                    border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7'
                   }}
@@ -1018,7 +1018,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                       backgroundColor: '#1a1a1a',
                       padding: '16px',
                       borderRadius: '4px',
-                      border: '1px solid #333',
+                      border: 'none',
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center'
@@ -1053,7 +1053,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                           padding: '4px 8px',
                           backgroundColor: 'transparent',
                           color: '#ff6b6b',
-                          border: '1px solid #ff6b6b',
+                          border: 'none',
                           borderRadius: '4px',
                           cursor: 'pointer',
                           fontSize: '12px'
@@ -1088,7 +1088,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                       backgroundColor: '#1a1a1a',
                       padding: '16px',
                       borderRadius: '4px',
-                      border: '1px solid #333'
+                      border: 'none'
                     }}
                   >
                     <div style={{
@@ -1175,7 +1175,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                 padding: '40px 20px',
                 backgroundColor: '#1a1a1a',
                 borderRadius: '4px',
-                border: '1px solid #333'
+                border: 'none'
               }}>
                 <p style={{ color: '#888', marginBottom: '16px' }}>
                   Connectez-vous à Google Calendar pour voir votre calendrier
@@ -1201,7 +1201,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
               <div>
                 <div style={{ 
                   backgroundColor: '#2d1b1b', 
-                  border: '1px solid #ff6b6b', 
+                  border: 'none', 
                   borderRadius: '4px', 
                   padding: '8px', 
                   marginBottom: '16px',
@@ -1271,7 +1271,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
             {!isAuthenticated && (
               <div style={{
                 backgroundColor: '#2d1b1b',
-                border: '1px solid #ff6b6b',
+                border: 'none',
                 borderRadius: '4px',
                 padding: '12px',
                 marginBottom: '20px'
@@ -1288,7 +1288,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                 padding: '40px 20px',
                 backgroundColor: '#1a1a1a',
                 borderRadius: '4px',
-                border: '1px solid #333'
+                border: 'none'
               }}>
                 <p style={{ color: '#888', marginBottom: '16px' }}>
                   Aucun rendez-vous talent pour le moment
@@ -1308,7 +1308,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
                         backgroundColor: '#1a1a1a',
                         padding: '20px',
                         borderRadius: '4px',
-                        border: '1px solid #333'
+                        border: 'none'
                       }}
                     >
                       <div style={{
@@ -1406,7 +1406,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
               padding: '16px',
               borderRadius: '4px',
               marginTop: '20px',
-              border: '1px solid #333'
+              border: 'none'
             }}>
               <h5 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>💡 Comment ça marche</h5>
               <ul style={{ color: '#888', fontSize: '14px', margin: '8px 0', paddingLeft: '20px' }}>
@@ -1425,7 +1425,7 @@ const GoogleCalendarManager: React.FC<GoogleCalendarManagerProps> = ({
           padding: '16px',
           borderRadius: '4px',
           marginTop: '20px',
-          border: '1px solid #333'
+          border: 'none'
         }}>
           <p style={{ color: '#888', fontSize: '14px', margin: 0 }}>
             <strong>Comment ça marche :</strong> Définissez vos disponibilités récurrentes (ex: tous les lundis 9h-12h). 

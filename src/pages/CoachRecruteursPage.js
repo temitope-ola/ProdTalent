@@ -152,7 +152,7 @@ const CoachRecruteursPage = () => {
                                         padding: '8px 12px',
                                         backgroundColor: '#333',
                                         color: '#ffcc00',
-                                        border: '1px solid #ffcc00',
+                                        border: 'none',
                                         borderRadius: '4px',
                                         cursor: 'pointer',
                                         fontSize: '14px',
@@ -185,7 +185,7 @@ const CoachRecruteursPage = () => {
                                         backgroundColor: '#1a1a1a',
                                         borderRadius: '4px',
                                         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                                        border: '1px solid #333',
+                                        border: 'none',
                                         minWidth: '180px',
                                         zIndex: 1000
                                     }, children: [_jsxs("div", { onClick: (e) => {
@@ -311,7 +311,7 @@ const CoachRecruteursPage = () => {
                                                     padding: '20px',
                                                     backgroundColor: '#111',
                                                     borderRadius: '4px',
-                                                    border: '1px solid #333',
+                                                    border: 'none',
                                                     cursor: 'pointer',
                                                     transition: 'all 0.2s ease'
                                                 }, onMouseEnter: (e) => {

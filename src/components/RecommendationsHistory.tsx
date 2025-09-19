@@ -39,7 +39,6 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
     
     setLoading(true);
     try {
-      console.log('📋 Chargement des recommandations pour le coach:', user.id);
       
       const { collection, query, where, getDocs, orderBy } = await import('firebase/firestore');
       const { db } = await import('../firebase');
@@ -65,9 +64,7 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
         });
         
         setRecommendations(recommendationsData);
-        console.log('✅ Recommandations chargées:', recommendationsData.length);
       } catch (orderError) {
-        console.log('⚠️ Erreur avec orderBy, tentative sans tri:', orderError);
         
         // Fallback sans orderBy si l'index n'existe pas
         const q = query(
@@ -91,15 +88,12 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
         recommendationsData.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
         
         setRecommendations(recommendationsData);
-        console.log('✅ Recommandations chargées (sans orderBy):', recommendationsData.length);
       }
     } catch (error) {
       console.error('❌ Erreur lors du chargement des recommandations:', error);
-      console.log('🔍 Détails de l\'erreur:', error);
       
       // Si aucune recommandation n'existe, on affiche juste une liste vide
       setRecommendations([]);
-      console.log('📋 Aucune recommandation trouvée ou collection vide');
     } finally {
       setLoading(false);
     }
@@ -170,7 +164,7 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
           borderBottom: '1px solid #333'
         }}>
           <h2 style={{ margin: 0, color: '#ffcc00', fontSize: '20px' }}>
-            📋 Historique des Recommandations
+            Historique des Recommandations
           </h2>
           <button
             onClick={onClose}
@@ -191,7 +185,9 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
           display: 'flex',
           gap: '8px',
           padding: '20px',
-          borderBottom: '1px solid #333'
+          borderBottom: '1px solid #333',
+          flexWrap: 'wrap',
+          alignItems: 'center'
         }}>
           {[
             { key: 'all', label: 'Toutes', count: recommendations.length },
@@ -203,15 +199,18 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
               key={filter.key}
               onClick={() => setSelectedFilter(filter.key as any)}
               style={{
-                padding: '8px 16px',
+                padding: '8px 12px',
                 backgroundColor: selectedFilter === filter.key ? '#ffcc00' : '#333',
                 color: selectedFilter === filter.key ? '#000' : '#f5f5f7',
                 border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
-                fontSize: '14px',
+                fontSize: '13px',
                 fontWeight: selectedFilter === filter.key ? 'bold' : 'normal',
-                transition: 'all 0.2s'
+                transition: 'all 0.2s',
+                minWidth: 'auto',
+                flexShrink: 1,
+                whiteSpace: 'nowrap'
               }}
             >
               {filter.label} ({filter.count})
@@ -227,7 +226,6 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
         }}>
           {loading ? (
             <div style={{ textAlign: 'center', padding: '40px' }}>
-              <div style={{ fontSize: '48px', marginBottom: '16px' }}>⏳</div>
               <p>Chargement des recommandations...</p>
             </div>
           ) : filteredRecommendations.length === 0 ? (
@@ -236,7 +234,7 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
               padding: '40px',
               color: '#888'
             }}>
-              <div style={{ fontSize: '48px', marginBottom: '16px' }}>📋</div>
+              <div style={{ fontSize: '48px', marginBottom: '16px' }}></div>
               <h3 style={{ color: '#f5f5f7', marginBottom: '8px' }}>
                 Aucune recommandation {selectedFilter !== 'all' ? getStatusText(selectedFilter).toLowerCase() : ''}
               </h3>
@@ -256,7 +254,7 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
                     backgroundColor: '#2a2a2a',
                     padding: '20px',
                     borderRadius: '4px',
-                    border: '1px solid #333'
+                    border: 'none'
                   }}
                 >
                   <div style={{
@@ -271,24 +269,24 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
                         color: '#ffcc00',
                         fontSize: '16px'
                       }}>
-                        💼 {recommendation.jobTitle}
+                        {recommendation.jobTitle}
                       </h4>
                       {recommendation.company && (
                         <div style={{ color: '#61bfac', marginBottom: '4px', fontSize: '14px' }}>
-                          🏢 {recommendation.company}
+                          {recommendation.company}
                         </div>
                       )}
                       <div style={{ color: '#f5f5f7', marginBottom: '4px' }}>
-                        👤 Talent recommandé : {recommendation.talentName}
+                        Talent recommandé : {recommendation.talentName}
                       </div>
                       <div style={{ color: '#f5f5f7', marginBottom: '4px' }}>
-                        📧 {recommendation.talentEmail}
+                        {recommendation.talentEmail}
                       </div>
                       <div style={{ color: '#f5f5f7', marginBottom: '8px' }}>
-                        🏢 Recruteur : {recommendation.recruiterName}
+                        Recruteur : {recommendation.recruiterName}
                       </div>
                       <div style={{ color: '#888', fontSize: '12px' }}>
-                        📅 {formatDate(recommendation.createdAt)}
+                        {formatDate(recommendation.createdAt)}
                       </div>
                     </div>
                     
@@ -314,7 +312,7 @@ const RecommendationsHistory: React.FC<RecommendationsHistoryProps> = ({ onClose
                       borderRadius: '4px',
                       borderLeft: '3px solid #ffcc00'
                     }}>
-                      💬 "{recommendation.message}"
+                      "{recommendation.message}"
                     </div>
                   )}
                 </div>

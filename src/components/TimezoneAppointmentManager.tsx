@@ -301,7 +301,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
         }}>
           <div>
             <h2 style={{ margin: 0, color: '#ffcc00' }}>
-              📋 Mes Rendez-vous
+              Mes Rendez-vous
             </h2>
             <p style={{ color: '#888', margin: '4px 0 0 0', fontSize: '14px' }}>
               Gérez vos rendez-vous avec support des fuseaux horaires
@@ -330,7 +330,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
           textAlign: 'center'
         }}>
           <span style={{ fontSize: '14px', color: '#ffcc00' }}>
-            🕐 Votre fuseau horaire : {userTimeZone}
+            Votre fuseau horaire : {userTimeZone}
           </span>
         </div>
 
@@ -338,14 +338,14 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
         {(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && (
           <div style={{
             backgroundColor: '#1a4d1a',
-            border: '1px solid #4caf50',
+            border: 'none',
             padding: '12px',
             borderRadius: '4px',
             marginBottom: '20px',
             textAlign: 'center'
           }}>
             <span style={{ fontSize: '14px', color: '#4caf50' }}>
-              🛠️ Mode développement : L'authentification Google et la création d'événements sont simulées
+              Mode développement : L'authentification Google et la création d'événements sont simulées
             </span>
           </div>
         )}
@@ -396,7 +396,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
             padding: '40px',
             color: '#888'
           }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>📅</div>
+            <div style={{ fontSize: '18px', marginBottom: '16px', color: '#888' }}>Aucun rendez-vous</div>
             <p>Aucun rendez-vous {selectedFilter !== 'all' ? getStatusText(selectedFilter) : ''}</p>
           </div>
         ) : (
@@ -412,7 +412,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                     padding: '20px',
                     borderRadius: '4px',
                     marginBottom: '16px',
-                    border: '1px solid #333'
+                    border: 'none'
                   }}
                 >
                   <div style={{
@@ -427,16 +427,16 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                         color: '#ffcc00',
                         fontSize: '16px'
                       }}>
-                        👤 {appointment.talentName}
+                        {appointment.talentName}
                       </h4>
                       <div style={{ color: '#f5f5f7', marginBottom: '4px' }}>
-                        📧 {appointment.talentEmail}
+                        {appointment.talentEmail}
                       </div>
                       <div style={{ color: '#f5f5f7', marginBottom: '4px' }}>
-                        📅 {formattedDateTime.date}
+                        {formattedDateTime.date}
                       </div>
                       <div style={{ color: '#f5f5f7', marginBottom: '8px' }}>
-                        🕐 {formattedDateTime.time}
+                        {formattedDateTime.time}
                       </div>
                       
                       {appointment.talentTimeZone && appointment.talentTimeZone !== userTimeZone && (
@@ -457,7 +457,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                           marginBottom: '8px',
                           fontStyle: 'italic'
                         }}>
-                          💬 "{appointment.notes}"
+                          "{appointment.notes}"
                         </div>
                       )}
                       
@@ -478,7 +478,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                                 fontWeight: 'bold'
                               }}
                             >
-                              🎥 Rejoindre Meet
+                              Rejoindre Meet
                             </a>
                           )}
                           {appointment.calendarLink ? (
@@ -496,7 +496,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
                                 fontWeight: 'bold'
                               }}
                             >
-                              📅 Voir dans Google Calendar
+                              Voir dans Google Calendar
                             </a>
                           ) : (
                             <div style={{
@@ -613,7 +613,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
               padding: '12px 24px',
               backgroundColor: '#333',
               color: '#f5f5f7',
-              border: '1px solid #555',
+              border: 'none',
               borderRadius: '4px',
               cursor: loading ? 'not-allowed' : 'pointer',
               fontSize: '14px',
@@ -640,7 +640,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
               fontWeight: 'bold'
             }}
           >
-            📅 Gérer mes disponibilités
+            Gérer mes disponibilités
           </button>
         </div>
 
@@ -651,7 +651,7 @@ const TimezoneAppointmentManager: React.FC<TimezoneAppointmentManagerProps> = ({
           borderRadius: '4px',
           marginTop: '20px'
         }}>
-          <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>ℹ️ Informations :</h4>
+          <h4 style={{ color: '#ffcc00', margin: '0 0 8px 0' }}>Informations :</h4>
           <ul style={{ color: '#f5f5f7', margin: 0, paddingLeft: '20px', fontSize: '14px' }}>
             <li>Les horaires sont affichés dans votre fuseau horaire ({userTimeZone})</li>
             <li>Confirmer un rendez-vous crée automatiquement un événement Google Calendar avec Meet</li>

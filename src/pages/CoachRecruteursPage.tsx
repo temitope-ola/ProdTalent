@@ -207,7 +207,7 @@ const CoachRecruteursPage: React.FC = () => {
                 padding: '8px 12px',
                 backgroundColor: '#333',
                 color: '#ffcc00',
-                border: '1px solid #ffcc00',
+                border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '14px',
@@ -280,7 +280,7 @@ const CoachRecruteursPage: React.FC = () => {
                 backgroundColor: '#1a1a1a',
                 borderRadius: '4px',
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                border: '1px solid #333',
+                border: 'none',
                 minWidth: '180px',
                 zIndex: 1000
               }}>
@@ -382,7 +382,7 @@ const CoachRecruteursPage: React.FC = () => {
                     width: '100%',
                     padding: '8px 12px',
                     backgroundColor: '#1a1a1a',
-                    border: '1px solid #333',
+                    border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7',
                     fontSize: '13px'
@@ -426,7 +426,7 @@ const CoachRecruteursPage: React.FC = () => {
                     width: '100%',
                     padding: '8px 12px',
                     backgroundColor: '#1a1a1a',
-                    border: '1px solid #333',
+                    border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7',
                     fontSize: '13px'
@@ -468,7 +468,7 @@ const CoachRecruteursPage: React.FC = () => {
                     width: '100%',
                     padding: '8px 12px',
                     backgroundColor: '#1a1a1a',
-                    border: '1px solid #333',
+                    border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7',
                     fontSize: '13px'
@@ -520,7 +520,7 @@ const CoachRecruteursPage: React.FC = () => {
                     width: '100%',
                     padding: '8px 12px',
                     backgroundColor: '#1a1a1a',
-                    border: '1px solid #333',
+                    border: 'none',
                     borderRadius: '4px',
                     color: '#f5f5f7',
                     fontSize: '13px'

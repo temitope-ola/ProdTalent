@@ -88,7 +88,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, talentName
         width: '90%',
         maxHeight: '90vh',
         overflow: 'auto',
-        border: '1px solid #333'
+        border: 'none'
       }}>
         {/* Header */}
         <div style={{
@@ -141,7 +141,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, talentName
                 width: '100%',
                 padding: 12,
                 backgroundColor: '#222',
-                border: '1px solid #333',
+                border: 'none',
                 borderRadius: 4,
                 color: '#f5f5f7',
                 fontSize: 14
@@ -168,7 +168,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, talentName
                 width: '100%',
                 padding: 12,
                 backgroundColor: '#222',
-                border: '1px solid #333',
+                border: 'none',
                 borderRadius: 4,
                 color: '#f5f5f7',
                 fontSize: 14,
@@ -187,7 +187,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, talentName
                 padding: '10px 20px',
                 backgroundColor: 'transparent',
                 color: '#888',
-                border: '1px solid #333',
+                border: 'none',
                 borderRadius: 4,
                 cursor: 'pointer'
               }}
@@ -206,7 +206,7 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose, talentName
                 padding: '10px 20px',
                 backgroundColor: '#ffcc00',
                 color: '#000',
-                border: '1px solid #ffcc00',
+                border: 'none',
                 borderRadius: 4,
                 cursor: isSubmitting ? 'not-allowed' : 'pointer',
                 fontWeight: 'bold',

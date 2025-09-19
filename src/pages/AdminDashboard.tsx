@@ -75,10 +75,10 @@ export default function AdminDashboard() {
   }, [activeSection]);
 
   const menuItems = [
-    { id: 'featured', label: 'Talents Mis en Avant', icon: '⭐' },
-    { id: 'password-reset', label: 'Réinitialisation Mots de Passe', icon: '🔐' },
-    { id: 'sendgrid', label: 'SendGrid Templates', icon: '📮' },
-    { id: 'google', label: 'Google Config', icon: '🔗' },
+    { id: 'featured', label: 'Talents Mis en Avant', icon: '★' },
+    { id: 'password-reset', label: 'Réinitialisation Mots de Passe', icon: '' },
+    { id: 'sendgrid', label: 'SendGrid Templates', icon: '' },
+    { id: 'google', label: 'Google Config', icon: '' },
   ];
 
   const renderContent = () => {
@@ -111,7 +111,7 @@ export default function AdminDashboard() {
                   fontWeight: 'bold'
                 }}
               >
-                {loading ? 'Chargement...' : '🔄 Actualiser'}
+                {loading ? 'Chargement...' : 'Actualiser'}
               </button>
             </div>
 
@@ -123,7 +123,7 @@ export default function AdminDashboard() {
                 borderRadius: '4px',
                 color: '#888'
               }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>🔐</div>
+                <div style={{ fontSize: '48px', marginBottom: '16px' }}></div>
                 <p>Aucune demande de réinitialisation en attente</p>
               </div>
             ) : (
@@ -132,7 +132,7 @@ export default function AdminDashboard() {
                   <div key={request.id} style={{
                     backgroundColor: '#1a1a1a',
                     padding: '20px',
-                    borderRadius: '8px',
+                    borderRadius: 4,
                     border: `1px solid ${
                       request.status === 'pending' ? '#ffcc00' :
                       request.status === 'completed' ? '#4caf50' : '#ff6b6b'
@@ -146,7 +146,7 @@ export default function AdminDashboard() {
                                           request.status === 'completed' ? '#4caf50' : '#ff6b6b',
                             color: '#000',
                             padding: '4px 12px',
-                            borderRadius: '12px',
+                            borderRadius: 4,
                             fontSize: '12px',
                             fontWeight: 'bold',
                             marginRight: '16px',
@@ -204,7 +204,7 @@ export default function AdminDashboard() {
                               gap: '6px'
                             }}
                           >
-                            ✅ Réinitialiser
+                            Réinitialiser
                           </button>
                           <button
                             onClick={() => handleRejectRequest(request)}
@@ -222,7 +222,7 @@ export default function AdminDashboard() {
                               gap: '6px'
                             }}
                           >
-                            ❌ Rejeter
+                            Rejeter
                           </button>
                         </div>
                       )}
@@ -304,7 +304,7 @@ export default function AdminDashboard() {
             padding: '8px 16px',
             backgroundColor: '#333',
             color: '#f5f5f7',
-            border: '1px solid #555',
+            border: 'none',
             borderRadius: '4px',
             cursor: 'pointer'
           }}

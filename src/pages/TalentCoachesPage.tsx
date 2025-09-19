@@ -131,7 +131,7 @@ const TalentCoachesPage: React.FC = () => {
               padding: '8px 16px',
               backgroundColor: showFilters ? '#ffcc00' : 'transparent',
               color: showFilters ? '#0a0a0a' : '#ffcc00',
-              border: '1px solid #ffcc00',
+              border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '14px'
@@ -167,7 +167,7 @@ const TalentCoachesPage: React.FC = () => {
               style={{
                 padding: '8px 12px',
                 backgroundColor: '#333',
-                border: '1px solid #555',
+                border: 'none',
                 borderRadius: '4px',
                 color: '#f5f5f7',
                 fontSize: '14px'
@@ -184,7 +184,7 @@ const TalentCoachesPage: React.FC = () => {
               style={{
                 padding: '8px 12px',
                 backgroundColor: '#333',
-                border: '1px solid #555',
+                border: 'none',
                 borderRadius: '4px',
                 color: '#f5f5f7',
                 fontSize: '14px'
@@ -214,7 +214,7 @@ const TalentCoachesPage: React.FC = () => {
             padding: '40px',
             color: '#888'
           }}>
-            <div style={{ fontSize: '48px', marginBottom: '16px' }}>👨‍💼</div>
+            <div style={{ fontSize: '24px', marginBottom: '16px', fontWeight: 'bold', color: '#ffcc00' }}>Coaches</div>
             <p>Aucun coach trouvé</p>
           </div>
         ) : (
@@ -228,7 +228,7 @@ const TalentCoachesPage: React.FC = () => {
                 key={coach.id}
                 style={{
                   backgroundColor: '#1a1a1a',
-                  border: '1px solid #333',
+                  border: 'none',
                   borderRadius: '4px',
                   padding: '20px',
                   transition: 'border-color 0.2s ease'

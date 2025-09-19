@@ -115,17 +115,13 @@ export default function CoachDashboard() {
   const loadJobs = async () => {
     if (!user) return;
     try {
-      console.log('🔥 CHARGEMENT JOBS...');
       // Charger toutes les offres d'emploi disponibles avec JobService
       const jobsResult = await FirestoreService.getAllActiveJobs();
-      console.log('📊 RÉSULTAT JOBS:', jobsResult);
       
       if (jobsResult.success && jobsResult.data) {
-        console.log('✅ JOBS RÉCUPÉRÉS:', jobsResult.data.length, jobsResult.data);
         setJobs(jobsResult.data);
         setFilteredJobs(jobsResult.data);
       } else {
-        console.log('⚠️ Aucun job ou erreur:', jobsResult);
         setJobs([]);
         setFilteredJobs([]);
       }
@@ -371,7 +367,7 @@ export default function CoachDashboard() {
                 backgroundColor: '#1a1a1a',
                 borderRadius: '4px',
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                border: '1px solid #333',
+                border: 'none',
                 minWidth: '180px',
                 zIndex: 1000
               }}>
@@ -465,7 +461,7 @@ export default function CoachDashboard() {
             cursor: 'pointer',
             transition: 'transform 0.2s'
           }} onClick={() => setIsAvailabilityOpen(true)}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>📅 Prise de Rendez-vous</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Prise de Rendez-vous</h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
               Publiez vos créneaux disponibles avec fuseaux horaires
             </p>
@@ -493,7 +489,7 @@ export default function CoachDashboard() {
             cursor: 'pointer',
             transition: 'transform 0.2s'
           }} onClick={() => setIsAppointmentsOpen(true)}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>📋 Mes Rendez-vous ({Number(stats.appointmentsCount) || 0})</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Mes Rendez-vous ({Number(stats.appointmentsCount) || 0})</h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
               Gérez vos rendez-vous avec fuseaux horaires et Google Calendar
             </p>
@@ -506,7 +502,7 @@ export default function CoachDashboard() {
             cursor: 'pointer',
             transition: 'transform 0.2s'
           }} onClick={() => setShowRecommendationsHistory(true)}>
-            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>📋 Historique Recommandations</h3>
+            <h3 style={{ margin: '0 0 10px 0', color: '#ffcc00' }}>Historique Recommandations</h3>
             <p style={{ margin: 0, color: '#888', fontSize: '14px' }}>
               Consultez l'historique de vos recommandations
             </p>
@@ -562,7 +558,6 @@ export default function CoachDashboard() {
                   justifyContent: 'flex-start',
                   gap: '8px',
                   padding: screenWidth <= 480 ? '10px 16px' : '8px 12px',
-                  paddingLeft: screenWidth <= 480 ? '16px' : '16px',
                   backgroundColor: '#333',
                   borderRadius: '4px',
                   cursor: 'pointer',
@@ -670,7 +665,7 @@ export default function CoachDashboard() {
                             width: '100%',
                             padding: '8px 12px',
                             backgroundColor: '#1a1a1a',
-                            border: '1px solid #333',
+                            border: 'none',
                             borderRadius: '4px',
                             color: '#f5f5f7',
                             fontSize: '13px'
@@ -714,7 +709,7 @@ export default function CoachDashboard() {
                             width: '100%',
                             padding: '8px 12px',
                             backgroundColor: '#1a1a1a',
-                            border: '1px solid #333',
+                            border: 'none',
                             borderRadius: '4px',
                             color: '#f5f5f7',
                             fontSize: '13px'
@@ -758,7 +753,7 @@ export default function CoachDashboard() {
                             width: '100%',
                             padding: '8px 12px',
                             backgroundColor: '#1a1a1a',
-                            border: '1px solid #333',
+                            border: 'none',
                             borderRadius: '4px',
                             color: '#f5f5f7',
                             fontSize: '13px'
@@ -802,7 +797,7 @@ export default function CoachDashboard() {
                             width: '100%',
                             padding: '8px 12px',
                             backgroundColor: '#1a1a1a',
-                            border: '1px solid #333',
+                            border: 'none',
                             borderRadius: '4px',
                             color: '#f5f5f7',
                             fontSize: '13px'
@@ -883,7 +878,6 @@ export default function CoachDashboard() {
                       transition: 'transform 0.2s, box-shadow 0.2s'
                     }}
                     onClick={() => {
-                      console.log('🔥 CLIC SUR OFFRE:', job.id, job.title);
                       setSelectedJob(job);
                       setShowJobDetails(true);
                     }}
@@ -928,9 +922,9 @@ export default function CoachDashboard() {
                           color: '#888', 
                           fontSize: '12px' 
                         }}>
-                          <span>📍 {String(job.location || 'Non spécifié')}</span>
-                          <span>💼 {String(job.contractType || 'CDI')}</span>
-                          <span>💰 {String(job.salary || 'À négocier')}</span>
+                          <span>{String(job.location || 'Non spécifié')}</span>
+                          <span>{String(job.contractType || 'CDI')}</span>
+                          <span>{String(job.salary || 'À négocier')}</span>
                         </div>
                       </div>
                       <div style={{
@@ -1040,9 +1034,9 @@ export default function CoachDashboard() {
                 color: '#888',
                 fontSize: '16px'
               }}>
-                📍 {String(selectedJob.location || 'Localisation non spécifiée')} • 
-                💼 {String(selectedJob.contractType || 'CDI')} • 
-                💰 {String(selectedJob.salary || 'À négocier')}
+                {String(selectedJob.location || 'Localisation non spécifiée')} •
+                {String(selectedJob.contractType || 'CDI')} •
+                {String(selectedJob.salary || 'À négocier')}
               </p>
 
               <div style={{
@@ -1101,9 +1095,6 @@ export default function CoachDashboard() {
               }}>
                 <button
                   onClick={() => {
-                    console.log('🔥 CLIC RECOMMANDATION pour offre:', selectedJob.title);
-                    console.log('🔥 SELECTED JOB COMPLET:', selectedJob);
-                    console.log('🔥 SELECTED JOB.ID:', selectedJob.id);
                     setShowJobDetails(false);
                     setShowRecommendationModal(true);
                   }}
@@ -1118,7 +1109,7 @@ export default function CoachDashboard() {
                     fontWeight: 'bold'
                   }}
                 >
-                  📋 Recommander des talents pour cette offre
+                  Recommander des talents pour cette offre
                 </button>
               </div>
             </div>

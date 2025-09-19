@@ -126,7 +126,7 @@ const NotFoundPage: React.FC = () => {
               padding: '12px 24px',
               backgroundColor: 'transparent',
               color: '#ffcc00',
-              border: '1px solid #ffcc00',
+              border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
               fontSize: '16px'

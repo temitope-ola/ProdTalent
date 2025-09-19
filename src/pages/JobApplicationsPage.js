@@ -121,13 +121,13 @@ export default function JobApplicationsPage() {
                                 padding: '8px 16px',
                                 backgroundColor: 'transparent',
                                 color: '#ffcc00',
-                                border: '1px solid #ffcc00',
+                                border: 'none',
                                 borderRadius: '4px',
                                 cursor: 'pointer',
                                 marginRight: 16
                             }, children: "\u2190 Retour" }), _jsx("h1", { style: { margin: 0, color: '#ffcc00' }, children: "Candidatures" })] }), error && (_jsx("div", { style: {
                         backgroundColor: 'rgba(255, 107, 107, 0.1)',
-                        border: '1px solid #ff6b6b',
+                        border: 'none',
                         color: '#ff6b6b',
                         padding: 16,
                         borderRadius: 4,
@@ -146,7 +146,7 @@ export default function JobApplicationsPage() {
                             backgroundColor: '#111',
                             padding: 20,
                             borderRadius: 4,
-                            border: '1px solid #333'
+                            border: 'none'
                         }, children: [_jsxs("div", { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }, children: [_jsxs("div", { children: [_jsx("h3", { style: { color: '#ffcc00', marginTop: 0, marginBottom: 8 }, children: application.talentName }), _jsxs("p", { style: { color: '#f5f5f7', margin: '4px 0' }, children: [_jsx("strong", { children: "Email:" }), " ", application.talentEmail] }), _jsxs("p", { style: { color: '#f5f5f7', margin: '4px 0' }, children: [_jsx("strong", { children: "Date de candidature:" }), " ", formatDate(application.createdAt)] })] }), _jsx("div", { style: { display: 'flex', gap: 8 }, children: _jsx("span", { style: {
                                                 padding: '4px 12px',
                                                 backgroundColor: getStatusColor(application.status),
@@ -165,7 +165,7 @@ export default function JobApplicationsPage() {
                                             padding: '8px 16px',
                                             backgroundColor: 'transparent',
                                             color: '#ffcc00',
-                                            border: '1px solid #ffcc00',
+                                            border: 'none',
                                             borderRadius: 4,
                                             cursor: 'pointer',
                                             fontSize: 14
@@ -173,7 +173,7 @@ export default function JobApplicationsPage() {
                                                     padding: '8px 16px',
                                                     backgroundColor: '#61bfac',
                                                     color: '#000',
-                                                    border: '1px solid #61bfac',
+                                                    border: 'none',
                                                     borderRadius: 4,
                                                     cursor: 'pointer',
                                                     fontSize: 14,
@@ -182,7 +182,7 @@ export default function JobApplicationsPage() {
                                                     padding: '8px 16px',
                                                     backgroundColor: '#ff6b6b',
                                                     color: '#fff',
-                                                    border: '1px solid #ff6b6b',
+                                                    border: 'none',
                                                     borderRadius: 4,
                                                     cursor: 'pointer',
                                                     fontSize: 14,

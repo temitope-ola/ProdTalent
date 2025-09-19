@@ -152,7 +152,7 @@ export default function TalentApplicationsPage() {
               padding: '8px 16px',
               backgroundColor: 'transparent',
               color: '#ffcc00',
-              border: '1px solid #ffcc00',
+              border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
               marginRight: 16
@@ -166,7 +166,7 @@ export default function TalentApplicationsPage() {
         {error && (
           <div style={{
             backgroundColor: 'rgba(255, 107, 107, 0.1)',
-            border: '1px solid #ff6b6b',
+            border: 'none',
             color: '#ff6b6b',
             padding: 16,
             borderRadius: 4,
@@ -220,7 +220,7 @@ export default function TalentApplicationsPage() {
               padding: '8px 12px',
               backgroundColor: '#333',
               color: '#f5f5f7',
-              border: '1px solid #555',
+              border: 'none',
               borderRadius: 4,
               fontSize: 14
             }}
@@ -254,7 +254,7 @@ export default function TalentApplicationsPage() {
                 padding: '12px 24px',
                 backgroundColor: '#ffcc00',
                 color: '#000',
-                border: '1px solid #ffcc00',
+                border: 'none',
                 borderRadius: 4,
                 cursor: 'pointer',
                 fontSize: 14,
@@ -274,7 +274,7 @@ export default function TalentApplicationsPage() {
                   backgroundColor: '#111',
                   padding: 20,
                   borderRadius: 4,
-                  border: '1px solid #333'
+                  border: 'none'
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
@@ -307,7 +307,7 @@ export default function TalentApplicationsPage() {
                 {application.status === 'accepted' && (
                   <div style={{
                     backgroundColor: 'rgba(97, 191, 172, 0.1)',
-                    border: '1px solid #61bfac',
+                    border: 'none',
                     color: '#61bfac',
                     padding: 12,
                     borderRadius: 4,
@@ -321,7 +321,7 @@ export default function TalentApplicationsPage() {
                 {application.status === 'rejected' && (
                   <div style={{
                     backgroundColor: 'rgba(255, 107, 107, 0.1)',
-                    border: '1px solid #ff6b6b',
+                    border: 'none',
                     color: '#ff6b6b',
                     padding: 12,
                     borderRadius: 4,
@@ -361,7 +361,7 @@ export default function TalentApplicationsPage() {
                       padding: '8px 16px',
                       backgroundColor: 'transparent',
                       color: '#61bfac',
-                      border: '1px solid #61bfac',
+                      border: 'none',
                       borderRadius: 4,
                       cursor: 'pointer',
                       fontSize: 14

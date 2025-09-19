@@ -292,7 +292,7 @@ const ProfilePage: React.FC = () => {
           height: '60px',
           border: '3px solid #333',
           borderTop: '3px solid #ffcc00',
-          borderRadius: '50%',
+          borderRadius: 4,
           animation: 'spin 1s linear infinite',
           marginBottom: '20px'
         }} />
@@ -367,7 +367,7 @@ const ProfilePage: React.FC = () => {
                 padding: '8px 16px',
                 backgroundColor: 'transparent',
                 color: '#ffcc00',
-                border: '1px solid #ffcc00',
+                border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 marginTop: '12px'
@@ -461,7 +461,7 @@ const ProfilePage: React.FC = () => {
                           padding: '8px 16px',
                           backgroundColor: 'transparent',
                           color: '#ffcc00',
-                          border: '1px solid #ffcc00',
+                          border: 'none',
                           borderRadius: '4px',
                           cursor: 'pointer',
                           marginTop: '12px'
@@ -476,7 +476,7 @@ const ProfilePage: React.FC = () => {
                           padding: '8px 16px',
                           backgroundColor: '#ffcc00',
                           color: '#000',
-                          border: '1px solid #ffcc00',
+                          border: 'none',
                           borderRadius: '4px',
                           cursor: 'pointer',
                           marginTop: '12px',
@@ -520,11 +520,11 @@ const ProfilePage: React.FC = () => {
                             textDecoration: 'none',
                             fontSize: '14px',
                             padding: '4px 8px',
-                            border: '1px solid #ffcc00',
+                            border: 'none',
                             borderRadius: '4px'
                           }}
                         >
-                          🔗 LinkedIn
+                          LinkedIn
                         </a>
                       )}
                       {profile.githubUrl && (
@@ -537,11 +537,11 @@ const ProfilePage: React.FC = () => {
                             textDecoration: 'none',
                             fontSize: '14px',
                             padding: '4px 8px',
-                            border: '1px solid #ffcc00',
+                            border: 'none',
                             borderRadius: '4px'
                           }}
                         >
-                          🐙 GitHub
+                          GitHub
                         </a>
                       )}
                     </div>
@@ -559,7 +559,7 @@ const ProfilePage: React.FC = () => {
                         backgroundColor: 'transparent',
                         fontSize: '14px',
                         padding: '8px 12px',
-                        border: '1px solid #ffcc00',
+                        border: 'none',
                         borderRadius: '4px',
                         display: 'inline-block',
                         cursor: 'pointer',
@@ -574,7 +574,7 @@ const ProfilePage: React.FC = () => {
                         e.currentTarget.style.color = '#ffcc00';
                       }}
                     >
-                      📄 Voir le CV
+                      Voir le CV
                     </button>
                   </div>
                 )}
@@ -605,7 +605,7 @@ const ProfilePage: React.FC = () => {
                           borderRadius: '4px',
                           fontSize: '12px',
                           fontWeight: 'bold',
-                          border: '1px solid #555'
+                          border: 'none'
                         }}
                       >
                         {skill}
@@ -623,7 +623,7 @@ const ProfilePage: React.FC = () => {
                           borderRadius: '4px',
                           fontSize: '12px',
                           fontWeight: 'bold',
-                          border: '1px solid #555'
+                          border: 'none'
                         }}
                       >
                         {skill.trim()}
@@ -646,7 +646,7 @@ const ProfilePage: React.FC = () => {
               padding: '20px',
               marginBottom: 24
             }}>
-              <h3 style={{ color: '#ffcc00', margin: '0 0 16px 0' }}>📋 Offres d'emploi ({jobs.length})</h3>
+              <h3 style={{ color: '#ffcc00', margin: '0 0 16px 0' }}>Offres d'emploi ({jobs.length})</h3>
               
               {loadingJobs ? (
                 <div style={{ color: '#f5f5f7', textAlign: 'center', padding: '20px' }}>
@@ -665,7 +665,7 @@ const ProfilePage: React.FC = () => {
                         backgroundColor: '#0a0a0a',
                         padding: '16px',
                         borderRadius: '4px',
-                        border: '1px solid #333',
+                        border: 'none',
                         cursor: 'pointer',
                         transition: 'border-color 0.2s'
                       }}
@@ -693,10 +693,10 @@ const ProfilePage: React.FC = () => {
                         </span>
                       </div>
                       <div style={{ color: '#888', fontSize: '14px', marginBottom: '4px' }}>
-                        🏢 {job.company || 'Entreprise'} • 📍 {job.location || 'Non spécifié'}
+                        {job.company || 'Entreprise'} • {job.location || 'Non spécifié'}
                       </div>
                       <div style={{ color: '#ccc', fontSize: '13px' }}>
-                        💰 {formatSalary(job.salary)}
+                        {formatSalary(job.salary)}
                       </div>
                     </div>
                   ))}
@@ -737,9 +737,9 @@ const ProfilePage: React.FC = () => {
               borderRadius: 4,
               padding: '20px',
               marginBottom: 24,
-              border: '1px solid #333'
+              border: 'none'
             }}>
-              <h3 style={{ color: '#ffcc00', margin: '0 0 16px 0' }}>🔒 Sécurité du compte</h3>
+              <h3 style={{ color: '#ffcc00', margin: '0 0 16px 0' }}>Sécurité du compte</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <p style={{ color: '#f5f5f7', margin: 0, fontSize: '14px' }}>
                   Gérez la sécurité de votre compte et vos données personnelles.
@@ -771,7 +771,7 @@ const ProfilePage: React.FC = () => {
                     }}
                     title="Supprimer définitivement votre compte et toutes vos données"
                   >
-                    ⚠️ Supprimer mon compte
+                    Supprimer mon compte
                   </button>
                   <button
                     onClick={handleLogout}
@@ -779,7 +779,7 @@ const ProfilePage: React.FC = () => {
                       padding: '10px 16px',
                       backgroundColor: '#333',
                       color: '#f5f5f7',
-                      border: '1px solid #555',
+                      border: 'none',
                       borderRadius: '4px',
                       cursor: 'pointer',
                       fontSize: '14px'
@@ -789,7 +789,7 @@ const ProfilePage: React.FC = () => {
                   </button>
                 </div>
                 <p style={{ color: '#888', margin: '8px 0 0 0', fontSize: '12px', fontStyle: 'italic' }}>
-                  ⚠️ La suppression de compte est irréversible. Toutes vos données seront définitivement supprimées.
+                  La suppression de compte est irréversible. Toutes vos données seront définitivement supprimées.
                 </p>
               </div>
             </div>

@@ -213,7 +213,7 @@ const CoachTalentsPage: React.FC = () => {
                 padding: '8px 12px',
                 backgroundColor: '#333',
                 color: '#ffcc00',
-                border: '1px solid #ffcc00',
+                border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 fontSize: '14px',
@@ -287,7 +287,7 @@ const CoachTalentsPage: React.FC = () => {
                 backgroundColor: '#1a1a1a',
                 borderRadius: '4px',
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                border: '1px solid #333',
+                border: 'none',
                 minWidth: '180px',
                 zIndex: 1000
               }}>
@@ -781,7 +781,7 @@ const CoachTalentsPage: React.FC = () => {
                       padding: '20px',
                       backgroundColor: '#111',
                       borderRadius: '4px',
-                      border: '1px solid #333',
+                      border: 'none',
                       cursor: 'pointer',
                       transition: 'all 0.2s ease'
                     }}
@@ -865,7 +865,7 @@ const CoachTalentsPage: React.FC = () => {
                   padding: '40px',
                   color: '#888'
                 }}>
-                  <div style={{ fontSize: '48px', marginBottom: '16px' }}>👨‍💼</div>
+                  <div style={{ fontSize: '24px', marginBottom: '16px', fontWeight: 'bold', color: '#ffcc00' }}>Talents</div>
                   <h3 style={{ color: '#f5f5f7', marginBottom: '8px' }}>Aucun talent trouvé</h3>
                   <p>Essayez de modifier vos critères de recherche</p>
                 </div>

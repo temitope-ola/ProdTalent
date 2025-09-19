@@ -189,7 +189,7 @@ export default function JobsListPage() {
                 padding: '8px 16px',
                 backgroundColor: 'transparent',
                 color: '#ffcc00',
-                border: '1px solid #ffcc00',
+                border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer'
               }}
@@ -233,7 +233,7 @@ export default function JobsListPage() {
                   padding: '10px 12px',
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   fontSize: '14px'
                 }}
@@ -247,7 +247,7 @@ export default function JobsListPage() {
                 padding: '10px 12px',
                 backgroundColor: '#333',
                 color: '#f5f5f7',
-                border: '1px solid #555',
+                border: 'none',
                 borderRadius: '4px',
                 fontSize: '14px'
               }}
@@ -337,18 +337,18 @@ export default function JobsListPage() {
                       </div>
                       
                       <p style={{ color: '#888', margin: '0 0 8px 0', fontSize: '14px' }}>
-                        {job.company} • {job.location} {job.remote && '• 🌐 Télétravail'}
+                        {job.company} • {job.location} {job.remote && '• Télétravail'}
                       </p>
                       
                                              {job.salary.min && job.salary.max && (
                          <p style={{ color: '#ffcc00', margin: '0 0 8px 0', fontSize: '14px', fontWeight: '500' }}>
-                           💰 {job.salary.min} - {job.salary.max} {formatCurrency(job.salary.currency)}
+                           {job.salary.min} - {job.salary.max} {formatCurrency(job.salary.currency)}
                          </p>
                        )}
                       
                       <div style={{ display: 'flex', gap: '16px', fontSize: '12px', color: '#888' }}>
-                        <span>📅 {formatDate(job.createdAt)}</span>
-                        <span>👁️ {job.views} vues</span>
+                        <span>{formatDate(job.createdAt)}</span>
+                        <span>{job.views} vues</span>
                       </div>
                     </div>
                   ))}
@@ -441,7 +441,7 @@ export default function JobsListPage() {
                         fontSize: '14px'
                       }}
                     >
-                      📝 Postuler
+                      Postuler
                     </button>
                     
                     <button
@@ -450,13 +450,13 @@ export default function JobsListPage() {
                         padding: '12px 24px',
                         backgroundColor: 'transparent',
                         color: '#61bfac',
-                        border: '1px solid #61bfac',
+                        border: 'none',
                         borderRadius: '4px',
                         cursor: 'pointer',
                         fontSize: '14px'
                       }}
                     >
-                      💬 Contacter le recruteur
+                      Contacter le recruteur
                     </button>
                   </div>
                 </div>

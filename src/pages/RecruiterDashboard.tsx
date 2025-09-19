@@ -4,6 +4,7 @@ import useAuth from '../contexts/AuthContext';
 import { FirestoreService, UserProfile } from '../services/firestoreService';
 import { useNotifications } from '../components/NotificationManager';
 import Avatar from '../components/Avatar';
+import { useResponsive } from '../components/ResponsiveLayout';
 
 export default function RecruiterDashboard() {
   const { user, logout } = useAuth();
@@ -19,7 +20,8 @@ export default function RecruiterDashboard() {
     skills: '',
     searchTerm: ''
   });
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const isMobile = useResponsive(540);
+  
   
   // Métriques simplifiées
   const [jobStats, setJobStats] = useState({
@@ -296,7 +298,7 @@ export default function RecruiterDashboard() {
       <div style={{
         width: '100%',
         maxWidth: '1200px',
-        padding: screenWidth <= 480 ? '10px' : screenWidth <= 768 ? '15px' : '20px'
+        padding: isMobile ? '10px' : !isMobile ? '15px' : '20px'
       }}>
         
 
@@ -304,19 +306,19 @@ export default function RecruiterDashboard() {
         {/* Header avec navigation user-friendly */}
         <div style={{
           display: 'flex',
-          flexDirection: screenWidth <= 480 ? 'column' : 'row',
+          flexDirection: isMobile ? 'column' : 'row',
           justifyContent: 'space-between',
-          alignItems: screenWidth <= 480 ? 'stretch' : 'center',
-          gap: screenWidth <= 480 ? '12px' : '0',
-          marginBottom: screenWidth <= 480 ? '15px' : '20px',
-          padding: screenWidth <= 480 ? '12px' : '12px 16px',
+          alignItems: isMobile ? 'stretch' : 'center',
+          gap: isMobile ? '12px' : '0',
+          marginBottom: isMobile ? '15px' : '20px',
+          padding: isMobile ? '12px' : '12px 16px',
           backgroundColor: '#1a1a1a',
           borderRadius: '4px'
         }}>
-          <div style={{ textAlign: screenWidth <= 480 ? 'center' : 'left' }}>
+          <div style={{ textAlign: isMobile ? 'center' : 'left' }}>
             <h1 style={{ 
               margin: 0, 
-              fontSize: screenWidth <= 480 ? '18px' : '20px', 
+              fontSize: isMobile ? '18px' : '20px', 
               fontWeight: '600' 
             }}>
               Dashboard Recruteur
@@ -324,7 +326,7 @@ export default function RecruiterDashboard() {
             <p style={{ 
               margin: 0, 
               color: '#888', 
-              fontSize: screenWidth <= 480 ? '11px' : '12px' 
+              fontSize: isMobile ? '11px' : '12px' 
             }}>
               Gérez vos offres et candidatures
             </p>
@@ -333,21 +335,21 @@ export default function RecruiterDashboard() {
           {/* Menu profil déroulant */}
           <div style={{ 
             position: 'relative', 
-            alignSelf: screenWidth <= 480 ? 'center' : 'auto' 
+            alignSelf: isMobile ? 'center' : 'auto' 
           }} data-profile-menu>
             <div
               onClick={handleProfileClick}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: screenWidth <= 480 ? '6px' : '8px',
-                padding: screenWidth <= 480 ? '8px 12px' : '6px 10px',
+                gap: isMobile ? '6px' : '8px',
+                padding: isMobile ? '8px 12px' : '6px 10px',
                 backgroundColor: '#333',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 transition: 'background-color 0.2s',
-                minWidth: screenWidth <= 480 ? '140px' : 'auto',
-                justifyContent: screenWidth <= 480 ? 'center' : 'flex-start'
+                minWidth: isMobile ? '140px' : 'auto',
+                justifyContent: isMobile ? 'center' : 'flex-start'
               }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
               onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
@@ -380,7 +382,7 @@ export default function RecruiterDashboard() {
                 backgroundColor: '#1a1a1a',
                 borderRadius: '4px',
                 boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
-                border: '1px solid #333',
+                border: 'none',
                 minWidth: '180px',
                 zIndex: 1000
               }}>
@@ -421,24 +423,24 @@ export default function RecruiterDashboard() {
         {/* Actions principales */}
         <div style={{
           display: 'grid',
-          gridTemplateColumns: screenWidth <= 480 
+          gridTemplateColumns: isMobile 
             ? '1fr' 
-            : screenWidth <= 768 
+            : !isMobile 
               ? 'repeat(auto-fit, minmax(250px, 1fr))' 
               : 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: screenWidth <= 480 ? '12px' : '20px',
+          gap: isMobile ? '12px' : '20px',
           marginBottom: '30px',
-          padding: screenWidth <= 480 ? '0 10px' : '0'
+          padding: isMobile ? '0 10px' : '0'
         }}>
           
           <div style={{
-            padding: screenWidth <= 480 ? '15px' : '20px',
+            padding: isMobile ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
             transition: 'transform 0.2s',
             border: 'none',
-            minHeight: screenWidth <= 480 ? '80px' : '90px',
+            minHeight: isMobile ? '80px' : '90px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center'
@@ -446,27 +448,27 @@ export default function RecruiterDashboard() {
             <h3 style={{ 
               margin: '0 0 8px 0', 
               color: '#ffcc00',
-              fontSize: screenWidth <= 480 ? '14px' : '16px',
-              textAlign: screenWidth <= 480 ? 'center' : 'left'
+              fontSize: isMobile ? '14px' : '16px',
+              textAlign: isMobile ? 'center' : 'left'
             }}>Candidatures ({jobStats.pendingApplications})</h3>
             <p style={{ 
               margin: 0, 
               color: '#888', 
-              fontSize: screenWidth <= 480 ? '12px' : '14px',
-              textAlign: screenWidth <= 480 ? 'center' : 'left',
+              fontSize: isMobile ? '12px' : '14px',
+              textAlign: isMobile ? 'center' : 'left',
               lineHeight: '1.3'
             }}>
-              {screenWidth <= 480 ? 'Gérez les candidatures' : 'Consultez et gérez les candidatures reçues'}
+              {isMobile ? 'Gérez les candidatures' : 'Consultez et gérez les candidatures reçues'}
             </p>
           </div>
 
           <div style={{
-            padding: screenWidth <= 480 ? '15px' : '20px',
+            padding: isMobile ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
             transition: 'transform 0.2s',
-            minHeight: screenWidth <= 480 ? '80px' : '90px',
+            minHeight: isMobile ? '80px' : '90px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center'
@@ -474,27 +476,27 @@ export default function RecruiterDashboard() {
             <h3 style={{ 
               margin: '0 0 8px 0', 
               color: '#ffcc00',
-              fontSize: screenWidth <= 480 ? '14px' : '16px',
-              textAlign: screenWidth <= 480 ? 'center' : 'left'
+              fontSize: isMobile ? '14px' : '16px',
+              textAlign: isMobile ? 'center' : 'left'
             }}>Mes annonces ({jobStats.activeJobs})</h3>
             <p style={{ 
               margin: 0, 
               color: '#888', 
-              fontSize: screenWidth <= 480 ? '12px' : '14px',
-              textAlign: screenWidth <= 480 ? 'center' : 'left',
+              fontSize: isMobile ? '12px' : '14px',
+              textAlign: isMobile ? 'center' : 'left',
               lineHeight: '1.3'
             }}>
-              {screenWidth <= 480 ? 'Gérez vos offres' : 'Gérez vos offres d\'emploi et candidatures'}
+              {isMobile ? 'Gérez vos offres' : 'Gérez vos offres d\'emploi et candidatures'}
             </p>
           </div>
 
           <div style={{
-            padding: screenWidth <= 480 ? '15px' : '20px',
+            padding: isMobile ? '15px' : '20px',
             backgroundColor: '#1a1a1a',
             borderRadius: '4px',
             cursor: 'pointer',
             transition: 'transform 0.2s',
-            minHeight: screenWidth <= 480 ? '80px' : '90px',
+            minHeight: isMobile ? '80px' : '90px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center'
@@ -502,19 +504,19 @@ export default function RecruiterDashboard() {
             <h3 style={{ 
               margin: '0 0 8px 0', 
               color: '#ffcc00',
-              fontSize: screenWidth <= 480 ? '14px' : '16px',
-              textAlign: screenWidth <= 480 ? 'center' : 'left'
+              fontSize: isMobile ? '14px' : '16px',
+              textAlign: isMobile ? 'center' : 'left'
             }}>
               Messages {unreadMessagesCount > 0 ? `(${unreadMessagesCount} non lu${unreadMessagesCount > 1 ? 's' : ''})` : ''}
             </h3>
             <p style={{ 
               margin: 0, 
               color: '#888', 
-              fontSize: screenWidth <= 480 ? '12px' : '14px',
-              textAlign: screenWidth <= 480 ? 'center' : 'left',
+              fontSize: isMobile ? '12px' : '14px',
+              textAlign: isMobile ? 'center' : 'left',
               lineHeight: '1.3'
             }}>
-              {screenWidth <= 480 ? 'Chat avec talents' : 'Communiquez avec les talents'}
+              {isMobile ? 'Chat avec talents' : 'Communiquez avec les talents'}
             </p>
           </div>
 
@@ -526,25 +528,25 @@ export default function RecruiterDashboard() {
         <div style={{
           backgroundColor: '#1a1a1a',
           borderRadius: '4px',
-          padding: screenWidth <= 480 ? '12px' : screenWidth <= 768 ? '16px' : '20px',
-          marginBottom: screenWidth <= 480 ? '15px' : '20px'
+          padding: isMobile ? '12px' : !isMobile ? '16px' : '20px',
+          marginBottom: isMobile ? '15px' : '20px'
         }}>
           
           {/* Header avec bouton filtre */}
           <div style={{
             display: 'flex',
-            flexDirection: screenWidth <= 480 ? 'column' : 'row',
+            flexDirection: isMobile ? 'column' : 'row',
             justifyContent: 'space-between',
-            alignItems: screenWidth <= 480 ? 'stretch' : 'center',
-            gap: screenWidth <= 480 ? '12px' : '0',
-            marginBottom: screenWidth <= 480 ? '15px' : '20px',
-            paddingLeft: screenWidth <= 480 ? '0' : screenWidth <= 768 ? '10px' : '20px'
+            alignItems: isMobile ? 'stretch' : 'center',
+            gap: isMobile ? '12px' : '0',
+            marginBottom: isMobile ? '15px' : '20px',
+            paddingLeft: isMobile ? '0' : !isMobile ? '10px' : '20px'
           }}>
             <div style={{ 
               display: 'flex', 
-              flexDirection: screenWidth <= 480 ? 'column' : 'row',
-              alignItems: screenWidth <= 480 ? 'stretch' : 'center', 
-              gap: screenWidth <= 480 ? '8px' : '16px' 
+              flexDirection: isMobile ? 'column' : 'row',
+              alignItems: isMobile ? 'stretch' : 'center', 
+              gap: isMobile ? '8px' : '16px' 
             }}>
               {/* Bouton filtre toggle */}
               <div
@@ -552,15 +554,15 @@ export default function RecruiterDashboard() {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: screenWidth <= 480 ? 'center' : 'flex-start',
+                  justifyContent: isMobile ? 'center' : 'flex-start',
                   gap: '8px',
-                  padding: screenWidth <= 480 ? '10px 16px' : '8px 12px',
-                  paddingLeft: screenWidth <= 480 ? '16px' : '16px',
+                  padding: isMobile ? '10px 16px' : '8px 12px',
+                  paddingLeft: isMobile ? '16px' : '16px',
                   backgroundColor: '#333',
                   borderRadius: '4px',
                   cursor: 'pointer',
                   transition: 'background-color 0.2s',
-                  minWidth: screenWidth <= 480 ? '140px' : 'auto'
+                  minWidth: isMobile ? '140px' : 'auto'
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
                 onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#333'}
@@ -577,7 +579,7 @@ export default function RecruiterDashboard() {
                   <div style={{ width: '50%', height: '2px', backgroundColor: '#ffcc00' }}></div>
                 </div>
                 <span style={{ 
-                  fontSize: screenWidth <= 480 ? '13px' : '14px', 
+                  fontSize: isMobile ? '13px' : '14px', 
                   color: '#ffcc00' 
                 }}>
                   {showFilters ? 'Fermer' : 'Filtrer'}
@@ -586,21 +588,21 @@ export default function RecruiterDashboard() {
               
               {/* Titre "Tous les talents" - fixe */}
               <div style={{ 
-                textAlign: screenWidth <= 480 ? 'center' : 'left'
+                textAlign: isMobile ? 'center' : 'left'
               }}>
                 <h2 style={{ 
                   margin: 0, 
                   color: '#ffcc00',
-                  fontSize: screenWidth <= 480 ? '16px' : screenWidth <= 768 ? '18px' : '20px'
+                  fontSize: isMobile ? '16px' : !isMobile ? '18px' : '20px'
                 }}>Tous les talents ({talents.length})</h2>
               </div>
             </div>
             
             {/* Pagination */}
             <span style={{ 
-              fontSize: screenWidth <= 480 ? '12px' : '14px', 
+              fontSize: isMobile ? '12px' : '14px', 
               color: '#888',
-              alignSelf: screenWidth <= 480 ? 'center' : 'auto'
+              alignSelf: isMobile ? 'center' : 'auto'
             }}>Page 1</span>
           </div>
 
@@ -610,18 +612,18 @@ export default function RecruiterDashboard() {
               width: '100%',
               backgroundColor: '#1a1a1a',
               borderRadius: '4px',
-              padding: screenWidth <= 480 ? '15px' : '20px',
+              padding: isMobile ? '15px' : '20px',
               marginBottom: '20px'
             }}>
               {/* Filtres en grid sur toute la largeur */}
               <div style={{ 
                 display: 'grid',
-                gridTemplateColumns: screenWidth <= 480 
+                gridTemplateColumns: isMobile 
                   ? '1fr' 
-                  : screenWidth <= 768 
+                  : !isMobile 
                     ? 'repeat(2, 1fr)' 
                     : 'repeat(4, 1fr)',
-                gap: screenWidth <= 480 ? '12px' : '16px' 
+                gap: isMobile ? '12px' : '16px' 
               }}>
                     
                     {/* Filtre par nom/compétences */}
@@ -660,7 +662,7 @@ export default function RecruiterDashboard() {
                           width: '100%',
                           padding: '8px 12px',
                           backgroundColor: '#1a1a1a',
-                          border: '1px solid #333',
+                          border: 'none',
                           borderRadius: '4px',
                           color: '#f5f5f7',
                           fontSize: '13px'
@@ -709,7 +711,7 @@ export default function RecruiterDashboard() {
                           width: '100%',
                           padding: '8px 12px',
                           backgroundColor: '#1a1a1a',
-                          border: '1px solid #333',
+                          border: 'none',
                           borderRadius: '4px',
                           color: '#f5f5f7',
                           fontSize: '13px'
@@ -745,33 +747,33 @@ export default function RecruiterDashboard() {
           {/* Contenu principal avec cartes */}
           <div style={{ 
             width: '100%',
-            padding: screenWidth <= 480 ? '0 5px' : screenWidth <= 768 ? '0 10px' : '0'
+            padding: isMobile ? '0 5px' : !isMobile ? '0 10px' : '0'
           }}>
               
               {/* Liste des talents en disposition horizontale */}
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: screenWidth <= 480 
+                gridTemplateColumns: isMobile 
                   ? '1fr' 
-                  : screenWidth <= 768 
+                  : !isMobile 
                     ? 'repeat(auto-fit, minmax(250px, 1fr))' 
                     : 'repeat(auto-fill, minmax(280px, 1fr))',
-                gap: screenWidth <= 480 ? '8px' : screenWidth <= 768 ? '12px' : '16px',
-                marginTop: (showFilters && screenWidth > 768) ? '30px' : '0px',
-                padding: screenWidth <= 480 ? '0 5px' : '0'
+                gap: isMobile ? '8px' : !isMobile ? '12px' : '16px',
+                marginTop: (showFilters && !isMobile) ? '30px' : '0px',
+                padding: isMobile ? '0 5px' : '0'
               }}>
                 {filteredTalents.length > 0 ? filteredTalents.map((talent) => (
                   <div key={talent.id} style={{
                     display: 'flex',
                     alignItems: 'center',
-                    padding: screenWidth <= 480 ? '8px' : '10px',
-                    paddingLeft: screenWidth <= 480 ? '12px' : '16px',
+                    padding: isMobile ? '8px' : '10px',
+                    paddingLeft: isMobile ? '12px' : '16px',
                     backgroundColor: '#333',
                     borderRadius: '4px',
                     cursor: 'pointer',
                     transition: 'background-color 0.2s',
-                    height: screenWidth <= 480 ? '60px' : '65px',
-                    minHeight: screenWidth <= 480 ? '60px' : '65px'
+                    height: isMobile ? '60px' : '65px',
+                    minHeight: isMobile ? '60px' : '65px'
                   }}
                   onClick={() => handleTalentClick(talent.id)}
                   onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#444'}
@@ -779,7 +781,7 @@ export default function RecruiterDashboard() {
                   >
                     {/* Avatar */}
                     <div style={{ 
-                      marginRight: screenWidth <= 480 ? '8px' : '12px', 
+                      marginRight: isMobile ? '8px' : '12px', 
                       flexShrink: 0 
                     }}>
                       <Avatar src={talent.avatarUrl} alt={talent.displayName || 'Talent'} size="small" />
@@ -790,7 +792,7 @@ export default function RecruiterDashboard() {
                       {/* Titre */}
                       <h4 style={{ 
                         margin: '0 0 4px 0', 
-                        fontSize: screenWidth <= 480 ? '13px' : '14px', 
+                        fontSize: isMobile ? '13px' : '14px', 
                         color: '#f5f5f7',
                         fontWeight: 'bold',
                         whiteSpace: 'nowrap',
@@ -802,12 +804,12 @@ export default function RecruiterDashboard() {
                       
                       {/* Métadonnées compactes */}
                       <div style={{ 
-                        fontSize: screenWidth <= 480 ? '10px' : '11px', 
+                        fontSize: isMobile ? '10px' : '11px', 
                         color: '#888', 
                         lineHeight: '1.3' 
                       }}>
                         <div>
-                          {screenWidth <= 480 
+                          {isMobile 
                             ? `${getTimeAgo(talent.createdAt)}` 
                             : `${getTimeAgo(talent.createdAt)} • 0 candidatures`}
                         </div>
@@ -816,20 +818,20 @@ export default function RecruiterDashboard() {
 
                     {/* Disponibilité sur le côté droit */}
                     <div style={{ 
-                      marginLeft: screenWidth <= 480 ? '6px' : '12px',
+                      marginLeft: isMobile ? '6px' : '12px',
                       display: 'flex',
                       alignItems: 'center'
                     }}>
                       <span style={{
-                        padding: screenWidth <= 480 ? '2px 6px' : '2px 8px',
+                        padding: isMobile ? '2px 6px' : '2px 8px',
                         backgroundColor: '#ffcc00',
                         color: '#1a1a1a',
                         borderRadius: '4px',
-                        fontSize: screenWidth <= 480 ? '9px' : '10px',
+                        fontSize: isMobile ? '9px' : '10px',
                         fontWeight: 'bold',
                         whiteSpace: 'nowrap'
                       }}>
-                        {screenWidth <= 480 ? 'Dispo' : 'Disponible'}
+                        {isMobile ? 'Dispo' : 'Disponible'}
                       </span>
                     </div>
                   </div>
@@ -837,9 +839,9 @@ export default function RecruiterDashboard() {
                   <div style={{
                     gridColumn: '1 / -1',
                     textAlign: 'center',
-                    padding: screenWidth <= 480 ? '20px' : '40px',
+                    padding: isMobile ? '20px' : '40px',
                     color: '#888',
-                    fontSize: screenWidth <= 480 ? '14px' : '16px'
+                    fontSize: isMobile ? '14px' : '16px'
                   }}>
                     {talents.length === 0 ? 'Aucun talent trouvé' : 'Aucun talent ne correspond aux filtres'}
                   </div>

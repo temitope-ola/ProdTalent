@@ -174,7 +174,7 @@ const RecruiterMessagesPage = () => {
                                         }, style: {
                                             padding: '12px',
                                             backgroundColor: message.read ? 'transparent' : '#333',
-                                            border: '1px solid #333',
+                                            border: 'none',
                                             borderRadius: '4px',
                                             cursor: 'pointer',
                                             transition: 'background-color 0.2s'
@@ -182,7 +182,7 @@ const RecruiterMessagesPage = () => {
                                                             width: '8px',
                                                             height: '8px',
                                                             backgroundColor: '#ffcc00',
-                                                            borderRadius: '50%'
+                                                            borderRadius: 4
                                                         } }))] }), _jsx("p", { style: {
                                                     color: '#999',
                                                     fontSize: '14px',
@@ -235,7 +235,7 @@ const RecruiterMessagesPage = () => {
                                                     padding: '12px 24px',
                                                     backgroundColor: 'transparent',
                                                     color: '#f5f5f7',
-                                                    border: '1px solid #555',
+                                                    border: 'none',
                                                     borderRadius: '4px',
                                                     cursor: 'pointer'
                                                 }, children: "Annuler" })] })] })) : selectedMessage ? (_jsxs("div", { style: { flex: 1, display: 'flex', flexDirection: 'column' }, children: [_jsxs("div", { style: { marginBottom: '16px' }, children: [_jsx("h3", { style: { color: '#ffcc00', marginTop: 0, marginBottom: '8px' }, children: selectedMessage.from.name }), _jsx("p", { style: { color: '#999', margin: 0 }, children: formatDate(selectedMessage.timestamp) })] }), _jsx("div", { style: {

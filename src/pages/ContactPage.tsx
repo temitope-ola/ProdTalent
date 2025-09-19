@@ -32,7 +32,7 @@ const ContactPage: React.FC = () => {
             onClick={() => navigate('/')}
             style={{
               backgroundColor: 'transparent',
-              border: '1px solid #61bfac',
+              border: 'none',
               color: '#61bfac',
               padding: '12px 24px',
               borderRadius: '4px',
@@ -84,19 +84,19 @@ const ContactPage: React.FC = () => {
               </h2>
               <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px' }}>
                 <p style={{ marginBottom: '12px' }}>
-                  <strong style={{ color: '#ffcc00' }}>📧 Email principal :</strong><br />
+                  <strong style={{ color: '#ffcc00' }}>Email principal :</strong><br />
                   admin@prodtalent.com
                 </p>
                 <p style={{ marginBottom: '12px' }}>
-                  <strong style={{ color: '#ffcc00' }}>🏢 Entreprise :</strong><br />
+                  <strong style={{ color: '#ffcc00' }}>Entreprise :</strong><br />
                   Edacy
                 </p>
                 <p style={{ marginBottom: '12px' }}>
-                  <strong style={{ color: '#ffcc00' }}>📍 Localisation :</strong><br />
+                  <strong style={{ color: '#ffcc00' }}>Localisation :</strong><br />
                   Dakar, Sénégal
                 </p>
                 <p style={{ margin: 0 }}>
-                  <strong style={{ color: '#ffcc00' }}>🌐 Site web :</strong><br />
+                  <strong style={{ color: '#ffcc00' }}>Site web :</strong><br />
                   <a href="https://prodtalent.com" style={{ color: '#61bfac', textDecoration: 'none' }}>
                     https://prodtalent.com
                   </a>
@@ -110,19 +110,19 @@ const ContactPage: React.FC = () => {
               </h2>
               <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px' }}>
                 <p style={{ marginBottom: '12px' }}>
-                  <strong style={{ color: '#ffcc00' }}>🛠️ Support technique :</strong><br />
+                  <strong style={{ color: '#ffcc00' }}>Support technique :</strong><br />
                   admin@prodtalent.com
                 </p>
                 <p style={{ marginBottom: '12px' }}>
-                  <strong style={{ color: '#ffcc00' }}>🔒 Données personnelles :</strong><br />
+                  <strong style={{ color: '#ffcc00' }}>Données personnelles :</strong><br />
                   admin@prodtalent.com
                 </p>
                 <p style={{ marginBottom: '12px' }}>
-                  <strong style={{ color: '#ffcc00' }}>🍪 Cookies :</strong><br />
+                  <strong style={{ color: '#ffcc00' }}>Cookies :</strong><br />
                   admin@prodtalent.com
                 </p>
                 <p style={{ margin: 0 }}>
-                  <strong style={{ color: '#ffcc00' }}>💼 Partenariats :</strong><br />
+                  <strong style={{ color: '#ffcc00' }}>Partenariats :</strong><br />
                   admin@prodtalent.com
                 </p>
               </div>
@@ -137,7 +137,7 @@ const ContactPage: React.FC = () => {
             <div style={{ display: 'grid', gap: '20px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}>
               <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px', borderLeft: '4px solid #61bfac' }}>
                 <h3 style={{ color: '#ffcc00', fontSize: '18px', marginBottom: '10px' }}>
-                  🎯 Pour les Talents
+                  Pour les Talents
                 </h3>
                 <ul style={{ paddingLeft: '20px', margin: 0 }}>
                   <li>Aide à la création de profil</li>
@@ -149,7 +149,7 @@ const ContactPage: React.FC = () => {
 
               <div style={{ backgroundColor: '#020202', padding: '20px', borderRadius: '4px', borderLeft: '4px solid #ffcc00' }}>
                 <h3 style={{ color: '#61bfac', fontSize: '18px', marginBottom: '10px' }}>
-                  🏢 Pour les Recruteurs
+                  Pour les Recruteurs
                 </h3>
                 <ul style={{ paddingLeft: '20px', margin: 0 }}>
                   <li>Publication d'offres</li>
@@ -200,7 +200,7 @@ const ContactPage: React.FC = () => {
                 borderRadius: '4px',
                 fontSize: '14px'
               }}>
-                📘 LinkedIn
+                LinkedIn
               </a>
               <a href="#" style={{ 
                 color: '#61bfac', 
@@ -210,7 +210,7 @@ const ContactPage: React.FC = () => {
                 borderRadius: '4px',
                 fontSize: '14px'
               }}>
-                🐦 Twitter
+                Twitter
               </a>
               <a href="#" style={{ 
                 color: '#61bfac', 
@@ -220,7 +220,7 @@ const ContactPage: React.FC = () => {
                 borderRadius: '4px',
                 fontSize: '14px'
               }}>
-                📷 Instagram
+                Instagram
               </a>
             </div>
           </section>

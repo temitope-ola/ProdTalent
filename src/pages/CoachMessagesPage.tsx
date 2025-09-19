@@ -214,7 +214,7 @@ const CoachMessagesPage: React.FC = () => {
                 padding: '8px 16px',
                 backgroundColor: 'transparent',
                 color: '#ffcc00',
-                border: '1px solid #ffcc00',
+                border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer',
                 marginTop: '12px'
@@ -402,7 +402,7 @@ const CoachMessagesPage: React.FC = () => {
                     padding: '10px 20px',
                     backgroundColor: '#ffcc00',
                     color: '#000',
-                    border: '1px solid #ffcc00',
+                    border: 'none',
                     borderRadius: '4px',
                     cursor: 'pointer',
                     fontWeight: 'bold'
@@ -525,7 +525,7 @@ const CoachMessagesPage: React.FC = () => {
                     padding: '10px 20px',
                     backgroundColor: 'transparent',
                     color: '#888',
-                    border: '1px solid #888',
+                    border: 'none',
                     borderRadius: 4,
                     cursor: 'pointer'
                   }}
@@ -539,7 +539,7 @@ const CoachMessagesPage: React.FC = () => {
                     padding: '10px 20px',
                     backgroundColor: replyContent.trim() ? '#ffcc00' : '#333',
                     color: replyContent.trim() ? '#000' : '#888',
-                    border: '1px solid #ffcc00',
+                    border: 'none',
                     borderRadius: 4,
                     cursor: replyContent.trim() ? 'pointer' : 'not-allowed',
                     fontWeight: 'bold'

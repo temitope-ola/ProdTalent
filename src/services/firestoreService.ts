@@ -112,7 +112,6 @@ export class FirestoreService {
   // Version optimisée pour AuthContext - Recherche parallèle dans toutes les collections
   static async getUserProfileOptimized(userId: string): Promise<UserProfile | null> {
     try {
-      console.log('🚀 FirestoreService: Recherche parallèle du profil pour', userId);
       
       // Faire les 3 appels en parallèle au lieu de séquentiellement
       const [talentDoc, recruteurDoc, coachDoc] = await Promise.all([
@@ -131,7 +130,6 @@ export class FirestoreService {
       for (const { doc, role } of docs) {
         if (doc.exists()) {
           const data = doc.data();
-          console.log('✅ FirestoreService: Profil trouvé dans collection', role);
           
           return {
             id: doc.id,
@@ -150,7 +148,6 @@ export class FirestoreService {
         }
       }
       
-      console.log('⚠️ FirestoreService: Aucun profil trouvé');
       return null;
     } catch (error) {
       console.error('❌ FirestoreService: Erreur lors de la recherche optimisée:', error);
@@ -436,12 +433,9 @@ export class FirestoreService {
               }
             }
             
-            console.log('✅ Notification envoyée au destinataire et confirmation à l\'expéditeur');
           } catch (emailError) {
-            console.log('⚠️ Échec envoi notification email:', emailError);
           }
         } else {
-          console.log('⚠️ Profil destinataire non trouvé ou email manquant');
         }
       } catch (emailError) {
         console.warn('⚠️ Erreur lors de l\'envoi de la notification email (non bloquant):', emailError);
@@ -464,7 +458,6 @@ export class FirestoreService {
       // Approche alternative : récupérer TOUS les messages et filtrer côté client
       // Cela évite les problèmes avec les requêtes Firestore sur les champs imbriqués
       const allMessagesSnapshot = await getDocs(messagesRef);
-      console.log('🔥 NOUVEAU CODE ACTIF - Total messages dans la DB:', allMessagesSnapshot.size);
       
       const messages: any[] = [];
       
@@ -472,16 +465,6 @@ export class FirestoreService {
       allMessagesSnapshot.forEach(doc => {
         const data = doc.data();
         
-        console.log('=== ANALYSE MESSAGE ===');
-        console.log('ID:', doc.id);
-        console.log('data.to:', data.to, typeof data.to);
-        console.log('data.from:', data.from);
-        console.log('data.from complet:', JSON.stringify(data.from, null, 2));
-        console.log('userId cherché:', userId, typeof userId);
-        console.log('Égalité data.to === userId:', data.to === userId);
-        console.log('data.from existe:', !!data.from);
-        console.log('data.from.id:', data.from?.id, typeof data.from?.id);
-        console.log('data.from.id === userId:', data.from?.id === userId);
 
         // Vérifier si c'est un message où l'utilisateur est destinataire direct
         const isDirectRecipient = data.to === userId;
@@ -490,14 +473,9 @@ export class FirestoreService {
         // Vérifier si l'utilisateur est dans la conversation (from ou to)
         const isInConversation = isDirectRecipient || isDirectSender;
 
-        console.log('💡 ANALYSE LOGIQUE:');
-        console.log('  - Est destinataire direct:', isDirectRecipient);
-        console.log('  - Est expéditeur direct:', isDirectSender);
-        console.log('  - Est dans la conversation:', isInConversation);
         
         // Vérifier si c'est un message reçu
         if (data.to === userId) {
-          console.log('✅ MESSAGE REÇU trouvé');
           messages.push({
             id: doc.id,
             ...data,
@@ -508,7 +486,6 @@ export class FirestoreService {
         
         // Vérifier si c'est un message envoyé
         if (data.from && data.from.id === userId) {
-          console.log('✅ MESSAGE ENVOYÉ trouvé');
           messages.push({
             id: doc.id,
             ...data,
@@ -912,7 +889,6 @@ export class FirestoreService {
                 }
               }
             }
-            console.log(`✅ ${successCount}/${talents.length} notifications envoyées (Gmail API ou Firebase Functions) pour la nouvelle offre d'emploi`);
           } catch (serviceError) {
             console.error('❌ Erreur chargement service email:', serviceError);
           }
@@ -1109,12 +1085,10 @@ export class FirestoreService {
   // Nouvelle fonction pour l'interface de messagerie moderne
   static async getUserMessagesForModernUI(userId: string): Promise<any[]> {
     try {
-      console.log('🚀 NOUVELLE FONCTION - getUserMessagesForModernUI pour:', userId);
       
       const messagesRef = collection(db, 'Messages');
       const allMessagesSnapshot = await getDocs(messagesRef);
       
-      console.log('📱 Total messages dans DB:', allMessagesSnapshot.size);
       
       const messages: any[] = [];
       
@@ -1185,7 +1159,6 @@ export class FirestoreService {
       // Trier par date
       messages.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
       
-      console.log('✅ Messages formatés pour interface moderne:', messages.length);
       return messages;
       
     } catch (error) {
@@ -1223,7 +1196,6 @@ export class FirestoreService {
       
       await addDoc(collection(db, 'Messages'), messageData);
       
-      console.log('✅ Message moderne envoyé avec succès');
       return true;
       
     } catch (error) {
@@ -1257,7 +1229,6 @@ export class FirestoreService {
         updatedAt: Timestamp.now()
       }, { merge: true });
       
-      console.log('✅ Préférences email sauvegardées:', userId);
     } catch (error) {
       console.error('Erreur lors de la sauvegarde des préférences email:', error);
       throw new Error('Impossible de sauvegarder les préférences email');
@@ -1306,7 +1277,6 @@ export class FirestoreService {
       };
 
       const docRef = await addDoc(collection(db, 'PasswordResetRequests'), requestData);
-      console.log('✅ Demande de réinitialisation créée:', docRef.id);
       return docRef.id;
     } catch (error) {
       console.error('❌ Erreur création demande:', error);
@@ -1318,15 +1288,11 @@ export class FirestoreService {
     try {
       // Pour l'instant, on simule la notification email et on affiche dans la console
       console.log('🔐 NOUVELLE DEMANDE DE RÉINITIALISATION:');
-      console.log('📧 Email:', email);
-      console.log('💬 Message:', message || 'Aucun message');
-      console.log('📅 Date:', new Date().toLocaleString('fr-FR'));
       console.log('👉 Allez sur /admin pour traiter cette demande');
 
       // TODO: Configurer un vrai service email plus tard
       // await BackendEmailService.sendEmail({...});
 
-      console.log('✅ Demande enregistrée (notification email désactivée temporairement)');
     } catch (error) {
       console.error('❌ Erreur notification admin:', error);
       // Ne pas faire échouer la demande si la notification échoue
@@ -1359,7 +1325,6 @@ export class FirestoreService {
         updatedAt: Timestamp.now()
       });
 
-      console.log('✅ Statut demande mis à jour:', requestId, status);
     } catch (error) {
       console.error('❌ Erreur mise à jour statut:', error);
       throw error;
@@ -1370,17 +1335,12 @@ export class FirestoreService {
     try {
       // Pour l'instant, on affiche le mot de passe dans la console au lieu d'envoyer par email
       console.log('🔐 NOUVEAU MOT DE PASSE GÉNÉRÉ:');
-      console.log('📧 Pour l\'utilisateur:', email);
       console.log('🔑 Mot de passe temporaire:', tempPassword);
-      console.log('⚠️ Instructions:');
-      console.log('  1. Utilisez ce mot de passe pour vous connecter');
-      console.log('  2. Changez votre mot de passe après connexion');
       console.log('  3. Ce mot de passe expire dans 7 jours');
 
       // TODO: Configurer un vrai service email plus tard
       // await BackendEmailService.sendEmail({...});
 
-      console.log('✅ Mot de passe affiché (envoi email désactivé temporairement)');
     } catch (error) {
       console.error('❌ Erreur affichage mot de passe:', error);
       throw error;
@@ -1393,9 +1353,6 @@ export class FirestoreService {
       // Pour l'instant, on simule la mise à jour et on stocke le nouveau mot de passe
       // Dans un vrai environnement, ceci serait fait par une Cloud Function
 
-      console.log('⚠️ Mise à jour mot de passe simulée pour:', email);
-      console.log('⚠️ Nouveau mot de passe:', newPassword);
-      console.log('⚠️ Note: Implémentation Firebase Admin SDK nécessaire côté serveur');
 
       // TODO: Implémenter avec Firebase Admin SDK via Cloud Function
       // await admin.auth().getUserByEmail(email).then((userRecord) => {

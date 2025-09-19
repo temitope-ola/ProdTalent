@@ -120,7 +120,7 @@ export default function JobsListPage() {
                                     padding: '8px 16px',
                                     backgroundColor: 'transparent',
                                     color: '#ffcc00',
-                                    border: '1px solid #ffcc00',
+                                    border: 'none',
                                     borderRadius: '4px',
                                     cursor: 'pointer'
                                 }, children: "\u2190 Retour" }), _jsxs("h1", { style: { margin: 0, color: '#ffcc00' }, children: ["Offres d'emploi (", filteredJobs.length, ")"] })] }) }), error && (_jsx("div", { style: {
@@ -139,14 +139,14 @@ export default function JobsListPage() {
                                         padding: '10px 12px',
                                         backgroundColor: '#333',
                                         color: '#f5f5f7',
-                                        border: '1px solid #555',
+                                        border: 'none',
                                         borderRadius: '4px',
                                         fontSize: '14px'
                                     } }) }), _jsxs("select", { value: filterType, onChange: (e) => setFilterType(e.target.value), style: {
                                     padding: '10px 12px',
                                     backgroundColor: '#333',
                                     color: '#f5f5f7',
-                                    border: '1px solid #555',
+                                    border: 'none',
                                     borderRadius: '4px',
                                     fontSize: '14px'
                                 }, children: [_jsx("option", { value: "all", children: "Tous les types" }), _jsx("option", { value: "full-time", children: "Temps plein" }), _jsx("option", { value: "part-time", children: "Temps partiel" }), _jsx("option", { value: "contract", children: "Contrat" }), _jsx("option", { value: "internship", children: "Stage" })] }), _jsxs("label", { style: { display: 'flex', alignItems: 'center', cursor: 'pointer' }, children: [_jsx("input", { type: "checkbox", checked: filterRemote, onChange: (e) => setFilterRemote(e.target.checked), style: { marginRight: '8px' } }), _jsx("span", { style: { color: '#f5f5f7', fontSize: '14px' }, children: "T\u00E9l\u00E9travail uniquement" })] })] }) }), filteredJobs.length === 0 ? (_jsxs("div", { style: {
@@ -202,7 +202,7 @@ export default function JobsListPage() {
                                                     padding: '12px 24px',
                                                     backgroundColor: 'transparent',
                                                     color: '#61bfac',
-                                                    border: '1px solid #61bfac',
+                                                    border: 'none',
                                                     borderRadius: '4px',
                                                     cursor: 'pointer',
                                                     fontSize: '14px'

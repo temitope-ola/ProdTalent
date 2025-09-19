@@ -8,18 +8,18 @@ export default function GoogleConfigPage() {
 
   const handleConnectGoogle = async () => {
     setIsLoading(true);
-    setTestResults(prev => [...prev, '🚀 Tentative de connexion Google...']);
+    setTestResults(prev => [...prev, 'Tentative de connexion Google...']);
     
     try {
       const success = await googleIntegratedService.signIn();
       if (success) {
         setIsConnected(true);
-        setTestResults(prev => [...prev, '✅ Connexion Google réussie!']);
+        setTestResults(prev => [...prev, 'Connexion Google réussie!']);
       } else {
-        setTestResults(prev => [...prev, '❌ Échec de la connexion Google']);
+        setTestResults(prev => [...prev, 'Échec de la connexion Google']);
       }
     } catch (error) {
-      setTestResults(prev => [...prev, `❌ Erreur: ${error}`]);
+      setTestResults(prev => [...prev, `Erreur: ${error}`]);
     }
     
     setIsLoading(false);
@@ -27,25 +27,25 @@ export default function GoogleConfigPage() {
 
   const testEmail = async () => {
     setIsLoading(true);
-    setTestResults(prev => [...prev, '📧 Test envoi email avec Gmail API...']);
+    setTestResults(prev => [...prev, 'Test envoi email avec Gmail API...']);
     
     try {
       const success = await googleIntegratedService.sendEmail(
         'admin@prodtalent.com', // Email existant qui fonctionne
-        'Test ProdTalent - Gmail API Fonctionnel 🎉',
+        'Test ProdTalent - Gmail API Fonctionnel',
         `<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 4px;">
-            <h1 style="color: white; margin: 0;">🎉 Test Gmail API Réussi!</h1>
+            <h1 style="color: white; margin: 0;">Test Gmail API Réussi!</h1>
             <p style="color: #f0f0f0; margin: 10px 0 0 0;">ProdTalent - Gmail API fonctionne parfaitement</p>
           </div>
-          <div style="background: white; padding: 30px; border: 1px solid #ddd; border-radius: 0 0 10px 10px;">
-            <h2 style="color: #333;">Excellente nouvelle! ✅</h2>
+          <div style="background: white; padding: 30px; border: "none" border-radius: 4px 0 10px 10px;">
+            <h2 style="color: #333;">Excellente nouvelle!</h2>
             <p>L'intégration Gmail API de ProdTalent est maintenant <strong>parfaitement fonctionnelle</strong>.</p>
             <ul>
-              <li>✅ Authentification Google réussie</li>
-              <li>✅ Envoi d'emails HTML riches</li>
-              <li>✅ Templates professionnels</li>
-              <li>✅ Plus fiable qu'EmailJS</li>
+              <li>Authentification Google réussie</li>
+              <li>Envoi d'emails HTML riches</li>
+              <li>Templates professionnels</li>
+              <li>Plus fiable qu'EmailJS</li>
             </ul>
             <p style="margin-top: 20px; color: #666; font-size: 12px;">
               Test envoyé le ${new Date().toLocaleString('fr-FR')} depuis ProdTalent
@@ -54,12 +54,12 @@ export default function GoogleConfigPage() {
         </div>`
       );
       
-      setTestResults(prev => [...prev, success 
-        ? '✅ Email de test envoyé avec succès! Vérifiez votre boîte mail.'
-        : '❌ Échec envoi email'
+      setTestResults(prev => [...prev, success
+        ? 'Email de test envoyé avec succès! Vérifiez votre boîte mail.'
+        : 'Échec envoi email'
       ]);
     } catch (error) {
-      setTestResults(prev => [...prev, `❌ Erreur email: ${error}`]);
+      setTestResults(prev => [...prev, `Erreur email: ${error}`]);
     }
     
     setIsLoading(false);
@@ -67,7 +67,7 @@ export default function GoogleConfigPage() {
 
   const testCalendar = async () => {
     setIsLoading(true);
-    setTestResults(prev => [...prev, '📅 Test création événement Calendar...']);
+    setTestResults(prev => [...prev, 'Test création événement Calendar...']);
     
     try {
       // Date de test: demain à 14h
@@ -87,12 +87,12 @@ export default function GoogleConfigPage() {
         attendeeName: 'Admin ProdTalent'
       });
       
-      setTestResults(prev => [...prev, eventId 
-        ? `✅ Événement Calendar créé: ${eventId}`
-        : '❌ Échec création événement'
+      setTestResults(prev => [...prev, eventId
+        ? `Événement Calendar créé: ${eventId}`
+        : 'Échec création événement'
       ]);
     } catch (error) {
-      setTestResults(prev => [...prev, `❌ Erreur Calendar: ${error}`]);
+      setTestResults(prev => [...prev, `Erreur Calendar: ${error}`]);
     }
     
     setIsLoading(false);
@@ -100,7 +100,7 @@ export default function GoogleConfigPage() {
 
   const testNotification = async () => {
     setIsLoading(true);
-    setTestResults(prev => [...prev, '🔔 Test notification complète...']);
+    setTestResults(prev => [...prev, 'Test notification complète...']);
     
     try {
       const success = await googleIntegratedService.sendMessageNotification({
@@ -111,12 +111,12 @@ export default function GoogleConfigPage() {
         messagePreview: 'Ceci est un test de notification de message.'
       });
       
-      setTestResults(prev => [...prev, success 
-        ? '✅ Notification de message envoyée!'
-        : '❌ Échec notification'
+      setTestResults(prev => [...prev, success
+        ? 'Notification de message envoyée!'
+        : 'Échec notification'
       ]);
     } catch (error) {
-      setTestResults(prev => [...prev, `❌ Erreur notification: ${error}`]);
+      setTestResults(prev => [...prev, `Erreur notification: ${error}`]);
     }
     
     setIsLoading(false);
@@ -131,7 +131,7 @@ export default function GoogleConfigPage() {
     }}>
       <div style={{ maxWidth: '800px', margin: '0 auto' }}>
         <h1 style={{ color: '#ffcc00', textAlign: 'center', marginBottom: '32px' }}>
-          🔧 Configuration Google Services
+          Configuration Google Services
         </h1>
 
         {/* Statut de connexion */}
@@ -149,7 +149,7 @@ export default function GoogleConfigPage() {
             fontSize: '48px',
             marginBottom: '16px'
           }}>
-            {isConnected ? '✅' : '🔴'}
+            {isConnected ? '' : ''}
           </div>
           <p style={{ 
             color: isConnected ? '#4CAF50' : '#f44336',
@@ -173,7 +173,7 @@ export default function GoogleConfigPage() {
                 fontWeight: 'bold'
               }}
             >
-              {isLoading ? '⏳ Connexion...' : '🔑 Se connecter à Google'}
+              {isLoading ? 'Connexion...' : 'Se connecter à Google'}
             </button>
           )}
         </div>
@@ -201,12 +201,12 @@ export default function GoogleConfigPage() {
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   padding: '12px 16px',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
-                📧 Test Gmail
+                Test Gmail
               </button>
               <button
                 onClick={testCalendar}
@@ -215,12 +215,12 @@ export default function GoogleConfigPage() {
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   padding: '12px 16px',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
-                📅 Test Calendar
+                Test Calendar
               </button>
               <button
                 onClick={testNotification}
@@ -229,12 +229,12 @@ export default function GoogleConfigPage() {
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   padding: '12px 16px',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
               >
-                🔔 Test Notification
+                Test Notification
               </button>
             </div>
           </div>
@@ -248,7 +248,7 @@ export default function GoogleConfigPage() {
           marginBottom: '24px'
         }}>
           <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
-            🔧 Configuration requise
+            Configuration requise
           </h2>
           <div style={{ fontSize: '14px', lineHeight: 1.6 }}>
             <h3 style={{ color: '#61bfac', marginTop: '16px' }}>1. Google Cloud Console</h3>
@@ -268,11 +268,11 @@ export default function GoogleConfigPage() {
 
             <h3 style={{ color: '#61bfac', marginTop: '16px' }}>3. Avantages Google vs EmailJS</h3>
             <ul style={{ paddingLeft: '20px' }}>
-              <li>✅ Plus fiable et professionnel</li>
-              <li>✅ Intégration Calendar native</li>
-              <li>✅ Gestion des invitations automatique</li>
-              <li>✅ Templates d'email riches</li>
-              <li>✅ Authentification sécurisée</li>
+              <li>Plus fiable et professionnel</li>
+              <li>Intégration Calendar native</li>
+              <li>Gestion des invitations automatique</li>
+              <li>Templates d'email riches</li>
+              <li>Authentification sécurisée</li>
             </ul>
           </div>
         </div>
@@ -285,7 +285,7 @@ export default function GoogleConfigPage() {
             borderRadius: '4px'
           }}>
             <h2 style={{ color: '#ffcc00', marginBottom: '16px' }}>
-              📝 Journal des tests
+              Journal des tests
             </h2>
             <div style={{
               backgroundColor: '#000',

@@ -243,7 +243,7 @@ export default function WorkingGoogleTest() {
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   padding: '12px 16px',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
@@ -258,7 +258,7 @@ export default function WorkingGoogleTest() {
                   backgroundColor: '#333',
                   color: '#f5f5f7',
                   padding: '12px 16px',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}

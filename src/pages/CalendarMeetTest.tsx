@@ -252,7 +252,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                     padding: '8px',
                     backgroundColor: '#222',
                     color: '#f5f5f7',
-                    border: '1px solid #444',
+                    border: 'none',
                     borderRadius: '4px'
                   }}
                 />
@@ -271,7 +271,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                     padding: '8px',
                     backgroundColor: '#222',
                     color: '#f5f5f7',
-                    border: '1px solid #444',
+                    border: 'none',
                     borderRadius: '4px'
                   }}
                 />
@@ -290,7 +290,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                     padding: '8px',
                     backgroundColor: '#222',
                     color: '#f5f5f7',
-                    border: '1px solid #444',
+                    border: 'none',
                     borderRadius: '4px'
                   }}
                 />
@@ -309,7 +309,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                     padding: '8px',
                     backgroundColor: '#222',
                     color: '#f5f5f7',
-                    border: '1px solid #444',
+                    border: 'none',
                     borderRadius: '4px'
                   }}
                 />
@@ -328,7 +328,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                     padding: '8px',
                     backgroundColor: '#222',
                     color: '#f5f5f7',
-                    border: '1px solid #444',
+                    border: 'none',
                     borderRadius: '4px'
                   }}
                 />
@@ -347,7 +347,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                     padding: '8px',
                     backgroundColor: '#222',
                     color: '#f5f5f7',
-                    border: '1px solid #444',
+                    border: 'none',
                     borderRadius: '4px'
                   }}
                 />
@@ -366,7 +366,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                     padding: '8px',
                     backgroundColor: '#222',
                     color: '#f5f5f7',
-                    border: '1px solid #444',
+                    border: 'none',
                     borderRadius: '4px'
                   }}
                 />
@@ -386,7 +386,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
                   padding: '8px',
                   backgroundColor: '#222',
                   color: '#f5f5f7',
-                  border: '1px solid #444',
+                  border: 'none',
                   borderRadius: '4px',
                   resize: 'vertical'
                 }}
@@ -416,7 +416,7 @@ Calendar Link: ${result.calendarLink ? 'Disponible ✅' : 'Non disponible ❌'}`
         {lastCreatedEvent && (
           <div style={{
             backgroundColor: '#1a4d3a',
-            border: '1px solid #4CAF50',
+            border: 'none',
             padding: '20px',
             borderRadius: '4px',
             marginBottom: '24px'

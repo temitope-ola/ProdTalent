@@ -144,7 +144,7 @@ const AppointmentManager: React.FC<AppointmentManagerProps> = ({ onClose }) => {
                   backgroundColor: '#111',
                   padding: '16px',
                   borderRadius: '4px',
-                  border: '1px solid #333'
+                  border: 'none'
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div style={{ flex: 1 }}>
@@ -229,7 +229,7 @@ const AppointmentManager: React.FC<AppointmentManagerProps> = ({ onClose }) => {
                   backgroundColor: '#111',
                   padding: '16px',
                   borderRadius: '4px',
-                  border: '1px solid #333',
+                  border: 'none',
                   opacity: 0.7
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>

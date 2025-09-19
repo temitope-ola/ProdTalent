@@ -372,7 +372,7 @@ const TimezoneBookingInterface: React.FC = () => {
                 style={{
                   width: '60px',
                   height: '60px',
-                  borderRadius: '50%',
+                  borderRadius: 4,
                   objectFit: 'cover'
                 }}
               />
@@ -442,7 +442,7 @@ const TimezoneBookingInterface: React.FC = () => {
                   padding: '12px',
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   fontSize: '14px'
                 }}
@@ -469,7 +469,7 @@ const TimezoneBookingInterface: React.FC = () => {
                   padding: '12px',
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   fontSize: '14px'
                 }}
@@ -495,7 +495,7 @@ const TimezoneBookingInterface: React.FC = () => {
                   padding: '12px',
                   backgroundColor: '#333',
                   color: '#f5f5f7',
-                  border: '1px solid #555',
+                  border: 'none',
                   borderRadius: '4px',
                   fontSize: '14px',
                   resize: 'vertical'
@@ -619,7 +619,7 @@ const TimezoneBookingInterface: React.FC = () => {
               padding: '20px',
               borderRadius: '4px',
               marginBottom: '24px',
-              border: '1px solid #ffcc00'
+              border: 'none'
             }}>
               <h4 style={{ color: '#ffcc00', margin: '0 0 12px 0' }}>
                 ✅ Résumé de votre demande

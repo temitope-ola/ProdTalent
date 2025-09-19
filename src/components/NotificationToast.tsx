@@ -90,7 +90,7 @@ const NotificationToast: React.FC<NotificationProps> = ({
         minWidth: '300px',
         maxWidth: '400px',
         backgroundColor: '#111',
-        border: `1px solid ${colors.border}`,
+        border: 'none',
         borderRadius: '4px',
         padding: '16px',
         boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
@@ -141,7 +141,7 @@ const NotificationToast: React.FC<NotificationProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            borderRadius: '50%',
+            borderRadius: 4,
             transition: 'all 0.2s ease'
           }}
           onMouseEnter={(e) => {
