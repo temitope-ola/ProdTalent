@@ -549,7 +549,7 @@ Notre ambition est de dépasser le simple CV pour révéler les parcours, les co
             margin: '0 auto',
             lineHeight: '1.6'
           }}>
-            Découvrez nos talents formés et validés par d'Edacy
+            Découvrez nos talents formés et validés par Edacy
           </p>
         </div>
 
