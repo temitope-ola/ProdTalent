@@ -30,6 +30,10 @@ export default function TalentDashboard() {
     company: ''
   });
   const isMobile = useResponsive(540);
+
+  // Pagination pour les jobs
+  const [jobsCurrentPage, setJobsCurrentPage] = useState(1);
+  const JOBS_PER_PAGE = 6;
   
   // Statistiques
   const [stats, setStats] = useState({
@@ -83,6 +87,11 @@ export default function TalentDashboard() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showProfileMenu]);
+
+  // Réinitialiser la pagination quand les filtres changent
+  useEffect(() => {
+    setJobsCurrentPage(1);
+  }, [activeFilters.skills, activeFilters.location, activeFilters.contractType, activeFilters.company]);
 
   const loadProfile = async () => {
     if (!user) return;
@@ -874,9 +883,17 @@ export default function TalentDashboard() {
               width: '100%',
               padding: isMobile ? '0 5px' : !isMobile ? '0 10px' : '0'
             }}>
-            
 
-            {/* Grille des opportunités */}
+            {/* Logique de pagination pour les jobs */}
+            {(() => {
+              const totalJobsPages = Math.ceil(filteredJobs.length / JOBS_PER_PAGE);
+              const startJobsIndex = (jobsCurrentPage - 1) * JOBS_PER_PAGE;
+              const endJobsIndex = startJobsIndex + JOBS_PER_PAGE;
+              const paginatedJobs = filteredJobs.slice(startJobsIndex, endJobsIndex);
+
+              return (
+                <div>
+                  {/* Grille des opportunités */}
             <div style={{
               display: 'grid',
               gridTemplateColumns: isMobile 
@@ -887,7 +904,7 @@ export default function TalentDashboard() {
               gap: isMobile ? '12px' : '16px',
               padding: isMobile ? '0 10px' : '0'
             }}>
-              {filteredJobs.slice(0, 6).map((job, index) => (
+              {paginatedJobs.map((job, index) => (
                 <div
                   key={job.id || index}
                   style={{
@@ -970,6 +987,104 @@ export default function TalentDashboard() {
                 <p>Essayez de modifier vos critères de recherche</p>
               </div>
             )}
+
+                  {/* Interface de pagination pour les jobs */}
+                  {filteredJobs.length > 0 && totalJobsPages > 1 && (
+                    <div id="jobs-section" style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      flexWrap: 'wrap',
+                      gap: '10px',
+                      marginTop: '40px',
+                      padding: '20px 0'
+                    }}>
+                      {/* Bouton Précédent */}
+                      <button
+                        onClick={() => {
+                          if (jobsCurrentPage > 1) {
+                            setJobsCurrentPage(jobsCurrentPage - 1);
+                            // Scroll vers la section des jobs
+                            document.getElementById('jobs-section')?.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'start'
+                            });
+                          }
+                        }}
+                        disabled={jobsCurrentPage === 1}
+                        style={{
+                          padding: '10px 16px',
+                          backgroundColor: jobsCurrentPage === 1 ? '#333' : '#007bff',
+                          color: jobsCurrentPage === 1 ? '#666' : 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: jobsCurrentPage === 1 ? 'not-allowed' : 'pointer',
+                          fontSize: '14px',
+                          minWidth: '80px'
+                        }}
+                      >
+                        Précédent
+                      </button>
+
+                      {/* Numéros de pages */}
+                      {Array.from({ length: totalJobsPages }, (_, i) => i + 1).map(page => (
+                        <button
+                          key={page}
+                          onClick={() => {
+                            setJobsCurrentPage(page);
+                            // Scroll vers la section des jobs
+                            document.getElementById('jobs-section')?.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'start'
+                            });
+                          }}
+                          style={{
+                            padding: '10px 12px',
+                            backgroundColor: page === jobsCurrentPage ? '#007bff' : '#333',
+                            color: page === jobsCurrentPage ? 'white' : '#ccc',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                            fontSize: '14px',
+                            minWidth: '40px',
+                            fontWeight: page === jobsCurrentPage ? 'bold' : 'normal'
+                          }}
+                        >
+                          {page}
+                        </button>
+                      ))}
+
+                      {/* Bouton Suivant */}
+                      <button
+                        onClick={() => {
+                          if (jobsCurrentPage < totalJobsPages) {
+                            setJobsCurrentPage(jobsCurrentPage + 1);
+                            // Scroll vers la section des jobs
+                            document.getElementById('jobs-section')?.scrollIntoView({
+                              behavior: 'smooth',
+                              block: 'start'
+                            });
+                          }
+                        }}
+                        disabled={jobsCurrentPage === totalJobsPages}
+                        style={{
+                          padding: '10px 16px',
+                          backgroundColor: jobsCurrentPage === totalJobsPages ? '#333' : '#007bff',
+                          color: jobsCurrentPage === totalJobsPages ? '#666' : 'white',
+                          border: 'none',
+                          borderRadius: '4px',
+                          cursor: jobsCurrentPage === totalJobsPages ? 'not-allowed' : 'pointer',
+                          fontSize: '14px',
+                          minWidth: '80px'
+                        }}
+                      >
+                        Suivant
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
           </div>
         </div>

@@ -20,6 +20,10 @@ const CoachRecruteursPage: React.FC = () => {
   });
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 12;
+
   useEffect(() => {
     const loadRecruteurs = async () => {
       if (!user) {
@@ -57,6 +61,7 @@ const CoachRecruteursPage: React.FC = () => {
   // Filter recruiters when filters change
   useEffect(() => {
     applyFilters();
+    setCurrentPage(1); // Reset to first page when filters change
   }, [recruteurs, activeFilters]);
 
   // Close profile menu when clicking outside
@@ -110,6 +115,18 @@ const CoachRecruteursPage: React.FC = () => {
     }
 
     setFilteredRecruteurs(filtered);
+  };
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredRecruteurs.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const paginatedRecruteurs = filteredRecruteurs.slice(startIndex, endIndex);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    // Scroll to top when changing page
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Filter handlers
@@ -688,7 +705,7 @@ const CoachRecruteursPage: React.FC = () => {
                 gap: screenWidth <= 480 ? '12px' : '16px',
                 padding: screenWidth <= 480 ? '0 10px' : '0'
               }}>
-                {filteredRecruteurs.slice(0, 12).map((recruteur, index) => (
+                {paginatedRecruteurs.map((recruteur, index) => (
                   <div
                     key={recruteur.id || index}
                     style={{
@@ -764,6 +781,71 @@ const CoachRecruteursPage: React.FC = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {/* Pagination - Outside of the ternary condition */}
+            {filteredRecruteurs.length > 0 && totalPages > 1 && (
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '10px',
+                marginTop: '30px',
+                flexWrap: 'wrap'
+              }}>
+                {/* Previous button */}
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  style={{
+                    padding: '8px 12px',
+                    backgroundColor: currentPage === 1 ? '#333' : '#ffcc00',
+                    color: currentPage === 1 ? '#666' : '#000',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  ‹ Précédent
+                </button>
+
+                {/* Page numbers */}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                  <button
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    style={{
+                      padding: '8px 12px',
+                      backgroundColor: page === currentPage ? '#ffcc00' : '#333',
+                      color: page === currentPage ? '#000' : '#f5f5f7',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontWeight: page === currentPage ? 'bold' : 'normal'
+                    }}
+                  >
+                    {page}
+                  </button>
+                ))}
+
+                {/* Next button */}
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  style={{
+                    padding: '8px 12px',
+                    backgroundColor: currentPage === totalPages ? '#333' : '#ffcc00',
+                    color: currentPage === totalPages ? '#666' : '#000',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  Suivant ›
+                </button>
               </div>
             )}
           </div>

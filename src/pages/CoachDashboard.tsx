@@ -47,6 +47,10 @@ export default function CoachDashboard() {
   const [jobs, setJobs] = useState<any[]>([]);
   const [filteredJobs, setFilteredJobs] = useState<any[]>([]);
 
+  // Pagination for jobs
+  const [jobsCurrentPage, setJobsCurrentPage] = useState(1);
+  const JOBS_PER_PAGE = 6;
+
   // Redirection si l'utilisateur n'est pas un coach
   useEffect(() => {
     if (user && user.role !== 'coach') {
@@ -174,6 +178,21 @@ export default function CoachDashboard() {
     setFilteredJobs(filtered);
   };
 
+  // Pagination logic for jobs
+  const jobsTotalPages = Math.ceil(filteredJobs.length / JOBS_PER_PAGE);
+  const jobsStartIndex = (jobsCurrentPage - 1) * JOBS_PER_PAGE;
+  const jobsEndIndex = jobsStartIndex + JOBS_PER_PAGE;
+  const paginatedJobs = filteredJobs.slice(jobsStartIndex, jobsEndIndex);
+
+  const handleJobsPageChange = (page: number) => {
+    setJobsCurrentPage(page);
+    // Scroll to jobs section when changing page
+    const jobsSection = document.getElementById('jobs-section');
+    if (jobsSection) {
+      jobsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Charger le profil et les statistiques
   useEffect(() => {
     if (user) {
@@ -215,6 +234,11 @@ export default function CoachDashboard() {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showProfileMenu]);
+
+  // Réinitialiser la pagination quand les filtres changent
+  useEffect(() => {
+    setJobsCurrentPage(1);
+  }, [activeFilters.skills, activeFilters.location, activeFilters.contractType, activeFilters.company]);
 
   // Affichage de chargement
   if (loading) {
@@ -602,7 +626,7 @@ export default function CoachDashboard() {
         </div>
 
         {/* Section Offres d'emploi avec filtres */}
-        <div style={{
+        <div id="jobs-section" style={{
           backgroundColor: '#1a1a1a',
           borderRadius: '4px',
           padding: '20px',
@@ -889,7 +913,10 @@ export default function CoachDashboard() {
 
                     {/* Bouton Reset */}
                     <button
-                      onClick={() => setActiveFilters({ skills: '', location: '', contractType: '', company: '' })}
+                      onClick={() => {
+                        setActiveFilters({ skills: '', location: '', contractType: '', company: '' });
+                        setJobsCurrentPage(1);
+                      }}
                       style={{
                         width: '100%',
                         padding: screenWidth <= 480 ? '12px' : '8px',
@@ -949,7 +976,7 @@ export default function CoachDashboard() {
                 gap: screenWidth <= 480 ? '12px' : '16px',
                 padding: screenWidth <= 480 ? '0 10px' : '0'
               }}>
-                {filteredJobs.slice(0, 6).map((job, index) => (
+                {paginatedJobs.map((job, index) => (
                   <div
                     key={job.id || index}
                     style={{
@@ -1031,6 +1058,71 @@ export default function CoachDashboard() {
                     </p>
                   </div>
                 ))}
+              </div>
+            )}
+
+            {/* Pagination for jobs */}
+            {filteredJobs.length > 0 && jobsTotalPages > 1 && (
+              <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: '10px',
+                marginTop: '30px',
+                flexWrap: 'wrap'
+              }}>
+                {/* Previous button */}
+                <button
+                  onClick={() => handleJobsPageChange(jobsCurrentPage - 1)}
+                  disabled={jobsCurrentPage === 1}
+                  style={{
+                    padding: '8px 12px',
+                    backgroundColor: jobsCurrentPage === 1 ? '#333' : '#ffcc00',
+                    color: jobsCurrentPage === 1 ? '#666' : '#000',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: jobsCurrentPage === 1 ? 'not-allowed' : 'pointer',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  ‹ Précédent
+                </button>
+
+                {/* Page numbers */}
+                {Array.from({ length: jobsTotalPages }, (_, i) => i + 1).map(page => (
+                  <button
+                    key={page}
+                    onClick={() => handleJobsPageChange(page)}
+                    style={{
+                      padding: '8px 12px',
+                      backgroundColor: page === jobsCurrentPage ? '#ffcc00' : '#333',
+                      color: page === jobsCurrentPage ? '#000' : '#f5f5f7',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontWeight: page === jobsCurrentPage ? 'bold' : 'normal'
+                    }}
+                  >
+                    {page}
+                  </button>
+                ))}
+
+                {/* Next button */}
+                <button
+                  onClick={() => handleJobsPageChange(jobsCurrentPage + 1)}
+                  disabled={jobsCurrentPage === jobsTotalPages}
+                  style={{
+                    padding: '8px 12px',
+                    backgroundColor: jobsCurrentPage === jobsTotalPages ? '#333' : '#ffcc00',
+                    color: jobsCurrentPage === jobsTotalPages ? '#666' : '#000',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: jobsCurrentPage === jobsTotalPages ? 'not-allowed' : 'pointer',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  Suivant ›
+                </button>
               </div>
             )}
           </div>
